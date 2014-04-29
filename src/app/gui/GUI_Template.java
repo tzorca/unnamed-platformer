@@ -6,11 +6,10 @@ import de.lessvoid.nifty.screen.ScreenController;
 
 public class GUI_Template implements ScreenController {
 	public void update() {
-
 	}
 
 	@Override
-	public void bind(Nifty arg0, Screen arg1) {
+	public void bind(Nifty nifty, Screen screen) {
 		// TODO Auto-generated method stub
 
 	}

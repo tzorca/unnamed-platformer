@@ -30,13 +30,10 @@ import de.lessvoid.nifty.controls.Label;
 import de.lessvoid.nifty.controls.ListBox;
 import de.lessvoid.nifty.controls.ListBoxSelectionChangedEvent;
 import de.lessvoid.nifty.elements.Element;
-import de.lessvoid.nifty.elements.events.NiftyMousePrimaryClickedEvent;
 import de.lessvoid.nifty.elements.render.ImageRenderer;
 import de.lessvoid.nifty.render.NiftyImage;
 
 public class GUI_Edit extends GUI_Template {
-	// zoom in and zoom out keys should change the grid size
-	// plus and minus keys should change the object size (?)
 
 	Level currentLevel;
 	int currentLevelIndex = 0;
@@ -44,6 +41,7 @@ public class GUI_Edit extends GUI_Template {
 	boolean playerAdded = false;
 
 	Label lblCurrentLevel;
+	Element pnlModeSwitch;
 	static ListBox<String> lstObjects;
 
 	Point cameraPos = new Point(Ref.DEFAULT_LEVEL_GRIDSIZE * 4,
@@ -268,17 +266,12 @@ public class GUI_Edit extends GUI_Template {
 
 		lblCurrentLevel = GUIManager.findElement("lblCurrentLevel")
 				.getNiftyControl(Label.class);
+
+		pnlModeSwitch = GUIManager.findElement("pnlModeSwitch");
 	}
 
-	@NiftyEventSubscriber(id = "pnlModeSwitch")
-	public void pnlModeSwitch_Clicked(String id,
-			NiftyMousePrimaryClickedEvent event) {
-		Element element = event.getElement();
-		toggleMode(element);
+	public void pnlModeSwitch_Clicked() {
 
-	}
-
-	private void toggleMode(Element element) {
 		if (App.state == State.edit) {
 			GUIManager.setStateHeld(true);
 			currentLevel.save("res/temp.lvl");
@@ -286,7 +279,7 @@ public class GUI_Edit extends GUI_Template {
 
 			NiftyImage newImage = GUIManager
 					.getImage("res/gui/img/modeEdit.png");
-			element.getRenderer(ImageRenderer.class).setImage(newImage);
+			pnlModeSwitch.getRenderer(ImageRenderer.class).setImage(newImage);
 
 		} else {
 			LevelManager.replaceCurrentLevel(Level.load("res/temp.lvl"));
@@ -297,7 +290,7 @@ public class GUI_Edit extends GUI_Template {
 
 			NiftyImage newImage = GUIManager
 					.getImage("res/gui/img/modePlay.png");
-			element.getRenderer(ImageRenderer.class).setImage(newImage);
+			pnlModeSwitch.getRenderer(ImageRenderer.class).setImage(newImage);
 		}
 
 	}
@@ -310,36 +303,27 @@ public class GUI_Edit extends GUI_Template {
 		lstObjects.setFocusable(false);
 	}
 
-	@NiftyEventSubscriber(id = "pnlAddLevel")
-	public void pnlAddLevel_Clicked(String id,
-			NiftyMousePrimaryClickedEvent event) {
+	public void pnlAddLevel_Clicked() {
 		GameManager.addBlankLevel();
 		changeLevel(LevelManager.getLevelCount() - 1);
 	}
 
-	@NiftyEventSubscriber(id = "pnlNextLevel")
-	public void pnlNextLevel_Clicked(String id,
-			NiftyMousePrimaryClickedEvent event) {
+	public void pnlNextLevel_Clicked() {
 		changeLevel(currentLevelIndex + 1);
 	}
 
-	@NiftyEventSubscriber(id = "pnlPrevLevel")
-	public void pnlPrevLevel_Clicked(String id,
-			NiftyMousePrimaryClickedEvent event) {
+	public void pnlPrevLevel_Clicked() {
 		changeLevel(currentLevelIndex - 1);
 	}
 
-	@NiftyEventSubscriber(id = "pnlRemoveLevel")
-	public void btnRemoveLevel_Clicked(String id,
-			NiftyMousePrimaryClickedEvent event) {
+	public void pnlRemoveLevel_Clicked() {
 		int levelIndexToRemove = currentLevelIndex;
 		if (changeLevel(currentLevelIndex - 1)) {
 			LevelManager.removeLevel(levelIndexToRemove);
 		}
 	}
 
-	@NiftyEventSubscriber(id = "pnlSave")
-	public void btnSave_Clicked(String id, NiftyMousePrimaryClickedEvent event) {
+	public void pnlSave_Clicked() {
 		GameManager.saveCurrentGame();
 	}
 

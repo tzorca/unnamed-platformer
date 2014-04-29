@@ -7,11 +7,8 @@ import app.App.State;
 import app.ContentManager;
 import app.ContentManager.ContentType;
 import app.GameManager;
-import de.lessvoid.nifty.NiftyEventSubscriber;
 import de.lessvoid.nifty.controls.ListBox;
-import de.lessvoid.nifty.controls.ListBoxSelectionChangedEvent;
 import de.lessvoid.nifty.controls.TextField;
-import de.lessvoid.nifty.elements.events.NiftyMousePrimaryClickedEvent;
 
 public class GUI_EditSelect extends GUI_Template {
 
@@ -30,13 +27,12 @@ public class GUI_EditSelect extends GUI_Template {
 			}
 			lstGames.addItem(name);
 		}
-		selectGameIndex(0);
+		selectGameByIndex(0);
 	}
 
-	private void selectGameIndex(int i) {
+	private void selectGameByIndex(int i) {
 		lstGames.setFocusItemByIndex(i);
 		lstGames.selectItemByIndex(i);
-		currentGameName = lstGames.getFocusItem();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -48,16 +44,7 @@ public class GUI_EditSelect extends GUI_Template {
 				TextField.class);
 	}
 
-	@NiftyEventSubscriber(id = "lstGames")
-	public void lstGames_SelectionChanged(final String id,
-			final ListBoxSelectionChangedEvent<String> event) {
-		currentGameName = lstGames.getFocusItem();
-	}
-
-	String currentGameName = "";
-
-	@NiftyEventSubscriber(id = "btnNew")
-	public void btnNew_Clicked(String id, NiftyMousePrimaryClickedEvent event) {
+	public void btnNew_Clicked() {
 
 		if (!StringHelper.isValidFilename(txtName.getRealText())) {
 			System.out.println("Invalid filename " + txtName.getRealText());
@@ -70,18 +57,20 @@ public class GUI_EditSelect extends GUI_Template {
 		if (newGame.save(txtName.getRealText())) {
 			lstGames.addItem(txtName.getRealText());
 			txtName.setText("");
-			selectGameIndex(lstGames.getItems().size() - 1);
+			selectGameByIndex(lstGames.getItems().size() - 1);
 		} else {
 			System.out.println("Could not create game with name of "
 					+ txtName.getRealText());
 		}
 	}
 
-	@NiftyEventSubscriber(id = "btnOpen")
-	public void btnOpen_Clicked(String id, NiftyMousePrimaryClickedEvent event) {
+	public void btnOpen_Clicked() {
+
+		String currentGameName = lstGames.getFocusItem();
 		if (currentGameName.length() == 0) {
 			return;
 		}
+
 		GameManager.loadGame(currentGameName);
 		App.delayedStateChange(State.edit);
 	}

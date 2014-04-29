@@ -118,9 +118,7 @@
 		</panel>
 	
 		<panel id="bottomPanel" width="100%" childLayout="vertical">
-			<control id="lstGames" name="listBox" vertical="optional" horizontal="off" selection="Single" height="100%" displayItems="18">
-				<interact onClick="lstGames_SelectionChanged()" />
-			</control>
+			<control id="lstGames" name="listBox" vertical="optional" horizontal="off" selection="Single" height="100%" displayItems="18" />
 		</panel>
 
 	</layer>

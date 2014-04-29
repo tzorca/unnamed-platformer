@@ -5,10 +5,7 @@ import app.App.State;
 import app.ContentManager;
 import app.ContentManager.ContentType;
 import app.GameManager;
-import de.lessvoid.nifty.NiftyEventSubscriber;
-import de.lessvoid.nifty.controls.ButtonClickedEvent;
 import de.lessvoid.nifty.controls.ListBox;
-import de.lessvoid.nifty.controls.ListBoxSelectionChangedEvent;
 
 public class GUI_PlaySelect extends GUI_Template {
 
@@ -29,7 +26,6 @@ public class GUI_PlaySelect extends GUI_Template {
 	private void selectGameIndex(int i) {
 		lstGames.setFocusItemByIndex(i);
 		lstGames.selectItemByIndex(i);
-		currentGameName = lstGames.getFocusItem();
 	}
 
 
@@ -39,16 +35,9 @@ public class GUI_PlaySelect extends GUI_Template {
 				ListBox.class);
 	}
 
-	@NiftyEventSubscriber(id = "lstGames")
-	public void lstGames_SelectionChanged(final String id,
-			final ListBoxSelectionChangedEvent<String> event) {
-		currentGameName = lstGames.getFocusItem();
-	}
 
-	String currentGameName = "";
-
-	@NiftyEventSubscriber(id = "btnPlaySelected")
-	public void btnPlaySelected_Clicked(final String id, final ButtonClickedEvent event) {
+	public void btnPlaySelected_Clicked() {
+		String currentGameName = lstGames.getFocusItem();
 		if (currentGameName.length() == 0) {
 			return;
 		}
@@ -56,8 +45,7 @@ public class GUI_PlaySelect extends GUI_Template {
 		App.delayedStateChange(State.play);
 	}
 	
-	@NiftyEventSubscriber(id = "btnPlayRandom")
-	public void btnPlayRandom_Clicked(final String id, final ButtonClickedEvent event) {
+	public void btnPlayRandom_Clicked() {
 		GameManager.generateRandomGame();
 		App.delayedStateChange(State.play);
 	}
