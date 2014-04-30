@@ -1,5 +1,5 @@
-// Tim Zorca
-// CPSC 3520
+
+
 package app;
 
 import org.lwjgl.opengl.Display;

@@ -1,5 +1,5 @@
-// Tim Zorca
-// CPSC 3520
+
+
 package model.entities;
 
 import java.awt.Point;

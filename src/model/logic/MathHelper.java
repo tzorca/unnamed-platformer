@@ -1,5 +1,5 @@
-// Tim Zorca
-// CPSC 3520
+
+
 package model.logic;
 
 import java.awt.Point;
