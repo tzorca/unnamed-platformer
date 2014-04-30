@@ -38,7 +38,7 @@ public class ActiveEntity extends Entity {
 	}
 
 	public void returnToStart() {
-		this.setPos(this.startPos);
+		setPos(this.startPos); // return to starting position
 	}
 
 	public ActiveEntity() {
@@ -47,11 +47,6 @@ public class ActiveEntity extends Entity {
 
 	public ActiveEntity(String texName, Point pos) {
 		super(texName, pos, new FlagMap());
-	}
-
-	public ActiveEntity clone() {
-		return new ActiveEntity(textureName, getPos(), box.width,
-				this.flags.clone(), this.behaviours.clone());
 	}
 
 	Vector2f velocity = new Vector2f(0, 0); // pixels/ms

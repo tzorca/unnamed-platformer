@@ -1,16 +1,16 @@
 package model;
 
 import java.awt.Rectangle;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-
-import org.newdawn.slick.opengl.Texture;
 
 import model.Ref.BlueprintComponent;
 import model.entities.Entity;
 import model.structures.Blueprint;
 import model.structures.FlColor;
+
+import org.newdawn.slick.opengl.Texture;
+
 import app.App;
 import app.App.State;
 import app.ContentManager;
@@ -128,8 +128,8 @@ public class Game {
 		}
 	}
 
-	public void addEntity(Entity e) {
-		level.addEntity(e);
+	public void addEntity(Entity e, boolean original) {
+		level.addEntity(e, original);
 	}
 
 	public int getLevelIndex() {
@@ -150,7 +150,7 @@ public class Game {
 
 	public void addBlankLevel() {
 
-		levels.add(new Level(new ArrayList<Entity>()));
+		levels.add(new Level(new LinkedList<Entity>()));
 	}
 
 	public int getLevelCount() {

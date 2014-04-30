@@ -2,8 +2,7 @@ package model.logic;
 
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedList;
 
 import model.Level;
 import model.Ref;
@@ -29,7 +28,7 @@ public class LevelGenerator {
 		Entity playerEntity = EntityCreator.create("player", new Point(
 				minX + 100, maxY - 150));
 
-		List<Entity> newEntities = new ArrayList<Entity>();
+		LinkedList<Entity> newEntities = new LinkedList<Entity>();
 
 		Entity goalEntity = EntityCreator.create("flag", new Point(maxX - 64,
 				minY));

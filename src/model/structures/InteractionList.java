@@ -19,11 +19,4 @@ public class InteractionList extends LinkedList<Interaction> implements
 			this.add(i);
 		}
 	}
-
-	public InteractionList clone() {
-		InteractionList il = new InteractionList();
-
-		il.addAll(this);
-		return il;
-	}
 }

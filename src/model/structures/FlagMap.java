@@ -18,11 +18,4 @@ public class FlagMap extends HashMap<Flag, Boolean> implements Serializable {
 			this.put(f, true);
 		}
 	}
-	
-	public FlagMap clone() {
-		FlagMap fm = new FlagMap();
-		
-		fm.putAll(this);
-		return fm;
-	}
 }

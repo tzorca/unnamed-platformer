@@ -2,8 +2,6 @@ package model;
 
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -15,6 +13,7 @@ import model.entities.Entity;
 import model.structures.Blueprint;
 import model.structures.FlColor;
 
+import org.apache.commons.lang3.SerializationUtils;
 import org.newdawn.slick.opengl.Texture;
 
 import app.App;
@@ -26,27 +25,21 @@ import app.ViewManager;
 public class Level {
 
 	public boolean bgStretch = false;
-	public FlColor bgColor = new FlColor(176f/255f,196f/255f,222/255f);
+	public FlColor bgColor = new FlColor(176f / 255f, 196f / 255f, 222 / 255f);
 	public String bgTexName;
 	public Texture bgTexture;
 
 	public int gridSize = Ref.DEFAULT_LEVEL_GRIDSIZE;
 
-	private List<Entity> entities = (Collections
-			.synchronizedList(new LinkedList<Entity>()));
-
-	private List<Entity> newEntities = new ArrayList<Entity>();
+	private LinkedList<Entity> entities = new LinkedList<Entity>(),
+			originalEntities = new LinkedList<Entity>(),
+			newEntities = new LinkedList<Entity>();
 
 	public Rectangle rect = Ref.DEFAULT_LEVEL_RECTANGLE;
 	public boolean won = false;
 
-	public Level(List<Entity> list) {
-		loadStartupEntities(list);
-		setupLevel();
-	}
-
-	public void setupLevel() {
-		setBGTexture("sky");
+	public Level(LinkedList<Entity> origEntities) {
+		reset(origEntities);
 	}
 
 	private void setBGTexture(String textureName) {
@@ -70,7 +63,7 @@ public class Level {
 
 		lBP.put(BlueprintComponent.levelBackgroundTexture, bgTexName);
 		lBP.put(BlueprintComponent.levelRect, rect);
-		lBP.put(BlueprintComponent.levelEntities, entities);
+		lBP.put(BlueprintComponent.levelEntities, originalEntities);
 
 		return lBP;
 	}
@@ -88,28 +81,25 @@ public class Level {
 			System.out.println("You passed in a null blueprint!");
 			return null;
 		}
-		Level newLevel = new Level(
-				(List<Entity>) lBP.get(BlueprintComponent.levelEntities));
+		Level newLevel = new Level(new LinkedList<Entity>(
+				(List<Entity>) lBP.get(BlueprintComponent.levelEntities)));
 		newLevel.setBGTexture((String) lBP
 				.get(BlueprintComponent.levelBackgroundTexture));
 		newLevel.setRect((Rectangle) lBP.get(BlueprintComponent.levelRect));
-		newLevel.setupLevel();
 
 		return newLevel;
 	}
 
-	public void loadStartupEntities(List<Entity> nE) {
-		for (Entity e : nE) {
-			if (e.getTexture() == null) {
-				e.setTexture(e.getTextureName());
-			}
-		}
-
-		entities.clear();
-		entities.addAll(nE);
+	public void reset() {
+		reset(originalEntities);
 	}
 
-	public void flushNewEntities() {
+	private void reset(LinkedList<Entity> srcEntities) {
+		originalEntities = srcEntities;
+		entities = SerializationUtils.clone(srcEntities);
+	}
+
+	public void materializeNewEntities() {
 		entities.addAll(newEntities);
 		newEntities.clear();
 	}
@@ -118,16 +108,18 @@ public class Level {
 		this.rect = rect;
 	}
 
-	public void addEntity(Entity e) {
+	public void addEntity(Entity e, boolean original) {
 		newEntities.add(e);
+		if (original) {
+			originalEntities.add(SerializationUtils.clone(e));
+		}
 	}
-
 
 	public void clear() {
 		if (entities != null) {
 			entities.clear();
 		}
-		entities = (Collections.synchronizedList(new LinkedList<Entity>()));
+		entities = new LinkedList<Entity>();
 	}
 
 	public List<Entity> getEntities() {
@@ -167,7 +159,7 @@ public class Level {
 		}
 
 		// add new entities
-		flushNewEntities();
+		materializeNewEntities();
 	}
 
 	public Rectangle getRect() {
@@ -184,6 +176,14 @@ public class Level {
 			}
 		}
 		return null;
+	}
+
+	public void removeEntity(Entity e) {
+		e.setFlag(Flag.outOfPlay, true);
+	}
+
+	public void overwriteOriginalWithCurrent() {
+		reset(entities);
 	}
 
 }

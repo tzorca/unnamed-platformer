@@ -10,15 +10,14 @@ public class LevelManager {
 
 	public static void changeLevel(int destination) {
 		GameManager.currentGame.setCurrentLevel(destination);
-
 	}
 
 	public static List<Entity> getCurrentEntities() {
 		return GameManager.currentGame.getEntities();
 	}
 
-	public static void addEntity(Entity e) {
-		GameManager.currentGame.addEntity(e);
+	public static void addEntity(Entity e, boolean original) {
+		GameManager.currentGame.addEntity(e, false);
 	}
 
 	public static int getLevelNumber() {
@@ -45,9 +44,6 @@ public class LevelManager {
 		GameManager.currentGame.removeLevel(levelIndexToRemove);
 	}
 
-	public static void addOriginalEntity(Entity e) {
-		GameManager.currentGame.addEntity(e);
-	}
 
 	public static void replaceCurrentLevel(Level lvl) {
 		GameManager.currentGame.replaceCurrentLevel(lvl);

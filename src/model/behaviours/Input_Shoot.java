@@ -6,6 +6,7 @@ import model.Ref.Flag;
 import model.entities.ActiveEntity;
 import model.logic.MathHelper;
 
+import org.apache.commons.lang3.SerializationUtils;
 import org.lwjgl.util.vector.Vector2f;
 
 import app.InputManager;
@@ -37,7 +38,7 @@ public class Input_Shoot extends Behaviour {
 
 	private void fire(ActiveEntity originObj) {
 		TimeManager.sample(hashCode());
-		ActiveEntity movingProjectile = projectile.clone();
+		ActiveEntity movingProjectile = SerializationUtils.clone(projectile);
 
 		Vector2f v = originObj.getDirection();
 		v.y -= 0.1;
@@ -46,7 +47,7 @@ public class Input_Shoot extends Behaviour {
 
 		movingProjectile.setCenter(originObj.getCenter());
 
-		LevelManager.addEntity(movingProjectile);
+		LevelManager.addEntity(movingProjectile, false);
 	}
 
 	public double getSpeed() {
@@ -62,7 +63,7 @@ public class Input_Shoot extends Behaviour {
 	}
 
 	public void setProjectile(ActiveEntity projectile) {
-		this.projectile = projectile.clone();
+		this.projectile = projectile;
 		this.projectile.setFlag(Flag.solid, false);
 		this.projectile.clearBehaviours();
 	}

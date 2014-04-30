@@ -32,6 +32,10 @@ public class Entity implements Serializable {
 	protected Point startPos = new Point();
 
 	public Texture getTexture() {
+		if (texture == null && textureName != null) {
+			setTexture(textureName);
+		}
+		
 		return texture;
 	}
 
@@ -181,10 +185,6 @@ public class Entity implements Serializable {
 
 	public boolean isDynamic() {
 		return !this.flags.isEmpty();
-	}
-
-	public Entity clone() {
-		return new Entity(textureName, getPos(), box.width, this.flags.clone());
 	}
 
 	public void setStartPos(Point pos) {

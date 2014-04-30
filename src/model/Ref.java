@@ -1,8 +1,11 @@
 package model;
 
 import java.awt.Rectangle;
+import java.io.Serializable;
 
-public class Ref {
+public class Ref implements Serializable {
+	private static final long serialVersionUID = 7052842507336198611L;
+
 	public enum Orientation {
 		UP, DOWN, LEFT, RIGHT, UPRIGHT, UPLEFT, DOWNRIGHT, DOWNLEFT
 	}
@@ -23,7 +26,7 @@ public class Ref {
 		levelBackgroundTexture, levelRect, levelEntities, levelPlayerEntity, levels, gameName
 	}
 
-	public static final Rectangle DEFAULT_LEVEL_RECTANGLE = new Rectangle(0, 0,
+	public static final  Rectangle DEFAULT_LEVEL_RECTANGLE = new Rectangle(0, 0,
 			2000, 4000);
 	public static final int DEFAULT_LEVEL_GRIDSIZE = 32;
 
@@ -37,5 +40,4 @@ public class Ref {
 	}
 
 	public static String baseDir = "res/";
-
 }

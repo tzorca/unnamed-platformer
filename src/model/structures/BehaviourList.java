@@ -19,11 +19,4 @@ public class BehaviourList extends LinkedList<Behaviour> implements
 			this.add(b);
 		}
 	}
-
-	public BehaviourList clone() {
-		BehaviourList bl = new BehaviourList();
-
-		bl.addAll(this);
-		return bl;
-	}
 }

@@ -125,7 +125,7 @@ public class GUI_Edit extends GUI_Template {
 			playerAdded = true;
 		}
 
-		currentLevel.addEntity(newEntity);
+		currentLevel.addEntity(newEntity, true);
 	}
 
 	private void processControls() {
@@ -201,7 +201,7 @@ public class GUI_Edit extends GUI_Template {
 				.translateMouse());
 
 		if (atMouse != null) {
-			atMouse.setFlag(Flag.outOfPlay, true);
+			currentLevel.removeEntity(atMouse);
 
 			if (atMouse.checkFlag(Flag.player)) {
 				playerAdded = false;
@@ -299,8 +299,9 @@ public class GUI_Edit extends GUI_Template {
 	public void pnlModeSwitch_Clicked() {
 
 		if (App.state == State.edit) {
+			currentLevel.overwriteOriginalWithCurrent();
+			
 			GUIManager.setStateHeld(true);
-			currentLevel.save("res/temp.lvl");
 			App.state = State.play;
 
 			NiftyImage newImage = GUIManager
@@ -308,8 +309,7 @@ public class GUI_Edit extends GUI_Template {
 			pnlModeSwitch.getRenderer(ImageRenderer.class).setImage(newImage);
 
 		} else {
-			LevelManager.replaceCurrentLevel(Level.load("res/temp.lvl"));
-			currentLevel = LevelManager.getCurrentLevel();
+			currentLevel.reset();
 
 			GUIManager.setStateHeld(false);
 			App.state = State.edit;
