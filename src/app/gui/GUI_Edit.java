@@ -40,10 +40,6 @@ public class GUI_Edit extends GUI_Template {
 	static List<Texture> textures = new ArrayList<Texture>();
 	boolean playerAdded = false;
 
-	Label lblCurrentLevel;
-	Element pnlModeSwitch;
-	static ListBox<String> lstObjects;
-
 	Point cameraPos = new Point(Ref.DEFAULT_LEVEL_GRIDSIZE * 4,
 			Ref.DEFAULT_LEVEL_GRIDSIZE * 4);
 
@@ -103,6 +99,10 @@ public class GUI_Edit extends GUI_Template {
 	}
 
 	public void placeObject() {
+		if (App.state != State.edit) {
+			return;
+		}
+		
 		Point loc = MathHelper.snapToGrid(ViewManager.translateMouse(),
 				currentLevel.gridSize);
 
@@ -155,6 +155,7 @@ public class GUI_Edit extends GUI_Template {
 	}
 
 	private void processCameraControls() {
+		
 		Rectangle cameraBounds = currentLevel.getRect();
 		cameraBounds.x -= ViewManager.width / 4;
 		cameraBounds.width += ViewManager.width / 2;
@@ -192,6 +193,10 @@ public class GUI_Edit extends GUI_Template {
 	}
 
 	public void removeObject() {
+		if (App.state != State.edit) {
+			return;
+		}
+		
 		Entity atMouse = currentLevel.getTopmostEntity(ViewManager
 				.translateMouse());
 
@@ -209,9 +214,19 @@ public class GUI_Edit extends GUI_Template {
 			ViewManager.centerCamera(cameraPos);
 
 			processControls();
-			lstObjects.getElement().show();
+			
+			for (Element e : editModeElements) {
+				if (!e.isVisible()) {
+					e.show();
+				}
+			}
 		} else {
-			lstObjects.getElement().hide();
+			
+			for (Element e : editModeElements) {
+				if (e.isVisible()) {
+					e.hide();
+				}
+			}
 		}
 	}
 
@@ -229,7 +244,7 @@ public class GUI_Edit extends GUI_Template {
 
 	public static void drawPlaceholderElement() {
 
-		if (!placeholderVisible) {
+		if (!placeholderVisible || App.state != State.edit) {
 			return;
 		}
 		Level currentLevel = LevelManager.getCurrentLevel();
@@ -257,6 +272,12 @@ public class GUI_Edit extends GUI_Template {
 	// ViewManager.drawTexture(cameraTexture, texRect, noTransColor);
 	// }
 
+	Label lblCurrentLevel;
+	Element pnlModeSwitch, pnlPrevLevl, pnlAddLevel, pnlNextLevel,
+			pnlRemoveLevel;
+	List<Element> editModeElements = new ArrayList<Element>();
+	static ListBox<String> lstObjects;
+
 	@SuppressWarnings("unchecked")
 	private void hookControls() {
 		lstObjects = GUIManager.findElement("lstObjects").getNiftyControl(
@@ -266,6 +287,13 @@ public class GUI_Edit extends GUI_Template {
 				.getNiftyControl(Label.class);
 
 		pnlModeSwitch = GUIManager.findElement("pnlModeSwitch");
+
+		editModeElements.add(GUIManager.findElement("lstObjects"));
+		editModeElements.add(GUIManager.findElement("pnlAddLevel"));
+		editModeElements.add(GUIManager.findElement("pnlPrevLevel"));
+		editModeElements.add(GUIManager.findElement("pnlNextLevel"));
+		editModeElements.add(GUIManager.findElement("pnlRemoveLevel"));
+		editModeElements.add(GUIManager.findElement("pnlSave"));
 	}
 
 	public void pnlModeSwitch_Clicked() {
