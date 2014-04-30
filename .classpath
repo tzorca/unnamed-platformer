@@ -8,7 +8,7 @@
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="UnnamedPlatformer/lib/lwjgl/nl"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="lib/nifty/nifty-1.3.3.jar"/>
+	<classpathentry kind="lib" path="lib/nifty/nifty-1.3.3.jar" sourcepath="lib/nifty/nifty-1.3.3-sources.jar"/>
 	<classpathentry kind="lib" path="lib/nifty/nifty-default-controls-1.3.3.jar"/>
 	<classpathentry kind="lib" path="lib/nifty/nifty-lwjgl-renderer-1.3.3.jar"/>
 	<classpathentry kind="lib" path="lib/nifty/nifty-style-black-1.3.3.jar"/>

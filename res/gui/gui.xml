@@ -12,6 +12,34 @@
 		/>	
 	</panel>
 </controlDefinition>-->
+
+<popup id="popInput" childLayout="center" backgroundColor="#000b" controller="app.gui.GUI_Popups">
+	<panel childLayout="center" width="320px" height="128px" backgroundColor="#000f">
+	<panel childLayout="center" width="318px" height="126px" backgroundColor="#333f">
+		<text id="popInput_lblMessage" name="popInput_lblMessage" font="fps.fnt" text="" marginTop="16px" align="center" valign="top" />
+		
+		<panel width="100%" childLayout="vertical" valign="bottom">
+			<control id="popInput_txtInput" name="popInput_txtInput" type="textfield" width="95%" align="center" />
+			
+			<panel width="100%" height="16px" />
+			
+			<panel height="32px" childLayout="horizontal" align="center">
+				<panel childLayout="center" width="50%" height="100%">
+					<control id="popInput_btnOkay" type="button" width="90%" height="90%" label="Okay">
+						<interact onClick="popInput_btnOkay_Clicked()" />
+					</control>
+				</panel>
+				
+				<panel childLayout="center" width="50%" height="100%">
+					<control id="popInput_btnCancel" type="button" width="90%" height="90%" label="Cancel">
+						<interact onClick="popInput_btnCancel_Clicked()" />
+					</control>
+				</panel>
+			</panel>
+		</panel>
+	</panel>
+	</panel>
+</popup>
   
 <screen id="start" controller="app.gui.GUI_MainMenu">
     <layer childLayout="vertical" backgroundColor="#dddf">
@@ -108,17 +136,19 @@
 	<layer backgroundColor="#333f" childLayout="vertical" width="100%" height="100%" >
 			
 		<panel id="topPanel" width="100%" height="32px" childLayout="horizontal" valign="top">
-			<control id="txtName" type="textfield" name="textfield" width="300px" text="" focusable="true" />
-			<control id="btnNew" type="button" name="button" label="New">
+			<control id="btnNew" type="button" name="button" padding-right="10%" label="New game">
 				<interact onClick="btnNew_Clicked()" />
 			</control>
-			<control id="btnOpen" type="button" name="button" label="Open">
+			<control id="btnOpen" type="button" name="button" label="Open selected">
 				<interact onClick="btnOpen_Clicked()" />
 			</control>
 		</panel>
 	
 		<panel id="bottomPanel" width="100%" childLayout="vertical">
-			<control id="lstGames" name="listBox" vertical="optional" horizontal="off" selection="Single" height="100%" displayItems="18" />
+			<control id="lstGames" name="listBox" vertical="optional" horizontal="off"
+				selection="Single" height="100%" displayItems="18" visibleToMouse="true">
+				<interact onMultiClick="btnOpen_Clicked()" />
+			</control>
 		</panel>
 
 	</layer>
@@ -138,8 +168,9 @@
 		</panel>
 	
 		<panel id="bottomPanel" width="100%" childLayout="vertical">
-			<control id="lstGames" name="listBox" vertical="optional" horizontal="off" selection="Single" height="100%" displayItems="18">
-				<interact onClick="lstGames_SelectionChanged()" />
+			<control id="lstGames" name="listBox" vertical="optional" horizontal="off" 
+				selection="Single" height="100%" displayItems="18" visibleToMouse="true">
+				<interact onMultiClick="btnOpen_Clicked()" />
 			</control>
 		</panel>
 

@@ -2,18 +2,17 @@ package app.gui;
 
 import model.Game;
 import model.logic.StringHelper;
+import model.structures.Callback;
 import app.App;
 import app.App.State;
 import app.ContentManager;
 import app.ContentManager.ContentType;
 import app.GameManager;
 import de.lessvoid.nifty.controls.ListBox;
-import de.lessvoid.nifty.controls.TextField;
 
 public class GUI_EditSelect extends GUI_Template {
 
 	ListBox<String> lstGames;
-	TextField txtName;
 
 	@Override
 	public void onStartScreen() {
@@ -39,29 +38,37 @@ public class GUI_EditSelect extends GUI_Template {
 	private void hookControls() {
 		lstGames = GUIManager.findElement("lstGames").getNiftyControl(
 				ListBox.class);
+	}
 
-		txtName = GUIManager.findElement("txtName").getNiftyControl(
-				TextField.class);
+	private void createNewGame(String newGameName) {
+		if (newGameName == null || newGameName.trim().length() == 0) {
+			return;
+		}
+
+		if (!StringHelper.isValidFilename(newGameName.trim())) {
+			System.out.println(newGameName + " is not a valid filename");
+			return;
+		}
+
+		Game newGame = new Game(newGameName, true);
+		newGame.setCurrentLevel(0);
+
+		if (newGame.save(newGameName)) {
+			lstGames.addItem(newGameName);
+			selectGameByIndex(lstGames.getItems().size() - 1);
+		} else {
+			System.out.println("Could not create game with name of "
+					+ newGameName);
+		}
 	}
 
 	public void btnNew_Clicked() {
 
-		if (!StringHelper.isValidFilename(txtName.getRealText())) {
-			System.out.println("Invalid filename " + txtName.getRealText());
-			return;
-		}
-
-		Game newGame = new Game(txtName.getRealText(), true);
-		newGame.setCurrentLevel(0);
-
-		if (newGame.save(txtName.getRealText())) {
-			lstGames.addItem(txtName.getRealText());
-			txtName.setText("");
-			selectGameByIndex(lstGames.getItems().size() - 1);
-		} else {
-			System.out.println("Could not create game with name of "
-					+ txtName.getRealText());
-		}
+		GUI_Popups.showInputBox("Create a new game called:", new Callback() {
+			public void execute(Object newGameName) {
+				createNewGame((String) newGameName);
+			}
+		});
 	}
 
 	public void btnOpen_Clicked() {

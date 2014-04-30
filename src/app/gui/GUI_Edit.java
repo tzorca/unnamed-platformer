@@ -46,8 +46,6 @@ public class GUI_Edit extends GUI_Template {
 
 	Point cameraPos = new Point(Ref.DEFAULT_LEVEL_GRIDSIZE * 4,
 			Ref.DEFAULT_LEVEL_GRIDSIZE * 4);
-	Texture cameraTexture = (Texture) ContentManager.get(ContentType.texture,
-			"camera");
 
 	private boolean changeLevel(int index) {
 		if (!LevelManager.levelExists(index)) {

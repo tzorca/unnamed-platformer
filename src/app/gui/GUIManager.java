@@ -3,8 +3,8 @@ package app.gui;
 import org.lwjgl.opengl.GL11;
 
 import app.App;
-import app.ViewManager;
 import app.App.State;
+import app.ViewManager;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.builder.ElementBuilder;
 import de.lessvoid.nifty.elements.Element;
@@ -95,6 +95,7 @@ public class GUIManager {
 		return nifty.createImage(filename, false);
 	}
 
+
 	// this is REQUIRED
 	public static void pushKeyEvent(int eventKey, char eventCharacter,
 			boolean eventKeyState) {
@@ -106,7 +107,6 @@ public class GUIManager {
 			getCurrentScreen().keyEvent(ie);
 
 		}
-
 	}
 
 }
