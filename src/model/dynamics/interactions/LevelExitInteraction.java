@@ -1,4 +1,4 @@
-package model.interactions;
+package model.dynamics.interactions;
 
 import model.Ref.Flag;
 import model.entities.Entity;

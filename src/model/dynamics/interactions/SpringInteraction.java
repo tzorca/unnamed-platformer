@@ -1,9 +1,9 @@
-package model.interactions;
+package model.dynamics.interactions;
 
 import java.io.Serializable;
 
 import model.Ref.Flag;
-import model.behaviours.PersistentVectorMovement;
+import model.dynamics.control_mechanisms.Control_PersistentVectorMovement;
 import model.entities.ActiveEntity;
 import model.entities.Entity;
 
@@ -21,8 +21,14 @@ public class SpringInteraction extends Interaction implements Serializable {
 	@Override
 	public void interactWith(Entity target) {
 		if (target.checkFlag(Flag.player)) {
-			((ActiveEntity) target).addBehaviour(new PersistentVectorMovement(
-					v, 500));
+			ActiveEntity plr = (ActiveEntity) target;
+
+			plr.physics.airTime = 0;
+			plr.physics.upCancel = true;
+			plr.physics.addForce(v);
+			plr.physics
+					.addControlMechanism(new Control_PersistentVectorMovement(
+							plr, v, 500));
 		}
 	}
 

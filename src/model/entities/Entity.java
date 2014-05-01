@@ -18,11 +18,9 @@ import app.ContentManager;
 import app.ContentManager.ContentType;
 
 public class Entity implements Serializable {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 2898448772127546782L;
+	
+	//protected Behaviour behaviour;
 	protected FlagMap flags = new FlagMap();
 	protected Rectangle box = new Rectangle();
 	FlColor color = null;
@@ -181,10 +179,6 @@ public class Entity implements Serializable {
 
 	public boolean hasNoFlags() {
 		return flags.isEmpty();
-	}
-
-	public boolean isDynamic() {
-		return !this.flags.isEmpty();
 	}
 
 	public void setStartPos(Point pos) {

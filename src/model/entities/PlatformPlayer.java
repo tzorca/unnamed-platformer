@@ -1,23 +1,22 @@
-
-
 package model.entities;
 
 import java.awt.Point;
 
 import model.Ref.Flag;
-import model.behaviours.Input_HorizontalMove;
-import model.behaviours.Input_Jump;
-import model.behaviours.Input_Shoot;
-import model.interactions.NegativeHazardReaction;
+import model.dynamics.control_mechanisms.Control_HorizontalMove;
+import model.dynamics.control_mechanisms.Control_Jump;
+import model.dynamics.control_mechanisms.Control_Shoot;
+import model.dynamics.interactions.NegativeHazardReaction;
 
 public class PlatformPlayer extends ActiveEntity {
 	private static final long serialVersionUID = 8624310770832698957L;
 
-	Input_HorizontalMove hzMoveBehaviour = new Input_HorizontalMove(3f);
+	Control_HorizontalMove hzMoveBehaviour = new Control_HorizontalMove(this,
+			3f);
 
-	Input_Jump jumpBehaviour = new Input_Jump(5, 0.5);
-	Input_Shoot shootBehaviour = new Input_Shoot(new Beam(new Point(0, 0)), 6,
-			100);
+	Control_Jump jumpBehaviour = new Control_Jump(this, 5, 0.5);
+	Control_Shoot shootBehaviour = new Control_Shoot(this, new Beam(new Point(
+			0, 0)), 6, 100);
 
 	public PlatformPlayer(String imageName, Point startPos) {
 		super(imageName, startPos);
@@ -36,10 +35,10 @@ public class PlatformPlayer extends ActiveEntity {
 	}
 
 	private void addSpProps() {
-		this.addInteraction(new NegativeHazardReaction(this));
-		this.addBehaviour(hzMoveBehaviour);
-		this.addBehaviour(jumpBehaviour);
-		this.addBehaviour(shootBehaviour);
+		this.interactions.add(new NegativeHazardReaction(this));
+		this.physics.addControlMechanism(hzMoveBehaviour);
+		this.physics.addControlMechanism(jumpBehaviour);
+		this.physics.addControlMechanism(shootBehaviour);
 		this.setFlag(Flag.obeysGravity, true);
 		this.setFlag(Flag.tangible, true);
 		this.setFlag(Flag.player, true);

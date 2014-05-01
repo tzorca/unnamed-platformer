@@ -1,18 +1,13 @@
-
-
-package model.behaviours;
+package model.dynamics.control_mechanisms;
 
 import java.awt.Point;
 
 import model.entities.ActiveEntity;
 import model.logic.MathHelper;
 
-public class PathMovement extends Behaviour {
-
-	/**
-	 * 
-	 */
+public class Control_PathMovement extends ControlMechanism {
 	private static final long serialVersionUID = 8775296304473034048L;
+
 	private Point[] relativePath = null;
 	private double speed = 0;
 	private int pathState = 1;
@@ -27,20 +22,21 @@ public class PathMovement extends Behaviour {
 		this.origin = origin;
 	}
 
-	public PathMovement(Point origin, Point[] relativePath,
-			double speed) {
+	public Control_PathMovement(ActiveEntity actor, Point origin,
+			Point[] relativePath, double speed) {
+		super(actor);
 		this.origin = origin;
 		this.relativePath = relativePath;
 		this.speed = speed;
 	}
 
 	@Override
-	public void run(ActiveEntity targetObj, float delta) {
+	public void update(float delta) {
 		if (relativePath == null || speed == 0) {
 			return;
 		}
 
-		Point startPoint = targetObj.getPos();
+		Point startPoint = actor.getPos();
 		Point targetPoint = new Point(origin.x + relativePath[pathState].x,
 				origin.y + relativePath[pathState].y);
 
@@ -55,7 +51,7 @@ public class PathMovement extends Behaviour {
 			}
 		}
 
-		targetObj.setPos(newPoint);
+		actor.setPos(newPoint);
 
 	}
 

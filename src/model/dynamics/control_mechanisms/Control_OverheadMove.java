@@ -1,6 +1,4 @@
-
-
-package model.behaviours;
+package model.dynamics.control_mechanisms;
 
 import model.entities.ActiveEntity;
 
@@ -9,34 +7,32 @@ import org.lwjgl.util.vector.Vector2f;
 
 import app.InputManager;
 
-public class Input_OverheadMove extends Behaviour {
-
-	/**
-	 * 
-	 */
+public class Control_OverheadMove extends ControlMechanism {
 	private static final long serialVersionUID = 8927418630246157688L;
+
 	private float speed;
 
-	public Input_OverheadMove(float speed) {
+	public Control_OverheadMove(ActiveEntity actor, float speed) {
+		super(actor);
 		this.speed = speed;
 	}
 
 	@Override
-	public void run(ActiveEntity target, float delta) {
+	public void update(float delta) {
 		if (InputManager.getKeyState(Keyboard.KEY_RIGHT)) {
-			target.addForce(new Vector2f(speed, 0));
+			actor.physics.addForce(new Vector2f(speed, 0));
 		}
 
 		if (InputManager.getKeyState(Keyboard.KEY_LEFT)) {
-			target.addForce(new Vector2f(-speed, 0));
+			actor.physics.addForce(new Vector2f(-speed, 0));
 		}
 
 		if (InputManager.getKeyState(Keyboard.KEY_UP)) {
-			target.addForce(new Vector2f(0, -speed));
+			actor.physics.addForce(new Vector2f(0, -speed));
 		}
 
 		if (InputManager.getKeyState(Keyboard.KEY_DOWN)) {
-			target.addForce(new Vector2f(0, speed));
+			actor.physics.addForce(new Vector2f(0, speed));
 		}
 
 	}

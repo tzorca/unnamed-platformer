@@ -1,6 +1,4 @@
-
-
-package model.behaviours;
+package model.dynamics.control_mechanisms;
 
 import model.entities.ActiveEntity;
 
@@ -10,12 +8,9 @@ import org.lwjgl.util.vector.Vector2f;
 import app.InputManager;
 import app.InputManager.GameKey;
 
-public class Input_HorizontalMove extends Behaviour {
-
-	/**
-	 * 
-	 */
+public class Control_HorizontalMove extends ControlMechanism {
 	private static final long serialVersionUID = -3011521393718606785L;
+
 	private float speed;
 
 	public float getSpeed() {
@@ -26,18 +21,19 @@ public class Input_HorizontalMove extends Behaviour {
 		this.speed = speed;
 	}
 
-	public Input_HorizontalMove(float speed) {
+	public Control_HorizontalMove(ActiveEntity actor, float speed) {
+		super(actor);
 		this.speed = speed;
 	}
 
 	@Override
-	public void run(ActiveEntity target, float delta) {
+	public void update(float delta) {
 		if (InputManager.getGameKeyState(GameKey.right, 1)) {
-			target.addForce(new Vector2f(speed, 0f));
+			actor.physics.addForce(new Vector2f(speed, 0f));
 		}
 
 		if (InputManager.getKeyState(Keyboard.KEY_LEFT)) {
-			target.addForce(new Vector2f(-speed, 0f));
+			actor.physics.addForce(new Vector2f(-speed, 0f));
 		}
 	}
 }

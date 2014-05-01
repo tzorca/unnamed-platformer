@@ -4,7 +4,7 @@ package model.entities;
 
 import java.awt.Point;
 
-import model.interactions.LevelExitInteraction;
+import model.dynamics.interactions.LevelExitInteraction;
 
 public class Goal extends ActiveEntity {
 

@@ -1,6 +1,4 @@
-
-
-package model.behaviours;
+package model.dynamics.control_mechanisms;
 
 import model.Ref.Flag;
 import model.entities.ActiveEntity;
@@ -14,38 +12,42 @@ import app.InputManager.GameKey;
 import app.LevelManager;
 import app.TimeManager;
 
-public class Input_Shoot extends Behaviour {
-
+public class Control_Shoot extends ControlMechanism {
 	private static final long serialVersionUID = 2964710767437924198L;
+
 	private ActiveEntity projectile = null;
 	private double projectileSpeed = 0;
 	private float fireDelay = 0;
 
-	public Input_Shoot(ActiveEntity projectile, double speed, float fireDelay) {
+	public Control_Shoot(ActiveEntity actor, ActiveEntity projectile,
+			double speed, float fireDelay) {
+		super(actor);
 		this.setProjectile(projectile);
 		this.projectileSpeed = speed;
 		this.fireDelay = fireDelay;
 	}
 
 	@Override
-	public void run(ActiveEntity targetObj, float delta) {
+	public void update(float delta) {
 		if (InputManager.getGameKeyState(GameKey.a, 1)) {
 			if (TimeManager.time() - TimeManager.lastSample(hashCode()) >= fireDelay) {
-				fire(targetObj);
+				fire();
 			}
 		}
 	}
 
-	private void fire(ActiveEntity originObj) {
+	private void fire() {
 		TimeManager.sample(hashCode());
 		ActiveEntity movingProjectile = SerializationUtils.clone(projectile);
 
-		Vector2f v = originObj.getDirection();
+		Vector2f v = actor.physics.getDirection();
 		v.y -= 0.1;
-		movingProjectile.addBehaviour(new PersistentVectorMovement(
-				projectileSpeed, MathHelper.angleFromVector(v)));
+		movingProjectile.physics
+				.addControlMechanism(new Control_PersistentVectorMovement(
+						movingProjectile, projectileSpeed, MathHelper
+								.angleFromVector(v)));
 
-		movingProjectile.setCenter(originObj.getCenter());
+		movingProjectile.setCenter(actor.getCenter());
 
 		LevelManager.addEntity(movingProjectile, false);
 	}
@@ -65,7 +67,7 @@ public class Input_Shoot extends Behaviour {
 	public void setProjectile(ActiveEntity projectile) {
 		this.projectile = projectile;
 		this.projectile.setFlag(Flag.solid, false);
-		this.projectile.clearBehaviours();
+		this.projectile.physics.clearControlMechanisms();
 	}
 
 }

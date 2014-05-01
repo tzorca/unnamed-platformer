@@ -3,7 +3,7 @@ package model.structures;
 import java.io.Serializable;
 import java.util.LinkedList;
 
-import model.interactions.Interaction;
+import model.dynamics.interactions.Interaction;
 
 public class InteractionList extends LinkedList<Interaction> implements
 		Serializable {
