@@ -36,7 +36,7 @@ public class Game {
 
 	public static Game load(String name) {
 		String filename = ContentManager.getFilename(ContentType.game, name);
-		return fromBlueprint(Blueprint.load(filename));
+		return fromBlueprint(Blueprint.load(filename), name);
 	}
 
 	public Blueprint toBlueprint() {
@@ -48,13 +48,12 @@ public class Game {
 		}
 
 		gBP.put(BlueprintComponent.levels, lBPs);
-		gBP.put(BlueprintComponent.gameName, name);
 
 		return gBP;
 	}
 
 	@SuppressWarnings("unchecked")
-	private static Game fromBlueprint(Blueprint bp) {
+	private static Game fromBlueprint(Blueprint bp, String name) {
 		if (bp == null) {
 			System.out.println("You passed in a null blueprint!");
 			return null;
@@ -63,9 +62,7 @@ public class Game {
 		List<Blueprint> lBPs = (LinkedList<Blueprint>) bp
 				.get(BlueprintComponent.levels);
 
-		String newGameName = (String) bp.get(BlueprintComponent.gameName);
-
-		Game newGame = new Game(newGameName, false);
+		Game newGame = new Game(name, false);
 
 		for (Blueprint lvlBlueprint : lBPs) {
 			newGame.levels.add(Level.fromBlueprint(lvlBlueprint));
