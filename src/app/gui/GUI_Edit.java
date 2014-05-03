@@ -125,7 +125,7 @@ public class GUI_Edit extends GUI_Template {
 			playerAdded = true;
 		}
 
-		currentLevel.addEntity(newEntity, true);
+		currentLevel.addEntity(newEntity);
 	}
 
 	private void processControls() {
@@ -299,7 +299,7 @@ public class GUI_Edit extends GUI_Template {
 	public void pnlModeSwitch_Clicked() {
 
 		if (App.state == State.edit) {
-			currentLevel.overwriteOriginalWithCurrent();
+			currentLevel.resetToCurrent();
 			
 			GUIManager.setStateHeld(true);
 			App.state = State.play;
@@ -309,7 +309,7 @@ public class GUI_Edit extends GUI_Template {
 			pnlModeSwitch.getRenderer(ImageRenderer.class).setImage(newImage);
 
 		} else {
-			currentLevel.reset();
+			currentLevel.resetToOriginal();
 
 			GUIManager.setStateHeld(false);
 			App.state = State.edit;
@@ -350,6 +350,7 @@ public class GUI_Edit extends GUI_Template {
 	}
 
 	public void pnlSave_Clicked() {
+		currentLevel.resetToCurrent();
 		GameManager.saveCurrentGame();
 	}
 

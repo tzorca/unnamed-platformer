@@ -115,8 +115,8 @@ public class Game {
 		}
 	}
 
-	public void addEntity(Entity e, boolean original) {
-		level.addEntity(e, original);
+	public void addEntity(Entity e) {
+		level.addEntity(e);
 	}
 
 	public int getLevelIndex() {

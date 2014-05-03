@@ -49,7 +49,7 @@ public class Control_Shoot extends ControlMechanism {
 
 		movingProjectile.setCenter(actor.getCenter());
 
-		LevelManager.addEntity(movingProjectile, false);
+		LevelManager.addEntity(movingProjectile);
 	}
 
 	public double getSpeed() {

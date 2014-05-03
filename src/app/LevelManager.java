@@ -16,8 +16,8 @@ public class LevelManager {
 		return GameManager.currentGame.getEntities();
 	}
 
-	public static void addEntity(Entity e, boolean original) {
-		GameManager.currentGame.addEntity(e, false);
+	public static void addEntity(Entity e) {
+		GameManager.currentGame.addEntity(e);
 	}
 
 	public static int getLevelNumber() {

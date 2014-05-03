@@ -39,7 +39,7 @@ public class Level {
 	public boolean won = false;
 
 	public Level(LinkedList<Entity> origEntities) {
-		reset(origEntities);
+		resetTo(origEntities);
 	}
 
 	private void setBGTexture(String textureName) {
@@ -90,11 +90,11 @@ public class Level {
 		return newLevel;
 	}
 
-	public void reset() {
-		reset(originalEntities);
+	public void resetToOriginal() {
+		resetTo(originalEntities);
 	}
 
-	private void reset(LinkedList<Entity> srcEntities) {
+	private void resetTo(LinkedList<Entity> srcEntities) {
 		originalEntities = srcEntities;
 		entities = SerializationUtils.clone(srcEntities);
 	}
@@ -108,11 +108,8 @@ public class Level {
 		this.rect = rect;
 	}
 
-	public void addEntity(Entity e, boolean original) {
+	public void addEntity(Entity e) {
 		newEntities.add(e);
-		if (original) {
-			originalEntities.add(SerializationUtils.clone(e));
-		}
 	}
 
 	public void clear() {
@@ -182,8 +179,8 @@ public class Level {
 		e.setFlag(Flag.outOfPlay, true);
 	}
 
-	public void overwriteOriginalWithCurrent() {
-		reset(entities);
+	public void resetToCurrent() {
+		resetTo(entities);
 	}
 
 }
