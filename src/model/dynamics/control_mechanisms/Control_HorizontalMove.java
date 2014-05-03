@@ -1,12 +1,11 @@
 package model.dynamics.control_mechanisms;
 
 import model.entities.ActiveEntity;
+import model.parameters.InputRef.GameKey;
 
-import org.lwjgl.input.Keyboard;
 import org.lwjgl.util.vector.Vector2f;
 
 import app.InputManager;
-import app.InputManager.GameKey;
 
 public class Control_HorizontalMove extends ControlMechanism {
 	private static final long serialVersionUID = -3011521393718606785L;
@@ -27,12 +26,12 @@ public class Control_HorizontalMove extends ControlMechanism {
 	}
 
 	@Override
-	public void update(float delta) {
+	public void update(long timeDelta) {
 		if (InputManager.getGameKeyState(GameKey.right, 1)) {
 			actor.physics.addForce(new Vector2f(speed, 0f));
 		}
 
-		if (InputManager.getKeyState(Keyboard.KEY_LEFT)) {
+		if (InputManager.getGameKeyState(GameKey.left, 1)) {
 			actor.physics.addForce(new Vector2f(-speed, 0f));
 		}
 	}

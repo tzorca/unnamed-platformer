@@ -5,8 +5,8 @@ import java.awt.Rectangle;
 import java.util.LinkedList;
 
 import model.Level;
-import model.Ref;
 import model.entities.Entity;
+import model.parameters.Ref;
 import app.ViewManager;
 
 public class LevelGenerator {

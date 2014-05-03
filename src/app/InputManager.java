@@ -1,66 +1,39 @@
-
-
 package app;
 
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.HashMap;
 
+import model.parameters.InputRef;
+import model.parameters.InputRef.GameKey;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
-import org.newdawn.slick.Input;
 
 import app.gui.GUIManager;
 
 public class InputManager {
-	private static HashMap<Integer, Boolean> keystates = new HashMap<Integer, Boolean>();
-	private static HashMap<PlayerGameKey, Boolean> gamekeystates = new HashMap<PlayerGameKey, Boolean>();
-	private static HashMap<Integer, PlayerGameKey> gamekeymap = new HashMap<Integer, PlayerGameKey>();
+	private static HashMap<Integer, Boolean> rawKeyStates = new HashMap<Integer, Boolean>();
+	private static HashMap<PlayerGameKey, Boolean> playerGameKeyStates = new HashMap<PlayerGameKey, Boolean>();
+	private static HashMap<Integer, PlayerGameKey> rawKeyToPlayerGameKeyMapping = new HashMap<Integer, PlayerGameKey>();
 
 	public static void init() {
-		mapGamekeys();
-	}
-
-	public static void mapGamekeys() {
-		mapKey(1, GameKey.restartApp, Input.KEY_F2);
-		mapKey(1, GameKey.toggleFullscreen, Input.KEY_F11);
-
-		mapKey(1, GameKey.left, Input.KEY_LEFT);
-		mapKey(1, GameKey.right, Input.KEY_RIGHT);
-		mapKey(1, GameKey.up, Input.KEY_UP);
-		mapKey(1, GameKey.down, Input.KEY_DOWN);
-
-		mapKey(1, GameKey.a, Input.KEY_LSHIFT);
-		mapKey(1, GameKey.a, Input.KEY_RSHIFT);
-		mapKey(1, GameKey.b, Input.KEY_RCONTROL);
-		mapKey(1, GameKey.start, Input.KEY_ENTER);
-
-		mapKey(1, GameKey.scrollOut, Input.KEY_LBRACKET);
-		mapKey(1, GameKey.scrollIn, Input.KEY_RBRACKET);
-		mapKey(1, GameKey.sizeMinus, Input.KEY_MINUS);
-		mapKey(1, GameKey.sizePlus, Input.KEY_EQUALS);
+		// add default key mapping
+		rawKeyToPlayerGameKeyMapping.putAll(InputRef.DEFAULT_GAME_KEYS);
 	}
 
 	public static void mapKey(int playerNo, GameKey gk, int key) {
-		gamekeymap.put(key, new PlayerGameKey(playerNo, gk));
+		rawKeyToPlayerGameKeyMapping.put(key, new PlayerGameKey(playerNo, gk));
 	}
 
 	public static void unmapKey(int key) {
-		gamekeymap.remove(key);
+		rawKeyToPlayerGameKeyMapping.remove(key);
 	}
 
 	public static Point getMousePos() {
 		return new Point(Mouse.getX(), ViewManager.height - Mouse.getY());
-	}
-
-	public static int getMouseX() {
-		return Mouse.getX();
-	}
-
-	public static int getMouseY() {
-		return ViewManager.height - Mouse.getY();
 	}
 
 	public boolean leftMouseClicked() {
@@ -68,11 +41,7 @@ public class InputManager {
 	}
 
 	public static boolean leftMouseDown;
-	@SuppressWarnings("unused")
-	private static boolean rightMouseDown;
 	private static boolean leftMouseClicked;
-	@SuppressWarnings("unused")
-	private static boolean rightMouseClicked;
 
 	private static Rectangle mouseBox = new Rectangle();
 
@@ -87,12 +56,6 @@ public class InputManager {
 			GUIManager.setStateHeld(false);
 			App.restart();
 		}
-
-		/*
-		 * if (InputManager.getGameKeyState(GameKey.toggleFullscreen, 1)) {
-		 * ViewManager.toggleFullscreen();
-		 * resetGameKeyState(GameKey.toggleFullscreen, 1); }
-		 */
 	}
 
 	private static void getMouseActions() {
@@ -112,51 +75,48 @@ public class InputManager {
 
 	private static void getKeys() {
 		while (Keyboard.next()) {
-			int key = Keyboard.getEventKey();
-			boolean keystate = Keyboard.getEventKeyState();
-			keystates.put(key, keystate);
-			if (gamekeymap.containsKey(key)) {
-				gamekeystates.put(gamekeymap.get(key), keystate);
+			int keycode = Keyboard.getEventKey();
+			boolean state = Keyboard.getEventKeyState();
+			rawKeyStates.put(keycode, state);
+			if (rawKeyToPlayerGameKeyMapping.containsKey(keycode)) {
+				playerGameKeyStates.put(
+						rawKeyToPlayerGameKeyMapping.get(keycode), state);
 			}
-			GUIManager
-					.pushKeyEvent(key, Keyboard.getEventCharacter(), keystate);
+			GUIManager.pushKeyEvent(keycode, Keyboard.getEventCharacter(),
+					state);
 		}
 	}
 
 	public static boolean getKeyState(Integer keycode) {
-		if (!keystates.containsKey(keycode)) {
+		if (!rawKeyStates.containsKey(keycode)) {
 			return false;
 		}
 
-		return keystates.get(keycode);
+		return rawKeyStates.get(keycode);
 	}
 
 	public static boolean getGameKeyState(GameKey gk, int playerNo) {
 		PlayerGameKey pgk = new PlayerGameKey(playerNo, gk);
 
-		if (!gamekeystates.containsKey(pgk)) {
+		if (!playerGameKeyStates.containsKey(pgk)) {
 			return false;
 		}
 
-		return gamekeystates.get(pgk);
+		return playerGameKeyStates.get(pgk);
 	}
 
-	public static void resetGameKeyState(GameKey gk, int playerNo) {
+	public static void resetGameKey(GameKey gk, int playerNo) {
 		PlayerGameKey pgk = new PlayerGameKey(playerNo, gk);
 
-		if (!gamekeystates.containsKey(pgk)) {
+		if (!playerGameKeyStates.containsKey(pgk)) {
 			return;
 		}
 
-		gamekeystates.put(pgk, false);
+		playerGameKeyStates.put(pgk, false);
 	}
 
 	public static boolean leftMouseWasClicked() {
 		return leftMouseClicked;
-	}
-
-	public enum GameKey {
-		left, right, up, down, a, b, start, scrollIn, scrollOut, sizePlus, sizeMinus, restartApp, toggleFullscreen,
 	}
 
 	public static class PlayerGameKey {

@@ -1,5 +1,3 @@
-
-
 package app;
 
 import java.awt.GraphicsDevice;
@@ -9,8 +7,10 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.Ref.Flag;
 import model.entities.Entity;
+import model.parameters.ContentRef.ContentType;
+import model.parameters.Ref.Flag;
+import model.parameters.ViewRef;
 import model.structures.FlColor;
 
 import org.lwjgl.LWJGLException;
@@ -20,17 +20,13 @@ import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.opengl.Texture;
 
 import app.App.State;
-import app.ContentManager.ContentType;
 import app.gui.GUIManager;
 
 public class ViewManager {
 
 	static Texture background = null;
-	private static Point originalRes = new Point(950, 500);
-	public static int height = originalRes.y;
-	public static int width = originalRes.x;
-
-	public final static float SCALE = 1f;
+	public static int height = ViewRef.DEFAULT_RESOLUTION.y;
+	public static int width = ViewRef.DEFAULT_RESOLUTION.x;
 
 	private static Rectangle viewport = new Rectangle();
 
@@ -38,11 +34,11 @@ public class ViewManager {
 		GL11.glMatrixMode(GL11.GL_PROJECTION);
 		GL11.glLoadIdentity();
 
-		int left = (int) (center.x - width / SCALE / 2);
-		int right = (int) (width / SCALE / 2 + center.x);
+		int left = (int) (center.x - width / ViewRef.SCALE / 2);
+		int right = (int) (width / ViewRef.SCALE / 2 + center.x);
 
-		int bottom = (int) (height / SCALE / 2 + center.y);
-		int top = (int) (center.y - height / SCALE / 2);
+		int bottom = (int) (height / ViewRef.SCALE / 2 + center.y);
+		int top = (int) (center.y - height / ViewRef.SCALE / 2);
 
 		viewport = new Rectangle(left, top, right - left, bottom - top);
 
@@ -320,8 +316,8 @@ public class ViewManager {
 			width = screenRes.x;
 			height = screenRes.y;
 		} else {
-			width = originalRes.x;
-			height = originalRes.y;
+			width = ViewRef.DEFAULT_RESOLUTION.x;
+			height = ViewRef.DEFAULT_RESOLUTION.y;
 		}
 
 		init();

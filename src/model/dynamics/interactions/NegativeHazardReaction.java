@@ -1,8 +1,8 @@
 package model.dynamics.interactions;
 
-import model.Ref.Flag;
 import model.entities.ActiveEntity;
 import model.entities.Entity;
+import model.parameters.Ref.Flag;
 
 public class NegativeHazardReaction extends Interaction {
 	private static final long serialVersionUID = 3886834248152875541L;

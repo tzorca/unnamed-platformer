@@ -1,7 +1,7 @@
 package model.dynamics.interactions;
 
-import model.Ref.Flag;
 import model.entities.Entity;
+import model.parameters.Ref.Flag;
 import app.LevelManager;
 
 public class LevelExitInteraction extends Interaction {

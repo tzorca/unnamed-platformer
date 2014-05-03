@@ -1,7 +1,7 @@
 package app.gui.ext;
 
+import model.parameters.ContentRef.ContentType;
 import app.ContentManager;
-import app.ContentManager.ContentType;
 import de.lessvoid.nifty.render.NiftyImage;
 
 public class ImageEntryModel {

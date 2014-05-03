@@ -36,15 +36,12 @@ public class Control_PersistentVectorMovement extends ControlMechanism {
 		super(actor);
 		this.vector = vector;
 		this.endTime = TimeManager.time() + duration;
-		System.out
-				.println("endtime = " + TimeManager.time() + " + " + duration);
 	}
 
 	@Override
-	public void update(float delta) {
+	public void update(long delta) {
 		actor.physics.addForce(vector);
 		if (endTime > 0 && TimeManager.time() > endTime) {
-			System.out.println("time > endTime (" + TimeManager.time() + ")");
 			finish();
 		}
 

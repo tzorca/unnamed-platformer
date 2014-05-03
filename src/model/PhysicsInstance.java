@@ -10,6 +10,7 @@ import model.dynamics.control_mechanisms.ControlMechanism;
 import model.entities.ActiveEntity;
 import model.logic.CollisionProcessor;
 import model.logic.PhysicsProcessor;
+import model.parameters.PhysicsRef;
 import model.structures.ControlMechanismList;
 
 import org.lwjgl.util.vector.Vector2f;
@@ -25,7 +26,7 @@ public class PhysicsInstance implements Serializable {
 			lastDirection = new Vector2f(0, 0);
 	public boolean upCancel = false;
 
-	Vector2f velocity = new Vector2f(0, 0); 
+	Vector2f velocity = new Vector2f(0, 0);
 	Vector2f currentForce = new Vector2f();
 	public boolean solidCollisionOccurred = false;
 
@@ -55,20 +56,21 @@ public class PhysicsInstance implements Serializable {
 		mechanisms.clear();
 	}
 
-	public void update(float delta) {
+	// TODO: Still needs some work...
+	public void update(long timeDelta) {
 
 		solidCollisionOccurred = false;
 		// PhysicsProcessor.doSomethingNew(actor, delta);
 
 		Point original = actor.getPos();
 
-		runControlMechanisms(delta);
+		runControlMechanisms(timeDelta);
 
-		PhysicsProcessor.applyGravity(actor, delta);
+		PhysicsProcessor.applyGravity(actor, timeDelta);
 
 		// v = v + a*t
-		currentForce.scale(delta);
-		currentForce.scale(PhysicsProcessor.FORCE_SCALE);
+		currentForce.scale(timeDelta);
+		currentForce.scale(PhysicsRef.forceScale);
 
 		velocity = currentForce;
 
@@ -87,14 +89,14 @@ public class PhysicsInstance implements Serializable {
 		}
 	}
 
-	private void runControlMechanisms(float delta) {
+	private void runControlMechanisms(long timeDelta) {
 		ControlMechanismList toRemoveList = new ControlMechanismList();
 		for (ControlMechanism b : mechanisms) {
 			if (b.toRemove) {
 				toRemoveList.add(b);
 				continue;
 			}
-			b.update(delta);
+			b.update(timeDelta);
 		}
 		mechanisms.removeAll(toRemoveList);
 	}

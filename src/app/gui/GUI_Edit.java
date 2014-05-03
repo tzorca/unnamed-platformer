@@ -6,11 +6,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.Level;
-import model.Ref;
-import model.Ref.Flag;
 import model.entities.Entity;
 import model.logic.EntityCreator;
 import model.logic.MathHelper;
+import model.parameters.ContentRef.ContentType;
+import model.parameters.InputRef.GameKey;
+import model.parameters.Ref;
+import model.parameters.Ref.Flag;
 import model.structures.FlColor;
 
 import org.lwjgl.input.Keyboard;
@@ -19,10 +21,8 @@ import org.newdawn.slick.opengl.Texture;
 import app.App;
 import app.App.State;
 import app.ContentManager;
-import app.ContentManager.ContentType;
 import app.GameManager;
 import app.InputManager;
-import app.InputManager.GameKey;
 import app.LevelManager;
 import app.ViewManager;
 import de.lessvoid.nifty.NiftyEventSubscriber;
@@ -140,13 +140,13 @@ public class GUI_Edit extends GUI_Template {
 		int newGridSize = currentLevel.gridSize;
 		if (InputManager.getGameKeyState(GameKey.scrollIn, 1)) {
 			newGridSize /= 2;
-			InputManager.resetGameKeyState(GameKey.scrollIn, 1);
+			InputManager.resetGameKey(GameKey.scrollIn, 1);
 			if (newGridSize >= 16 && newGridSize <= 128) {
 				currentLevel.gridSize = newGridSize;
 			}
 		} else if (InputManager.getGameKeyState(GameKey.scrollOut, 1)) {
 			newGridSize *= 2;
-			InputManager.resetGameKeyState(GameKey.scrollOut, 1);
+			InputManager.resetGameKey(GameKey.scrollOut, 1);
 			if (newGridSize >= 16 && newGridSize <= 128) {
 				currentLevel.gridSize = newGridSize;
 			}

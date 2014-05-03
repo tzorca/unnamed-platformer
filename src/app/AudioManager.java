@@ -1,11 +1,10 @@
 package app;
 
+import model.parameters.ContentRef.ContentType;
 import model.structures.AudioWrapper;
 
 import org.lwjgl.openal.AL;
 import org.newdawn.slick.openal.SoundStore;
-
-import app.ContentManager.ContentType;
 
 public class AudioManager {
 	public static void playSample(String name, float vol) {

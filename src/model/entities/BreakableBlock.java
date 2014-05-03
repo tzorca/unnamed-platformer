@@ -4,7 +4,7 @@ package model.entities;
 
 import java.awt.Point;
 
-import model.Ref.Flag;
+import model.parameters.Ref.Flag;
 import model.structures.FlagMap;
 
 public class BreakableBlock extends Entity {

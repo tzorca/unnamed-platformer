@@ -1,13 +1,12 @@
-
-
 package model.entities;
 
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.io.Serializable;
 
-import model.Ref.Flag;
-import model.Ref.SizeMethod;
+import model.parameters.ContentRef.ContentType;
+import model.parameters.Ref.Flag;
+import model.parameters.Ref.SizeMethod;
 import model.structures.FlColor;
 import model.structures.FlagMap;
 
@@ -15,7 +14,6 @@ import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.opengl.Texture;
 
 import app.ContentManager;
-import app.ContentManager.ContentType;
 
 public class Entity implements Serializable {
 	private static final long serialVersionUID = 2898448772127546782L;
@@ -114,7 +112,7 @@ public class Entity implements Serializable {
 		this.startPos = getPos();
 	}
 
-	public void update(float delta) {
+	public void update(long delta) {
 	}
 
 	public boolean collidesWith(Entity otherEntity) {

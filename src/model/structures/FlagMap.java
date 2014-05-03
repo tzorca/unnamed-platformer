@@ -3,7 +3,7 @@ package model.structures;
 import java.io.Serializable;
 import java.util.HashMap;
 
-import model.Ref.Flag;
+import model.parameters.Ref.Flag;
 
 public class FlagMap extends HashMap<Flag, Boolean> implements Serializable {
 	private static final long serialVersionUID = -2064808301406882426L;

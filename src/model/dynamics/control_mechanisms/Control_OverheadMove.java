@@ -1,8 +1,8 @@
 package model.dynamics.control_mechanisms;
 
 import model.entities.ActiveEntity;
+import model.parameters.InputRef.GameKey;
 
-import org.lwjgl.input.Keyboard;
 import org.lwjgl.util.vector.Vector2f;
 
 import app.InputManager;
@@ -18,20 +18,20 @@ public class Control_OverheadMove extends ControlMechanism {
 	}
 
 	@Override
-	public void update(float delta) {
-		if (InputManager.getKeyState(Keyboard.KEY_RIGHT)) {
+	public void update(long delta) {
+		if (InputManager.getGameKeyState(GameKey.right, 1)) {
 			actor.physics.addForce(new Vector2f(speed, 0));
 		}
 
-		if (InputManager.getKeyState(Keyboard.KEY_LEFT)) {
+		if (InputManager.getGameKeyState(GameKey.left, 1)) {
 			actor.physics.addForce(new Vector2f(-speed, 0));
 		}
 
-		if (InputManager.getKeyState(Keyboard.KEY_UP)) {
+		if (InputManager.getGameKeyState(GameKey.up, 1)) {
 			actor.physics.addForce(new Vector2f(0, -speed));
 		}
 
-		if (InputManager.getKeyState(Keyboard.KEY_DOWN)) {
+		if (InputManager.getGameKeyState(GameKey.down, 1)) {
 			actor.physics.addForce(new Vector2f(0, speed));
 		}
 

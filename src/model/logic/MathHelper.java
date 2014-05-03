@@ -1,11 +1,9 @@
-
-
 package model.logic;
 
 import java.awt.Point;
 import java.awt.Rectangle;
 
-import model.Ref.Orientation;
+import model.parameters.PhysicsRef.Orientation;
 
 import org.lwjgl.util.vector.Vector2f;
 
@@ -47,7 +45,7 @@ public class MathHelper {
 	public static Point snapToGrid(Point p, int gridSize) {
 		int x = (int) (p.x / gridSize) * gridSize;
 		int y = (int) (p.y / gridSize) * gridSize;
-		
+
 		return new Point(x, y);
 	}
 

@@ -6,7 +6,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.HashMap;
 
-import model.Ref.BlueprintComponent;
+import model.parameters.Ref.BlueprintComponent;
 
 public class Blueprint extends HashMap<BlueprintComponent, Object> {
 	private static final long serialVersionUID = -7682315731084504119L;

@@ -1,14 +1,14 @@
 package model.dynamics.control_mechanisms;
 
-import model.Ref.Flag;
 import model.entities.ActiveEntity;
 import model.logic.MathHelper;
+import model.parameters.InputRef.GameKey;
+import model.parameters.Ref.Flag;
 
 import org.apache.commons.lang3.SerializationUtils;
 import org.lwjgl.util.vector.Vector2f;
 
 import app.InputManager;
-import app.InputManager.GameKey;
 import app.LevelManager;
 import app.TimeManager;
 
@@ -28,7 +28,7 @@ public class Control_Shoot extends ControlMechanism {
 	}
 
 	@Override
-	public void update(float delta) {
+	public void update(long delta) {
 		if (InputManager.getGameKeyState(GameKey.a, 1)) {
 			if (TimeManager.time() - TimeManager.lastSample(hashCode()) >= fireDelay) {
 				fire();

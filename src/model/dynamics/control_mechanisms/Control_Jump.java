@@ -1,30 +1,29 @@
-
-
 package model.dynamics.control_mechanisms;
 
-import model.Ref.Flag;
 import model.entities.ActiveEntity;
+import model.parameters.InputRef.GameKey;
+import model.parameters.Ref.Flag;
 
 import org.lwjgl.util.vector.Vector2f;
 
 import app.InputManager;
-import app.InputManager.GameKey;
 
 public class Control_Jump extends ControlMechanism {
 	private static final long serialVersionUID = 6634477314813175782L;
-	
+
 	long currentDelta, maxDelta;
 	double jumpStrength = 0;
 	boolean jumping = false;
 
-	public Control_Jump(ActiveEntity actor, double jumpStrength, double maxSeconds) {
+	public Control_Jump(ActiveEntity actor, double jumpStrength,
+			double maxSeconds) {
 		super(actor);
 		this.jumpStrength = jumpStrength;
 		this.maxDelta = (long) (maxSeconds * 1000);
 	}
 
 	@Override
-	public void update(float delta) {
+	public void update(long delta) {
 		if (!actor.physics.inAir) {
 
 			if (!jumping && InputManager.getGameKeyState(GameKey.up, 1)

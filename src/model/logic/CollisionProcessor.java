@@ -2,24 +2,21 @@ package model.logic;
 
 import java.awt.Point;
 
-import org.lwjgl.util.vector.Vector2f;
-
-import model.Ref.Flag;
 import model.dynamics.interactions.Interaction;
 import model.entities.ActiveEntity;
 import model.entities.Entity;
+import model.parameters.PhysicsRef.Axis;
+import model.parameters.Ref.Flag;
+
+import org.lwjgl.util.vector.Vector2f;
+
 import app.App;
 import app.LevelManager;
 
 public class CollisionProcessor {
-	public static final int VERTICAL = 0;
-	public static final int HORIZONTAL = 1;
 
-	public static boolean springchecking = false;
-
-	private static void checkAndFix(ActiveEntity a, int direction,
+	private static void checkAndFix(ActiveEntity a, Axis direction,
 			int originalPos) {
-		springchecking = false;
 		for (Entity other : LevelManager.getCurrentEntities()) {
 			if (other == a || !a.collidesWith(other)) {
 				continue;
@@ -29,7 +26,7 @@ public class CollisionProcessor {
 		}
 	}
 
-	private static void process(ActiveEntity a, Entity b, int direction,
+	private static void process(ActiveEntity a, Entity b, Axis direction,
 			int originalPos) {
 		if (a.checkFlag(Flag.hurtsOthers) && b.checkFlag(Flag.breakableBlock)) {
 			b.setFlag(Flag.outOfPlay, true);
@@ -49,7 +46,7 @@ public class CollisionProcessor {
 		}
 
 		if (a.checkFlag(Flag.tangible) && b.checkFlag(Flag.solid)) {
-			if (direction != HORIZONTAL) {
+			if (direction != Axis.HORIZONTAL) {
 				a.physics.inAir = false;
 				a.physics.airTime = 0;
 				if (a.getY() < originalPos) {
@@ -77,11 +74,9 @@ public class CollisionProcessor {
 		Point original = actor.getPos();
 
 		actor.setX((int) (original.x + velocity.getX()));
-		CollisionProcessor.checkAndFix(actor, CollisionProcessor.HORIZONTAL,
-				original.x);
+		checkAndFix(actor, Axis.HORIZONTAL, original.x);
 		actor.setY((int) (original.y + velocity.getY()));
-		CollisionProcessor.checkAndFix(actor, CollisionProcessor.VERTICAL,
-				original.y);
+		checkAndFix(actor, Axis.VERTICAL, original.y);
 	}
 
 }

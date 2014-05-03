@@ -31,7 +31,7 @@ public class Control_PathMovement extends ControlMechanism {
 	}
 
 	@Override
-	public void update(float delta) {
+	public void update(long delta) {
 		if (relativePath == null || speed == 0) {
 			return;
 		}

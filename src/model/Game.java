@@ -4,17 +4,13 @@ import java.awt.Rectangle;
 import java.util.LinkedList;
 import java.util.List;
 
-import model.Ref.BlueprintComponent;
 import model.entities.Entity;
+import model.parameters.ContentRef.ContentType;
+import model.parameters.Ref.BlueprintComponent;
 import model.structures.Blueprint;
-import model.structures.FlColor;
-
-import org.newdawn.slick.opengl.Texture;
-
 import app.App;
 import app.App.State;
 import app.ContentManager;
-import app.ContentManager.ContentType;
 import app.ViewManager;
 import app.gui.GUI_Edit;
 
@@ -115,12 +111,6 @@ public class Game {
 
 		for (Entity entity : level.getEntities()) {
 			ViewManager.drawEntity(entity);
-		}
-
-		if (level.won) {
-			ViewManager.drawTexture((Texture) ContentManager.get(
-					ContentType.texture, "finished"), new Rectangle(0, 0, 64,
-					64), new FlColor(1,1,1,1));
 		}
 
 		if (App.state == State.edit) {

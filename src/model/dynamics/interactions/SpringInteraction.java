@@ -2,10 +2,10 @@ package model.dynamics.interactions;
 
 import java.io.Serializable;
 
-import model.Ref.Flag;
 import model.dynamics.control_mechanisms.Control_PersistentVectorMovement;
 import model.entities.ActiveEntity;
 import model.entities.Entity;
+import model.parameters.Ref.Flag;
 
 import org.lwjgl.util.vector.Vector2f;
 

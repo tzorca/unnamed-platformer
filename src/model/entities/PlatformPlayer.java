@@ -2,21 +2,26 @@ package model.entities;
 
 import java.awt.Point;
 
-import model.Ref.Flag;
 import model.dynamics.control_mechanisms.Control_HorizontalMove;
 import model.dynamics.control_mechanisms.Control_Jump;
 import model.dynamics.control_mechanisms.Control_Shoot;
 import model.dynamics.interactions.NegativeHazardReaction;
+import model.parameters.PhysicsRef;
+import model.parameters.Ref.Flag;
 
 public class PlatformPlayer extends ActiveEntity {
 	private static final long serialVersionUID = 8624310770832698957L;
 
 	Control_HorizontalMove hzMoveBehaviour = new Control_HorizontalMove(this,
-			3f);
+			PhysicsRef.DEFAULT_PLR_SPEED);
 
-	Control_Jump jumpBehaviour = new Control_Jump(this, 5, 0.5);
+	Control_Jump jumpBehaviour = new Control_Jump(this,
+			PhysicsRef.DEFAULT_PLR_JUMP_STRENGTH,
+			PhysicsRef.DEFAULT_PLR_JUMP_TIME);
+
 	Control_Shoot shootBehaviour = new Control_Shoot(this, new Beam(new Point(
-			0, 0)), 6, 100);
+			0, 0)), PhysicsRef.DEFAULT_SHOOT_SPEED,
+			PhysicsRef.DEFAULT_SHOOT_DELAY);
 
 	public PlatformPlayer(String imageName, Point startPos) {
 		super(imageName, startPos);

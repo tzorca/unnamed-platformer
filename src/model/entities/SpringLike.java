@@ -2,9 +2,9 @@ package model.entities;
 
 import java.awt.Point;
 
-import model.Ref.Orientation;
 import model.dynamics.interactions.SpringInteraction;
 import model.logic.MathHelper;
+import model.parameters.PhysicsRef.Orientation;
 
 public class SpringLike extends ActiveEntity {
 	private static final long serialVersionUID = -6977486102061938504L;

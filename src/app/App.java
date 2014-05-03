@@ -44,8 +44,8 @@ public class App {
 
 	private static void init() {
 		ViewManager.init();
-		InputManager.init();
 		TimeManager.init();
+		InputManager.init();
 		ContentManager.init();
 		GUIManager.init();
 		GameManager.init();

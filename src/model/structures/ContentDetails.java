@@ -2,7 +2,7 @@ package model.structures;
 
 import java.io.File;
 
-import model.Ref;
+import model.parameters.Ref;
 
 public class ContentDetails {
 	public String dir = "", ext;
@@ -10,8 +10,8 @@ public class ContentDetails {
 	public Class classType;
 	public boolean cacheable = false;
 
-	public ContentDetails(String dir, String ext, @SuppressWarnings("rawtypes") Class classType,
-			boolean cacheable) {
+	public ContentDetails(String dir, String ext,
+			@SuppressWarnings("rawtypes") Class classType, boolean cacheable) {
 		this.dir = dir;
 		this.ext = ext;
 		this.classType = classType;

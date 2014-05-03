@@ -7,9 +7,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 
-import model.Ref.BlueprintComponent;
-import model.Ref.Flag;
 import model.entities.Entity;
+import model.parameters.ContentRef.ContentType;
+import model.parameters.Ref;
+import model.parameters.Ref.BlueprintComponent;
+import model.parameters.Ref.Flag;
 import model.structures.Blueprint;
 import model.structures.FlColor;
 
@@ -19,13 +21,11 @@ import org.newdawn.slick.opengl.Texture;
 import app.App;
 import app.App.State;
 import app.ContentManager;
-import app.ContentManager.ContentType;
 import app.ViewManager;
 
 public class Level {
-
 	public boolean bgStretch = false;
-	public FlColor bgColor = new FlColor(176f / 255f, 196f / 255f, 222 / 255f);
+	public FlColor bgColor = Ref.DEFAULT_BG_COLOR;
 	public String bgTexName;
 	public Texture bgTexture;
 
@@ -138,7 +138,7 @@ public class Level {
 		return null;
 	}
 
-	public void update(float timeDelta) {
+	public void update(long timeDelta) {
 
 		// perform entity logic
 		Iterator<Entity> entityIterator = entities.iterator();

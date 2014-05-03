@@ -35,7 +35,7 @@ public class ActiveEntity extends Entity {
 		physics = new PhysicsInstance(this);
 	}
 
-	public void update(float delta) {
+	public void update(long delta) {
 		super.update(delta);
 		physics.update(delta);
 	}

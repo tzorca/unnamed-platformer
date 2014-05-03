@@ -1,9 +1,9 @@
 package app.gui;
 
+import model.parameters.ContentRef.ContentType;
 import app.App;
 import app.App.State;
 import app.ContentManager;
-import app.ContentManager.ContentType;
 import app.GameManager;
 import de.lessvoid.nifty.controls.ListBox;
 
