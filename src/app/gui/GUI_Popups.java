@@ -32,8 +32,6 @@ public class GUI_Popups implements Controller {
 		closePopup();
 	}
 
-
-
 	public static void showInputBox(String message, Callback callback) {
 		Nifty nifty = GUIManager.getNifty();
 
@@ -50,7 +48,6 @@ public class GUI_Popups implements Controller {
 		nifty.showPopup(nifty.getCurrentScreen(), popInput.getId(), txtInput);
 	}
 
-	
 	private void runCallback(Object param) {
 		if (!callbackStack.isEmpty()) {
 			callbackStack.pop().execute(param);
@@ -63,10 +60,14 @@ public class GUI_Popups implements Controller {
 
 	private void closePopup() {
 		if (!popupStack.isEmpty()) {
-			GUIManager.getNifty().closePopup(popupStack.pop().getId());
+			Element popupElement = popupStack.pop();
+
+			GUIManager.getNifty().closePopup(popupElement.getId());
+			GUIManager.getNifty().removeElement(GUIManager.getCurrentScreen(),
+					popupElement);
 		}
 	}
-	
+
 	@Override
 	public void bind(Nifty nifty, Screen screen, Element element,
 			Properties parameter, Attributes controlDefinitionAttributes) {
