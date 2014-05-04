@@ -1,7 +1,10 @@
 package app;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Map;
 
 import model.parameters.AudioRef.AudioType;
 import model.parameters.ContentRef;
@@ -23,17 +26,18 @@ public class ContentManager {
 		return ContentRef.details.get(contentType).getFilename(name);
 	}
 
-	public static String[] list(ContentType contentType,
+	public static Collection<String> list(ContentType contentType,
 			boolean excludeExtensions) {
-		return ContentRef.details.get(contentType).listFilenames(
-				excludeExtensions);
+		return FileListHelper.listFilenames(ContentRef.details.get(contentType)
+				.getDir(), excludeExtensions);
+	}
+
+	public static Map<File, String> getFileNameMap(ContentType contentType) {
+		return FileListHelper.getFileNameMap(ContentRef.details
+				.get(contentType).getDir());
 	}
 
 	private static HashMap<ContentType, HashMap<String, Object>> resourceCache = new HashMap<ContentType, HashMap<String, Object>>();
-
-	public static void clearAll() {
-		resourceCache.clear();
-	}
 
 	public static Object get(ContentType contentType, String contentName) {
 		HashMap<String, Object> specificResourceMap = resourceCache
@@ -50,27 +54,44 @@ public class ContentManager {
 		return specificResourceMap.get(contentName);
 	}
 
+	public static Object customCache(ContentType contentType,
+			String contentName, File file) {
+		HashMap<String, Object> specificResourceMap = resourceCache
+				.get(contentType);
+
+		Object newResource = loadResource(contentType, contentName, file);
+
+		specificResourceMap.put(contentName, newResource);
+		return newResource;
+	}
+
 	private static Object loadResource(ContentType contentType,
 			String contentName) {
-		ContentDetails contentDetails =  ContentRef.details.get(contentType);
+		ContentDetails contentDetails = ContentRef.details.get(contentType);
 
 		if (!contentDetails.cacheable) {
 			return null;
 		}
 
 		String filename = contentDetails.getFilename(contentName);
+		return loadResource(contentType, contentName, new File(filename));
+
+	}
+
+	private static Object loadResource(ContentType contentType,
+			String contentName, File file) {
 		Object newResource = null;
 		try {
 			switch (contentType) {
 			case game:
 				break;
 			case texture:
-				newResource = TextureLoader.getTexture("PNG",
-						ResourceLoader.getResourceAsStream(filename), false,
+				newResource = TextureLoader.getTexture("PNG", ResourceLoader
+						.getResourceAsStream(file.getAbsolutePath()), false,
 						GL11.GL_LINEAR);
 				break;
 			case niftyImage:
-				newResource = GUIManager.getImage(filename);
+				newResource = GUIManager.getImage(file.getAbsolutePath());
 				break;
 			case audioSample:
 				newResource = loadAudio(AudioType.SAMPLE, contentName);
@@ -112,7 +133,12 @@ public class ContentManager {
 	}
 
 	public static String getExtension(ContentType contentType) {
-		return  ContentRef.details.get(contentType).ext;
+		return ContentRef.details.get(contentType).ext;
+	}
+
+	@SuppressWarnings("unused")
+	private static void clearAll() {
+		resourceCache.clear();
 	}
 
 	public static void init() {

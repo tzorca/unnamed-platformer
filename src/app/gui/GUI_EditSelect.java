@@ -1,5 +1,7 @@
 package app.gui;
 
+import java.util.Collection;
+
 import model.Game;
 import model.logic.StringHelper;
 import model.parameters.ContentRef.ContentType;
@@ -19,7 +21,7 @@ public class GUI_EditSelect extends GUI_Template {
 		hookControls();
 		lstGames.clear();
 
-		String[] nameList = ContentManager.list(ContentType.game, true);
+		Collection<String> nameList = ContentManager.list(ContentType.game, true);
 		for (String name : nameList) {
 			if (name.startsWith(".")) {
 				continue;

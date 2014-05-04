@@ -1,6 +1,9 @@
 package model.logic;
 
 import java.awt.Point;
+import java.io.File;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import model.entities.BreakableBlock;
 import model.entities.Entity;
@@ -12,13 +15,47 @@ import model.entities.SpringLike;
 import model.parameters.ContentRef.ContentType;
 import model.parameters.EntityRef;
 import model.parameters.EntityRef.EntityType;
-import model.parameters.PhysicsRef;
 
 import org.newdawn.slick.opengl.Texture;
 
 import app.ContentManager;
 
 public class EntityCreator {
+
+	public static void init() {
+		Map<File, String> textureFiles = ContentManager
+				.getFileNameMap(ContentType.texture);
+
+		// TODO: Warning: This will cache all textures at the
+		// start of the app. This may not be okay in the future.
+		for (Entry<File, String> entry : textureFiles.entrySet()) {
+			ContentManager.customCache(ContentType.texture, entry.getValue(),
+					entry.getKey());
+
+			String possibleTypeString = new File(entry.getKey().getParent())
+					.getName();
+			EntityType entityType = null;
+			if (possibleTypeString != null) {
+				try {
+					entityType = EntityType.valueOf(possibleTypeString);
+				} catch (Exception e) {
+					// don't need to do anything here, possibleType is already
+					// set to null
+
+					System.out.println(e.toString());
+				}
+			}
+
+			// If the type name was correct, we can add the entity as a
+			// creatable entity
+			if (entityType != null) {
+
+				EntityRef.textureEntityTypeMap
+						.put(entry.getValue(), entityType);
+			}
+
+		}
+	}
 
 	public static Entity create(String textureName, Point location,
 			double sizeInput, boolean relativeSize) {
@@ -47,19 +84,13 @@ public class EntityCreator {
 			newEntity = new Goal(textureName, location);
 			break;
 		case PlatformPlayer:
-
-			newEntity = new PlatformPlayer(textureName, location,
-					PhysicsRef.DEFAULT_PLR_SPEED,
-					PhysicsRef.DEFAULT_PLR_JUMP_STRENGTH,
-					PhysicsRef.DEFAULT_PLR_JUMP_TIME);
+			newEntity = new PlatformPlayer(textureName, location);
 			break;
 		case SolidBlock:
 			newEntity = new SolidBlock(textureName, location, width);
 			break;
 		case SpringLike:
-			newEntity = new SpringLike(textureName, location,
-					PhysicsRef.Orientation.UP,
-					PhysicsRef.DEFAULT_SPRING_STRENGTH);
+			newEntity = new SpringLike(textureName, location);
 			break;
 		case Hazard:
 			newEntity = new Hazard(textureName, location, width);

@@ -23,6 +23,7 @@ import app.App.State;
 import app.gui.GUIManager;
 
 public class ViewManager {
+	// TODO: Fix bug in grid transparency
 
 	static Texture background = null;
 	public static int height = ViewRef.DEFAULT_RESOLUTION.y;

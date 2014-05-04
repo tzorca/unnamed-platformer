@@ -1,7 +1,5 @@
 package model.structures;
 
-import java.io.File;
-
 import model.parameters.Ref;
 
 public class ContentDetails {
@@ -22,37 +20,8 @@ public class ContentDetails {
 		return Ref.baseDir + dir + name + ext;
 	}
 
-	public String[] listFilenames(boolean excludeExtensions) {
-		File pathFile = new File(Ref.baseDir + dir);
-
-		String[] list = pathFile.list();
-
-		if (excludeExtensions) {
-			for (int i = 0; i < list.length; i++) {
-				list[i] = removeExtension(list[i]);
-			}
-		}
-		return list;
-
+	public String getDir() {
+		return Ref.baseDir + dir;
 	}
 
-	public static String removeExtension(String filename) {
-		File f = new File(filename);
-
-		// if it's a directory, don't remove the extension
-		if (f.isDirectory()) {
-			return filename;
-		}
-
-		String name = f.getName();
-
-		final int lastPeriodPos = name.lastIndexOf('.');
-		if (lastPeriodPos <= 0) {
-			// No period after first character - return name as it was passed in
-			return filename;
-		} else {
-			// Remove the last period and everything after it
-			return name.substring(0, lastPeriodPos);
-		}
-	}
 }

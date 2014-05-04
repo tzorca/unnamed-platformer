@@ -1,6 +1,6 @@
-
-
 package app;
+
+import model.logic.EntityCreator;
 
 import org.lwjgl.opengl.Display;
 
@@ -47,6 +47,7 @@ public class App {
 		TimeManager.init();
 		InputManager.init();
 		ContentManager.init();
+		EntityCreator.init();
 		GUIManager.init();
 		GameManager.init();
 	}

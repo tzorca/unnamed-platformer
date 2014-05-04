@@ -1,5 +1,7 @@
 package app.gui;
 
+import java.util.Collection;
+
 import model.parameters.ContentRef.ContentType;
 import app.App;
 import app.App.State;
@@ -16,7 +18,8 @@ public class GUI_PlaySelect extends GUI_Template {
 		hookControls();
 		lstGames.clear();
 
-		String[] nameList = ContentManager.list(ContentType.game, true);
+		Collection<String> nameList = ContentManager.list(ContentType.game,
+				true);
 		for (String name : nameList) {
 			lstGames.addItem(name);
 		}
@@ -28,13 +31,11 @@ public class GUI_PlaySelect extends GUI_Template {
 		lstGames.selectItemByIndex(i);
 	}
 
-
 	@SuppressWarnings("unchecked")
 	private void hookControls() {
 		lstGames = GUIManager.findElement("lstGames").getNiftyControl(
 				ListBox.class);
 	}
-
 
 	public void btnPlaySelected_Clicked() {
 		String currentGameName = lstGames.getFocusItem();
@@ -44,7 +45,7 @@ public class GUI_PlaySelect extends GUI_Template {
 		GameManager.loadGame(currentGameName);
 		App.delayedStateChange(State.play);
 	}
-	
+
 	public void btnPlayRandom_Clicked() {
 		GameManager.generateRandomGame();
 		App.delayedStateChange(State.play);
