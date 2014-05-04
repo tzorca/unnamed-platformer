@@ -2,8 +2,10 @@ package model.logic;
 
 import java.awt.Point;
 import java.io.File;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import model.entities.BreakableBlock;
 import model.entities.Entity;
@@ -110,6 +112,10 @@ public class EntityCreator {
 
 	public static boolean hasMapping(String texName) {
 		return EntityRef.textureEntityTypeMap.containsKey(texName);
+	}
+
+	public static Set<String> listTextureNames() {
+		return EntityRef.textureEntityTypeMap.keySet();
 	}
 
 }

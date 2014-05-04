@@ -11,6 +11,7 @@ import model.logic.EntityCreator;
 import model.logic.MathHelper;
 import model.parameters.ContentRef.ContentType;
 import model.parameters.InputRef.GameKey;
+import model.parameters.EntityRef;
 import model.parameters.Ref;
 import model.parameters.Ref.Flag;
 import model.structures.FlColor;
@@ -67,10 +68,7 @@ public class GUI_Edit extends GUI_Template {
 	private void loadTextures() {
 
 		lstObjects.clear();
-		for (String texName : ContentManager.list(ContentType.texture, true)) {
-			if (!EntityCreator.hasMapping(texName)) {
-				continue;
-			}
+		for (String texName : EntityCreator.listTextureNames()) {
 			lstObjects.addItem(texName);
 			textures.add((Texture) (ContentManager.get(ContentType.texture,
 					texName)));
@@ -102,7 +100,7 @@ public class GUI_Edit extends GUI_Template {
 		if (App.state != State.edit) {
 			return;
 		}
-		
+
 		Point loc = MathHelper.snapToGrid(ViewManager.translateMouse(),
 				currentLevel.gridSize);
 
@@ -155,7 +153,7 @@ public class GUI_Edit extends GUI_Template {
 	}
 
 	private void processCameraControls() {
-		
+
 		Rectangle cameraBounds = currentLevel.getRect();
 		cameraBounds.x -= ViewManager.width / 4;
 		cameraBounds.width += ViewManager.width / 2;
@@ -196,7 +194,7 @@ public class GUI_Edit extends GUI_Template {
 		if (App.state != State.edit) {
 			return;
 		}
-		
+
 		Entity atMouse = currentLevel.getTopmostEntity(ViewManager
 				.translateMouse());
 
@@ -214,14 +212,14 @@ public class GUI_Edit extends GUI_Template {
 			ViewManager.centerCamera(cameraPos);
 
 			processControls();
-			
+
 			for (Element e : editModeElements) {
 				if (!e.isVisible()) {
 					e.show();
 				}
 			}
 		} else {
-			
+
 			for (Element e : editModeElements) {
 				if (e.isVisible()) {
 					e.hide();
@@ -300,7 +298,7 @@ public class GUI_Edit extends GUI_Template {
 
 		if (App.state == State.edit) {
 			currentLevel.resetToCurrent();
-			
+
 			GUIManager.setStateHeld(true);
 			App.state = State.play;
 

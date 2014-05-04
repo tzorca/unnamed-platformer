@@ -2,6 +2,8 @@ package model.logic;
 
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.util.ArrayList;
+import java.util.Set;
 
 import model.parameters.PhysicsRef.Orientation;
 
@@ -83,5 +85,10 @@ public class MathHelper {
 
 	public static int getArea(Rectangle rect) {
 		return rect.width * rect.height;
+	}
+
+	public static Object randInSet(Set<?> set) {
+
+		return new ArrayList<Object>(set).get(randRange(0, set.size()-1));
 	}
 }
