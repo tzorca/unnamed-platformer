@@ -1,11 +1,12 @@
 package app.gui;
 
+import game.Game;
+import game.logic.StringHelper;
+import game.parameters.ContentRef.ContentType;
+import game.structures.Callback;
+
 import java.util.Collection;
 
-import model.Game;
-import model.logic.StringHelper;
-import model.parameters.ContentRef.ContentType;
-import model.structures.Callback;
 import app.App;
 import app.App.State;
 import app.ContentManager;

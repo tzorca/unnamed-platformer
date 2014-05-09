@@ -1,16 +1,16 @@
 package app;
 
+import game.parameters.ContentRef;
+import game.parameters.AudioRef.AudioType;
+import game.parameters.ContentRef.ContentType;
+import game.structures.AudioWrapper;
+import game.structures.ContentDetails;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-
-import model.parameters.AudioRef.AudioType;
-import model.parameters.ContentRef;
-import model.parameters.ContentRef.ContentType;
-import model.structures.AudioWrapper;
-import model.structures.ContentDetails;
 
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.openal.Audio;

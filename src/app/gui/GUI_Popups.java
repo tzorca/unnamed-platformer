@@ -1,9 +1,10 @@
 package app.gui;
 
+import game.structures.Callback;
+
 import java.util.Properties;
 import java.util.Stack;
 
-import model.structures.Callback;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.controls.Controller;
 import de.lessvoid.nifty.controls.TextField;

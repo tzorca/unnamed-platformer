@@ -1,8 +1,8 @@
 package app;
 
-import model.Game;
-import model.Level;
-import model.logic.LevelGenerator;
+import game.Game;
+import game.logic.levelGenerators.LevelGenerator;
+import game.logic.levelGenerators.SimpleProceduralGenerator;
 
 public class GameManager {
 
@@ -28,11 +28,12 @@ public class GameManager {
 
 	public static Game generateRandomGame() {
 		Game newGame = new Game("Randomly Generated Game", false);
+		
+		LevelGenerator generator = new SimpleProceduralGenerator();
 		for (int i = 0; i < 10; i++) {
-
-			Level lvl = LevelGenerator.generateLevel();
-			newGame.addPremadeLevel(lvl);
+			newGame.addPremadeLevel(generator.generate());
 		}
+		
 		newGame.setCurrentLevel(0);
 		currentGame = newGame;
 		return newGame;

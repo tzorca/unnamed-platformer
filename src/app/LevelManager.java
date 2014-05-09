@@ -1,10 +1,10 @@
 package app;
 
+import game.Level;
+import game.entities.Entity;
+
 import java.awt.Rectangle;
 import java.util.List;
-
-import model.Level;
-import model.entities.Entity;
 
 public class LevelManager {
 

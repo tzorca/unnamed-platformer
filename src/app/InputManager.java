@@ -1,11 +1,11 @@
 package app;
 
+import game.parameters.InputRef;
+import game.parameters.InputRef.GameKey;
+
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.HashMap;
-
-import model.parameters.InputRef;
-import model.parameters.InputRef.GameKey;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;

@@ -1,20 +1,20 @@
 package app.gui;
 
+import game.Level;
+import game.entities.Entity;
+import game.logic.EntityCreator;
+import game.logic.MathHelper;
+import game.parameters.EntityRef;
+import game.parameters.Ref;
+import game.parameters.ContentRef.ContentType;
+import game.parameters.InputRef.GameKey;
+import game.parameters.Ref.Flag;
+import game.structures.FlColor;
+
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
-
-import model.Level;
-import model.entities.Entity;
-import model.logic.EntityCreator;
-import model.logic.MathHelper;
-import model.parameters.ContentRef.ContentType;
-import model.parameters.InputRef.GameKey;
-import model.parameters.EntityRef;
-import model.parameters.Ref;
-import model.parameters.Ref.Flag;
-import model.structures.FlColor;
 
 import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.opengl.Texture;

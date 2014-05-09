@@ -1,8 +1,9 @@
 package app.gui;
 
+import game.parameters.ContentRef.ContentType;
+
 import java.util.Collection;
 
-import model.parameters.ContentRef.ContentType;
 import app.App;
 import app.App.State;
 import app.ContentManager;

@@ -1,6 +1,6 @@
 package app;
 
-import model.logic.EntityCreator;
+import game.logic.EntityCreator;
 
 import org.lwjgl.opengl.Display;
 

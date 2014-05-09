@@ -1,17 +1,17 @@
 package app;
 
+import game.entities.Entity;
+import game.parameters.ViewRef;
+import game.parameters.ContentRef.ContentType;
+import game.parameters.Ref.Flag;
+import game.structures.FlColor;
+
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
-
-import model.entities.Entity;
-import model.parameters.ContentRef.ContentType;
-import model.parameters.Ref.Flag;
-import model.parameters.ViewRef;
-import model.structures.FlColor;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;

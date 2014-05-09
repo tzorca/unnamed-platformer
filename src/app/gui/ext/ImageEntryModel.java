@@ -1,6 +1,6 @@
 package app.gui.ext;
 
-import model.parameters.ContentRef.ContentType;
+import game.parameters.ContentRef.ContentType;
 import app.ContentManager;
 import de.lessvoid.nifty.render.NiftyImage;
 
