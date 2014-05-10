@@ -5,6 +5,7 @@ import game.parameters.PhysicsRef.Orientation;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import org.lwjgl.util.vector.Vector2f;
@@ -94,5 +95,10 @@ public class MathHelper {
 
 	public static Object randInArray(Object[] array) {
 		return array[randRange(0, array.length - 1)];
+	}
+
+	public static Object randInList(List<?> list) {
+
+		return list.get(randRange(0, list.size() - 1));
 	}
 }

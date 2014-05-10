@@ -1,6 +1,7 @@
 package game.logic.levelGenerators;
 
 import game.logic.MathHelper;
+import game.parameters.EntityRef.EntityType;
 
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -15,8 +16,8 @@ public class SimpleProceduralGenerator extends LevelGenerator {
 	private static HashMap<SectionType, Integer> maxLength = new HashMap<SectionType, Integer>();
 	private static HashMap<SectionType, Boolean> allowRepeat = new HashMap<SectionType, Boolean>();
 	static {
-		//maxLength.put(SectionType.horizontal, 64 * 10);
-		
+		// maxLength.put(SectionType.horizontal, 64 * 10);
+
 	}
 
 	@Override
@@ -33,7 +34,7 @@ public class SimpleProceduralGenerator extends LevelGenerator {
 		Point cursor = new Point(grid, maxY - grid);
 
 		// put at least one platform underneath the player...
-		add("roofGreyMid", cursor.x, cursor.y, grid);
+		add(EntityType.SolidBlock, cursor.x, cursor.y, grid);
 
 		SectionType sectionType = SectionType.horizontal;
 		SectionType lastSectionType = SectionType.gap;
@@ -49,7 +50,7 @@ public class SimpleProceduralGenerator extends LevelGenerator {
 				switch (sectionType) {
 				case horizontal:
 					cursor.x += grid;
-					add("roofGreyMid", cursor.x, cursor.y, grid);
+					add(EntityType.SolidBlock, cursor.x, cursor.y, grid);
 					break;
 				case gap:
 					cursor.x += grid;
@@ -57,16 +58,16 @@ public class SimpleProceduralGenerator extends LevelGenerator {
 				case slopeDown:
 					cursor.x += grid;
 					cursor.y += grid;
-					add("roofGreyMid", cursor.x, cursor.y, grid);
+					add(EntityType.SolidBlock, cursor.x, cursor.y, grid);
 					break;
 				case slopeUp:
 					cursor.y -= grid;
 					cursor.x += grid;
-					add("roofGreyMid", cursor.x, cursor.y, grid);
+					add(EntityType.SolidBlock, cursor.x, cursor.y, grid);
 					break;
 				case verticalUp:
 					cursor.y -= grid;
-					add("roofGreyMid", cursor.x, cursor.y, grid);
+					add(EntityType.SolidBlock, cursor.x, cursor.y, grid);
 					break;
 				default:
 					break;

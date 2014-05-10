@@ -4,6 +4,7 @@ import game.Level;
 import game.entities.Entity;
 import game.logic.EntityCreator;
 import game.logic.MathHelper;
+import game.parameters.EntityRef.EntityType;
 import game.parameters.Ref;
 
 import java.awt.Point;
@@ -62,6 +63,10 @@ public abstract class LevelGenerator {
 
 	protected Entity addDistinct(String texture, int x, int y) {
 		return add(texture, x, y, true);
+	}
+
+	protected Entity add(EntityType type, int x, int y, int grid) {
+		return add(EntityCreator.create(type, new Point(x, y), grid, false));
 	}
 
 	protected Entity add(String texture, int x, int y, int grid) {

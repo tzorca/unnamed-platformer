@@ -7,13 +7,13 @@ import game.entities.Hazard;
 import game.entities.PlatformPlayer;
 import game.entities.SolidBlock;
 import game.entities.SpringLike;
-import game.parameters.EntityRef;
 import game.parameters.ContentRef.ContentType;
+import game.parameters.EntityRef;
 import game.parameters.EntityRef.EntityType;
 
 import java.awt.Point;
 import java.io.File;
-import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -54,9 +54,28 @@ public class EntityCreator {
 
 				EntityRef.textureEntityTypeMap
 						.put(entry.getValue(), entityType);
+
+				if (!EntityRef.entityTypeTextureMap.containsKey(entityType)) {
+					EntityRef.entityTypeTextureMap.put(entityType,
+							new ArrayList<String>());
+				}
+				EntityRef.entityTypeTextureMap.get(entityType).add(
+						entry.getValue());
 			}
 
 		}
+	}
+
+	public static Entity create(EntityType type, Point location,
+			double sizeInput, boolean relativeSize) {
+		if (type == null) {
+			System.out.println("Can't create an entity with an empty type.");
+			return null;
+		}
+		String textureName = (String) MathHelper
+				.randInList(EntityRef.entityTypeTextureMap.get(type));
+
+		return create(textureName, type, location, sizeInput, relativeSize);
 	}
 
 	public static Entity create(String textureName, Point location,
@@ -68,6 +87,11 @@ public class EntityCreator {
 					+ " is missing a type mapping.");
 			return null;
 		}
+		return create(textureName, type, location, sizeInput, relativeSize);
+	}
+
+	public static Entity create(String textureName, EntityType type,
+			Point location, double sizeInput, boolean relativeSize) {
 
 		int width = (int) sizeInput;
 		if (relativeSize) {
