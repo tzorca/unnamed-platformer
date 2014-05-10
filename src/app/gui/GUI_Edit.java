@@ -4,10 +4,9 @@ import game.Level;
 import game.entities.Entity;
 import game.logic.EntityCreator;
 import game.logic.MathHelper;
-import game.parameters.EntityRef;
-import game.parameters.Ref;
 import game.parameters.ContentRef.ContentType;
 import game.parameters.InputRef.GameKey;
+import game.parameters.Ref;
 import game.parameters.Ref.Flag;
 import game.structures.FlColor;
 

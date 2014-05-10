@@ -41,10 +41,10 @@ public class EntityCreator {
 				try {
 					entityType = EntityType.valueOf(possibleTypeString);
 				} catch (Exception e) {
-					// don't need to do anything here, possibleType is already
+					// don't need to do anything here, entityType is already
 					// set to null
 
-					System.out.println(e.toString());
+					//System.out.println(e.toString());
 				}
 			}
 

@@ -54,6 +54,7 @@ public class App {
 	}
 
 	private static void init() {
+		LibraryLoader.init();
 		ViewManager.init();
 		TimeManager.init();
 		InputManager.init();

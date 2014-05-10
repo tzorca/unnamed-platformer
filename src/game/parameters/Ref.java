@@ -28,4 +28,6 @@ public class Ref implements Serializable {
 	public static final int DEFAULT_LEVEL_GRIDSIZE = 32;
 
 	public static String baseDir = "res/";
+
+	public static String appPath;
 }
