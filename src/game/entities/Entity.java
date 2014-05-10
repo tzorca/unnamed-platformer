@@ -1,10 +1,9 @@
 package game.entities;
 
-import game.parameters.ContentRef.ContentType;
 import game.parameters.Ref.Flag;
 import game.parameters.Ref.SizeMethod;
-import game.structures.FlColor;
 import game.structures.FlagMap;
+import game.structures.Graphic;
 
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -13,34 +12,15 @@ import java.io.Serializable;
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.opengl.Texture;
 
-import app.ContentManager;
-
 public class Entity implements Serializable {
 	private static final long serialVersionUID = 2898448772127546782L;
-	
-	//protected Behaviour behaviour;
+
+	// protected Behaviour behaviour;
 	protected FlagMap flags = new FlagMap();
 	protected Rectangle box = new Rectangle();
-	FlColor color = null;
-	String textureName = "";
+	public Graphic graphic;
 
-	transient Texture texture = null;
 	protected Point startPos = new Point();
-
-	public Texture getTexture() {
-		if (texture == null && textureName != null) {
-			setTexture(textureName);
-		}
-		
-		
-		return texture;
-	}
-
-	public void setTexture(String textureName) {
-		this.texture = (Texture) ContentManager.get(ContentType.texture,
-				textureName);
-		this.textureName = textureName;
-	}
 
 	public int getX() {
 		return box.x;
@@ -58,16 +38,8 @@ public class Entity implements Serializable {
 		this.box = box;
 	}
 
-	public FlColor getColor() {
-		return color;
-	}
-
-	public void setColor(FlColor color) {
-		this.color = color;
-	}
-
-	public Entity(String textureName, Point pos, FlagMap flags) {
-		setupEntity(textureName, new Rectangle(pos.x, pos.y, 0, 0),
+	public Entity(Graphic graphic, Point pos, FlagMap flags) {
+		setupEntity(graphic, new Rectangle(pos.x, pos.y, 0, 0),
 				SizeMethod.TEXTURE, flags);
 		this.startPos = getPos();
 	}
@@ -77,18 +49,20 @@ public class Entity implements Serializable {
 		this.startPos = getPos();
 	}
 
-	public Entity(String textureName, Point pos, int width, FlagMap flags) {
-		setupEntity(textureName, new Rectangle(pos.x, pos.y, width, width),
+	public Entity(Graphic graphic, Point pos, int width, FlagMap flags) {
+		setupEntity(graphic, new Rectangle(pos.x, pos.y, width, width),
 				SizeMethod.TEXTURE_SCALE, flags);
 		this.startPos = getPos();
 
 	}
 
-	private void setupEntity(String textureName, Rectangle r,
+	private void setupEntity(Graphic graphic, Rectangle r,
 			SizeMethod sizeMethod, FlagMap flags) {
-		setTexture(textureName);
+		this.graphic = graphic;
 		this.box.x = r.x;
 		this.box.y = r.y;
+
+		Texture texture = graphic.getTexture();
 
 		switch (sizeMethod) {
 		case ABSOLUTE:
@@ -169,11 +143,6 @@ public class Entity implements Serializable {
 
 	public void setX(int x) {
 		this.box.x = x;
-
-	}
-
-	public String getTextureName() {
-		return this.textureName;
 	}
 
 	public boolean hasNoFlags() {

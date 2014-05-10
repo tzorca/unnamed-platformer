@@ -1,6 +1,10 @@
 package game.structures;
 
-public class FlColor {
+import java.io.Serializable;
+
+public class FlColor implements Serializable {
+	private static final long serialVersionUID = 796965006936532172L;
+	
 	private float rgba[] = new float[] { 1f, 1f, 1f, 1f };
 
 	public float[] rgb() {

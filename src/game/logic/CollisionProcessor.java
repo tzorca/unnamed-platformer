@@ -10,7 +10,6 @@ import java.awt.Point;
 
 import org.lwjgl.util.vector.Vector2f;
 
-import app.App;
 import app.LevelManager;
 
 public class CollisionProcessor {

@@ -6,6 +6,7 @@ import game.dynamics.control_mechanisms.Control_Shoot;
 import game.dynamics.interactions.NegativeHazardReaction;
 import game.parameters.PhysicsRef;
 import game.parameters.Ref.Flag;
+import game.structures.Graphic;
 
 import java.awt.Point;
 
@@ -23,15 +24,15 @@ public class PlatformPlayer extends ActiveEntity {
 			0, 0)), PhysicsRef.DEFAULT_SHOOT_SPEED,
 			PhysicsRef.DEFAULT_SHOOT_DELAY);
 
-	public PlatformPlayer(String imageName, Point startPos) {
-		super(imageName, startPos);
+	public PlatformPlayer(Graphic graphic, Point startPos) {
+		super(graphic, startPos);
 
 		addSpProps();
 	}
 
-	public PlatformPlayer(String imageName, Point startPos, float speed,
+	public PlatformPlayer(Graphic graphic, Point startPos, float speed,
 			double jumpStrength, double jumpTime) {
-		super(imageName, startPos);
+		super(graphic, startPos);
 		setSpeed(speed);
 		setJumpStrength(jumpStrength);
 		setJumpTime(jumpTime);

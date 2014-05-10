@@ -10,6 +10,7 @@ import game.entities.SpringLike;
 import game.parameters.ContentRef.ContentType;
 import game.parameters.EntityRef;
 import game.parameters.EntityRef.EntityType;
+import game.structures.Graphic;
 
 import java.awt.Point;
 import java.io.File;
@@ -101,25 +102,27 @@ public class EntityCreator {
 		}
 
 		Entity newEntity = null;
+		
+		Graphic graphic = new Graphic(textureName);
 
 		switch (type) {
 		case BreakableBlock:
-			newEntity = new BreakableBlock(textureName, location, width);
+			newEntity = new BreakableBlock(graphic, location, width);
 			break;
 		case Goal:
-			newEntity = new Goal(textureName, location);
+			newEntity = new Goal(graphic, location);
 			break;
 		case PlatformPlayer:
-			newEntity = new PlatformPlayer(textureName, location);
+			newEntity = new PlatformPlayer(graphic, location);
 			break;
 		case SolidBlock:
-			newEntity = new SolidBlock(textureName, location, width);
+			newEntity = new SolidBlock(graphic, location, width);
 			break;
 		case SpringLike:
-			newEntity = new SpringLike(textureName, location);
+			newEntity = new SpringLike(graphic, location);
 			break;
 		case Hazard:
-			newEntity = new Hazard(textureName, location, width);
+			newEntity = new Hazard(graphic, location, width);
 			break;
 		default:
 			System.out.println("The entity type " + type.toString()

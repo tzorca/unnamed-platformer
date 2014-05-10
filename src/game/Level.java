@@ -25,7 +25,7 @@ import app.ViewManager;
 
 public class Level {
 	public boolean bgStretch = false;
-	public FlColor bgColor = Ref.DEFAULT_BG_COLOR;
+	public FlColor bgColor = Ref.DEFAULT_COLOR;
 	public String bgTexName;
 	public Texture bgTexture;
 

@@ -20,8 +20,7 @@ public class Ref implements Serializable {
 		levelBackgroundTexture, levelRect, levelEntities, levelPlayerEntity, levels, gameName
 	}
 
-	public static final FlColor DEFAULT_BG_COLOR = new FlColor(176f / 255f,
-			196f / 255f, 222 / 255f);
+	public static final FlColor DEFAULT_COLOR = new FlColor(1, 1, 1, 1);
 
 	public static final Rectangle DEFAULT_LEVEL_RECTANGLE = new Rectangle(0, 0,
 			2000, 4000);

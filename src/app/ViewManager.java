@@ -5,6 +5,7 @@ import game.parameters.ViewRef;
 import game.parameters.ContentRef.ContentType;
 import game.parameters.Ref.Flag;
 import game.structures.FlColor;
+import game.structures.Graphic;
 
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
@@ -85,16 +86,19 @@ public class ViewManager {
 			return;
 		}
 
-		drawTexture(entity.getTexture(), entity.getBox(), entity.getColor());
+		drawGraphic(entity.graphic, entity.getBox());
 	}
 
-	public static void drawTexture(Texture t, Rectangle box, FlColor color) {
+	public static void drawGraphic(Graphic graphic, Rectangle box) {
 		if (!box.intersects(viewport)) {
 			return;
 		}
 
 		float x = (float) box.getX(), y = (float) box.getY(), w = (float) box
 				.getWidth(), h = (float) box.getHeight();
+
+		FlColor color = graphic.color;
+		Texture t = graphic.getTexture();
 
 		if (color != null) {
 			GL11.glColor4f(color.r(), color.g(), color.b(), color.a());
@@ -109,7 +113,6 @@ public class ViewManager {
 			GL11.glBegin(GL11.GL_QUADS);
 			drawTex(t, x, y, w, h, tW, tH);
 			GL11.glEnd();
-
 		} else {
 			GL11.glBegin(GL11.GL_QUADS);
 			GL11.glVertex2f(x, y);

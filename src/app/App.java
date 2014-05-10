@@ -33,10 +33,10 @@ public class App {
 			InputManager.update();
 
 			processSpecialInput();
+			
+			GameManager.update(timeDelta);
 
 			ViewManager.update();
-
-			GameManager.update(timeDelta);
 		}
 	}
 

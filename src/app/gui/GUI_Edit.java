@@ -4,11 +4,11 @@ import game.Level;
 import game.entities.Entity;
 import game.logic.EntityCreator;
 import game.logic.MathHelper;
-import game.parameters.ContentRef.ContentType;
 import game.parameters.InputRef.GameKey;
 import game.parameters.Ref;
 import game.parameters.Ref.Flag;
 import game.structures.FlColor;
+import game.structures.Graphic;
 
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -20,7 +20,6 @@ import org.newdawn.slick.opengl.Texture;
 
 import app.App;
 import app.App.State;
-import app.ContentManager;
 import app.GameManager;
 import app.InputManager;
 import app.LevelManager;
@@ -37,7 +36,7 @@ public class GUI_Edit extends GUI_Template {
 
 	Level currentLevel;
 	int currentLevelIndex = 0;
-	static List<Texture> textures = new ArrayList<Texture>();
+	static List<Graphic> entityPlaceholderGraphics = new ArrayList<Graphic>();
 	boolean playerAdded = false;
 
 	Point cameraPos = new Point(Ref.DEFAULT_LEVEL_GRIDSIZE * 4,
@@ -64,35 +63,35 @@ public class GUI_Edit extends GUI_Template {
 		return true;
 	}
 
-	private void loadTextures() {
+	private void loadEntityPlaceholderGraphics() {
 
-		lstObjects.clear();
-		for (String texName : EntityCreator.listTextureNames()) {
-			lstObjects.addItem(texName);
-			textures.add((Texture) (ContentManager.get(ContentType.texture,
-					texName)));
+		lstTextureNames.clear();
+		for (String textureName : EntityCreator.listTextureNames()) {
+			lstTextureNames.addItem(textureName);
+			entityPlaceholderGraphics.add(new Graphic(textureName, transColor));
 		}
 
-		lstObjects.setFocusItemByIndex(0);
-		lstObjects.selectItemByIndex(0);
+		lstTextureNames.setFocusItemByIndex(0);
+		lstTextureNames.selectItemByIndex(0);
 	}
 
 	@Override
 	public void onStartScreen() {
 		hookControls();
 
-		loadTextures();
+		loadEntityPlaceholderGraphics();
 
 		changeLevel(0);
 
 	}
 
-	public static Texture getCurrentTexture() {
+	public static Graphic getCurrentGraphic() {
 
-		if (lstObjects == null) {
+		if (lstTextureNames == null) {
 			return null;
 		}
-		return textures.get(lstObjects.getFocusItemIndex());
+		return entityPlaceholderGraphics.get(lstTextureNames
+				.getFocusItemIndex());
 	}
 
 	public void placeObject() {
@@ -107,7 +106,7 @@ public class GUI_Edit extends GUI_Template {
 			return;
 		}
 
-		String currentTextureName = lstObjects.getFocusItem();
+		String currentTextureName = lstTextureNames.getFocusItem();
 
 		Entity newEntity = EntityCreator.create(currentTextureName, loc);
 
@@ -239,7 +238,7 @@ public class GUI_Edit extends GUI_Template {
 
 	static FlColor transColor = new FlColor(1, 1, 1, 0.75f);
 
-	public static void drawPlaceholderElement() {
+	public static void drawEntityPlaceholder() {
 
 		if (!placeholderVisible || App.state != State.edit) {
 			return;
@@ -249,35 +248,30 @@ public class GUI_Edit extends GUI_Template {
 		Point loc = MathHelper.snapToGrid(ViewManager.translateMouse(),
 				currentLevel.gridSize);
 
-		Texture t = getCurrentTexture();
-		if (t == null) {
-			return;
-		}
-		t.bind();
-		Rectangle texRect = new Rectangle(loc.x, loc.y, t.getImageWidth(),
-				t.getImageHeight());
+		Graphic entityPlaceholderGraphic = getCurrentGraphic();
 
-		if (currentLevel.getRect().contains(texRect)) {
-			ViewManager.drawTexture(t, texRect, transColor);
+		Texture t = entityPlaceholderGraphic.getTexture();
+
+		Rectangle entityPlaceholderRect = new Rectangle(loc.x, loc.y,
+				t.getImageWidth(), t.getImageHeight());
+
+		if (currentLevel.getRect().contains(entityPlaceholderRect)) {
+			ViewManager.drawGraphic(entityPlaceholderGraphic,
+					entityPlaceholderRect);
 		} else {
 			ViewManager.setColor(transColor);
 		}
 	}
 
-	// private void drawCamera() {
-	// Rectangle texRect = new Rectangle(cameraPos.x, cameraPos.y, 32, 32);
-	// ViewManager.drawTexture(cameraTexture, texRect, noTransColor);
-	// }
-
 	Label lblCurrentLevel;
 	Element pnlModeSwitch, pnlPrevLevl, pnlAddLevel, pnlNextLevel,
 			pnlRemoveLevel;
 	List<Element> editModeElements = new ArrayList<Element>();
-	static ListBox<String> lstObjects;
+	static ListBox<String> lstTextureNames;
 
 	@SuppressWarnings("unchecked")
 	private void hookControls() {
-		lstObjects = GUIManager.findElement("lstObjects").getNiftyControl(
+		lstTextureNames = GUIManager.findElement("lstObjects").getNiftyControl(
 				ListBox.class);
 
 		lblCurrentLevel = GUIManager.findElement("lblCurrentLevel")
@@ -323,7 +317,7 @@ public class GUI_Edit extends GUI_Template {
 			final ListBoxSelectionChangedEvent<String> event) {
 
 		// prevent edit camera controls from interfering with selection
-		lstObjects.setFocusable(false);
+		lstTextureNames.setFocusable(false);
 	}
 
 	public void pnlAddLevel_Clicked() {

@@ -78,7 +78,7 @@ public abstract class LevelGenerator {
 	}
 
 	private Entity add(Entity newEntity, boolean distinct) {
-		String texture = newEntity.getTextureName();
+		String texture = newEntity.graphic.getTextureName();
 		if (distinct) {
 			if (distinctEntityMap.containsKey(texture)) {
 				entities.remove(distinctEntityMap.get(texture));

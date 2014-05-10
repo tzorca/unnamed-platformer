@@ -112,7 +112,7 @@ public class Game {
 		}
 
 		if (App.state == State.edit) {
-			GUI_Edit.drawPlaceholderElement();
+			GUI_Edit.drawEntityPlaceholder();
 		}
 	}
 
