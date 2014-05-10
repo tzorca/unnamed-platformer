@@ -18,15 +18,15 @@ public class ContentRef {
 
 	public static final Map<ContentType, ContentDetails> details = new HashMap<ContentType, ContentDetails>();
 	static {
-		details.put(ContentType.game, new ContentDetails("game/",
-				".game", Game.class, false));
-		details.put(ContentType.texture, new ContentDetails("img/",
-				".png", Texture.class, true));
-		details.put(ContentType.niftyImage, new ContentDetails("img/",
-				".png", NiftyImage.class, true));
-		details.put(ContentType.audioSample, new ContentDetails("snd/",
-				".ogg", AudioWrapper.class, true));
-		details.put(ContentType.audioLoop, new ContentDetails("snd/",
-				".ogg", AudioWrapper.class, true));
+		details.put(ContentType.game, new ContentDetails("game/", ".game",
+				Game.class, false));
+		details.put(ContentType.texture, new ContentDetails("img/", ".png",
+				Texture.class, true));
+		details.put(ContentType.niftyImage, new ContentDetails("img/", ".png",
+				NiftyImage.class, true));
+		details.put(ContentType.audioSample, new ContentDetails("snd/", ".ogg",
+				AudioWrapper.class, true));
+		details.put(ContentType.audioLoop, new ContentDetails("snd/", ".ogg",
+				AudioWrapper.class, true));
 	}
 }

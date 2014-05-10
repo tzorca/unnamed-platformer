@@ -40,11 +40,6 @@ public class CollisionProcessor {
 			return;
 		}
 
-		if (a.checkFlag(Flag.player) && b.checkFlag(Flag.levelGoal)) {
-			App.requestRestart();
-			return;
-		}
-
 		if (a.checkFlag(Flag.tangible) && b.checkFlag(Flag.solid)) {
 			if (direction != Axis.HORIZONTAL) {
 				a.physics.inAir = false;

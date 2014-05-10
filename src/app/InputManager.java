@@ -48,14 +48,6 @@ public class InputManager {
 	public static void update() {
 		getMouseActions();
 		getKeys();
-		processSpecialKeys();
-	}
-
-	private static void processSpecialKeys() {
-		if (InputManager.getGameKeyState(GameKey.restartApp, 1)) {
-			GUIManager.setStateHeld(false);
-			App.restart();
-		}
 	}
 
 	private static void getMouseActions() {

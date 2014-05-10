@@ -1,6 +1,7 @@
 package app;
 
 import game.logic.EntityCreator;
+import game.parameters.InputRef.GameKey;
 
 import org.lwjgl.opengl.Display;
 
@@ -8,8 +9,9 @@ import app.gui.GUIManager;
 
 public class App {
 
-	public static State state = State.start;
-	private static State nextState = null;
+	public static State initialState = State.start;
+	public static State state = initialState;
+	public static State nextState = null;
 
 	public static enum State {
 		start, choosePlayLevel, chooseEditLevel, play, edit, editSelect, playSelect
@@ -30,9 +32,18 @@ public class App {
 
 			InputManager.update();
 
+			processSpecialInput();
+
 			ViewManager.update();
 
 			GameManager.update(timeDelta);
+		}
+	}
+
+	private static void processSpecialInput() {
+		if (InputManager.getGameKeyState(GameKey.restartApp, 1)) {
+			GUIManager.setStateHeld(false);
+			App.restart();
 		}
 	}
 
@@ -65,12 +76,6 @@ public class App {
 
 	public static void log(String string) {
 		System.out.println(string);
-	}
-
-	static boolean restartNextTick = false;
-
-	public static void requestRestart() {
-		restartNextTick = true;
 	}
 
 	public static void delayedStateChange(State n) {
