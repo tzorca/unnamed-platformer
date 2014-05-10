@@ -100,8 +100,8 @@ public class Game {
 	}
 
 	public void draw() {
-		ViewManager.clear(level.bgColor);
-		ViewManager.drawBG(level.bgTexture);
+		ViewManager.clear(level.bgGraphic.color);
+		ViewManager.drawBG(level.bgGraphic.getTexture());
 
 		if (App.state == State.edit) {
 			ViewManager.drawEditGrid(level.gridSize);

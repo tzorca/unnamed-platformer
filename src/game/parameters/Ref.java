@@ -17,7 +17,7 @@ public class Ref implements Serializable {
 	}
 
 	public enum BlueprintComponent {
-		levelBackgroundTexture, levelRect, levelEntities, levelPlayerEntity, levels, gameName
+		levelBG, levelRect, levelEntities, levelPlayerEntity, levels, gameName
 	}
 
 	public static final FlColor DEFAULT_COLOR = new FlColor(1, 1, 1, 1);

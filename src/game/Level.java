@@ -2,11 +2,10 @@ package game;
 
 import game.entities.Entity;
 import game.parameters.Ref;
-import game.parameters.ContentRef.ContentType;
 import game.parameters.Ref.BlueprintComponent;
 import game.parameters.Ref.Flag;
 import game.structures.Blueprint;
-import game.structures.FlColor;
+import game.structures.Graphic;
 
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -16,18 +15,14 @@ import java.util.List;
 import java.util.ListIterator;
 
 import org.apache.commons.lang3.SerializationUtils;
-import org.newdawn.slick.opengl.Texture;
 
 import app.App;
 import app.App.State;
-import app.ContentManager;
 import app.ViewManager;
 
 public class Level {
 	public boolean bgStretch = false;
-	public FlColor bgColor = Ref.DEFAULT_COLOR;
-	public String bgTexName;
-	public Texture bgTexture;
+	public Graphic bgGraphic = new Graphic();
 
 	public int gridSize = Ref.DEFAULT_LEVEL_GRIDSIZE;
 
@@ -40,12 +35,6 @@ public class Level {
 
 	public Level(LinkedList<Entity> origEntities) {
 		resetTo(origEntities);
-	}
-
-	private void setBGTexture(String textureName) {
-		this.bgTexName = textureName;
-		this.bgTexture = (Texture) ContentManager.get(ContentType.texture,
-				bgTexName);
 	}
 
 	public void save(String filename) {
@@ -61,7 +50,7 @@ public class Level {
 
 		updateStartPositions();
 
-		lBP.put(BlueprintComponent.levelBackgroundTexture, bgTexName);
+		lBP.put(BlueprintComponent.levelBG, bgGraphic);
 		lBP.put(BlueprintComponent.levelRect, rect);
 		lBP.put(BlueprintComponent.levelEntities, originalEntities);
 
@@ -83,8 +72,7 @@ public class Level {
 		}
 		Level newLevel = new Level(new LinkedList<Entity>(
 				(List<Entity>) lBP.get(BlueprintComponent.levelEntities)));
-		newLevel.setBGTexture((String) lBP
-				.get(BlueprintComponent.levelBackgroundTexture));
+		newLevel.bgGraphic = (Graphic) lBP.get(BlueprintComponent.levelBG);
 		newLevel.setRect((Rectangle) lBP.get(BlueprintComponent.levelRect));
 
 		return newLevel;

@@ -29,6 +29,9 @@ public class Graphic implements Serializable {
 		setTexture(textureName);
 	}
 
+	public Graphic() {
+	}
+
 	public void removeTexture() {
 		textureName = null;
 		texture = null;
@@ -54,11 +57,6 @@ public class Graphic implements Serializable {
 
 		return texture;
 	}
-
-	public void draw() {
-
-	}
-
 	// GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S,
 	// GL11.GL_REPEAT);
 	// GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T,
