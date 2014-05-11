@@ -5,17 +5,19 @@ import game.logic.EntityCreator;
 import game.logic.MathHelper;
 
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.util.Set;
 
 public class CompletelyRandomGenerator extends LevelGenerator {
 
 	private Set<String> textureNames = EntityCreator.listTextureNames();
-	
+
 	@Override
 	protected void internalBuild() {
-		 textureNames = EntityCreator.listTextureNames();
+		textureNames = EntityCreator.listTextureNames();
 
-		int maxX = levelRect.width, maxY = levelRect.height;
+		int maxX = MathHelper.randRange(grid * 16, grid * 32), maxY = MathHelper
+				.randRange(grid * 16, grid * 32);
 
 		// put player at bottom-left
 		addDistinct("player", 100, maxY - 150);
@@ -26,7 +28,7 @@ public class CompletelyRandomGenerator extends LevelGenerator {
 		// add border to level
 		addLevelEdges("black");
 
-		int maxBlocks = MathHelper.getArea(levelRect) * 2
+		int maxBlocks = MathHelper.getArea(new Rectangle(0, 0, maxX, maxY)) * 2
 				/ (grid * grid * grid);
 
 		// add random entities
@@ -45,8 +47,8 @@ public class CompletelyRandomGenerator extends LevelGenerator {
 		}
 	}
 
-	private Entity createRandomEntity(int minX, int maxX, int minY,
-			int maxY, int gridSize, double[] blockMuls) {
+	private Entity createRandomEntity(int minX, int maxX, int minY, int maxY,
+			int gridSize, double[] blockMuls) {
 		String rTex;
 
 		do {

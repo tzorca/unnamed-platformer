@@ -3,7 +3,6 @@ package game.logic.levelGenerators;
 import game.Level;
 import game.entities.Entity;
 import game.logic.EntityCreator;
-import game.logic.MathHelper;
 import game.parameters.EntityRef.EntityType;
 import game.parameters.Ref;
 
@@ -23,6 +22,7 @@ public abstract class LevelGenerator {
 	public Level generate() {
 		internalBuild();
 		Level lvl = new Level(entities);
+		lvl.rect = levelRect;
 		entities = new LinkedList<Entity>();
 		return lvl;
 	}
@@ -31,46 +31,78 @@ public abstract class LevelGenerator {
 
 	protected int grid = Ref.DEFAULT_LEVEL_GRIDSIZE;
 
-	public Rectangle getLevelRect() {
-		return levelRect;
-	}
-
-	public void setLevelRect(Rectangle levelRect) {
-		this.levelRect = levelRect;
-	}
-
-	protected Rectangle levelRect = new Rectangle(0, 0, MathHelper.randRange(
-			grid * 64, grid * 128), MathHelper.randRange(grid * 16, grid * 64));
+	private Rectangle levelRect = Ref.DEFAULT_LEVEL_RECTANGLE;
 
 	private HashMap<String, Entity> distinctEntityMap = new HashMap<String, Entity>();
 	private LinkedList<Entity> entities = new LinkedList<Entity>();
 
 	protected Entity add(String texture, int x, int y) {
+		updateLevelRect(x, y);
+
 		return add(texture, x, y, false);
 	}
 
 	protected Entity add(Entity newEntity) {
+		updateLevelRect(newEntity.getX(), newEntity.getY());
+
 		return add(newEntity, false);
 	}
 
 	protected Entity addDistinct(String textureName, int x, int y) {
+		updateLevelRect(x, y);
+
 		return add(textureName, x, y, true);
 	}
 
+	private static final int EXPECTED_MAX_ENTITY_SIZE = 256;
+
+	private void updateLevelRect(int x, int y) {
+
+		if (levelRect.width < x + EXPECTED_MAX_ENTITY_SIZE) {
+			levelRect.width = x + EXPECTED_MAX_ENTITY_SIZE;
+		}
+
+		if (levelRect.x > x - EXPECTED_MAX_ENTITY_SIZE) {
+			int expansion = Math.abs(levelRect.x
+					- (x - EXPECTED_MAX_ENTITY_SIZE));
+			levelRect.x = x - EXPECTED_MAX_ENTITY_SIZE;
+			levelRect.width = levelRect.width + expansion;
+		}
+
+		if (levelRect.width < y + EXPECTED_MAX_ENTITY_SIZE) {
+			levelRect.width = y + EXPECTED_MAX_ENTITY_SIZE;
+		}
+
+		if (levelRect.y > y - EXPECTED_MAX_ENTITY_SIZE) {
+			int expansion = Math.abs(levelRect.y
+					- (y - EXPECTED_MAX_ENTITY_SIZE));
+			levelRect.y = y - EXPECTED_MAX_ENTITY_SIZE;
+			levelRect.height = levelRect.height + expansion;
+		}
+	}
+
 	protected Entity add(EntityType type, int x, int y, int grid) {
+		updateLevelRect(x, y);
+
 		return add(EntityCreator.create(type, new Point(x, y), grid, false));
 	}
 
 	protected Entity add(String textureName, int x, int y, int grid) {
+		updateLevelRect(x, y);
+
 		return add(EntityCreator.create(textureName, new Point(x, y), grid),
 				false);
 	}
 
 	private Entity add(String textureName, int x, int y, boolean distinct) {
+		updateLevelRect(x, y);
+
 		return add(EntityCreator.create(textureName, new Point(x, y)), distinct);
 	}
 
 	private Entity add(Entity newEntity, boolean distinct) {
+		updateLevelRect(newEntity.getX(), newEntity.getY());
+
 		String texture = newEntity.graphic.getTextureName();
 		if (distinct) {
 			if (distinctEntityMap.containsKey(texture)) {
@@ -93,7 +125,7 @@ public abstract class LevelGenerator {
 		return false;
 	}
 
-	protected List<Entity> addLevelEdges(String borderTexture) {
+	protected void addLevelEdges(String borderTexture) {
 		List<Entity> newEntities = new ArrayList<Entity>();
 		int maxX = levelRect.width;
 		int maxY = levelRect.height;
@@ -131,8 +163,10 @@ public abstract class LevelGenerator {
 			}
 		}
 
-		entities.addAll(newEntities);
-		return newEntities;
+		for (Entity newEntity : newEntities) {
+			add(newEntity);
+		}
+
 	}
 
 }

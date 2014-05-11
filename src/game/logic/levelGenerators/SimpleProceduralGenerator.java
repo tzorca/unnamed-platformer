@@ -5,7 +5,6 @@ import game.logic.MathHelper;
 import game.parameters.EntityRef.EntityType;
 
 import java.awt.Point;
-import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -98,8 +97,6 @@ public class SimpleProceduralGenerator extends LevelGenerator {
 		// put goal at end
 		cursor.x += grid;
 		addDistinct("flag", cursor.x, cursor.y);
-
-		setLevelRect(new Rectangle(0, 0, cursor.x + grid, maxY));
 
 	}
 
