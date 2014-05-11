@@ -1,11 +1,14 @@
 package game.logic;
 
+import game.parameters.PhysicsRef;
 import game.parameters.PhysicsRef.Orientation;
+import game.parameters.PhysicsRef.Side;
 
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -46,8 +49,42 @@ public class MathHelper {
 				(float) (speed * Math.sin(angle)));
 	}
 
+	public static Double getIntersectionAngle(Rectangle a, Rectangle b) {
+		Rectangle c = a.intersection(b);
+
+		float intersectionX = (float) (c.getCenterX() - a.getCenterX());
+		float intersectionY = (float) (c.getCenterY() - a.getCenterY());
+		Vector2f intersectionVector = new Vector2f(intersectionX, intersectionY);
+
+		return angleFromVector(intersectionVector);
+	}
+
 	public static double angleFromVector(Vector2f vector) {
 		return Math.atan2(vector.y, vector.x);
+	}
+
+	// TODO: Look for other instances of HashMap that could be better
+	// represented with an EnumMap!
+	public static EnumMap<Side, Double> getSideDistances(Double radians,
+			Side[] sidesToCheck) {
+		EnumMap<Side, Double> distances = new EnumMap<Side, Double>(Side.class);
+
+		for (Side side : sidesToCheck) {
+			Double dist = Math.abs(side.getRadians() - radians);
+			dist = wrapValue(dist, PhysicsRef.MIN_RAD, PhysicsRef.MAX_RAD);
+
+			distances.put(side, dist);
+		}
+
+		return distances;
+	}
+
+	public static double wrapValue(double value, double min, double max) {
+		if (value > max)
+			return (value - max) + min;
+		if (value < min)
+			return max - (min - value);
+		return value;
 	}
 
 	public static Vector2f vectorFromOrientationAndLength(Orientation o,
@@ -114,4 +151,5 @@ public class MathHelper {
 	public static Object randValueInMap(Map<?, ?> map) {
 		return randInCollection(map.values());
 	}
+
 }

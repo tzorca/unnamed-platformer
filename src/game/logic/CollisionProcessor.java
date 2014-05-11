@@ -42,6 +42,13 @@ public class CollisionProcessor {
 			return;
 		}
 
+		// this ordering of b and a is important
+		if (b instanceof ActiveEntity) {
+			for (Interaction i : ((ActiveEntity) b).interactions) {
+				i.interactWith(a);
+			}
+		}
+
 		if (a.checkFlag(Flag.tangible) && b.checkFlag(Flag.solid)
 				&& a.hasPhysics()) {
 			if (direction != Axis.HORIZONTAL) {
@@ -57,12 +64,6 @@ public class CollisionProcessor {
 			} else {
 				a.setX(originalPos);
 				a.physics.solidCollisionOccurred = true;
-			}
-		}
-
-		if (a instanceof ActiveEntity) {
-			for (Interaction i : ((ActiveEntity) a).interactions) {
-				i.interactWith(b);
 			}
 		}
 

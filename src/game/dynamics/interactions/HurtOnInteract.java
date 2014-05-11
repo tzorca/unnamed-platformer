@@ -2,6 +2,7 @@ package game.dynamics.interactions;
 
 import game.entities.ActiveEntity;
 import game.entities.Entity;
+import game.parameters.PhysicsRef.Side;
 import game.parameters.Ref.Flag;
 
 public class HurtOnInteract extends Interaction {
@@ -11,12 +12,19 @@ public class HurtOnInteract extends Interaction {
 		super(source);
 	}
 
-	@Override
-	public void interactWith(Entity target) {
-		if (target.checkFlag(Flag.player)) {
-			((ActiveEntity) target).returnToStart();
-		}
+	public HurtOnInteract(Entity source, Side[] sides) {
+		super(source, sides, true);
 
+	}
+
+	@Override
+	public void performInteractionAction(Entity target) {
+		((ActiveEntity) target).returnToStart();
+	}
+
+	@Override
+	protected boolean isValidTarget(Entity target) {
+		return target.checkFlag(Flag.player);
 	}
 
 }

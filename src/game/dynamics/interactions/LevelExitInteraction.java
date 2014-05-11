@@ -14,12 +14,14 @@ public class LevelExitInteraction extends Interaction {
 	}
 
 	@Override
-	public void interactWith(Entity target) {
-		if (target.checkFlag(Flag.player)) {
-			LevelManager.changeLevel(LevelManager.getLevelNumber()
-					+ relativeDestination);
-		}
+	public void performInteractionAction(Entity target) {
+		LevelManager.changeLevel(LevelManager.getLevelNumber()
+				+ relativeDestination);
+	}
 
+	@Override
+	protected boolean isValidTarget(Entity target) {
+		return target.checkFlag(Flag.player);
 	}
 
 }

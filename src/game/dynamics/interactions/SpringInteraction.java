@@ -19,20 +19,22 @@ public class SpringInteraction extends Interaction implements Serializable {
 	}
 
 	@Override
-	public void interactWith(Entity target) {
-		if (target.checkFlag(Flag.player)) {
-			ActiveEntity plr = (ActiveEntity) target;
+	public void performInteractionAction(Entity target) {
+		ActiveEntity plr = (ActiveEntity) target;
 
-			if (!plr.hasPhysics()) {
-				return;
-			}
-			plr.physics.airTime = 0;
-			plr.physics.upCancel = true;
-			plr.physics.addForce(v);
-			plr.physics
-					.addControlMechanism(new Control_PersistentVectorMovement(
-							plr, v, 500));
+		if (!plr.hasPhysics()) {
+			return;
 		}
+		plr.physics.airTime = 0;
+		plr.physics.upCancel = true;
+		plr.physics.addForce(v);
+		plr.physics.addControlMechanism(new Control_PersistentVectorMovement(
+				plr, v, 500));
+	}
+
+	@Override
+	protected boolean isValidTarget(Entity target) {
+		return target.checkFlag(Flag.player);
 	}
 
 }
