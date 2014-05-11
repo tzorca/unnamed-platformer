@@ -157,28 +157,30 @@ public class Level {
 
 			if (entity.checkFlag(Flag.outOfPlay)) {
 				entityIterator.remove();
-			} else {
+			} else if (App.state == State.play) {
 				quadTree.insert(entity);
 			}
 		}
 
-		List<Entity> entitiesToCheck = new ArrayList<Entity>();
-		for (Entity a : entities) {
-			if (a instanceof ActiveEntity) {
+		if (App.state == State.play) {
+			List<Entity> entitiesToCheck = new ArrayList<Entity>();
+			for (Entity a : entities) {
+				if (a instanceof ActiveEntity) {
 
-				entitiesToCheck.clear();
-				quadTree.retrieve(entitiesToCheck, a.getBox());
+					entitiesToCheck.clear();
+					quadTree.retrieve(entitiesToCheck, a.getBox());
 
-				// if (a.checkFlag(Flag.player)) {
-				// for (Entity b : entitiesToCheck) {
-				// b.graphic.setTempHighlight();
-				// }
-				// }
+					// if (a.checkFlag(Flag.player)) {
+					// for (Entity b : entitiesToCheck) {
+					// b.graphic.setTempHighlight();
+					// }
+					// }
 
-				CollisionProcessor.processMove(a, entitiesToCheck);
+					CollisionProcessor.processMove(a, entitiesToCheck);
 
-				if (a.checkFlag(Flag.player)) {
-					ViewManager.centerCamera(a.getCenter());
+					if (a.checkFlag(Flag.player)) {
+						ViewManager.centerCamera(a.getCenter());
+					}
 				}
 			}
 		}
