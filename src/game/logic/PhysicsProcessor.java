@@ -19,13 +19,17 @@ public class PhysicsProcessor {
 	}
 
 	public static void applyGravity(ActiveEntity actor, float delta) {
-		if (actor.checkFlag(Flag.obeysGravity)) {
-
-			actor.physics.addForce(PhysicsProcessor
-					.calculateGravity(actor.physics.airTime));
-			actor.physics.inAir = true;
-			actor.physics.airTime += delta / 1000.0;
+		if (!actor.hasPhysics()) {
+			return;
 		}
+		if (!actor.checkFlag(Flag.obeysGravity)) {
+			return;
+		}
+		
+		actor.physics.addForce(PhysicsProcessor
+				.calculateGravity(actor.physics.airTime));
+		actor.physics.inAir = true;
+		actor.physics.airTime += delta / 1000.0;
 	}
 
 }

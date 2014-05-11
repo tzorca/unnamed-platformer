@@ -3,7 +3,6 @@ package game.entities;
 import game.dynamics.control_mechanisms.Control_HorizontalMove;
 import game.dynamics.control_mechanisms.Control_Jump;
 import game.dynamics.control_mechanisms.Control_Shoot;
-import game.dynamics.interactions.NegativeHazardReaction;
 import game.parameters.PhysicsRef;
 import game.parameters.Ref.Flag;
 import game.structures.Graphic;
@@ -41,7 +40,6 @@ public class PlatformPlayer extends ActiveEntity {
 	}
 
 	private void addSpProps() {
-		this.interactions.add(new NegativeHazardReaction(this));
 		this.physics.addControlMechanism(hzMoveBehaviour);
 		this.physics.addControlMechanism(jumpBehaviour);
 		this.physics.addControlMechanism(shootBehaviour);

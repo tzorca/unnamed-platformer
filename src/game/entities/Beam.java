@@ -1,7 +1,6 @@
-
-
 package game.entities;
 
+import game.dynamics.interactions.HurtOnInteract;
 import game.parameters.Ref.Flag;
 import game.structures.FlagMap;
 import game.structures.Graphic;
@@ -15,7 +14,7 @@ public class Beam extends ActiveEntity {
 	public Beam(Point pos) {
 		super(new Graphic("laser"), pos, new FlagMap());
 
-		setFlag(Flag.hurtsOthers, true);
+		this.interactions.add(new HurtOnInteract(this));
 		setFlag(Flag.dissolvesOnContact, true);
 
 	}

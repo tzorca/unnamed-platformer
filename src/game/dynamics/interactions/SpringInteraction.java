@@ -23,6 +23,9 @@ public class SpringInteraction extends Interaction implements Serializable {
 		if (target.checkFlag(Flag.player)) {
 			ActiveEntity plr = (ActiveEntity) target;
 
+			if (!plr.hasPhysics()) {
+				return;
+			}
 			plr.physics.airTime = 0;
 			plr.physics.upCancel = true;
 			plr.physics.addForce(v);

@@ -9,7 +9,7 @@ public class Ref implements Serializable {
 	private static final long serialVersionUID = 7052842507336198611L;
 
 	public enum Flag {
-		solid, hurtsYou, hurtsOthers, obeysGravity, outOfPlay, dissolvesOnContact, tangible, breakableBlock, levelGoal, player, invisible, editLogic
+		solid, hurtsOthers, obeysGravity, outOfPlay, dissolvesOnContact, tangible, breakableBlock, levelGoal, player, invisible, editLogic
 	}
 
 	public enum SizeMethod {

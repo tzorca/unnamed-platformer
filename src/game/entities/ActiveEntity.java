@@ -38,7 +38,13 @@ public class ActiveEntity extends Entity {
 
 	public void update(long delta) {
 		super.update(delta);
-		physics.update(delta);
+		if (this.hasPhysics()) {
+			physics.update(delta);
+		}
+	}
+
+	public boolean hasPhysics() {
+		return physics != null;
 	}
 
 }

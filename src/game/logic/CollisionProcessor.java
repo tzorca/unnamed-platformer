@@ -14,20 +14,21 @@ import app.LevelManager;
 
 public class CollisionProcessor {
 
-	private static void checkAndFix(ActiveEntity a, Axis direction,
-			int originalPos) {
-		for (Entity other : LevelManager.getCurrentEntities()) {
-			if (other == a || !a.collidesWith(other)) {
-				continue;
-			}
+	static boolean collisionOccurred = false;
 
-			process(a, other, direction, originalPos);
+	private static void findAndProcessCollisions(ActiveEntity a,
+			Axis direction, int originalPos) {
+		for (Entity b : LevelManager.getCurrentEntities()) {
+			if (a != b && a.collidesWith(b)) {
+				process(a, b, direction, originalPos);
+			}
 		}
 	}
 
 	private static void process(ActiveEntity a, Entity b, Axis direction,
 			int originalPos) {
 		if (a.checkFlag(Flag.hurtsOthers) && b.checkFlag(Flag.breakableBlock)) {
+
 			b.setFlag(Flag.outOfPlay, true);
 			a.setFlag(Flag.outOfPlay, true);
 			return;
@@ -39,7 +40,8 @@ public class CollisionProcessor {
 			return;
 		}
 
-		if (a.checkFlag(Flag.tangible) && b.checkFlag(Flag.solid)) {
+		if (a.checkFlag(Flag.tangible) && b.checkFlag(Flag.solid)
+				&& a.hasPhysics()) {
 			if (direction != Axis.HORIZONTAL) {
 				a.physics.inAir = false;
 				a.physics.airTime = 0;
@@ -68,9 +70,9 @@ public class CollisionProcessor {
 		Point original = actor.getPos();
 
 		actor.setX((int) (original.x + velocity.getX()));
-		checkAndFix(actor, Axis.HORIZONTAL, original.x);
+		findAndProcessCollisions(actor, Axis.HORIZONTAL, original.x);
 		actor.setY((int) (original.y + velocity.getY()));
-		checkAndFix(actor, Axis.VERTICAL, original.y);
+		findAndProcessCollisions(actor, Axis.VERTICAL, original.y);
 	}
 
 }
