@@ -62,8 +62,6 @@ public class PhysicsInstance implements Serializable {
 		solidCollisionOccurred = false;
 		// PhysicsProcessor.doSomethingNew(actor, delta);
 
-		Point original = actor.getPos();
-
 		runControlMechanisms(timeDelta);
 
 		PhysicsProcessor.applyGravity(actor, timeDelta);
@@ -77,8 +75,11 @@ public class PhysicsInstance implements Serializable {
 		// clear out current force (no longer current next tic)
 		currentForce = new Vector2f(0, 0);
 
-		CollisionProcessor.processMove(actor, velocity);
+		CollisionProcessor.queueMoveAttempt(actor, velocity);
 
+	}
+
+	public void recalculateDirection(Point original) {
 		Rectangle box = actor.getBox();
 
 		if (box.x - original.x != 0 || box.y - original.y != 0) {

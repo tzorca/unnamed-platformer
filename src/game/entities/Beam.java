@@ -14,7 +14,7 @@ public class Beam extends ActiveEntity {
 	public Beam(Point pos) {
 		super(new Graphic("laser"), pos, new FlagMap());
 
-		this.interactions.add(new HurtOnInteract(this));
+		setFlag(Flag.hurtsOthers, true);
 		setFlag(Flag.dissolvesOnContact, true);
 
 	}

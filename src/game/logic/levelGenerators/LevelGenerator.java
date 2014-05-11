@@ -21,8 +21,7 @@ public abstract class LevelGenerator {
 
 	public Level generate() {
 		internalBuild();
-		Level lvl = new Level(entities);
-		lvl.rect = levelRect;
+		Level lvl = new Level(entities, levelRect);
 		entities = new LinkedList<Entity>();
 		return lvl;
 	}

@@ -125,7 +125,7 @@ public class Game {
 	}
 
 	public Rectangle getLevelRect() {
-		return level.rect;
+		return level.getRect();
 	}
 
 	public void addPremadeLevel(Level lvl) {

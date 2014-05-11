@@ -1,14 +1,18 @@
 package game;
 
+import game.entities.ActiveEntity;
 import game.entities.Entity;
+import game.logic.CollisionProcessor;
 import game.parameters.Ref;
 import game.parameters.Ref.BlueprintComponent;
 import game.parameters.Ref.Flag;
 import game.structures.Blueprint;
 import game.structures.Graphic;
+import game.structures.QuadTree;
 
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -30,8 +34,26 @@ public class Level {
 			originalEntities = new LinkedList<Entity>(),
 			newEntities = new LinkedList<Entity>();
 
-	public Rectangle rect = Ref.DEFAULT_LEVEL_RECTANGLE;
+	private Rectangle rect = Ref.DEFAULT_LEVEL_RECTANGLE;
+	private transient QuadTree quadTree = new QuadTree(0,
+			Ref.DEFAULT_LEVEL_RECTANGLE);
+
 	public boolean won = false;
+
+	private void setRect(Rectangle rect) {
+		quadTree = new QuadTree(0, rect);
+		this.rect = rect;
+		System.out.println("Level Rect = " + rect);
+	}
+
+	public Rectangle getRect() {
+		return new Rectangle(0, 0, rect.width, rect.height);
+	}
+
+	public Level(LinkedList<Entity> origEntities, Rectangle levelRect) {
+		resetTo(origEntities);
+		setRect(levelRect);
+	}
 
 	public Level(LinkedList<Entity> origEntities) {
 		resetTo(origEntities);
@@ -51,7 +73,7 @@ public class Level {
 		updateStartPositions();
 
 		lBP.put(BlueprintComponent.levelBG, bgGraphic);
-		lBP.put(BlueprintComponent.levelRect, rect);
+		lBP.put(BlueprintComponent.levelRect, getRect());
 		lBP.put(BlueprintComponent.levelEntities, originalEntities);
 
 		return lBP;
@@ -92,10 +114,6 @@ public class Level {
 		newEntities.clear();
 	}
 
-	private void setRect(Rectangle rect) {
-		this.rect = rect;
-	}
-
 	public void addEntity(Entity e) {
 		newEntities.add(e);
 	}
@@ -125,6 +143,8 @@ public class Level {
 
 	public void update(long timeDelta) {
 
+		quadTree.clear();
+
 		// perform entity logic
 		Iterator<Entity> entityIterator = entities.iterator();
 		while (entityIterator.hasNext()) {
@@ -133,22 +153,38 @@ public class Level {
 			if (App.state == State.play) {
 				entity.update(timeDelta);
 
-				if (entity.checkFlag(Flag.player)) {
-					ViewManager.centerCamera(entity.getCenter());
-				}
 			}
 
 			if (entity.checkFlag(Flag.outOfPlay)) {
 				entityIterator.remove();
+			} else {
+				quadTree.insert(entity);
+			}
+		}
+
+		List<Entity> entitiesToCheck = new ArrayList<Entity>();
+		for (Entity a : entities) {
+			if (a instanceof ActiveEntity) {
+
+				entitiesToCheck.clear();
+				quadTree.retrieve(entitiesToCheck, a.getBox());
+
+				// if (a.checkFlag(Flag.player)) {
+				// for (Entity b : entitiesToCheck) {
+				// b.graphic.setTempHighlight();
+				// }
+				// }
+
+				CollisionProcessor.processMove(a, entitiesToCheck);
+
+				if (a.checkFlag(Flag.player)) {
+					ViewManager.centerCamera(a.getCenter());
+				}
 			}
 		}
 
 		// add new entities
 		materializeNewEntities();
-	}
-
-	public Rectangle getRect() {
-		return new Rectangle(0, 0, rect.width, rect.height);
 	}
 
 	public Entity findEntityByFlag(Flag flag) {

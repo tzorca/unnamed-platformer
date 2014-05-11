@@ -100,11 +100,15 @@ public class ViewManager {
 		FlColor color = graphic.color;
 		Texture t = graphic.getTexture();
 
-		if (color != null) {
-			GL11.glColor4f(color.r(), color.g(), color.b(), color.a());
-		} else {
-			resetColor();
-		}
+//		if (!graphic.isTempHighlight()) {
+			if (color != null) {
+				GL11.glColor4f(color.r(), color.g(), color.b(), color.a());
+			} else {
+				resetColor();
+			}
+//		} else {
+//			GL11.glColor4f(1, 0.5f, 0.5f, 0.75f);
+//		}
 
 		if (t != null) {
 			float tW = t.getWidth();

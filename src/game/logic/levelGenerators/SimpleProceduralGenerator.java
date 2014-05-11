@@ -64,20 +64,20 @@ public class SimpleProceduralGenerator extends LevelGenerator {
 				do {
 					sectionSetup = (SectionSetup) MathHelper
 							.randInList(sectionSetups);
-				} while (!sectionSetup.allowRepeat
-						&& sectionSetup.name.equals(lastSectionSetup.name));
+				} while (!lastSectionSetup.allowRepeat
+						&& sectionSetup.equals(lastSectionSetup));
 
-				if (!sectionSetup.allowRepeat) {
-					if (sectionSetup.name.equals(lastSectionSetup.name)) {
+				if (!lastSectionSetup.allowRepeat) {
+					if (sectionSetup.equals(lastSectionSetup)) {
 						System.out.println(sectionSetup.name);
 					}
 				}
+				lastSectionSetup = sectionSetup;
 
 				String textureName = areaTextureMap
 						.get(sectionSetup.entityType);
 
-				String solidBlockTextureName = areaTextureMap
-						.get(EntityType.SolidBlock);
+				String solidBlockTextureName = areaTextureMap.get(EntityType.SolidBlock);
 
 				Point translation = sectionSetup.getTranslation(grid);
 
@@ -95,7 +95,7 @@ public class SimpleProceduralGenerator extends LevelGenerator {
 		}
 
 		// put goal at end
-		cursor.x += grid;
+		cursor.y -= grid;
 		addDistinct("flag", cursor.x, cursor.y);
 
 	}
