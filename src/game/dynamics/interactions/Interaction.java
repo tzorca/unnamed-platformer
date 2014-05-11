@@ -59,9 +59,6 @@ public abstract class Interaction implements Serializable {
 		EnumMap<Side, Double> sideDistances = MathHelper.getSideDistances(
 				intersectionAngle, activeSides);
 
-		System.out.println(intersectionAngle + "; "
-				+ sideDistances.get(Side.TOP));
-
 		for (Side side : activeSides) {
 			if (sideDistances.get(side) <= maxSideMatchDistance) {
 

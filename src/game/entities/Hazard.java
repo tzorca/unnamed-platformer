@@ -1,7 +1,7 @@
 package game.entities;
 
 import game.dynamics.interactions.HurtOnInteract;
-import game.parameters.Ref.Flag;
+import game.parameters.PhysicsRef.Side;
 import game.structures.FlagMap;
 import game.structures.Graphic;
 
@@ -13,14 +13,24 @@ public class Hazard extends ActiveEntity {
 	public Hazard(Graphic graphic, Point pos) {
 		super(graphic, pos, new FlagMap());
 
-		setFlag(Flag.solid, true);
 		interactions.add(new HurtOnInteract(this));
 	}
 
 	public Hazard(Graphic graphic, Point pos, int width) {
 		super(graphic, pos, width, new FlagMap());
 
-		setFlag(Flag.solid, true);
 		interactions.add(new HurtOnInteract(this));
+	}
+
+	public Hazard(Graphic graphic, Point pos, int width, Side[] activeSides) {
+		super(graphic, pos, width, new FlagMap());
+
+		interactions.add(new HurtOnInteract(this, activeSides));
+	}
+
+	public Hazard(Graphic graphic, Point pos, Side[] activeSides) {
+		super(graphic, pos, new FlagMap());
+
+		interactions.add(new HurtOnInteract(this, activeSides));
 	}
 }

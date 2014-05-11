@@ -6,6 +6,7 @@ import game.entities.Goal;
 import game.entities.Hazard;
 import game.entities.PlatformPlayer;
 import game.entities.SolidBlock;
+import game.entities.Spikes;
 import game.entities.SpringLike;
 import game.parameters.ContentRef.ContentType;
 import game.parameters.EntityRef;
@@ -123,6 +124,9 @@ public class EntityCreator {
 			break;
 		case Hazard:
 			newEntity = new Hazard(graphic, location, width);
+			break;
+		case Spikes:
+			newEntity = new Spikes(graphic, location, width);
 			break;
 		default:
 			System.out.println("The entity type " + type.toString()

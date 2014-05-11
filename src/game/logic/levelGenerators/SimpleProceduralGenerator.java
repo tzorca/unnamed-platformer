@@ -19,6 +19,7 @@ public class SimpleProceduralGenerator extends LevelGenerator {
 
 		ss.add(new SectionSetup("horizontal", EntityType.SolidBlock, 1, 0));
 		ss.add(new SectionSetup("hazard", false, EntityType.Hazard, 1, 0));
+		ss.add(new SectionSetup("spikes", false, EntityType.Spikes, 1, 0));
 		ss.add(new SectionSetup("slopeDown", EntityType.SolidBlock, 1, 1));
 		ss.add(new SectionSetup("slopeUp", EntityType.SolidBlock, 1, -1));
 		ss.add(new SectionSetup("verticalUp", false, EntityType.SolidBlock, 0,
@@ -77,7 +78,8 @@ public class SimpleProceduralGenerator extends LevelGenerator {
 				String textureName = areaTextureMap
 						.get(sectionSetup.entityType);
 
-				String solidBlockTextureName = areaTextureMap.get(EntityType.SolidBlock);
+				String solidBlockTextureName = areaTextureMap
+						.get(EntityType.SolidBlock);
 
 				Point translation = sectionSetup.getTranslation(grid);
 

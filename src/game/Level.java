@@ -43,7 +43,6 @@ public class Level {
 	private void setRect(Rectangle rect) {
 		quadTree = new QuadTree(0, rect);
 		this.rect = rect;
-		System.out.println("Level Rect = " + rect);
 	}
 
 	public Rectangle getRect() {

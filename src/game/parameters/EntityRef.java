@@ -6,7 +6,7 @@ import java.util.Map;
 
 public class EntityRef {
 	public enum EntityType {
-		BreakableBlock, Goal, PlatformPlayer, SpringLike, SolidBlock, Bonus, Hazard, SlowMovementRegion
+		BreakableBlock, Goal, PlatformPlayer, SpringLike, SolidBlock, Bonus, Hazard, Spikes, SlowMovementRegion
 	}
 
 	public static Map<String, EntityType> textureEntityTypeMap = new HashMap<String, EntityType>();
