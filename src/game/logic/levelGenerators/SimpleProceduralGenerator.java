@@ -29,10 +29,10 @@ public class SimpleProceduralGenerator extends LevelGenerator {
 	static int areaCount = 10;
 	static int minSections = 3, maxSections = 15;
 	static int maxPieces = 3;
-	static int grid = 56;
 
 	@Override
 	protected void internalBuild() {
+		grid = 56;
 		int maxY = grid * 64;
 
 		// put player at bottom-left

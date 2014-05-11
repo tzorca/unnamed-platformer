@@ -14,8 +14,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.newdawn.slick.opengl.Texture;
-
 import app.ViewManager;
 
 public abstract class LevelGenerator {
@@ -32,14 +30,6 @@ public abstract class LevelGenerator {
 	protected double[] rndSizeMuls = { 1, 1, 2, 2, 4 };
 
 	protected int grid = Ref.DEFAULT_LEVEL_GRIDSIZE;
-
-	public int getGrid() {
-		return grid;
-	}
-
-	public void setGrid(int grid) {
-		this.grid = grid;
-	}
 
 	public Rectangle getLevelRect() {
 		return levelRect;
@@ -70,9 +60,10 @@ public abstract class LevelGenerator {
 	protected Entity add(EntityType type, int x, int y, int grid) {
 		return add(EntityCreator.create(type, new Point(x, y), grid, false));
 	}
-	
+
 	protected Entity add(String textureName, int x, int y, int grid) {
-		return add(EntityCreator.create(textureName, new Point(x, y), grid), false);
+		return add(EntityCreator.create(textureName, new Point(x, y), grid),
+				false);
 	}
 
 	private Entity add(String textureName, int x, int y, boolean distinct) {

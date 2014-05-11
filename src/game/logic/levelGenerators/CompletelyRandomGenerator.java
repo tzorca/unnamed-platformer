@@ -5,11 +5,16 @@ import game.logic.EntityCreator;
 import game.logic.MathHelper;
 
 import java.awt.Point;
+import java.util.Set;
 
 public class CompletelyRandomGenerator extends LevelGenerator {
 
+	private Set<String> textureNames = EntityCreator.listTextureNames();
+	
 	@Override
 	protected void internalBuild() {
+		 textureNames = EntityCreator.listTextureNames();
+
 		int maxX = levelRect.width, maxY = levelRect.height;
 
 		// put player at bottom-left
@@ -40,13 +45,12 @@ public class CompletelyRandomGenerator extends LevelGenerator {
 		}
 	}
 
-	public static Entity createRandomEntity(int minX, int maxX, int minY,
+	private Entity createRandomEntity(int minX, int maxX, int minY,
 			int maxY, int gridSize, double[] blockMuls) {
 		String rTex;
 
 		do {
-			rTex = (String) MathHelper.randInSet(EntityCreator
-					.listTextureNames());
+			rTex = (String) MathHelper.randInSet(textureNames);
 		} while (rTex.equals("flag") || rTex.equals("player"));
 		// this is just for testing and will not be hardcoded in the future
 
