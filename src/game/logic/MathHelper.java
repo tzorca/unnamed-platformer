@@ -5,7 +5,9 @@ import game.parameters.PhysicsRef.Orientation;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.lwjgl.util.vector.Vector2f;
@@ -30,19 +32,6 @@ public class MathHelper {
 		}
 
 		return newPoint;
-	}
-
-	// Return a random number inside the range [low, high]
-	public static int randRange(int low, int high) {
-		return low + (int) (Math.random() * ((high - low) + 1));
-	}
-
-	public static double randSet(double values[]) {
-		return values[(int) (Math.random() * ((values.length - 1) + 1))];
-	}
-
-	public static String randSet(String values[]) {
-		return values[(int) (Math.random() * ((values.length - 1) + 1))];
 	}
 
 	public static Point snapToGrid(Point p, int gridSize) {
@@ -88,8 +77,20 @@ public class MathHelper {
 		return rect.width * rect.height;
 	}
 
-	public static Object randInSet(Set<?> set) {
+	// Return a random number inside the range [low, high]
+	public static int randRange(int low, int high) {
+		return low + (int) (Math.random() * ((high - low) + 1));
+	}
 
+	public static double randSet(double values[]) {
+		return values[(int) (Math.random() * ((values.length - 1) + 1))];
+	}
+
+	public static String randSet(String values[]) {
+		return values[(int) (Math.random() * ((values.length - 1) + 1))];
+	}
+
+	public static Object randInSet(Set<?> set) {
 		return new ArrayList<Object>(set).get(randRange(0, set.size() - 1));
 	}
 
@@ -98,7 +99,19 @@ public class MathHelper {
 	}
 
 	public static Object randInList(List<?> list) {
-
 		return list.get(randRange(0, list.size() - 1));
+	}
+
+	public static Object randInCollection(Collection<?> collection) {
+		return new ArrayList<>(collection).get(randRange(0,
+				collection.size() - 1));
+	}
+
+	public static Object randKeyInMap(Map<?, ?> map) {
+		return randInSet(map.keySet());
+	}
+
+	public static Object randValueInMap(Map<?, ?> map) {
+		return randInCollection(map.values());
 	}
 }

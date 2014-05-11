@@ -45,7 +45,7 @@ public class EntityCreator {
 					// don't need to do anything here, entityType is already
 					// set to null
 
-					//System.out.println(e.toString());
+					// System.out.println(e.toString());
 				}
 			}
 
@@ -102,7 +102,7 @@ public class EntityCreator {
 		}
 
 		Entity newEntity = null;
-		
+
 		Graphic graphic = new Graphic(textureName);
 
 		switch (type) {
@@ -147,6 +147,15 @@ public class EntityCreator {
 
 	public static Entity create(String textureName, Point location, int width) {
 		return create(textureName, location, width, false);
+	}
+
+	public static String chooseTextureFromType(EntityType type) {
+		if (!EntityRef.entityTypeTextureMap.containsKey(type)) {
+			return null;
+		}
+
+		return (String) MathHelper.randInList(EntityRef.entityTypeTextureMap
+				.get(type));
 	}
 
 }

@@ -14,6 +14,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.newdawn.slick.opengl.Texture;
+
 import app.ViewManager;
 
 public abstract class LevelGenerator {
@@ -61,20 +63,20 @@ public abstract class LevelGenerator {
 		return add(newEntity, false);
 	}
 
-	protected Entity addDistinct(String texture, int x, int y) {
-		return add(texture, x, y, true);
+	protected Entity addDistinct(String textureName, int x, int y) {
+		return add(textureName, x, y, true);
 	}
 
 	protected Entity add(EntityType type, int x, int y, int grid) {
 		return add(EntityCreator.create(type, new Point(x, y), grid, false));
 	}
-
-	protected Entity add(String texture, int x, int y, int grid) {
-		return add(EntityCreator.create(texture, new Point(x, y), grid), false);
+	
+	protected Entity add(String textureName, int x, int y, int grid) {
+		return add(EntityCreator.create(textureName, new Point(x, y), grid), false);
 	}
 
-	private Entity add(String texture, int x, int y, boolean distinct) {
-		return add(EntityCreator.create(texture, new Point(x, y)), distinct);
+	private Entity add(String textureName, int x, int y, boolean distinct) {
+		return add(EntityCreator.create(textureName, new Point(x, y)), distinct);
 	}
 
 	private Entity add(Entity newEntity, boolean distinct) {
