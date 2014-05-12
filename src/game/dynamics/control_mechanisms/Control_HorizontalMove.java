@@ -26,7 +26,7 @@ public class Control_HorizontalMove extends ControlMechanism {
 	}
 
 	@Override
-	public void update(long timeDelta) {
+	public void update(long millisecDelta) {
 		if (InputManager.getGameKeyState(GameKey.right, 1)) {
 			actor.physics.addForce(new Vector2f(speed, 0f));
 		}

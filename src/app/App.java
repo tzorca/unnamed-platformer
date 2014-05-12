@@ -19,9 +19,9 @@ public class App {
 
 	private static void gameLoop() {
 		while (!Display.isCloseRequested()) {
-			long timeDelta = TimeManager.tick();
+			long millisecDelta = TimeManager.tick();
 
-			if (timeDelta == 0) {
+			if (millisecDelta == 0) {
 				continue;
 			}
 
@@ -34,7 +34,7 @@ public class App {
 
 			processSpecialInput();
 			
-			GameManager.update(timeDelta);
+			GameManager.update(millisecDelta);
 
 			ViewManager.update();
 		}

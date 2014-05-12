@@ -18,7 +18,7 @@ public class Control_OverheadMove extends ControlMechanism {
 	}
 
 	@Override
-	public void update(long delta) {
+	public void update(long millisecDelta) {
 		if (InputManager.getGameKeyState(GameKey.right, 1)) {
 			actor.physics.addForce(new Vector2f(speed, 0));
 		}

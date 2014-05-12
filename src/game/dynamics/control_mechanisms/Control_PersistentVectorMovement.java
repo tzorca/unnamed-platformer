@@ -39,7 +39,7 @@ public class Control_PersistentVectorMovement extends ControlMechanism {
 	}
 
 	@Override
-	public void update(long delta) {
+	public void update(long millisecDelta) {
 		actor.physics.addForce(vector);
 		if (endTime > 0 && TimeManager.time() > endTime) {
 			finish();

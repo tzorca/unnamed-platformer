@@ -23,7 +23,7 @@ public class Control_Jump extends ControlMechanism {
 	}
 
 	@Override
-	public void update(long delta) {
+	public void update(long millisecDelta) {
 		if (!actor.physics.inAir) {
 
 			if (!jumping && InputManager.getGameKeyState(GameKey.up, 1)
@@ -35,7 +35,7 @@ public class Control_Jump extends ControlMechanism {
 
 		if (jumping) {
 			if (InputManager.getGameKeyState(GameKey.up, 1)) {
-				continueJumping(delta);
+				continueJumping(millisecDelta);
 			} else {
 				finishJumping();
 			}

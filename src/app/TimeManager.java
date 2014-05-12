@@ -9,7 +9,7 @@ public class TimeManager {
 
 	private static long lastTime;
 	@SuppressWarnings("unused")
-	private static long totalDelta = 0;
+	private static long totalMilliseconds = 0;
 
 	public static void init() {
 		lastTime = time();
@@ -18,7 +18,7 @@ public class TimeManager {
 	public static long tick() {
 		long time = time();
 		long delta = time - lastTime;
-		totalDelta += delta;
+		totalMilliseconds += delta;
 		lastTime = time;
 		return delta;
 	}

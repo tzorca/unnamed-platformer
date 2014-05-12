@@ -57,17 +57,17 @@ public class PhysicsInstance implements Serializable {
 	}
 
 	// TODO: Still needs some work...
-	public void update(long timeDelta) {
+	public void update(long millisecDelta) {
 
 		solidCollisionOccurred = false;
 		// PhysicsProcessor.doSomethingNew(actor, delta);
 
-		runControlMechanisms(timeDelta);
+		runControlMechanisms(millisecDelta);
 
-		PhysicsProcessor.applyGravity(actor, timeDelta);
+		PhysicsProcessor.applyGravity(actor, millisecDelta);
 
 		// v = v + a*t
-		currentForce.scale(timeDelta);
+		currentForce.scale(millisecDelta);
 		currentForce.scale(PhysicsRef.forceScale);
 
 		velocity = currentForce;
@@ -90,14 +90,14 @@ public class PhysicsInstance implements Serializable {
 		}
 	}
 
-	private void runControlMechanisms(long timeDelta) {
+	private void runControlMechanisms(long millisecDelta) {
 		ControlMechanismList toRemoveList = new ControlMechanismList();
 		for (ControlMechanism b : mechanisms) {
 			if (b.toRemove) {
 				toRemoveList.add(b);
 				continue;
 			}
-			b.update(timeDelta);
+			b.update(millisecDelta);
 		}
 		mechanisms.removeAll(toRemoveList);
 	}

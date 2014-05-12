@@ -140,7 +140,7 @@ public class Level {
 		return null;
 	}
 
-	public void update(long timeDelta) {
+	public void update(long millisecDelta) {
 
 		quadTree.clear();
 
@@ -150,7 +150,7 @@ public class Level {
 			Entity entity = entityIterator.next();
 
 			if (App.state == State.play) {
-				entity.update(timeDelta);
+				entity.update(millisecDelta);
 
 			}
 

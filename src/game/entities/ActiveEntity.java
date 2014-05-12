@@ -36,10 +36,10 @@ public class ActiveEntity extends Entity {
 		physics = new PhysicsInstance(this);
 	}
 
-	public void update(long delta) {
-		super.update(delta);
+	public void update(long millisecDelta) {
+		super.update(millisecDelta);
 		if (this.hasPhysics()) {
-			physics.update(delta);
+			physics.update(millisecDelta);
 		}
 	}
 

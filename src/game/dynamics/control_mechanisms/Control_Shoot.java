@@ -28,7 +28,7 @@ public class Control_Shoot extends ControlMechanism {
 	}
 
 	@Override
-	public void update(long delta) {
+	public void update(long millisecDelta) {
 		if (InputManager.getGameKeyState(GameKey.a, 1)) {
 			if (TimeManager.time() - TimeManager.lastSample(hashCode()) >= fireDelay) {
 				fire();

@@ -91,8 +91,8 @@ public class Game {
 		}
 	}
 
-	public void update(long timeDelta) {
-		level.update(timeDelta);
+	public void update(long millisecDelta) {
+		level.update(millisecDelta);
 	}
 
 	public List<Entity> getEntities() {
