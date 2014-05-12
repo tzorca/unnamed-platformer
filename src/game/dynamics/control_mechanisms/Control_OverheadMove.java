@@ -36,4 +36,7 @@ public class Control_OverheadMove extends ControlMechanism {
 		}
 
 	}
+	
+	public void reset() {
+	}
 }

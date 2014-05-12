@@ -35,4 +35,8 @@ public class Control_HorizontalMove extends ControlMechanism {
 			actor.physics.addForce(new Vector2f(-speed, 0f));
 		}
 	}
+	
+	public void reset() {
+		
+	}
 }

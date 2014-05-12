@@ -41,6 +41,11 @@ public class Control_Jump extends ControlMechanism {
 			}
 		}
 	}
+	
+	
+	public void reset() {
+		jumping = false;
+	}
 
 	private void finishJumping() {
 		jumping = false;

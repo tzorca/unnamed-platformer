@@ -16,4 +16,5 @@ public abstract class ControlMechanism implements Serializable {
 
 	public abstract void update(long millisecDelta);
 
+	public abstract void reset();
 }

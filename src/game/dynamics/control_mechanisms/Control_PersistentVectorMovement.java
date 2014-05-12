@@ -53,5 +53,8 @@ public class Control_PersistentVectorMovement extends ControlMechanism {
 	public void finish() {
 		this.toRemove = true;
 	}
+	
+	public void reset() {
+	}
 
 }

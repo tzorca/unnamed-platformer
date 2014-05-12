@@ -48,9 +48,14 @@ public class CollisionProcessor {
 				i.interactWith(a);
 			}
 		}
+		
 
 		if (a.checkFlag(Flag.tangible) && b.checkFlag(Flag.solid)
 				&& a.hasPhysics()) {
+			if (a.physics.isZero()) {
+				return;
+			}
+			
 			if (direction != Axis.HORIZONTAL) {
 				a.physics.inAir = false;
 				a.physics.airTime = 0;

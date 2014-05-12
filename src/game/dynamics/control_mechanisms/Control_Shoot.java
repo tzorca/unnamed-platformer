@@ -69,5 +69,8 @@ public class Control_Shoot extends ControlMechanism {
 		this.projectile.setFlag(Flag.solid, false);
 		this.projectile.physics.clearControlMechanisms();
 	}
+	
+	public void reset() {
+	}
 
 }

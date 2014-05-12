@@ -29,6 +29,11 @@ public class Control_PathMovement extends ControlMechanism {
 		this.relativePath = relativePath;
 		this.speed = speed;
 	}
+	
+	
+	public void reset() {
+		pathState = 1;
+	}
 
 	@Override
 	public void update(long millisecDelta) {

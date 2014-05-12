@@ -60,6 +60,7 @@ public class PhysicsInstance implements Serializable {
 	public void update(long millisecDelta) {
 
 		solidCollisionOccurred = false;
+		isZero = false;
 		// PhysicsProcessor.doSomethingNew(actor, delta);
 
 		runControlMechanisms(millisecDelta);
@@ -108,6 +109,29 @@ public class PhysicsInstance implements Serializable {
 
 	public Vector2f getDirection() {
 		return lastDirection;
+	}
+
+	public void zero() {
+		currentForce.x = 0;
+		currentForce.y = 0;
+		airTime = 0;
+		velocity.x = 0;
+		velocity.y = 0;
+		solidCollisionOccurred = false;
+		
+		resetControlMechanisms();
+		isZero = true;
+	}
+
+	private void resetControlMechanisms() {
+		for (ControlMechanism mechanism : mechanisms) {
+			mechanism.reset();
+		}
+	}
+
+	private boolean isZero = false;
+	public boolean isZero() {
+		return isZero;
 	}
 
 }

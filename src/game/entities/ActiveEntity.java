@@ -1,6 +1,7 @@
 package game.entities;
 
 import game.PhysicsInstance;
+import game.parameters.Ref.Flag;
 import game.structures.FlagMap;
 import game.structures.Graphic;
 import game.structures.InteractionList;
@@ -25,6 +26,10 @@ public class ActiveEntity extends Entity {
 
 	public void returnToStart() {
 		setPos(this.startPos); // return to starting position
+
+		if (hasPhysics()) {
+			this.physics.zero();
+		}
 	}
 
 	public ActiveEntity() {
