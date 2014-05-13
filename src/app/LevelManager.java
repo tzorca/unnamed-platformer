@@ -49,4 +49,10 @@ public class LevelManager {
 		GameManager.currentGame.replaceCurrentLevel(lvl);
 	}
 
+	public static void retrieveFromQuadTree(List<Entity> entities,
+			Rectangle box) {
+		getCurrentLevel().retrieveFromQuadTree(entities, box);
+		
+	}
+
 }

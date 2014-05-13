@@ -1,6 +1,5 @@
 package game;
 
-import game.entities.ActiveEntity;
 import game.entities.Entity;
 import game.logic.CollisionProcessor;
 import game.parameters.Ref;
@@ -12,7 +11,6 @@ import game.structures.QuadTree;
 
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -142,45 +140,44 @@ public class Level {
 
 	public void update(long millisecDelta) {
 
+		// create temporary variable to keep track of the player entity
+		// we want to focus the camera on the player at the end of the update
+		Entity playerEntity = null;
+
+		// clear previous update's quad tree
 		quadTree.clear();
 
-		// perform entity logic
+		// perform entity logic and update quad tree
 		Iterator<Entity> entityIterator = entities.iterator();
 		while (entityIterator.hasNext()) {
 			Entity entity = entityIterator.next();
 
 			if (App.state == State.play) {
+				// perform entity logic
 				entity.update(millisecDelta);
 
+				if (entity.checkFlag(Flag.player)) {
+					playerEntity = entity;
+				}
 			}
 
+			// remove entities that have been flagged to be removed
 			if (entity.checkFlag(Flag.outOfPlay)) {
 				entityIterator.remove();
-			} else if (App.state == State.play) {
+				continue;
+			}
+
+			// add existing entities to quadtree
+			if (App.state == State.play) {
 				quadTree.insert(entity);
 			}
 		}
 
 		if (App.state == State.play) {
-			List<Entity> entitiesToCheck = new ArrayList<Entity>();
-			for (Entity a : entities) {
-				if (a instanceof ActiveEntity) {
+			CollisionProcessor.processMoves();
 
-					entitiesToCheck.clear();
-					quadTree.retrieve(entitiesToCheck, a.getBox());
-
-					// if (a.checkFlag(Flag.player)) {
-					// for (Entity b : entitiesToCheck) {
-					// b.graphic.setTempHighlight();
-					// }
-					// }
-
-					CollisionProcessor.processMove(a, entitiesToCheck);
-
-					if (a.checkFlag(Flag.player)) {
-						ViewManager.centerCamera(a.getCenter());
-					}
-				}
+			if (playerEntity != null) {
+				ViewManager.centerCamera(playerEntity.getCenter());
 			}
 		}
 
@@ -206,6 +203,11 @@ public class Level {
 
 	public void resetToCurrent() {
 		resetTo(entities);
+	}
+
+	public List<Entity> retrieveFromQuadTree(List<Entity> entities,
+			Rectangle box) {
+		return quadTree.retrieve(entities, box);
 	}
 
 }

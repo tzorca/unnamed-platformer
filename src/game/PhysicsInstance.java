@@ -27,17 +27,17 @@ public class PhysicsInstance implements Serializable {
 	public boolean upCancel = false;
 
 	Vector2f velocity = new Vector2f(0, 0);
-	Vector2f currentForce = new Vector2f();
+	Vector2f currentForceConstruction = new Vector2f();
 	public boolean solidCollisionOccurred = false;
 
 	private ActiveEntity actor;
 
 	public void addForce(Vector2f force) {
-		Vector2f.add(currentForce, force, currentForce);
+		Vector2f.add(currentForceConstruction, force, currentForceConstruction);
 	}
 
 	public Vector2f getCurrentForce() {
-		return currentForce;
+		return currentForceConstruction;
 	}
 
 	public PhysicsInstance(ActiveEntity actor) {
@@ -68,15 +68,14 @@ public class PhysicsInstance implements Serializable {
 		PhysicsProcessor.applyGravity(actor, millisecDelta);
 
 		// v = v + a*t
-		currentForce.scale(millisecDelta);
+		currentForceConstruction.scale(millisecDelta);
 
-		velocity = currentForce;
+		velocity = currentForceConstruction; // TODO: Fix
 
 		// clear out current force (no longer current next tic)
-		currentForce = new Vector2f(0, 0);
+		currentForceConstruction = new Vector2f(0, 0);
 
-		CollisionProcessor.queueMoveAttempt(actor, velocity);
-
+		CollisionProcessor.queue(actor);
 	}
 
 	public void recalculateDirection(Point original) {
@@ -111,8 +110,8 @@ public class PhysicsInstance implements Serializable {
 	}
 
 	public void zero() {
-		currentForce.x = 0;
-		currentForce.y = 0;
+		currentForceConstruction.x = 0;
+		currentForceConstruction.y = 0;
 		airTime = 0;
 		velocity.x = 0;
 		velocity.y = 0;
@@ -131,6 +130,10 @@ public class PhysicsInstance implements Serializable {
 	private boolean isZero = false;
 	public boolean isZero() {
 		return isZero;
+	}
+
+	public Vector2f getVelocity() {
+		return this.velocity;
 	}
 
 }

@@ -5,30 +5,43 @@ import game.entities.ActiveEntity;
 import game.entities.Entity;
 import game.parameters.PhysicsRef.Axis;
 import game.parameters.Ref.Flag;
-import game.structures.MoveAttempt;
 
 import java.awt.Point;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.lwjgl.util.vector.Vector2f;
+
+import app.LevelManager;
 
 public class CollisionProcessor {
 
 	static boolean collisionOccurred = false;
 
+	public static void processMoves() {
+		for (ActiveEntity a : movedEntities) {
+
+			// only check entities in nearby regions
+			List<Entity> entitiesToCheck = new ArrayList<Entity>();
+			LevelManager.retrieveFromQuadTree(entitiesToCheck, a.getBox());
+			CollisionProcessor.processMove(a, entitiesToCheck);
+			entitiesToCheck.clear();
+		}
+		movedEntities.clear();
+
+	}
+
 	private static void findAndProcessCollisions(ActiveEntity a,
 			Axis direction, int originalPos, List<Entity> entitiesToCheck) {
 		for (Entity b : entitiesToCheck) {
 			if (a != b && a.collidesWith(b)) {
-				process(a, b, direction, originalPos);
+				processCollision(a, b, direction, originalPos);
 			}
 		}
 	}
 
-	private static void process(ActiveEntity a, Entity b, Axis direction,
-			int originalPos) {
+	private static void processCollision(ActiveEntity a, Entity b,
+			Axis direction, int originalPos) {
 		if (a.checkFlag(Flag.hurtsOthers) && b.checkFlag(Flag.breakableBlock)) {
 
 			b.setFlag(Flag.outOfPlay, true);
@@ -48,14 +61,13 @@ public class CollisionProcessor {
 				i.interactWith(a);
 			}
 		}
-		
 
 		if (a.checkFlag(Flag.tangible) && b.checkFlag(Flag.solid)
 				&& a.hasPhysics()) {
 			if (a.physics.isZero()) {
 				return;
 			}
-			
+
 			if (direction != Axis.HORIZONTAL) {
 				a.physics.inAir = false;
 				a.physics.airTime = 0;
@@ -74,31 +86,26 @@ public class CollisionProcessor {
 
 	}
 
-	public static void processMove(Entity a, List<Entity> entitiesToCheck) {
-		if (!moveAttempts.containsKey(a)) {
-			return;
-		}
+	private static void processMove(ActiveEntity actor,
+			List<Entity> entitiesToCheck) {
 
-		MoveAttempt m = moveAttempts.get(a);
+		Point original = actor.getPos();
+		Vector2f velocity = actor.physics.getVelocity();
 
-		Point original = a.getPos();
-
-		m.actor.setX((int) (original.x + m.velocity.getX()));
-		findAndProcessCollisions(m.actor, Axis.HORIZONTAL, original.x,
+		actor.setX((int) (original.x + velocity.getX()));
+		findAndProcessCollisions(actor, Axis.HORIZONTAL, original.x,
 				entitiesToCheck);
-		m.actor.setY((int) (original.y + m.velocity.getY()));
-		findAndProcessCollisions(m.actor, Axis.VERTICAL, original.y,
+		actor.setY((int) (original.y + velocity.getY()));
+		findAndProcessCollisions(actor, Axis.VERTICAL, original.y,
 				entitiesToCheck);
 
-		m.actor.physics.recalculateDirection(original);
-
-		moveAttempts.remove(a);
+		actor.physics.recalculateDirection(original);
 	}
 
-	private static Map<ActiveEntity, MoveAttempt> moveAttempts = new HashMap<ActiveEntity, MoveAttempt>();
+	private static List<ActiveEntity> movedEntities = new ArrayList<ActiveEntity>();
 
-	public static void queueMoveAttempt(ActiveEntity actor, Vector2f velocity) {
-		moveAttempts.put(actor, new MoveAttempt(actor, velocity));
+	public static void queue(ActiveEntity actor) {
+		movedEntities.add(actor);
 	}
 
 }
