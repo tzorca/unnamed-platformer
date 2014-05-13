@@ -36,19 +36,17 @@ public class SimpleProceduralGenerator extends LevelGenerator {
 		int maxY = grid * 64;
 
 		// put player at bottom-left
-		addDistinct("player", grid, maxY - grid * 2);
+		addDistinct("player", grid*4, maxY - grid * 4);
 
-		// create a cursor under the player's initial position
-		Point cursor = new Point(grid, maxY - grid);
+		// create a cursor to the left and below the
+		// player's initial position
+		Point cursor = new Point(0, maxY - grid);
 
-		// add a starting platform underneath the player
-		add(EntityType.SolidBlock, cursor.x, cursor.y, grid);
-		cursor.x += grid;
-		add(EntityType.SolidBlock, cursor.x, cursor.y, grid);
-
-		SectionSetup sectionSetup;
+		SectionSetup sectionSetup = sectionSetups.get(0); 
 		SectionSetup lastSectionSetup = (SectionSetup) MathHelper
 				.randInList(sectionSetups);
+		int sectionCount;
+		int pieceCount = 5;
 		for (int areaIterator = 0; areaIterator < areaCount; areaIterator++) {
 
 			// Each area has a single type of texture for each type of entity
@@ -59,22 +57,9 @@ public class SimpleProceduralGenerator extends LevelGenerator {
 						EntityCreator.chooseTextureFromType(type));
 			}
 
-			int sectionCount = MathHelper.randRange(minSections, maxSections);
+			sectionCount = MathHelper.randRange(minSections, maxSections);
 			for (int sectionIterator = 0; sectionIterator < sectionCount; sectionIterator++) {
-
-				do {
-					sectionSetup = (SectionSetup) MathHelper
-							.randInList(sectionSetups);
-				} while (!lastSectionSetup.allowRepeat
-						&& sectionSetup.equals(lastSectionSetup));
-
-				if (!lastSectionSetup.allowRepeat) {
-					if (sectionSetup.equals(lastSectionSetup)) {
-						System.out.println(sectionSetup.name);
-					}
-				}
-				lastSectionSetup = sectionSetup;
-
+				
 				String textureName = areaTextureMap
 						.get(sectionSetup.entityType);
 
@@ -83,7 +68,6 @@ public class SimpleProceduralGenerator extends LevelGenerator {
 
 				Point translation = sectionSetup.getTranslation(grid);
 
-				int pieceCount = MathHelper.randRange(1, maxPieces);
 				for (int pieceIterator = 0; pieceIterator < pieceCount; pieceIterator++) {
 					cursor.translate(translation.x, translation.y);
 					add(textureName, cursor.x, cursor.y, grid);
@@ -93,7 +77,17 @@ public class SimpleProceduralGenerator extends LevelGenerator {
 								+ undergroundIterator, grid);
 					}
 				}
+				pieceCount = MathHelper.randRange(1, maxPieces);
+				
+				lastSectionSetup = sectionSetup;
+				do {
+					sectionSetup = (SectionSetup) MathHelper
+							.randInList(sectionSetups);
+				} while (!lastSectionSetup.allowRepeat
+						&& sectionSetup.equals(lastSectionSetup));
 			}
+			
+
 		}
 
 		// put goal at end
