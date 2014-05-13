@@ -45,6 +45,11 @@ public class App {
 			GUIManager.setStateHeld(false);
 			App.restart();
 		}
+		
+		if (InputManager.getGameKeyState(GameKey.startRandomGame, 1)) {
+			GameManager.generateRandomGame();
+			App.state = State.play;
+		}
 	}
 
 	public static void main(String[] args) {
