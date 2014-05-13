@@ -22,7 +22,8 @@ public class GUI_EditSelect extends GUI_Template {
 		hookControls();
 		lstGames.clear();
 
-		Collection<String> nameList = ContentManager.list(ContentType.game, true);
+		Collection<String> nameList = ContentManager.list(ContentType.game,
+				true);
 		for (String name : nameList) {
 			if (name.startsWith(".")) {
 				continue;
@@ -82,6 +83,6 @@ public class GUI_EditSelect extends GUI_Template {
 		}
 
 		GameManager.loadGame(currentGameName);
-		App.delayedStateChange(State.edit);
+		App.state = State.edit;
 	}
 }

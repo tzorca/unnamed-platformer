@@ -29,4 +29,9 @@ public class Ref implements Serializable {
 	public static String baseDir = "res/";
 
 	public static String appPath;
+
+	public static final int FPS = 60;
+
+	public static final long MILLISECS_IN_IDEAL_TIC = (long) (1000.0 / (FPS + 0.0));
+
 }

@@ -2,6 +2,7 @@ package app;
 
 import game.logic.EntityCreator;
 import game.parameters.InputRef.GameKey;
+import game.parameters.Ref;
 
 import org.lwjgl.opengl.Display;
 
@@ -11,11 +12,12 @@ public class App {
 
 	public static State initialState = State.start;
 	public static State state = initialState;
-	public static State nextState = null;
 
 	public static enum State {
 		start, choosePlayLevel, chooseEditLevel, play, edit, editSelect, playSelect
 	}
+
+	static long accumulator = 0;
 
 	private static void gameLoop() {
 		while (!Display.isCloseRequested()) {
@@ -25,18 +27,18 @@ public class App {
 				continue;
 			}
 
-			if (nextState != null) {
-				state = nextState;
-				nextState = null;
+			InputManager.update();
+			processSpecialInput();
+
+			accumulator += millisecDelta;
+
+			while (accumulator >= Ref.MILLISECS_IN_IDEAL_TIC) {
+				GameManager.update(Ref.MILLISECS_IN_IDEAL_TIC);
+				accumulator -= Ref.MILLISECS_IN_IDEAL_TIC;
 			}
 
-			InputManager.update();
-
-			processSpecialInput();
-			
-			GameManager.update(millisecDelta);
-
 			ViewManager.update();
+
 		}
 	}
 
@@ -45,7 +47,7 @@ public class App {
 			GUIManager.setStateHeld(false);
 			App.restart();
 		}
-		
+
 		if (InputManager.getGameKeyState(GameKey.startRandomGame, 1)) {
 			GameManager.generateRandomGame();
 			App.state = State.play;
@@ -82,10 +84,6 @@ public class App {
 
 	public static void log(String string) {
 		System.out.println(string);
-	}
-
-	public static void delayedStateChange(State n) {
-		nextState = n;
 	}
 
 }

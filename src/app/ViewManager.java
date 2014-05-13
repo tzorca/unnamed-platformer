@@ -100,15 +100,15 @@ public class ViewManager {
 		FlColor color = graphic.color;
 		Texture t = graphic.getTexture();
 
-//		if (!graphic.isTempHighlight()) {
-			if (color != null) {
-				GL11.glColor4f(color.r(), color.g(), color.b(), color.a());
-			} else {
-				resetColor();
-			}
-//		} else {
-//			GL11.glColor4f(1, 0.5f, 0.5f, 0.75f);
-//		}
+		// if (!graphic.isTempHighlight()) {
+		if (color != null) {
+			GL11.glColor4f(color.r(), color.g(), color.b(), color.a());
+		} else {
+			resetColor();
+		}
+		// } else {
+		// GL11.glColor4f(1, 0.5f, 0.5f, 0.75f);
+		// }
 
 		if (t != null) {
 			float tW = t.getWidth();
@@ -297,8 +297,7 @@ public class ViewManager {
 	}
 
 	private static void syncDisplay() {
-
-		Display.sync(60);
+		Display.sync(ViewRef.FPS);
 	}
 
 	private static void updateDisplay() {

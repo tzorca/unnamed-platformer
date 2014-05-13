@@ -4,7 +4,6 @@ import game.dynamics.control_mechanisms.ControlMechanism;
 import game.entities.ActiveEntity;
 import game.logic.CollisionProcessor;
 import game.logic.PhysicsProcessor;
-import game.parameters.PhysicsRef;
 import game.structures.ControlMechanismList;
 
 import java.awt.Point;
@@ -61,16 +60,16 @@ public class PhysicsInstance implements Serializable {
 
 		solidCollisionOccurred = false;
 		isZero = false;
-		// PhysicsProcessor.doSomethingNew(actor, delta);
 
 		runControlMechanisms(millisecDelta);
 
 		PhysicsProcessor.applyGravity(actor, millisecDelta);
 
 		// v = v + a*t
-		currentForceConstruction.scale(millisecDelta);
+		// TODO: This formula is not even used properly!
+		// Lots of restructuring in other places will be needed to fix it...
 
-		velocity = currentForceConstruction; // TODO: Fix
+		velocity = (Vector2f) currentForceConstruction.scale(millisecDelta);
 
 		// clear out current force (no longer current next tic)
 		currentForceConstruction = new Vector2f(0, 0);
@@ -116,7 +115,7 @@ public class PhysicsInstance implements Serializable {
 		velocity.x = 0;
 		velocity.y = 0;
 		solidCollisionOccurred = false;
-		
+
 		resetControlMechanisms();
 		isZero = true;
 	}
@@ -128,6 +127,7 @@ public class PhysicsInstance implements Serializable {
 	}
 
 	private boolean isZero = false;
+
 	public boolean isZero() {
 		return isZero;
 	}
