@@ -69,7 +69,6 @@ public class PhysicsInstance implements Serializable {
 
 		// v = v + a*t
 		currentForce.scale(millisecDelta);
-		currentForce.scale(PhysicsRef.forceScale);
 
 		velocity = currentForce;
 
