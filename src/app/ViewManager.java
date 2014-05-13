@@ -293,11 +293,6 @@ public class ViewManager {
 		GUIManager.update();
 
 		updateDisplay();
-		syncDisplay();
-	}
-
-	private static void syncDisplay() {
-		Display.sync(ViewRef.FPS);
 	}
 
 	private static void updateDisplay() {

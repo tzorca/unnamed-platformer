@@ -3,6 +3,7 @@ package app;
 import game.logic.EntityCreator;
 import game.parameters.InputRef.GameKey;
 import game.parameters.Ref;
+import game.parameters.ViewRef;
 
 import org.lwjgl.opengl.Display;
 
@@ -23,6 +24,8 @@ public class App {
 		while (!Display.isCloseRequested()) {
 			long millisecDelta = TimeManager.tick();
 
+			sync();
+
 			if (millisecDelta == 0) {
 				continue;
 			}
@@ -40,6 +43,12 @@ public class App {
 			ViewManager.update();
 
 		}
+	}
+
+	private static void sync() {
+		// According to LWJGL documentation, this should be 
+		// called in the game loop
+		Display.sync(ViewRef.FPS);
 	}
 
 	private static void processSpecialInput() {
