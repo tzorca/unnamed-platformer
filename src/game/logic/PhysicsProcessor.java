@@ -19,9 +19,6 @@ public class PhysicsProcessor {
 	}
 
 	public static void applyGravity(ActiveEntity actor, float delta) {
-		if (!actor.hasPhysics()) {
-			return;
-		}
 		if (!actor.checkFlag(Flag.obeysGravity)) {
 			return;
 		}

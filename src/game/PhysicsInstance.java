@@ -4,6 +4,8 @@ import game.dynamics.control_mechanisms.ControlMechanism;
 import game.entities.ActiveEntity;
 import game.logic.CollisionProcessor;
 import game.logic.PhysicsProcessor;
+import game.parameters.PhysicsRef;
+import game.parameters.Ref.Flag;
 import game.structures.ControlMechanismList;
 
 import java.awt.Point;
@@ -63,7 +65,15 @@ public class PhysicsInstance implements Serializable {
 
 		runControlMechanisms(millisecDelta);
 
-		PhysicsProcessor.applyGravity(actor, millisecDelta);
+		if (actor.checkFlag(Flag.obeysGravity)) {
+			PhysicsProcessor.applyGravity(actor, millisecDelta);
+		}
+
+		if (currentForceConstruction.equals(PhysicsRef.EMPTY_VECTOR)
+				|| currentForceConstruction.length() == 0) {
+			// do NOT add to collision processing queue (or do anything else)
+			return;
+		}
 
 		// v = v + a*t
 		// TODO: This formula is not even used properly!

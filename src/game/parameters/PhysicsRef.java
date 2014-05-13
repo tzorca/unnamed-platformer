@@ -6,7 +6,6 @@ public class PhysicsRef {
 
 	public static Vector2f gravity = new Vector2f(0, 0.6f);
 
-
 	public enum Orientation {
 		UP, DOWN, LEFT, RIGHT, UPRIGHT, UPLEFT, DOWNRIGHT, DOWNLEFT
 	}
@@ -43,4 +42,6 @@ public class PhysicsRef {
 
 	public static final double STRICT_SIDE_MATCH_DISTANCE = Math.PI / 2;
 	public static final double LOOSE_SIDE_MATCH_DISTANCE = Math.PI / 2.5;
+
+	public static final Vector2f EMPTY_VECTOR = new Vector2f(0, 0);
 }
