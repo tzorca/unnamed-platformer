@@ -40,12 +40,12 @@ public class Control_PersistentVectorMovement extends ControlMechanism {
 
 	@Override
 	public void update(long millisecDelta) {
-		actor.physics.addForce(vector);
+		actor.getPhysics().addForce(vector);
 		if (endTime > 0 && TimeManager.time() > endTime) {
 			finish();
 		}
 
-		if (actor.physics.solidCollisionOccurred == true) {
+		if (actor.getPhysics().solidCollisionOccurred == true) {
 			finish();
 		}
 	}

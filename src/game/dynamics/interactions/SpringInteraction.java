@@ -25,10 +25,10 @@ public class SpringInteraction extends Interaction implements Serializable {
 		if (!plr.hasPhysics()) {
 			return;
 		}
-		plr.physics.airTime = 0;
-		plr.physics.upCancel = true;
-		plr.physics.addForce(v);
-		plr.physics.addControlMechanism(new Control_PersistentVectorMovement(
+		plr.getPhysics().airTime = 0;
+		plr.getPhysics().upCancel = true;
+		plr.getPhysics().addForce(v);
+		plr.getPhysics().addControlMechanism(new Control_PersistentVectorMovement(
 				plr, v, 500));
 	}
 

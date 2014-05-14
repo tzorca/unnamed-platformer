@@ -40,9 +40,9 @@ public class PlatformPlayer extends ActiveEntity {
 	}
 
 	private void addSpProps() {
-		this.physics.addControlMechanism(hzMoveBehaviour);
-		this.physics.addControlMechanism(jumpBehaviour);
-		this.physics.addControlMechanism(shootBehaviour);
+		this.getPhysics().addControlMechanism(hzMoveBehaviour);
+		this.getPhysics().addControlMechanism(jumpBehaviour);
+		this.getPhysics().addControlMechanism(shootBehaviour);
 		this.setFlag(Flag.obeysGravity, true);
 		this.setFlag(Flag.tangible, true);
 		this.setFlag(Flag.player, true);

@@ -64,23 +64,23 @@ public class CollisionProcessor {
 
 		if (a.isFlagSet(Flag.tangible) && b.isFlagSet(Flag.solid)
 				&& a.hasPhysics()) {
-			if (a.physics.isZero()) {
+			if (a.getPhysics().isZero()) {
 				return;
 			}
 
 			if (direction != Axis.HORIZONTAL) {
-				a.physics.inAir = false;
-				a.physics.airTime = 0;
+				a.getPhysics().inAir = false;
+				a.getPhysics().airTime = 0;
 				if (a.getY() < originalPos) {
-					a.physics.upCancel = true;
+					a.getPhysics().upCancel = true;
 				}
 
 				a.setY(originalPos);
-				a.physics.solidCollisionOccurred = true;
+				a.getPhysics().solidCollisionOccurred = true;
 
 			} else {
 				a.setX(originalPos);
-				a.physics.solidCollisionOccurred = true;
+				a.getPhysics().solidCollisionOccurred = true;
 			}
 		}
 
@@ -90,7 +90,7 @@ public class CollisionProcessor {
 			List<Entity> entitiesToCheck) {
 
 		Point original = actor.getPos();
-		Vector2f velocity = actor.physics.getVelocity();
+		Vector2f velocity = actor.getPhysics().getVelocity();
 
 		actor.setX((int) (original.x + velocity.getX()));
 		findAndProcessCollisions(actor, Axis.HORIZONTAL, original.x,
@@ -99,7 +99,7 @@ public class CollisionProcessor {
 		findAndProcessCollisions(actor, Axis.VERTICAL, original.y,
 				entitiesToCheck);
 
-		actor.physics.recalculateDirection(original);
+		actor.getPhysics().recalculateDirection(original);
 	}
 
 	private static List<ActiveEntity> movedEntities = new ArrayList<ActiveEntity>();

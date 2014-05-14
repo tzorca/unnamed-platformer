@@ -20,19 +20,19 @@ public class Control_OverheadMove extends ControlMechanism {
 	@Override
 	public void update(long millisecDelta) {
 		if (InputManager.getGameKeyState(GameKey.right, 1)) {
-			actor.physics.addForce(new Vector2f(speed, 0));
+			actor.getPhysics().addForce(new Vector2f(speed, 0));
 		}
 
 		if (InputManager.getGameKeyState(GameKey.left, 1)) {
-			actor.physics.addForce(new Vector2f(-speed, 0));
+			actor.getPhysics().addForce(new Vector2f(-speed, 0));
 		}
 
 		if (InputManager.getGameKeyState(GameKey.up, 1)) {
-			actor.physics.addForce(new Vector2f(0, -speed));
+			actor.getPhysics().addForce(new Vector2f(0, -speed));
 		}
 
 		if (InputManager.getGameKeyState(GameKey.down, 1)) {
-			actor.physics.addForce(new Vector2f(0, speed));
+			actor.getPhysics().addForce(new Vector2f(0, speed));
 		}
 
 	}

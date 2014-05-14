@@ -28,11 +28,11 @@ public class Control_HorizontalMove extends ControlMechanism {
 	@Override
 	public void update(long millisecDelta) {
 		if (InputManager.getGameKeyState(GameKey.right, 1)) {
-			actor.physics.addForce(new Vector2f(speed, 0f));
+			actor.getPhysics().addForce(new Vector2f(speed, 0f));
 		}
 
 		if (InputManager.getGameKeyState(GameKey.left, 1)) {
-			actor.physics.addForce(new Vector2f(-speed, 0f));
+			actor.getPhysics().addForce(new Vector2f(-speed, 0f));
 		}
 	}
 	

@@ -146,6 +146,9 @@ public class Level {
 		// clear previous update's quad tree
 		quadTree.clear();
 
+		// grab viewRect for later use
+		Rectangle viewRect = ViewManager.getViewRect();
+
 		// perform entity logic and update quad tree
 		Iterator<Entity> entityIterator = entities.iterator();
 		while (entityIterator.hasNext()) {
@@ -171,7 +174,7 @@ public class Level {
 			// -- it is likely the case that we won't need to process
 			// entities that are off-screen
 			if (App.state == State.play) {
-				if (entity.getBox().intersects(ViewManager.getViewRect()))
+				if (entity.getBox().intersects(viewRect))
 					quadTree.insert(entity);
 			}
 		}

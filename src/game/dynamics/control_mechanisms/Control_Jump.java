@@ -24,7 +24,7 @@ public class Control_Jump extends ControlMechanism {
 
 	@Override
 	public void update(long millisecDelta) {
-		if (!actor.physics.inAir) {
+		if (!actor.getPhysics().inAir) {
 
 			if (!jumping && InputManager.getGameKeyState(GameKey.up, 1)
 					&& actor.isFlagSet(Flag.obeysGravity)) {
@@ -49,20 +49,20 @@ public class Control_Jump extends ControlMechanism {
 
 	private void finishJumping() {
 		jumping = false;
-		actor.physics.airTime = 0;
+		actor.getPhysics().airTime = 0;
 		currentDelta = maxDelta;
 
-		actor.physics.upCancel = false;
+		actor.getPhysics().upCancel = false;
 	}
 
 	private void continueJumping(float delta) {
 		// double jumpInverseTimeRatio = 0;
-		if (actor.physics.upCancel) {
+		if (actor.getPhysics().upCancel) {
 			finishJumping();
 			return;
 		}
 		if (currentDelta < maxDelta) {
-			actor.physics.addForce(new Vector2f(0f, (float) (-jumpStrength)));
+			actor.getPhysics().addForce(new Vector2f(0f, (float) (-jumpStrength)));
 		} else {
 			finishJumping();
 		}
@@ -71,7 +71,7 @@ public class Control_Jump extends ControlMechanism {
 	}
 
 	private void beginJumping() {
-		actor.physics.inAir = true;
+		actor.getPhysics().inAir = true;
 		jumping = true;
 		currentDelta = 0;
 	}

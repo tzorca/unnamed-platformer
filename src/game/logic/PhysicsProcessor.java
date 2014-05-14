@@ -23,10 +23,10 @@ public class PhysicsProcessor {
 			return;
 		}
 		
-		actor.physics.addForce(PhysicsProcessor
-				.calculateGravity(actor.physics.airTime));
-		actor.physics.inAir = true;
-		actor.physics.airTime += delta / 1000.0;
+		actor.getPhysics().addForce(PhysicsProcessor
+				.calculateGravity(actor.getPhysics().airTime));
+		actor.getPhysics().inAir = true;
+		actor.getPhysics().airTime += delta / 1000.0;
 	}
 
 }

@@ -40,9 +40,9 @@ public class Control_Shoot extends ControlMechanism {
 		TimeManager.sample(hashCode());
 		ActiveEntity movingProjectile = SerializationUtils.clone(projectile);
 
-		Vector2f v = actor.physics.getDirection();
+		Vector2f v = actor.getPhysics().getDirection();
 		v.y -= 0.1;
-		movingProjectile.physics
+		movingProjectile.getPhysics()
 				.addControlMechanism(new Control_PersistentVectorMovement(
 						movingProjectile, projectileSpeed, MathHelper
 								.angleFromVector(v)));
@@ -67,7 +67,7 @@ public class Control_Shoot extends ControlMechanism {
 	public void setProjectile(ActiveEntity projectile) {
 		this.projectile = projectile;
 		this.projectile.setFlag(Flag.solid, false);
-		this.projectile.physics.clearControlMechanisms();
+		this.projectile.getPhysics().clearControlMechanisms();
 	}
 	
 	public void reset() {
