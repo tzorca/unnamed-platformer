@@ -24,14 +24,14 @@ public class App {
 		while (!Display.isCloseRequested()) {
 			long millisecDelta = TimeManager.tick();
 
-			sync();
-
 			if (millisecDelta == 0) {
 				continue;
 			}
 
 			InputManager.update();
 			processSpecialInput();
+
+			sync();
 
 			accumulator += millisecDelta;
 
@@ -60,6 +60,11 @@ public class App {
 		if (InputManager.getGameKeyState(GameKey.startRandomGame, 1)) {
 			GameManager.generateRandomGame();
 			App.state = State.play;
+		}
+		
+		
+		if (InputManager.getGameKeyState(GameKey.saveTempGame, 1)) {
+			GameManager.saveCurrentGame("Temp");
 		}
 	}
 

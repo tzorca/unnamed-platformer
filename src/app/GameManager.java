@@ -43,6 +43,10 @@ public class GameManager {
 		currentGame.addBlankLevel();
 	}
 
+	public static void saveCurrentGame(String name) {
+		currentGame.save(name);
+	}
+	
 	public static void saveCurrentGame() {
 		currentGame.save(currentGame.getName());
 	}

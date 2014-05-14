@@ -26,7 +26,7 @@ public class SimpleProceduralGenerator extends LevelGenerator {
 				-1));
 	}
 
-	static int areaCount = 300;
+	static int areaCount = 20;
 	static int minSections = 3, maxSections = 15;
 	static int maxPieces = 3;
 

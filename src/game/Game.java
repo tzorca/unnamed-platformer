@@ -30,7 +30,7 @@ public class Game {
 	}
 
 	public boolean save(String name) {
-
+		this.name = name;
 		String filename = ContentManager.getFilename(ContentType.game, name);
 		return toBlueprint().save(filename);
 	}
