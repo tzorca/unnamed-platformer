@@ -114,7 +114,7 @@ public class GUI_Edit extends GUI_Template {
 			return;
 		}
 
-		if (newEntity.checkFlag(Flag.player)) {
+		if (newEntity.isFlagSet(Flag.player)) {
 			if (playerAdded) {
 				return;
 			}
@@ -199,7 +199,7 @@ public class GUI_Edit extends GUI_Template {
 		if (atMouse != null) {
 			currentLevel.removeEntity(atMouse);
 
-			if (atMouse.checkFlag(Flag.player)) {
+			if (atMouse.isFlagSet(Flag.player)) {
 				playerAdded = false;
 			}
 		}

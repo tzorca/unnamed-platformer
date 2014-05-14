@@ -65,7 +65,7 @@ public class PhysicsInstance implements Serializable {
 
 		runControlMechanisms(millisecDelta);
 
-		if (actor.checkFlag(Flag.obeysGravity)) {
+		if (actor.isFlagSet(Flag.obeysGravity)) {
 			PhysicsProcessor.applyGravity(actor, millisecDelta);
 		}
 

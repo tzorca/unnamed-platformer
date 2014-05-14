@@ -2,12 +2,12 @@ package game.entities;
 
 import game.parameters.Ref.Flag;
 import game.parameters.Ref.SizeMethod;
-import game.structures.FlagMap;
 import game.structures.Graphic;
 
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.io.Serializable;
+import java.util.EnumSet;
 
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.opengl.Texture;
@@ -16,7 +16,7 @@ public class Entity implements Serializable {
 	private static final long serialVersionUID = 2898448772127546782L;
 
 	// protected Behaviour behaviour;
-	protected FlagMap flags = new FlagMap();
+	protected EnumSet<Flag> flags = EnumSet.noneOf(Flag.class);
 	protected Rectangle box = new Rectangle();
 	public Graphic graphic;
 
@@ -38,18 +38,19 @@ public class Entity implements Serializable {
 		this.box = box;
 	}
 
-	public Entity(Graphic graphic, Point pos, FlagMap flags) {
+	public Entity(Graphic graphic, Point pos, EnumSet<Flag> flags) {
 		setupEntity(graphic, new Rectangle(pos.x, pos.y, 0, 0),
 				SizeMethod.TEXTURE, flags);
 		this.startPos = getPos();
 	}
 
 	public Entity() {
-		setupEntity(null, new Rectangle(), SizeMethod.ABSOLUTE, new FlagMap());
+		setupEntity(null, new Rectangle(), SizeMethod.ABSOLUTE,
+				EnumSet.noneOf(Flag.class));
 		this.startPos = getPos();
 	}
 
-	public Entity(Graphic graphic, Point pos, int width, FlagMap flags) {
+	public Entity(Graphic graphic, Point pos, int width, EnumSet<Flag> flags) {
 		setupEntity(graphic, new Rectangle(pos.x, pos.y, width, width),
 				SizeMethod.TEXTURE_SCALE, flags);
 		this.startPos = getPos();
@@ -57,7 +58,7 @@ public class Entity implements Serializable {
 	}
 
 	private void setupEntity(Graphic graphic, Rectangle r,
-			SizeMethod sizeMethod, FlagMap flags) {
+			SizeMethod sizeMethod, EnumSet<Flag> flags) {
 		this.graphic = graphic;
 		this.box.x = r.x;
 		this.box.y = r.y;
@@ -121,19 +122,23 @@ public class Entity implements Serializable {
 		box.y = p.y - box.height / 2;
 	}
 
-	public boolean checkFlag(Flag f) {
-		return flags.containsKey(f) && flags.get(f);
+	public boolean isFlagSet(Flag f) {
+		return flags.contains(f);
 	}
 
-	public void setFlag(Flag f, boolean b) {
-		flags.put(f, b);
-	}
-
-	public void toggleFlag(Flag f) {
-		if (!flags.containsKey(f)) {
-			flags.put(f, true);
+	public void setFlag(Flag flag, boolean truthValue) {
+		if (!truthValue) {
+			flags.remove(flag);
 		} else {
-			flags.put(f, !flags.get(f));
+			flags.add(flag);
+		}
+	}
+
+	public void toggleFlag(Flag flag) {
+		if (flags.contains(flag)) {
+			flags.remove(flag);
+		} else {
+			flags.add(flag);
 		}
 	}
 

@@ -27,7 +27,7 @@ public class Control_Jump extends ControlMechanism {
 		if (!actor.physics.inAir) {
 
 			if (!jumping && InputManager.getGameKeyState(GameKey.up, 1)
-					&& actor.checkFlag(Flag.obeysGravity)) {
+					&& actor.isFlagSet(Flag.obeysGravity)) {
 
 				beginJumping();
 			}

@@ -21,7 +21,7 @@ public class LevelExitInteraction extends Interaction {
 
 	@Override
 	protected boolean isValidTarget(Entity target) {
-		return target.checkFlag(Flag.player);
+		return target.isFlagSet(Flag.player);
 	}
 
 }

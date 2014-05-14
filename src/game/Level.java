@@ -16,8 +16,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 
-import org.apache.commons.lang3.SerializationUtils;
-
 import app.App;
 import app.App.State;
 import app.ViewManager;
@@ -157,13 +155,13 @@ public class Level {
 				// perform entity logic
 				entity.update(millisecDelta);
 
-				if (entity.checkFlag(Flag.player)) {
+				if (entity.isFlagSet(Flag.player)) {
 					playerEntity = entity;
 				}
 			}
 
 			// remove entities that have been flagged to be removed
-			if (entity.checkFlag(Flag.outOfPlay)) {
+			if (entity.isFlagSet(Flag.outOfPlay)) {
 				entityIterator.remove();
 				continue;
 			}
@@ -195,7 +193,7 @@ public class Level {
 		while (entityIterator.hasNext()) {
 			Entity entity = entityIterator.next();
 
-			if (entity.checkFlag(flag)) {
+			if (entity.isFlagSet(flag)) {
 				return entity;
 			}
 		}

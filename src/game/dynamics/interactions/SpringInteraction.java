@@ -34,7 +34,7 @@ public class SpringInteraction extends Interaction implements Serializable {
 
 	@Override
 	protected boolean isValidTarget(Entity target) {
-		return target.checkFlag(Flag.player);
+		return target.isFlagSet(Flag.player);
 	}
 
 }

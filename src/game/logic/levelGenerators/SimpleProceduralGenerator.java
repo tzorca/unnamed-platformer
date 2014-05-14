@@ -26,7 +26,7 @@ public class SimpleProceduralGenerator extends LevelGenerator {
 				-1));
 	}
 
-	static int areaCount = 10;
+	static int areaCount = 60;
 	static int minSections = 3, maxSections = 15;
 	static int maxPieces = 3;
 
@@ -36,13 +36,13 @@ public class SimpleProceduralGenerator extends LevelGenerator {
 		int maxY = grid * 64;
 
 		// put player at bottom-left
-		addDistinct("player", grid*4, maxY - grid * 4);
+		addDistinct("player", grid * 4, maxY - grid * 4);
 
 		// create a cursor to the left and below the
 		// player's initial position
 		Point cursor = new Point(0, maxY - grid);
 
-		SectionSetup sectionSetup = sectionSetups.get(0); 
+		SectionSetup sectionSetup = sectionSetups.get(0);
 		SectionSetup lastSectionSetup = (SectionSetup) MathHelper
 				.randInList(sectionSetups);
 		int sectionCount;
@@ -59,7 +59,7 @@ public class SimpleProceduralGenerator extends LevelGenerator {
 
 			sectionCount = MathHelper.randRange(minSections, maxSections);
 			for (int sectionIterator = 0; sectionIterator < sectionCount; sectionIterator++) {
-				
+
 				String textureName = areaTextureMap
 						.get(sectionSetup.entityType);
 
@@ -78,7 +78,7 @@ public class SimpleProceduralGenerator extends LevelGenerator {
 					}
 				}
 				pieceCount = MathHelper.randRange(1, maxPieces);
-				
+
 				lastSectionSetup = sectionSetup;
 				do {
 					sectionSetup = (SectionSetup) MathHelper
@@ -86,7 +86,6 @@ public class SimpleProceduralGenerator extends LevelGenerator {
 				} while (!lastSectionSetup.allowRepeat
 						&& sectionSetup.equals(lastSectionSetup));
 			}
-			
 
 		}
 

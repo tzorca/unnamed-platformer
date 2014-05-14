@@ -42,15 +42,15 @@ public class CollisionProcessor {
 
 	private static void processCollision(ActiveEntity a, Entity b,
 			Axis direction, int originalPos) {
-		if (a.checkFlag(Flag.hurtsOthers) && b.checkFlag(Flag.breakableBlock)) {
+		if (a.isFlagSet(Flag.hurtsOthers) && b.isFlagSet(Flag.breakableBlock)) {
 
 			b.setFlag(Flag.outOfPlay, true);
 			a.setFlag(Flag.outOfPlay, true);
 			return;
 		}
 
-		if (a.checkFlag(Flag.dissolvesOnContact) && b.checkFlag(Flag.solid)
-				&& !b.checkFlag(Flag.breakableBlock)) {
+		if (a.isFlagSet(Flag.dissolvesOnContact) && b.isFlagSet(Flag.solid)
+				&& !b.isFlagSet(Flag.breakableBlock)) {
 			a.setFlag(Flag.outOfPlay, true);
 			return;
 		}
@@ -62,7 +62,7 @@ public class CollisionProcessor {
 			}
 		}
 
-		if (a.checkFlag(Flag.tangible) && b.checkFlag(Flag.solid)
+		if (a.isFlagSet(Flag.tangible) && b.isFlagSet(Flag.solid)
 				&& a.hasPhysics()) {
 			if (a.physics.isZero()) {
 				return;

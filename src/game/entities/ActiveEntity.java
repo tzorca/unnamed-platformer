@@ -2,11 +2,11 @@ package game.entities;
 
 import game.PhysicsInstance;
 import game.parameters.Ref.Flag;
-import game.structures.FlagMap;
 import game.structures.Graphic;
 import game.structures.InteractionList;
 
 import java.awt.Point;
+import java.util.EnumSet;
 
 public class ActiveEntity extends Entity {
 	private static final long serialVersionUID = 7803333719264801403L;
@@ -14,12 +14,13 @@ public class ActiveEntity extends Entity {
 	public InteractionList interactions = new InteractionList();
 	public PhysicsInstance physics;
 
-	public ActiveEntity(Graphic graphic, Point pos, int width, FlagMap flags) {
+	public ActiveEntity(Graphic graphic, Point pos, int width,
+			EnumSet<Flag> flags) {
 		super(graphic, pos, width, flags);
 		physics = new PhysicsInstance(this);
 	}
 
-	public ActiveEntity(Graphic graphic, Point pos, FlagMap flags) {
+	public ActiveEntity(Graphic graphic, Point pos, EnumSet<Flag> flags) {
 		super(graphic, pos, flags);
 		physics = new PhysicsInstance(this);
 	}
@@ -37,7 +38,7 @@ public class ActiveEntity extends Entity {
 	}
 
 	public ActiveEntity(Graphic graphic, Point pos) {
-		super(graphic, pos, new FlagMap());
+		super(graphic, pos, EnumSet.noneOf(Flag.class));
 		physics = new PhysicsInstance(this);
 	}
 

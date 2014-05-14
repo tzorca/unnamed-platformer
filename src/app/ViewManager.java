@@ -82,7 +82,7 @@ public class ViewManager {
 	}
 
 	public static void drawEntity(Entity entity) {
-		if (entity.checkFlag(Flag.invisible)) {
+		if (entity.isFlagSet(Flag.invisible)) {
 			return;
 		}
 
