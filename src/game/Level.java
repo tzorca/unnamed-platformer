@@ -18,6 +18,7 @@ import java.util.ListIterator;
 
 import app.App;
 import app.App.State;
+import app.CloneManager;
 import app.ViewManager;
 
 public class Level {
@@ -114,10 +115,9 @@ public class Level {
 		resetTo(originalEntities);
 	}
 
-	@SuppressWarnings("unchecked")
 	private void resetTo(LinkedList<Entity> srcEntities) {
 		originalEntities = srcEntities;
-		entities = (LinkedList<Entity>) srcEntities.clone();
+		entities = CloneManager.deepClone(srcEntities);
 	}
 
 	public void materializeNewEntities() {
