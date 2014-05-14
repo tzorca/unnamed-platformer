@@ -12,7 +12,7 @@ import java.util.List;
 
 public class QuadTree {
 
-	private int MAX_OBJECTS = 300;
+	private int MAX_OBJECTS = 20;
 	private int MAX_LEVELS = 10;
 
 	private int level;
@@ -97,7 +97,7 @@ public class QuadTree {
 
 	// prevent stupid "just barely out of range so fall through ground" bugs
 	private Rectangle increaseRect(Rectangle pRect) {
-		return new Rectangle(pRect.x-16, pRect.y-16, pRect.width+32, pRect.height+32);
+		return new Rectangle(pRect.x-32, pRect.y-32, pRect.width+64, pRect.height+64);
 	}
 
 	/*

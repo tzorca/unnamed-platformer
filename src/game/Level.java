@@ -101,9 +101,10 @@ public class Level {
 		resetTo(originalEntities);
 	}
 
+	@SuppressWarnings("unchecked")
 	private void resetTo(LinkedList<Entity> srcEntities) {
 		originalEntities = srcEntities;
-		entities = SerializationUtils.clone(srcEntities);
+		entities = (LinkedList<Entity>) srcEntities.clone();
 	}
 
 	public void materializeNewEntities() {
@@ -168,8 +169,12 @@ public class Level {
 			}
 
 			// add existing entities to quadtree
+			// but if they are in the player's current view
+			// -- it is likely the case that we won't need to process
+			// entities that are off-screen
 			if (App.state == State.play) {
-				quadTree.insert(entity);
+				if (entity.getBox().intersects(ViewManager.getViewRect()))
+					quadTree.insert(entity);
 			}
 		}
 
