@@ -46,7 +46,7 @@ public class App {
 	}
 
 	private static void sync() {
-		// According to LWJGL documentation, this should be 
+		// According to LWJGL documentation, this should be
 		// called in the game loop
 		Display.sync(ViewRef.FPS);
 	}

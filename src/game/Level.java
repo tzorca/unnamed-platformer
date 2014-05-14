@@ -46,12 +46,27 @@ public class Level {
 	}
 
 	public Level(LinkedList<Entity> origEntities, Rectangle levelRect) {
-		resetTo(origEntities);
-		setRect(levelRect);
+		init(origEntities, levelRect);
 	}
 
 	public Level(LinkedList<Entity> origEntities) {
+		init(origEntities, Ref.DEFAULT_LEVEL_RECTANGLE);
+	}
+	
+	private void init(LinkedList<Entity> origEntities, Rectangle levelRect) {
 		resetTo(origEntities);
+		setRect(levelRect);
+		findPlayer();
+	}
+
+	Entity playerEntity;
+	private void findPlayer() {
+		for (Entity e : entities) {
+			if (e.isFlagSet(Flag.player)) {
+				playerEntity = e;
+				ViewManager.centerCamera(playerEntity.getCenter());
+			}
+		}
 	}
 
 	public void save(String filename) {
@@ -139,20 +154,21 @@ public class Level {
 
 	public void update(long millisecDelta) {
 
-		// create temporary variable to keep track of the player entity
-		// we want to focus the camera on the player at the end of the update
-		Entity playerEntity = null;
-
 		// clear previous update's quad tree
 		quadTree.clear();
 
-		// grab viewRect for later use
+		// grab viewRect for use in loop
 		Rectangle viewRect = ViewManager.getViewRect();
 
-		// perform entity logic and update quad tree
+		// perform entity logic and update quadtree
+		// only for entities in the player's current view
 		Iterator<Entity> entityIterator = entities.iterator();
 		while (entityIterator.hasNext()) {
 			Entity entity = entityIterator.next();
+			
+			if (!entity.getBox().intersects(viewRect)) {
+				continue;
+			}
 
 			if (App.state == State.play) {
 				// perform entity logic
@@ -164,18 +180,16 @@ public class Level {
 			}
 
 			// remove entities that have been flagged to be removed
-			if (entity.isFlagSet(Flag.outOfPlay)) {
+			// unless they are the player entity
+			if (entity.isFlagSet(Flag.outOfPlay) && !entity.isFlagSet(Flag.player)) {
+				
 				entityIterator.remove();
 				continue;
 			}
 
 			// add existing entities to quadtree
-			// but if they are in the player's current view
-			// -- it is likely the case that we won't need to process
-			// entities that are off-screen
 			if (App.state == State.play) {
-				if (entity.getBox().intersects(viewRect))
-					quadTree.insert(entity);
+				quadTree.insert(entity);
 			}
 		}
 
