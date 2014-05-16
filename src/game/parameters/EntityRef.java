@@ -1,5 +1,6 @@
 package game.parameters;
 
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,7 +12,8 @@ public class EntityRef {
 
 	public static Map<String, EntityType> textureEntityTypeMap = new HashMap<String, EntityType>();
 
-	public static Map<EntityType, List<String>> entityTypeTextureMap = new HashMap<EntityType, List<String>>();
+	public static EnumMap<EntityType, List<String>> entityTypeTextureMap = new EnumMap<EntityType, List<String>>(
+			EntityType.class);
 
 	static {
 		// just an alias

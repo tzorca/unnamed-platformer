@@ -1,7 +1,7 @@
 package app;
 
-import game.parameters.ContentRef;
 import game.parameters.AudioRef.AudioType;
+import game.parameters.ContentRef;
 import game.parameters.ContentRef.ContentType;
 import game.structures.AudioWrapper;
 import game.structures.ContentDetails;
@@ -9,6 +9,7 @@ import game.structures.ContentDetails;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,7 +38,7 @@ public class ContentManager {
 				.get(contentType).getDir());
 	}
 
-	private static HashMap<ContentType, HashMap<String, Object>> resourceCache = new HashMap<ContentType, HashMap<String, Object>>();
+	private static EnumMap<ContentType, HashMap<String, Object>> resourceCache = new EnumMap<ContentType, HashMap<String, Object>>(ContentType.class);
 
 	public static Object get(ContentType contentType, String contentName) {
 		HashMap<String, Object> specificResourceMap = resourceCache

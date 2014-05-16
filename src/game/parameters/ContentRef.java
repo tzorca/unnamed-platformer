@@ -3,8 +3,7 @@ package game.parameters;
 import game.structures.AudioWrapper;
 import game.structures.ContentDetails;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.EnumMap;
 
 import org.newdawn.slick.Game;
 import org.newdawn.slick.opengl.Texture;
@@ -16,7 +15,8 @@ public class ContentRef {
 		game, texture, audioSample, audioLoop, niftyImage
 	}
 
-	public static final Map<ContentType, ContentDetails> details = new HashMap<ContentType, ContentDetails>();
+	public static final EnumMap<ContentType, ContentDetails> details = new EnumMap<ContentType, ContentDetails>(
+			ContentType.class);
 	static {
 		details.put(ContentType.game, new ContentDetails("game/", ".game",
 				Game.class, false));

@@ -63,8 +63,6 @@ public class MathHelper {
 		return Math.atan2(vector.y, vector.x);
 	}
 
-	// TODO: Look for other instances of HashMap that could be better
-	// represented with an EnumMap!
 	public static EnumMap<Side, Double> getSideDistances(Double radians,
 			Side[] sidesToCheck) {
 		EnumMap<Side, Double> distances = new EnumMap<Side, Double>(Side.class);

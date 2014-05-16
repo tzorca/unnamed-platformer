@@ -4,20 +4,20 @@ import game.parameters.Ref.BlueprintComponent;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.util.HashMap;
+import java.util.EnumMap;
 
 import de.ruedigermoeller.serialization.FSTConfiguration;
 import de.ruedigermoeller.serialization.FSTObjectInput;
 import de.ruedigermoeller.serialization.FSTObjectOutput;
 
-public class Blueprint extends HashMap<BlueprintComponent, Object> {
+public class Blueprint extends EnumMap<BlueprintComponent, Object> {
 	private static final long serialVersionUID = -7682315731084504119L;
 
 	private static transient FSTConfiguration conf = FSTConfiguration
 			.createDefaultConfiguration();
 
 	public Blueprint() {
-		super();
+		super(BlueprintComponent.class);
 	}
 
 	public boolean save(String filename) {

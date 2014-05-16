@@ -6,6 +6,7 @@ import game.parameters.EntityRef.EntityType;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.HashMap;
 
 import app.ViewManager;
@@ -24,10 +25,13 @@ public class SimpleProceduralGenerator extends LevelGenerator {
 		ss.add(new SectionSetup("slopeUp", EntityType.SolidBlock, 1, -1));
 		ss.add(new SectionSetup("verticalUp", false, EntityType.SolidBlock, 0,
 				-1));
+
+		ss.add(new SectionSetup("verticalDown", false, EntityType.SolidBlock, 0,
+				1));
 	}
 
-	static int areaCount = 20;
-	static int minSections = 3, maxSections = 15;
+	static int areaCount = 15;
+	static int minSections = 3, maxSections = 9;
 	static int maxPieces = 3;
 
 	@Override
@@ -51,7 +55,7 @@ public class SimpleProceduralGenerator extends LevelGenerator {
 
 			// Each area has a single type of texture for each type of entity
 			// These are picked randomly at the start of an area iteration
-			HashMap<EntityType, String> areaTextureMap = new HashMap<EntityType, String>();
+			EnumMap<EntityType, String> areaTextureMap = new EnumMap<EntityType, String>(EntityType.class);
 			for (EntityType type : EntityType.values()) {
 				areaTextureMap.put(type,
 						EntityCreator.chooseTextureFromType(type));
