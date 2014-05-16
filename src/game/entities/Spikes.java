@@ -8,6 +8,7 @@ import java.awt.Point;
 import java.io.Serializable;
 
 public class Spikes extends Hazard implements Serializable {
+	private static final long serialVersionUID = -4236233873255466151L;
 
 	public Spikes(Graphic graphic, Point pos) {
 		super(graphic, pos, new Side[] { Side.TOP });

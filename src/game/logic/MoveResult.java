@@ -1,6 +1,10 @@
 package game.logic;
 
-public class MoveResult {
+import java.io.Serializable;
+
+public class MoveResult implements Serializable {
+	private static final long serialVersionUID = -5293771597980287464L;
+	
 	private boolean xCollision, yCollision;
 	private float yAttempt, xAttempt;
 

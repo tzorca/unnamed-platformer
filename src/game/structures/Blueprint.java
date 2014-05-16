@@ -4,12 +4,17 @@ import game.parameters.Ref.BlueprintComponent;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.HashMap;
+
+import de.ruedigermoeller.serialization.FSTConfiguration;
+import de.ruedigermoeller.serialization.FSTObjectInput;
+import de.ruedigermoeller.serialization.FSTObjectOutput;
 
 public class Blueprint extends HashMap<BlueprintComponent, Object> {
 	private static final long serialVersionUID = -7682315731084504119L;
+
+	private static transient FSTConfiguration conf = FSTConfiguration
+			.createDefaultConfiguration();
 
 	public Blueprint() {
 		super();
@@ -18,8 +23,8 @@ public class Blueprint extends HashMap<BlueprintComponent, Object> {
 	public boolean save(String filename) {
 		try {
 			FileOutputStream fileOut = new FileOutputStream(filename);
-			ObjectOutputStream out = new ObjectOutputStream(fileOut);
-			out.writeObject(this);
+			FSTObjectOutput out = conf.getObjectOutput(fileOut);
+			out.writeObject(this, Blueprint.class);
 			out.close();
 			fileOut.close();
 			return true;
@@ -33,8 +38,8 @@ public class Blueprint extends HashMap<BlueprintComponent, Object> {
 		Blueprint bp;
 		try {
 			FileInputStream fileIn = new FileInputStream(filename);
-			ObjectInputStream in = new ObjectInputStream(fileIn);
-			bp = (Blueprint) in.readObject();
+			FSTObjectInput in = conf.getObjectInput(fileIn);
+			bp = (Blueprint) in.readObject(Blueprint.class);
 			in.close();
 			fileIn.close();
 			return bp;
@@ -43,6 +48,5 @@ public class Blueprint extends HashMap<BlueprintComponent, Object> {
 			return null;
 		}
 	}
-
 
 }

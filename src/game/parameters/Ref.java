@@ -5,8 +5,6 @@ import game.structures.FlColor;
 import java.awt.Rectangle;
 import java.io.Serializable;
 
-import com.rits.cloning.Cloner;
-
 public class Ref implements Serializable {
 	private static final long serialVersionUID = 7052842507336198611L;
 
