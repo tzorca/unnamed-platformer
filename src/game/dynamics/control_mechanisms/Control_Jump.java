@@ -1,5 +1,6 @@
 package game.dynamics.control_mechanisms;
 
+import game.PhysicsInstance;
 import game.entities.ActiveEntity;
 import game.parameters.InputRef.GameKey;
 import game.parameters.Ref.Flag;
@@ -11,84 +12,58 @@ import app.InputManager;
 public class Control_Jump extends ControlMechanism {
 	private static final long serialVersionUID = 6634477314813175782L;
 
-	long currentDelta, maxDelta;
-	double jumpStrength = 0;
+	float jumpStrength = 0;
 	boolean jumping = false;
 
-	public Control_Jump(ActiveEntity actor, double jumpStrength,
-			double maxSeconds) {
+	public Control_Jump(ActiveEntity actor, float jumpStrength) {
 		super(actor);
 		this.jumpStrength = jumpStrength;
-		this.maxDelta = (long) (maxSeconds * 1000);
 	}
 
 	@Override
-	public void update(long millisecDelta) {
-		if (!actor.getPhysics().inAir) {
+	public void update() {
+		PhysicsInstance physics = actor.getPhysics();
 
-			if (!jumping && InputManager.getGameKeyState(GameKey.up, 1)
-					&& actor.isFlagSet(Flag.obeysGravity)) {
+		if (physics.lastMoveResult.hadYCollision()
+				&& physics.lastMoveResult.getyAttempt() > 0) {
+			jumping = false;
+		}
 
-				beginJumping();
-			}
+		if (!jumping && InputManager.getGameKeyState(GameKey.up, 1)
+				&& actor.isFlagSet(Flag.obeysGravity)) {
+
+
+			actor.getPhysics().inAir = true;
+			jumping = true;
+
+			actor.getPhysics().addForce(
+					new Vector2f(0f, (float) (-jumpStrength)));
 		}
 
 		if (jumping) {
-			if (InputManager.getGameKeyState(GameKey.up, 1)) {
-				continueJumping(millisecDelta);
-			} else {
-				finishJumping();
+			if (!InputManager.getGameKeyState(GameKey.up, 1)) {
+
+				if (physics.getVelocity().y < 0) {
+					float yDiff = physics.getVelocity().y + jumpStrength;
+					if (yDiff > 0) {
+
+						actor.getPhysics().addForce(new Vector2f(0, yDiff/4));
+					}
+				}
 			}
 		}
 	}
-	
-	
+
 	public void reset() {
 		jumping = false;
-	}
-
-	private void finishJumping() {
-		jumping = false;
-		actor.getPhysics().airTime = 0;
-		currentDelta = maxDelta;
-
-		actor.getPhysics().upCancel = false;
-	}
-
-	private void continueJumping(float delta) {
-		// double jumpInverseTimeRatio = 0;
-		if (actor.getPhysics().upCancel) {
-			finishJumping();
-			return;
-		}
-		if (currentDelta < maxDelta) {
-			actor.getPhysics().addForce(new Vector2f(0f, (float) (-jumpStrength)));
-		} else {
-			finishJumping();
-		}
-
-		currentDelta += delta;
-	}
-
-	private void beginJumping() {
-		actor.getPhysics().inAir = true;
-		jumping = true;
-		currentDelta = 0;
 	}
 
 	public double getJumpStrength() {
 		return jumpStrength;
 	}
 
-	public void setJumpStrength(double js) {
+	public void setJumpStrength(float js) {
 		jumpStrength = js;
 	}
 
-	public double getJumpTime() {
-		return maxDelta / 1000.0;
-	}
-
-	public void setJumpTime(double jumpTime) {
-		maxDelta = (long) (1000 * jumpTime);
-	}
 }

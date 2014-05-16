@@ -39,10 +39,10 @@ public class ActiveEntity extends Entity {
 		super(graphic, pos, EnumSet.noneOf(Flag.class));
 	}
 
-	public void update(long millisecDelta) {
-		super.update(millisecDelta);
+	public void update() {
+		super.update();
 		if (physics != null) {
-			getPhysics().update(millisecDelta);
+			getPhysics().update();
 		}
 	}
 

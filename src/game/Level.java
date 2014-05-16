@@ -1,7 +1,7 @@
 package game;
 
 import game.entities.Entity;
-import game.logic.CollisionProcessor;
+import game.logic.PhysicsProcessor;
 import game.parameters.Ref;
 import game.parameters.Ref.BlueprintComponent;
 import game.parameters.Ref.Flag;
@@ -53,7 +53,7 @@ public class Level {
 	public Level(LinkedList<Entity> origEntities) {
 		init(origEntities, Ref.DEFAULT_LEVEL_RECTANGLE);
 	}
-	
+
 	private void init(LinkedList<Entity> origEntities, Rectangle levelRect) {
 		resetTo(origEntities);
 		setRect(levelRect);
@@ -61,6 +61,7 @@ public class Level {
 	}
 
 	Entity playerEntity;
+
 	private void findPlayer() {
 		for (Entity e : entities) {
 			if (e.isFlagSet(Flag.player)) {
@@ -152,7 +153,7 @@ public class Level {
 		return null;
 	}
 
-	public void update(long millisecDelta) {
+	public void update() {
 
 		// clear previous update's quad tree
 		quadTree.clear();
@@ -165,14 +166,14 @@ public class Level {
 		Iterator<Entity> entityIterator = entities.iterator();
 		while (entityIterator.hasNext()) {
 			Entity entity = entityIterator.next();
-			
+
 			if (!entity.getBox().intersects(viewRect)) {
 				continue;
 			}
 
 			if (App.state == State.play) {
 				// perform entity logic
-				entity.update(millisecDelta);
+				entity.update();
 
 				if (entity.isFlagSet(Flag.player)) {
 					playerEntity = entity;
@@ -181,8 +182,9 @@ public class Level {
 
 			// remove entities that have been flagged to be removed
 			// unless they are the player entity
-			if (entity.isFlagSet(Flag.outOfPlay) && !entity.isFlagSet(Flag.player)) {
-				
+			if (entity.isFlagSet(Flag.outOfPlay)
+					&& !entity.isFlagSet(Flag.player)) {
+
 				entityIterator.remove();
 				continue;
 			}
@@ -194,7 +196,7 @@ public class Level {
 		}
 
 		if (App.state == State.play) {
-			CollisionProcessor.processMoves();
+			PhysicsProcessor.processMoves();
 
 			if (playerEntity != null) {
 				ViewManager.centerCamera(playerEntity.getCenter());

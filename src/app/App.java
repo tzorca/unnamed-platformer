@@ -36,7 +36,7 @@ public class App {
 			accumulator += millisecDelta;
 
 			while (accumulator >= Ref.MILLISECS_IN_IDEAL_TIC) {
-				GameManager.update(Ref.MILLISECS_IN_IDEAL_TIC);
+				GameManager.update();
 				accumulator -= Ref.MILLISECS_IN_IDEAL_TIC;
 			}
 

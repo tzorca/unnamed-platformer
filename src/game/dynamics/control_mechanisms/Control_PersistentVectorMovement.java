@@ -39,13 +39,13 @@ public class Control_PersistentVectorMovement extends ControlMechanism {
 	}
 
 	@Override
-	public void update(long millisecDelta) {
+	public void update() {
 		actor.getPhysics().addForce(vector);
 		if (endTime > 0 && TimeManager.time() > endTime) {
 			finish();
 		}
 
-		if (actor.getPhysics().solidCollisionOccurred == true) {
+		if (actor.getPhysics().lastMoveResult.hadAnyCollision()) {
 			finish();
 		}
 	}
@@ -53,7 +53,7 @@ public class Control_PersistentVectorMovement extends ControlMechanism {
 	public void finish() {
 		this.toRemove = true;
 	}
-	
+
 	public void reset() {
 	}
 

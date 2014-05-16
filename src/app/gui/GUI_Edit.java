@@ -86,10 +86,6 @@ public class GUI_Edit extends GUI_Template {
 	}
 
 	public static Graphic getCurrentGraphic() {
-
-		if (lstTextureNames == null) {
-			return null;
-		}
 		return entityPlaceholderGraphics.get(lstTextureNames
 				.getFocusItemIndex());
 	}

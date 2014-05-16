@@ -14,8 +14,8 @@ public class GameManager {
 		// loadGame("test");
 	}
 
-	public static void update(long millisecDelta) {
-		currentGame.update(millisecDelta);
+	public static void update() {
+		currentGame.update();
 	}
 
 	public static void draw() {

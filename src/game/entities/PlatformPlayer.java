@@ -13,11 +13,13 @@ public class PlatformPlayer extends ActiveEntity {
 	private static final long serialVersionUID = 8624310770832698957L;
 
 	Control_HorizontalMove hzMoveBehaviour = new Control_HorizontalMove(this,
-			PhysicsRef.DEFAULT_PLR_SPEED);
+			PhysicsRef.DEFAULT_PLR_ACCELERATION,
+			PhysicsRef.DEFAULT_PLR_DECELERATION,
+			PhysicsRef.DEFAULT_PLR_MAX_SPEED);
 
 	Control_Jump jumpBehaviour = new Control_Jump(this,
-			PhysicsRef.DEFAULT_PLR_JUMP_STRENGTH,
-			PhysicsRef.DEFAULT_PLR_JUMP_TIME);
+			PhysicsRef.DEFAULT_PLR_JUMP_STRENGTH
+	);
 
 	Control_Shoot shootBehaviour = new Control_Shoot(this, new Beam(new Point(
 			0, 0)), PhysicsRef.DEFAULT_SHOOT_SPEED,
@@ -32,10 +34,6 @@ public class PlatformPlayer extends ActiveEntity {
 	public PlatformPlayer(Graphic graphic, Point startPos, float speed,
 			double jumpStrength, double jumpTime) {
 		super(graphic, startPos);
-		setSpeed(speed);
-		setJumpStrength(jumpStrength);
-		setJumpTime(jumpTime);
-
 		addSpProps();
 	}
 
@@ -49,27 +47,19 @@ public class PlatformPlayer extends ActiveEntity {
 	}
 
 	public float getSpeed() {
-		return hzMoveBehaviour.getSpeed();
+		return hzMoveBehaviour.getAcceleration();
 	}
 
 	public void setSpeed(float speed) {
-		hzMoveBehaviour.setSpeed(speed);
+		hzMoveBehaviour.setAcceleration(speed);
 	}
 
 	public double getJumpStrength() {
 		return jumpBehaviour.getJumpStrength();
 	}
 
-	public void setJumpStrength(double jumpStrength) {
+	public void setJumpStrength(float jumpStrength) {
 		jumpBehaviour.setJumpStrength(jumpStrength);
-	}
-
-	public double getJumpTime() {
-		return jumpBehaviour.getJumpTime();
-	}
-
-	public void setJumpTime(double jumpTime) {
-		jumpBehaviour.setJumpTime(jumpTime);
 	}
 
 }

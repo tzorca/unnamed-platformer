@@ -2,7 +2,7 @@ package game;
 
 import game.dynamics.control_mechanisms.ControlMechanism;
 import game.entities.ActiveEntity;
-import game.logic.CollisionProcessor;
+import game.logic.MoveResult;
 import game.logic.PhysicsProcessor;
 import game.parameters.PhysicsRef;
 import game.parameters.Ref.Flag;
@@ -22,23 +22,23 @@ public class PhysicsInstance implements Serializable {
 	private List<ControlMechanism> mechanisms = new LinkedList<ControlMechanism>();
 
 	public boolean inAir = true;
-	public double airTime = 0;
 	private Vector2f lastMove = new Vector2f(0, 0),
 			lastDirection = new Vector2f(0, 0);
 	public boolean upCancel = false;
 
 	Vector2f velocity = new Vector2f(0, 0);
-	Vector2f currentForceConstruction = new Vector2f();
-	public boolean solidCollisionOccurred = false;
+	Vector2f unscaledVelocity = new Vector2f(0, 0);
+	Vector2f currentForces = new Vector2f();
+	public MoveResult lastMoveResult = new MoveResult(false, false, 0, 0);
 
 	private ActiveEntity actor;
 
 	public void addForce(Vector2f force) {
-		Vector2f.add(currentForceConstruction, force, currentForceConstruction);
+		Vector2f.add(currentForces, force, currentForces);
 	}
 
 	public Vector2f getCurrentForce() {
-		return currentForceConstruction;
+		return currentForces;
 	}
 
 	public PhysicsInstance(ActiveEntity actor) {
@@ -58,33 +58,28 @@ public class PhysicsInstance implements Serializable {
 	}
 
 	// TODO: Still needs some work...
-	public void update(long millisecDelta) {
-
-		solidCollisionOccurred = false;
+	public void update() {
 		isZero = false;
 
-		runControlMechanisms(millisecDelta);
+		runControlMechanisms();
 
 		if (actor.isFlagSet(Flag.obeysGravity)) {
-			PhysicsProcessor.applyGravity(actor, millisecDelta);
+			PhysicsProcessor.applyGravity(actor);
 		}
 
-		if (currentForceConstruction.equals(PhysicsRef.EMPTY_VECTOR)
-				|| currentForceConstruction.length() == 0) {
+		if (currentForces.equals(PhysicsRef.EMPTY_VECTOR)
+				|| currentForces.length() == 0) {
 			// do NOT add to collision processing queue (or do anything else)
 			return;
 		}
 
-		// v = v + a*t
-		// TODO: This formula is not even used properly!
-		// Lots of restructuring in other places will be needed to fix it...
-
-		velocity = (Vector2f) currentForceConstruction.scale(millisecDelta);
+		Vector2f.add(velocity, currentForces, velocity);
 
 		// clear out current force (no longer current next tic)
-		currentForceConstruction = new Vector2f(0, 0);
+		currentForces = new Vector2f(0, 0);
 
-		CollisionProcessor.queue(actor);
+		inAir = false;
+		PhysicsProcessor.queueMove(actor);
 	}
 
 	public void recalculateDirection(Point original) {
@@ -98,14 +93,14 @@ public class PhysicsInstance implements Serializable {
 		}
 	}
 
-	private void runControlMechanisms(long millisecDelta) {
+	private void runControlMechanisms() {
 		ControlMechanismList toRemoveList = new ControlMechanismList();
 		for (ControlMechanism b : mechanisms) {
 			if (b.toRemove) {
 				toRemoveList.add(b);
 				continue;
 			}
-			b.update(millisecDelta);
+			b.update();
 		}
 		mechanisms.removeAll(toRemoveList);
 	}
@@ -119,12 +114,10 @@ public class PhysicsInstance implements Serializable {
 	}
 
 	public void zero() {
-		currentForceConstruction.x = 0;
-		currentForceConstruction.y = 0;
-		airTime = 0;
+		currentForces.x = 0;
+		currentForces.y = 0;
 		velocity.x = 0;
 		velocity.y = 0;
-		solidCollisionOccurred = false;
 
 		resetControlMechanisms();
 		isZero = true;
@@ -144,6 +137,15 @@ public class PhysicsInstance implements Serializable {
 
 	public Vector2f getVelocity() {
 		return this.velocity;
+	}
+
+	public void setYVelocity(int y) {
+		velocity.y = y;
+	}
+
+	public void setXVelocity(int x) {
+		velocity.x = x;
+
 	}
 
 }

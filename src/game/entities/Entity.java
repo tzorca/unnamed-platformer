@@ -88,7 +88,7 @@ public class Entity implements Serializable {
 		this.startPos = getPos();
 	}
 
-	public void update(long millisecDelta) {
+	public void update() {
 	}
 
 	public boolean collidesWith(Entity otherEntity) {
