@@ -6,7 +6,7 @@ import game.logic.levelGenerators.SimpleProceduralGenerator;
 
 public class GameManager {
 
-	public static Game currentGame = new Game("Blank", true);
+	public static Game currentGame;
 
 	public static void init() {
 		// currentGame = GameManager.generateRandomGame();
@@ -15,7 +15,9 @@ public class GameManager {
 	}
 
 	public static void update() {
+		if (currentGame != null) {
 		currentGame.update();
+		}
 	}
 
 	public static void draw() {

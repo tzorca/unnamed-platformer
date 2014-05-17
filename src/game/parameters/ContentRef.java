@@ -1,6 +1,7 @@
 package game.parameters;
 
 import game.structures.AudioWrapper;
+import game.structures.BinaryPixelGrid;
 import game.structures.ContentDetails;
 
 import java.util.EnumMap;
@@ -12,7 +13,7 @@ import de.lessvoid.nifty.render.NiftyImage;
 
 public class ContentRef {
 	public enum ContentType {
-		game, texture, audioSample, audioLoop, niftyImage
+		game, texture, audioSample, audioLoop, niftyImage, binaryPixelGrid
 	}
 
 	public static final EnumMap<ContentType, ContentDetails> details = new EnumMap<ContentType, ContentDetails>(
@@ -28,5 +29,7 @@ public class ContentRef {
 				AudioWrapper.class, true));
 		details.put(ContentType.audioLoop, new ContentDetails("snd/", ".ogg",
 				AudioWrapper.class, true));
+		details.put(ContentType.binaryPixelGrid, new ContentDetails("img/",
+				".png", BinaryPixelGrid.class, true));
 	}
 }

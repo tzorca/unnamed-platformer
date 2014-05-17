@@ -34,4 +34,9 @@ public class Ref implements Serializable {
 
 	public static final long MILLISECS_IN_IDEAL_TIC = (long) (1000.0 / (FPS + 0.0));
 
+	public static final int MASK_BLUR_ITERATIONS = 2;
+	public static final float MASK_SIZE_PERCENT = .95f;
+
+	public static final int MAX_SLOPE = 8;
+
 }

@@ -35,6 +35,8 @@ public class EntityCreator {
 		for (Entry<File, String> entry : textureFiles.entrySet()) {
 			ContentManager.customCache(ContentType.texture, entry.getValue(),
 					entry.getKey());
+			ContentManager.customCache(ContentType.binaryPixelGrid, entry.getValue(),
+					entry.getKey());
 
 			String possibleTypeString = new File(entry.getKey().getParent())
 					.getName();

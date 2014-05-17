@@ -92,8 +92,14 @@ public class Entity implements Serializable {
 	}
 
 	public boolean collidesWith(Entity otherEntity) {
-		return box.intersects(otherEntity.box);
+		return getCroppedBox().intersects(otherEntity.getCroppedBox());
 
+	}
+
+	private Rectangle getCroppedBox() {
+		Rectangle cropRect = graphic.getCroppedRectangle(box);
+		
+		return cropRect;
 	}
 
 	public boolean pointInside(Point p) {

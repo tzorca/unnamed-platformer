@@ -57,18 +57,20 @@ public class Level {
 	private void init(LinkedList<Entity> origEntities, Rectangle levelRect) {
 		resetTo(origEntities);
 		setRect(levelRect);
-		findPlayer();
+		setupPlayer();
 	}
 
 	Entity playerEntity;
 
-	private void findPlayer() {
+	private void setupPlayer() {
 		for (Entity e : entities) {
 			if (e.isFlagSet(Flag.player)) {
 				playerEntity = e;
 				ViewManager.centerCamera(playerEntity.getCenter());
 			}
 		}
+		entities.remove(playerEntity);
+		entities.addLast(playerEntity);
 	}
 
 	public void save(String filename) {

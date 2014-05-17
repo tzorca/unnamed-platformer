@@ -3,9 +3,12 @@ package app;
 import game.parameters.AudioRef.AudioType;
 import game.parameters.ContentRef;
 import game.parameters.ContentRef.ContentType;
+import game.parameters.Ref;
 import game.structures.AudioWrapper;
+import game.structures.BinaryPixelGrid;
 import game.structures.ContentDetails;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
@@ -38,7 +41,8 @@ public class ContentManager {
 				.get(contentType).getDir());
 	}
 
-	private static EnumMap<ContentType, HashMap<String, Object>> resourceCache = new EnumMap<ContentType, HashMap<String, Object>>(ContentType.class);
+	private static EnumMap<ContentType, HashMap<String, Object>> resourceCache = new EnumMap<ContentType, HashMap<String, Object>>(
+			ContentType.class);
 
 	public static Object get(ContentType contentType, String contentName) {
 		HashMap<String, Object> specificResourceMap = resourceCache
@@ -91,13 +95,21 @@ public class ContentManager {
 						.getResourceAsStream(file.getAbsolutePath()), false,
 						GL11.GL_LINEAR);
 				break;
+			case binaryPixelGrid:
+				BufferedImage tmpImage = ImageHelper.loadImage(ResourceLoader
+						.getResourceAsStream(file.getAbsolutePath()));
+				tmpImage = ImageHelper.resizeImageWithinCanvas(
+				ImageHelper.blurImage(tmpImage, Ref.MASK_BLUR_ITERATIONS),
+				Ref.MASK_SIZE_PERCENT);
+				newResource = new BinaryPixelGrid(tmpImage);
+				break;
 			case niftyImage:
 				newResource = GUIManager.getImage(file.getAbsolutePath());
 				break;
 			case audioSample:
 				newResource = loadAudio(AudioType.SAMPLE, contentName);
 				break;
-			case audioLoop:
+			case audioLoop: 
 				newResource = loadAudio(AudioType.LOOP, contentName);
 				break;
 			default:
