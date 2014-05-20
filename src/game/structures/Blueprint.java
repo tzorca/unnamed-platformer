@@ -4,6 +4,7 @@ import game.parameters.Ref.BlueprintComponent;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.EnumMap;
 
 import de.ruedigermoeller.serialization.FSTConfiguration;
@@ -13,7 +14,6 @@ import de.ruedigermoeller.serialization.FSTObjectOutput;
 public class Blueprint extends EnumMap<BlueprintComponent, Object> {
 	private static final long serialVersionUID = -7682315731084504119L;
 
-	
 	private static transient FSTConfiguration conf = FSTConfiguration
 			.createDefaultConfiguration();
 
@@ -26,7 +26,6 @@ public class Blueprint extends EnumMap<BlueprintComponent, Object> {
 			FileOutputStream fileOut = new FileOutputStream(filename);
 			FSTObjectOutput out = conf.getObjectOutput(fileOut);
 			out.writeObject(this, Blueprint.class);
-			out.close();
 			fileOut.close();
 			return true;
 		} catch (Exception e) {
@@ -36,18 +35,27 @@ public class Blueprint extends EnumMap<BlueprintComponent, Object> {
 	}
 
 	public static Blueprint load(String filename) {
-		Blueprint bp;
+		Blueprint bp = null;
+		FileInputStream fileIn = null;
+		FSTObjectInput in = null;
 		try {
-			FileInputStream fileIn = new FileInputStream(filename);
-			FSTObjectInput in = conf.getObjectInput(fileIn);
+			fileIn = new FileInputStream(filename);
+			in = conf.getObjectInput(fileIn);
 			bp = (Blueprint) in.readObject(Blueprint.class);
-			in.close();
-			fileIn.close();
-			return bp;
 		} catch (Exception e) {
 			System.out.println(e.toString());
-			return null;
 		}
+
+		// close stream
+		try {
+			if (fileIn != null) {
+				fileIn.close();
+			}
+		} catch (IOException e) {
+			System.out.println(e.toString());
+		}
+		
+		return bp;
 	}
 
 }
