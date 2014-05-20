@@ -24,6 +24,9 @@ public abstract class LevelGenerator {
 		internalBuild();
 		Level lvl = new Level(entities, levelRect);
 		entities = new LinkedList<Entity>();
+		System.out.println(lvl.getRect().getX() + "," + lvl.getRect().getY()
+				+ "," + lvl.getRect().getWidth() + ","
+				+ lvl.getRect().getHeight());
 		return lvl;
 	}
 
@@ -43,7 +46,7 @@ public abstract class LevelGenerator {
 	}
 
 	protected Entity add(Entity newEntity) {
-		updateLevelRect(newEntity.getPos());
+		updateLevelRect(newEntity.getPos().x, newEntity.getPos().y);
 
 		return add(newEntity, false);
 	}
@@ -56,27 +59,26 @@ public abstract class LevelGenerator {
 
 	private static final int EXPECTED_MAX_ENTITY_SIZE = 256;
 
-	private void updateLevelRect(Vector2f pos) {
-
-		if (levelRect.getWidth() < pos.x + EXPECTED_MAX_ENTITY_SIZE) {
-			levelRect.setWidth(pos.x + EXPECTED_MAX_ENTITY_SIZE);
+	private void updateLevelRect(float x, float y) {
+		if (levelRect.getWidth() < x + EXPECTED_MAX_ENTITY_SIZE) {
+			levelRect.setWidth(x + EXPECTED_MAX_ENTITY_SIZE);
 		}
 
-		if (levelRect.getX() > pos.x - EXPECTED_MAX_ENTITY_SIZE) {
+		if (levelRect.getX() > x - EXPECTED_MAX_ENTITY_SIZE) {
 			float expansion = Math.abs(levelRect.getX()
-					- (pos.x - EXPECTED_MAX_ENTITY_SIZE));
-			levelRect.setX(pos.x - EXPECTED_MAX_ENTITY_SIZE);
+					- (x - EXPECTED_MAX_ENTITY_SIZE));
+			levelRect.setX(x - EXPECTED_MAX_ENTITY_SIZE);
 			levelRect.setWidth(levelRect.getWidth() + expansion);
 		}
 
-		if (levelRect.getWidth() < pos.y + EXPECTED_MAX_ENTITY_SIZE) {
-			levelRect.setWidth(pos.y + EXPECTED_MAX_ENTITY_SIZE);
+		if (levelRect.getWidth() < y + EXPECTED_MAX_ENTITY_SIZE) {
+			levelRect.setWidth(y + EXPECTED_MAX_ENTITY_SIZE);
 		}
 
-		if (levelRect.getY() > pos.y - EXPECTED_MAX_ENTITY_SIZE) {
+		if (levelRect.getY() > y - EXPECTED_MAX_ENTITY_SIZE) {
 			float expansion = Math.abs(levelRect.getY()
-					- (pos.y - EXPECTED_MAX_ENTITY_SIZE));
-			levelRect.setY(pos.y - EXPECTED_MAX_ENTITY_SIZE);
+					- (y - EXPECTED_MAX_ENTITY_SIZE));
+			levelRect.setY(y - EXPECTED_MAX_ENTITY_SIZE);
 			levelRect.setHeight(levelRect.getHeight() + expansion);
 		}
 	}
@@ -85,11 +87,6 @@ public abstract class LevelGenerator {
 		updateLevelRect(x, y);
 
 		return add(EntityCreator.create(type, new Vector2f(x, y), grid, false));
-	}
-
-	private void updateLevelRect(float x, float y) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	protected Entity add(String textureName, float x, float y, int grid) {
@@ -102,7 +99,8 @@ public abstract class LevelGenerator {
 	private Entity add(String textureName, float x, float y, boolean distinct) {
 		updateLevelRect(x, y);
 
-		return add(EntityCreator.create(textureName, new Vector2f(x, y)), distinct);
+		return add(EntityCreator.create(textureName, new Vector2f(x, y)),
+				distinct);
 	}
 
 	private Entity add(Entity newEntity, boolean distinct) {
