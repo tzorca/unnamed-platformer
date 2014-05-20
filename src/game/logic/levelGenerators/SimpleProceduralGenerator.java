@@ -7,7 +7,6 @@ import game.parameters.EntityRef.EntityType;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.EnumMap;
-import java.util.HashMap;
 
 import app.ViewManager;
 

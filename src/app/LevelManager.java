@@ -3,8 +3,9 @@ package app;
 import game.Level;
 import game.entities.Entity;
 
-import java.awt.Rectangle;
 import java.util.List;
+
+import org.newdawn.slick.geom.Rectangle;
 
 public class LevelManager {
 

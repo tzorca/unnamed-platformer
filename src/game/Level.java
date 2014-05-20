@@ -9,12 +9,13 @@ import game.structures.Blueprint;
 import game.structures.Graphic;
 import game.structures.QuadTree;
 
-import java.awt.Point;
-import java.awt.Rectangle;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
+
+import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Vector2f;
 
 import app.App;
 import app.App.State;
@@ -43,7 +44,8 @@ public class Level {
 	}
 
 	public Rectangle getRect() {
-		return new Rectangle(0, 0, rect.width, rect.height);
+		return new Rectangle(rect.getX(), rect.getY(), rect.getWidth(),
+				rect.getHeight());
 	}
 
 	public Level(LinkedList<Entity> origEntities, Rectangle levelRect) {
@@ -69,8 +71,9 @@ public class Level {
 				ViewManager.centerCamera(playerEntity.getCenter());
 			}
 		}
-		entities.remove(playerEntity);
-		entities.addLast(playerEntity);
+		if (playerEntity == null) {
+			System.out.println("Warning: Player entity not found.");
+		}
 	}
 
 	public void save(String filename) {
@@ -139,16 +142,16 @@ public class Level {
 		entities = new LinkedList<Entity>();
 	}
 
-	public List<Entity> getEntities() {
+	public LinkedList<Entity> getEntities() {
 		return this.entities;
 	}
 
-	public Entity getTopmostEntity(Point pos) {
+	public Entity getTopmostEntity(Vector2f point) {
 		ListIterator<Entity> rI = entities.listIterator(entities.size());
 
 		while (rI.hasPrevious()) {
 			Entity e = rI.previous();
-			if (e.getBox().contains(pos)) {
+			if (e.getBox().contains(point.x, point.y)) {
 				return e;
 			}
 		}
@@ -184,9 +187,11 @@ public class Level {
 
 			// remove entities that have been flagged to be removed
 			// unless they are the player entity
-			if (entity.isFlagSet(Flag.outOfPlay)
-					&& !entity.isFlagSet(Flag.player)) {
+			if (entity.isFlagSet(Flag.outOfPlay)) {
 
+				if (entity.isFlagSet(Flag.player) && App.state != State.edit) {
+					continue;
+				}
 				entityIterator.remove();
 				continue;
 			}

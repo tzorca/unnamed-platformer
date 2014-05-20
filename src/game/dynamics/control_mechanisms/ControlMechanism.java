@@ -14,7 +14,7 @@ public abstract class ControlMechanism implements Serializable {
 		this.actor = actor;
 	}
 
-	public abstract void update();
+	public abstract void update(float multiplier);
 
 	public abstract void reset();
 }

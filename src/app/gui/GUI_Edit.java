@@ -10,12 +10,13 @@ import game.parameters.Ref.Flag;
 import game.structures.FlColor;
 import game.structures.Graphic;
 
-import java.awt.Point;
-import java.awt.Rectangle;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.lwjgl.input.Keyboard;
+import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.opengl.Texture;
 
 import app.App;
@@ -39,7 +40,7 @@ public class GUI_Edit extends GUI_Template {
 	static List<Graphic> entityPlaceholderGraphics = new ArrayList<Graphic>();
 	boolean playerAdded = false;
 
-	Point cameraPos = new Point(Ref.DEFAULT_LEVEL_GRIDSIZE * 4,
+	Vector2f cameraPos = new Vector2f(Ref.DEFAULT_LEVEL_GRIDSIZE * 4,
 			Ref.DEFAULT_LEVEL_GRIDSIZE * 4);
 
 	private boolean changeLevel(int index) {
@@ -95,10 +96,11 @@ public class GUI_Edit extends GUI_Template {
 			return;
 		}
 
-		Point loc = MathHelper.snapToGrid(ViewManager.translateMouse(),
+		Vector2f loc = MathHelper.snapToGrid(ViewManager.translateMouse(),
 				currentLevel.gridSize);
 
-		if (!currentLevel.getRect().contains(loc)) {
+		if (!currentLevel.getRect().includes(loc.x, loc.y)
+				&& !currentLevel.getRect().contains(loc.x, loc.y)) {
 			return;
 		}
 
@@ -149,12 +151,13 @@ public class GUI_Edit extends GUI_Template {
 	private void processCameraControls() {
 
 		Rectangle cameraBounds = currentLevel.getRect();
-		cameraBounds.x -= ViewManager.width / 4;
-		cameraBounds.width += ViewManager.width / 2;
-		cameraBounds.y -= ViewManager.height / 4;
-		cameraBounds.height += ViewManager.height / 2;
+		cameraBounds.setX(cameraBounds.getX() - ViewManager.width / 4);
+		cameraBounds.setWidth(cameraBounds.getWidth() + ViewManager.width / 2);
+		cameraBounds.setY(cameraBounds.getY() - ViewManager.height / 4);
+		cameraBounds.setHeight(cameraBounds.getHeight() + ViewManager.height
+				/ 2);
 
-		int oX = cameraPos.x;
+		float oX = cameraPos.x;
 
 		if (InputManager.getKeyState(Keyboard.KEY_RIGHT)) {
 			cameraPos.x += 8;
@@ -164,11 +167,11 @@ public class GUI_Edit extends GUI_Template {
 			cameraPos.x -= 8;
 		}
 
-		if (!cameraBounds.contains(cameraPos)) {
+		if (!cameraBounds.contains(cameraPos.x, cameraPos.y)) {
 			cameraPos.x = oX;
 		}
 
-		int oY = cameraPos.y;
+		float oY = cameraPos.y;
 
 		if (InputManager.getKeyState(Keyboard.KEY_UP)) {
 			cameraPos.y -= 8;
@@ -178,7 +181,7 @@ public class GUI_Edit extends GUI_Template {
 			cameraPos.y += 8;
 		}
 
-		if (!cameraBounds.contains(cameraPos)) {
+		if (!cameraBounds.contains(cameraPos.x, cameraPos.y)) {
 			cameraPos.y = oY;
 		}
 
@@ -239,19 +242,28 @@ public class GUI_Edit extends GUI_Template {
 		if (!placeholderVisible || App.state != State.edit) {
 			return;
 		}
-		Level currentLevel = LevelManager.getCurrentLevel();
-
-		Point loc = MathHelper.snapToGrid(ViewManager.translateMouse(),
-				currentLevel.gridSize);
 
 		Graphic entityPlaceholderGraphic = getCurrentGraphic();
 
+		if (getCurrentGraphic() == null) {
+			return;
+		}
+
+		Level currentLevel = LevelManager.getCurrentLevel();
+
+		Vector2f loc = MathHelper.snapToGrid(ViewManager.translateMouse(),
+				currentLevel.gridSize);
+
 		Texture t = entityPlaceholderGraphic.getTexture();
 
-		Rectangle entityPlaceholderRect = new Rectangle(loc.x, loc.y,
+		Rectangle2D entityPlaceholderRect = new Rectangle2D.Float(loc.x, loc.y,
 				t.getImageWidth(), t.getImageHeight());
 
-		if (currentLevel.getRect().contains(entityPlaceholderRect)) {
+		Rectangle2D levelRect = new Rectangle2D.Float(currentLevel.getRect()
+				.getX(), currentLevel.getRect().getY(), currentLevel.getRect()
+				.getWidth(), currentLevel.getRect().getHeight());
+
+		if (levelRect.contains(entityPlaceholderRect)) {
 			ViewManager.drawGraphic(entityPlaceholderGraphic,
 					entityPlaceholderRect);
 		} else {

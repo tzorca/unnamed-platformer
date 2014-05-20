@@ -1,25 +1,19 @@
 package game.logic;
 
-import game.entities.BreakableBlock;
 import game.entities.Entity;
-import game.entities.Goal;
-import game.entities.Hazard;
-import game.entities.PlatformPlayer;
-import game.entities.SolidBlock;
-import game.entities.Spikes;
-import game.entities.SpringLike;
 import game.parameters.ContentRef.ContentType;
 import game.parameters.EntityRef;
 import game.parameters.EntityRef.EntityType;
 import game.structures.Graphic;
 
-import java.awt.Point;
 import java.io.File;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.opengl.Texture;
 
 import app.ContentManager;
@@ -35,8 +29,8 @@ public class EntityCreator {
 		for (Entry<File, String> entry : textureFiles.entrySet()) {
 			ContentManager.customCache(ContentType.texture, entry.getValue(),
 					entry.getKey());
-			ContentManager.customCache(ContentType.binaryPixelGrid, entry.getValue(),
-					entry.getKey());
+			ContentManager.customCache(ContentType.binaryPixelGrid,
+					entry.getValue(), entry.getKey());
 
 			String possibleTypeString = new File(entry.getKey().getParent())
 					.getName();
@@ -70,7 +64,7 @@ public class EntityCreator {
 		}
 	}
 
-	public static Entity create(EntityType type, Point location,
+	public static Entity create(EntityType type, Vector2f vector2f,
 			double sizeInput, boolean relativeSize) {
 		if (type == null) {
 			System.out.println("Can't create an entity with an empty type.");
@@ -79,10 +73,10 @@ public class EntityCreator {
 		String textureName = (String) MathHelper
 				.randInList(EntityRef.entityTypeTextureMap.get(type));
 
-		return create(textureName, type, location, sizeInput, relativeSize);
+		return create(textureName, type, vector2f, sizeInput, relativeSize);
 	}
 
-	public static Entity create(String textureName, Point location,
+	public static Entity create(String textureName, Vector2f location,
 			double sizeInput, boolean relativeSize) {
 		EntityType type = EntityRef.textureEntityTypeMap.get(textureName);
 		if (type == null) {
@@ -94,8 +88,9 @@ public class EntityCreator {
 		return create(textureName, type, location, sizeInput, relativeSize);
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static Entity create(String textureName, EntityType type,
-			Point location, double sizeInput, boolean relativeSize) {
+			Vector2f location, double sizeInput, boolean relativeSize) {
 
 		int width = (int) sizeInput;
 		if (relativeSize) {
@@ -108,38 +103,34 @@ public class EntityCreator {
 
 		Graphic graphic = new Graphic(textureName);
 
-		switch (type) {
-		case BreakableBlock:
-			newEntity = new BreakableBlock(graphic, location, width);
-			break;
-		case Goal:
-			newEntity = new Goal(graphic, location);
-			break;
-		case PlatformPlayer:
-			newEntity = new PlatformPlayer(graphic, location);
-			break;
-		case SolidBlock:
-			newEntity = new SolidBlock(graphic, location, width);
-			break;
-		case SpringLike:
-			newEntity = new SpringLike(graphic, location);
-			break;
-		case Hazard:
-			newEntity = new Hazard(graphic, location, width);
-			break;
-		case Spikes:
-			newEntity = new Spikes(graphic, location, width);
-			break;
-		default:
+		Class c;
+		try {
+			c = Class.forName("game.entities." + type.toString());
+		} catch (ClassNotFoundException e) {
 			System.out.println("The entity type " + type.toString()
 					+ " has not yet been implemented.");
 			return null;
+		}
+
+		try {
+			newEntity = (Entity) c.getConstructor(Graphic.class, Vector2f.class,
+					int.class).newInstance(graphic, location, width);
+		} catch (InstantiationException | IllegalAccessException
+				| IllegalArgumentException | InvocationTargetException
+				| NoSuchMethodException | SecurityException e) {
+			System.out.println("The class " + type.toString()
+					+ " has an implementation error: " + e.toString());
+			return null;
 
 		}
+		if (newEntity == null) {
+			System.out.println("Error: " + type.toString() + "was created null.");
+		}
+
 		return newEntity;
 	}
 
-	public static Entity create(String textureName, Point location) {
+	public static Entity create(String textureName, Vector2f location) {
 		return create(textureName, location, 1, true);
 	}
 
@@ -151,7 +142,7 @@ public class EntityCreator {
 		return EntityRef.textureEntityTypeMap.keySet();
 	}
 
-	public static Entity create(String textureName, Point location, int width) {
+	public static Entity create(String textureName, Vector2f location, int width) {
 		return create(textureName, location, width, false);
 	}
 

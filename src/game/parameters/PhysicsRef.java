@@ -1,10 +1,12 @@
 package game.parameters;
 
-import org.lwjgl.util.vector.Vector2f;
+import org.newdawn.slick.geom.Vector2f;
+
 
 public class PhysicsRef {
 
 	public static Vector2f gravity = new Vector2f(0, 0.23f);
+
 
 	public enum Orientation {
 		UP, DOWN, LEFT, RIGHT, UPRIGHT, UPLEFT, DOWNRIGHT, DOWNLEFT
@@ -14,7 +16,7 @@ public class PhysicsRef {
 		HORIZONTAL, VERTICAL, NONE
 	}
 
-	public static final float DEFAULT_SPRING_STRENGTH = 0.3f;
+	public static final float DEFAULT_SPRING_STRENGTH = 10f;
 
 	public static final float DEFAULT_PLR_ACCELERATION = 2.5f;
 	public static final float DEFAULT_PLR_DECELERATION = 4f;
@@ -44,8 +46,13 @@ public class PhysicsRef {
 
 	public static final double STRICT_SIDE_MATCH_DISTANCE = Math.PI / 2;
 	public static final double LOOSE_SIDE_MATCH_DISTANCE = Math.PI / 2.5;
+	
+
+	public final static float WATER_SPEED_FACTOR = 0.5f;
 
 	public static final Vector2f EMPTY_VECTOR = new Vector2f(0, 0);
 
 	public static final float GLOBAL_SPEED_LIMIT = 32;
+
+	public static final float DEFAULT_FORCE_MULTIPLIER = 0.9f;
 }

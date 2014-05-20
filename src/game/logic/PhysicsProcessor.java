@@ -8,11 +8,10 @@ import game.parameters.PhysicsRef;
 import game.parameters.PhysicsRef.Axis;
 import game.parameters.Ref.Flag;
 
-import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.lwjgl.util.vector.Vector2f;
+import org.newdawn.slick.geom.Vector2f;
 
 import app.LevelManager;
 
@@ -22,12 +21,14 @@ public class PhysicsProcessor {
 		return PhysicsRef.gravity;
 	}
 
-	public static void applyGravity(ActiveEntity actor) {
+	public static void applyGravity(ActiveEntity actor, float multiplier) {
 		if (!actor.isFlagSet(Flag.obeysGravity)) {
 			return;
 		}
 
-		actor.getPhysics().addForce(PhysicsProcessor.calculateGravity());
+		actor.getPhysics().addForce(
+				new Vector2f(PhysicsRef.gravity.x * multiplier,
+						PhysicsRef.gravity.y * multiplier));
 	}
 
 	public static void processMoves() {
@@ -44,7 +45,7 @@ public class PhysicsProcessor {
 	}
 
 	private static boolean findAndProcessInteractions(ActiveEntity a,
-			Axis direction, int originalPos, List<Entity> entitiesToCheck) {
+			Axis direction, float originalPos, List<Entity> entitiesToCheck) {
 		boolean collided = false;
 		for (Entity b : entitiesToCheck) {
 			if (a != b && a.collidesWith(b)) {
@@ -58,7 +59,7 @@ public class PhysicsProcessor {
 	}
 
 	private static boolean processInteraction(ActiveEntity a, Entity b,
-			Axis direction, int originalPos) {
+			Axis direction, float originalPos) {
 		if (a.isFlagSet(Flag.hurtsOthers) && b.isFlagSet(Flag.breakableBlock)) {
 
 			b.setFlag(Flag.outOfPlay, true);
@@ -115,16 +116,16 @@ public class PhysicsProcessor {
 	private static void processMove(ActiveEntity actor,
 			List<Entity> entitiesToCheck) {
 
-		Point original = actor.getPos();
+		Vector2f original = actor.getPos();
 		Vector2f velocity = actor.getPhysics().getVelocity();
 		Vector2f originalVelocity = new Vector2f(velocity);
 
 		applyGlobalSpeedLimit(velocity);
 
-		actor.setX((int) (original.x + velocity.getX()));
+		actor.setX(original.x + velocity.getX());
 		boolean xCollision = findAndProcessInteractions(actor, Axis.HORIZONTAL,
 				original.x, entitiesToCheck);
-		actor.setY((int) (original.y + velocity.getY()));
+		actor.setY(original.y + velocity.getY());
 		boolean yCollision = findAndProcessInteractions(actor, Axis.VERTICAL,
 				original.y, entitiesToCheck);
 

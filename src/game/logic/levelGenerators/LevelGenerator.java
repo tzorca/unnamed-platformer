@@ -6,12 +6,13 @@ import game.logic.EntityCreator;
 import game.parameters.EntityRef.EntityType;
 import game.parameters.Ref;
 
-import java.awt.Point;
-import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+
+import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Vector2f;
 
 import app.ViewManager;
 
@@ -42,7 +43,7 @@ public abstract class LevelGenerator {
 	}
 
 	protected Entity add(Entity newEntity) {
-		updateLevelRect(newEntity.getX(), newEntity.getY());
+		updateLevelRect(newEntity.getPos());
 
 		return add(newEntity, false);
 	}
@@ -55,48 +56,53 @@ public abstract class LevelGenerator {
 
 	private static final int EXPECTED_MAX_ENTITY_SIZE = 256;
 
-	private void updateLevelRect(int x, int y) {
+	private void updateLevelRect(Vector2f pos) {
 
-		if (levelRect.width < x + EXPECTED_MAX_ENTITY_SIZE) {
-			levelRect.width = x + EXPECTED_MAX_ENTITY_SIZE;
+		if (levelRect.getWidth() < pos.x + EXPECTED_MAX_ENTITY_SIZE) {
+			levelRect.setWidth(pos.x + EXPECTED_MAX_ENTITY_SIZE);
 		}
 
-		if (levelRect.x > x - EXPECTED_MAX_ENTITY_SIZE) {
-			int expansion = Math.abs(levelRect.x
-					- (x - EXPECTED_MAX_ENTITY_SIZE));
-			levelRect.x = x - EXPECTED_MAX_ENTITY_SIZE;
-			levelRect.width = levelRect.width + expansion;
+		if (levelRect.getX() > pos.x - EXPECTED_MAX_ENTITY_SIZE) {
+			float expansion = Math.abs(levelRect.getX()
+					- (pos.x - EXPECTED_MAX_ENTITY_SIZE));
+			levelRect.setX(pos.x - EXPECTED_MAX_ENTITY_SIZE);
+			levelRect.setWidth(levelRect.getWidth() + expansion);
 		}
 
-		if (levelRect.width < y + EXPECTED_MAX_ENTITY_SIZE) {
-			levelRect.width = y + EXPECTED_MAX_ENTITY_SIZE;
+		if (levelRect.getWidth() < pos.y + EXPECTED_MAX_ENTITY_SIZE) {
+			levelRect.setWidth(pos.y + EXPECTED_MAX_ENTITY_SIZE);
 		}
 
-		if (levelRect.y > y - EXPECTED_MAX_ENTITY_SIZE) {
-			int expansion = Math.abs(levelRect.y
-					- (y - EXPECTED_MAX_ENTITY_SIZE));
-			levelRect.y = y - EXPECTED_MAX_ENTITY_SIZE;
-			levelRect.height = levelRect.height + expansion;
+		if (levelRect.getY() > pos.y - EXPECTED_MAX_ENTITY_SIZE) {
+			float expansion = Math.abs(levelRect.getY()
+					- (pos.y - EXPECTED_MAX_ENTITY_SIZE));
+			levelRect.setY(pos.y - EXPECTED_MAX_ENTITY_SIZE);
+			levelRect.setHeight(levelRect.getHeight() + expansion);
 		}
 	}
 
-	protected Entity add(EntityType type, int x, int y, int grid) {
+	protected Entity add(EntityType type, float x, float y, int grid) {
 		updateLevelRect(x, y);
 
-		return add(EntityCreator.create(type, new Point(x, y), grid, false));
+		return add(EntityCreator.create(type, new Vector2f(x, y), grid, false));
 	}
 
-	protected Entity add(String textureName, int x, int y, int grid) {
+	private void updateLevelRect(float x, float y) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	protected Entity add(String textureName, float x, float y, int grid) {
 		updateLevelRect(x, y);
 
-		return add(EntityCreator.create(textureName, new Point(x, y), grid),
+		return add(EntityCreator.create(textureName, new Vector2f(x, y), grid),
 				false);
 	}
 
-	private Entity add(String textureName, int x, int y, boolean distinct) {
+	private Entity add(String textureName, float x, float y, boolean distinct) {
 		updateLevelRect(x, y);
 
-		return add(EntityCreator.create(textureName, new Point(x, y)), distinct);
+		return add(EntityCreator.create(textureName, new Vector2f(x, y)), distinct);
 	}
 
 	private Entity add(Entity newEntity, boolean distinct) {
@@ -126,17 +132,17 @@ public abstract class LevelGenerator {
 
 	protected void addLevelEdges(String borderTexture) {
 		List<Entity> newEntities = new ArrayList<Entity>();
-		int maxX = levelRect.width;
-		int maxY = levelRect.height;
+		float maxX = levelRect.getWidth();
+		float maxY = levelRect.getHeight();
 		int borderBlockSize = 128;
 
 		// draw vertical edges
 		for (int i = -ViewManager.height; i <= maxY + ViewManager.height; i += borderBlockSize) {
-			Point posT = new Point(-borderBlockSize, i);
-			Point posB = new Point(maxX, i);
+			Vector2f posT = new Vector2f(-borderBlockSize, i);
+			Vector2f posB = new Vector2f(maxX, i);
 			for (int j = 0; j <= ViewManager.height; j += borderBlockSize) {
-				Point posTadj = new Point(posT.x - j, posT.y);
-				Point posBadj = new Point(posB.x + j, posB.y);
+				Vector2f posTadj = new Vector2f(posT.x - j, posT.y);
+				Vector2f posBadj = new Vector2f(posB.x + j, posB.y);
 
 				newEntities.add(EntityCreator.create(borderTexture, posTadj,
 						borderBlockSize, false));
@@ -148,12 +154,12 @@ public abstract class LevelGenerator {
 		// draw horizontal edges
 		for (int i = -ViewManager.width; i <= maxX + ViewManager.width; i += borderBlockSize) {
 
-			Point posL = new Point(i, -borderBlockSize);
-			Point posR = new Point(i, maxY);
+			Vector2f posL = new Vector2f(i, -borderBlockSize);
+			Vector2f posR = new Vector2f(i, maxY);
 
 			for (int j = 0; j <= ViewManager.width; j += borderBlockSize) {
-				Point posLadj = new Point(posL.x, posL.y - j);
-				Point posRadj = new Point(posR.x, posR.y + j);
+				Vector2f posLadj = new Vector2f(posL.x, posL.y - j);
+				Vector2f posRadj = new Vector2f(posR.x, posR.y + j);
 
 				newEntities.add(EntityCreator.create(borderTexture, posLadj,
 						borderBlockSize, false));

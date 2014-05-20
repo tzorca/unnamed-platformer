@@ -1,26 +1,29 @@
 package game.entities;
 
 import game.PhysicsInstance;
-import game.parameters.Ref.Flag;
 import game.structures.Graphic;
 import game.structures.InteractionList;
 
-import java.awt.Point;
-import java.util.EnumSet;
+import org.newdawn.slick.geom.Vector2f;
 
-public class ActiveEntity extends Entity {
+public abstract class ActiveEntity extends Entity {
 	private static final long serialVersionUID = 7803333719264801403L;
 
-	public InteractionList interactions = new InteractionList();
 	private PhysicsInstance physics;
+	public InteractionList interactions = new InteractionList();
 
-	public ActiveEntity(Graphic graphic, Point pos, int width,
-			EnumSet<Flag> flags) {
-		super(graphic, pos, width, flags);
+	public ActiveEntity(Graphic graphic, Vector2f pos) {
+		super(graphic, pos);
+		interactions = new InteractionList();
+		zIndex = 1;
+		defaultActiveSetup();
 	}
 
-	public ActiveEntity(Graphic graphic, Point pos, EnumSet<Flag> flags) {
-		super(graphic, pos, flags);
+	public ActiveEntity(Graphic graphic, Vector2f pos, int width) {
+		super(graphic, pos, width);
+		interactions = new InteractionList();
+		zIndex = 1;
+		defaultActiveSetup();
 	}
 
 	public void returnToStart() {
@@ -29,14 +32,6 @@ public class ActiveEntity extends Entity {
 		if (physics != null) {
 			this.getPhysics().zero();
 		}
-	}
-
-	public ActiveEntity() {
-		super();
-	}
-
-	public ActiveEntity(Graphic graphic, Point pos) {
-		super(graphic, pos, EnumSet.noneOf(Flag.class));
 	}
 
 	public void update() {
@@ -62,4 +57,10 @@ public class ActiveEntity extends Entity {
 		return this.physics != null;
 	}
 
+	protected abstract void defaultActiveSetup();
+
+	@Override
+	protected void defaultSetup() {
+
+	}
 }

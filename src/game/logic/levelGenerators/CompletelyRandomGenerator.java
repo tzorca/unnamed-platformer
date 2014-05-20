@@ -4,9 +4,10 @@ import game.entities.Entity;
 import game.logic.EntityCreator;
 import game.logic.MathHelper;
 
-import java.awt.Point;
-import java.awt.Rectangle;
 import java.util.Set;
+
+import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Vector2f;
 
 public class CompletelyRandomGenerator extends LevelGenerator {
 
@@ -28,8 +29,8 @@ public class CompletelyRandomGenerator extends LevelGenerator {
 		// add border to level
 		addLevelEdges("black");
 
-		int maxBlocks = MathHelper.getArea(new Rectangle(0, 0, maxX, maxY)) * 2
-				/ (grid * grid * grid);
+		int maxBlocks = (int) (MathHelper.getArea(new Rectangle(0, 0, maxX, maxY)) * 2
+				/ (grid * grid * grid));
 
 		// add random entities
 		for (int i = 0; i < maxBlocks; i++) {
@@ -56,8 +57,8 @@ public class CompletelyRandomGenerator extends LevelGenerator {
 		} while (rTex.equals("flag") || rTex.equals("player"));
 		// this is just for testing and will not be hardcoded in the future
 
-		Point rPos = MathHelper.snapToGrid(
-				new Point(MathHelper.randRange(minX, maxX), MathHelper
+		Vector2f rPos = MathHelper.snapToGrid(
+				new Vector2f(MathHelper.randRange(minX, maxX), MathHelper
 						.randRange(minY, maxY)), gridSize);
 		int rSize = (int) (gridSize * MathHelper.randSet(blockMuls));
 

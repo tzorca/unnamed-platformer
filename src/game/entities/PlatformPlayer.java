@@ -7,43 +7,43 @@ import game.parameters.PhysicsRef;
 import game.parameters.Ref.Flag;
 import game.structures.Graphic;
 
-import java.awt.Point;
+import org.newdawn.slick.geom.Vector2f;
 
 public class PlatformPlayer extends ActiveEntity {
 	private static final long serialVersionUID = 8624310770832698957L;
 
-	Control_HorizontalMove hzMoveBehaviour = new Control_HorizontalMove(this,
-			PhysicsRef.DEFAULT_PLR_ACCELERATION,
-			PhysicsRef.DEFAULT_PLR_DECELERATION,
-			PhysicsRef.DEFAULT_PLR_MAX_SPEED);
-
-	Control_Jump jumpBehaviour = new Control_Jump(this,
-			PhysicsRef.DEFAULT_PLR_JUMP_STRENGTH
-	);
-
-	Control_Shoot shootBehaviour = new Control_Shoot(this, new Beam(new Point(
-			0, 0)), PhysicsRef.DEFAULT_SHOOT_SPEED,
-			PhysicsRef.DEFAULT_SHOOT_DELAY);
-
-	public PlatformPlayer(Graphic graphic, Point startPos) {
-		super(graphic, startPos);
-
-		addSpProps();
+	public PlatformPlayer(Graphic graphic, Vector2f pos) {
+		super(graphic, pos);
 	}
 
-	public PlatformPlayer(Graphic graphic, Point startPos, float speed,
-			double jumpStrength, double jumpTime) {
-		super(graphic, startPos);
-		addSpProps();
+	public PlatformPlayer(Graphic graphic, Vector2f pos, int width) {
+		super(graphic, pos, width);
 	}
 
-	private void addSpProps() {
+	Control_HorizontalMove hzMoveBehaviour;
+	Control_Jump jumpBehaviour;
+	Control_Shoot shootBehaviour;
+
+	protected void defaultActiveSetup() {
+		hzMoveBehaviour = new Control_HorizontalMove(this,
+				PhysicsRef.DEFAULT_PLR_ACCELERATION,
+				PhysicsRef.DEFAULT_PLR_DECELERATION,
+				PhysicsRef.DEFAULT_PLR_MAX_SPEED);
+
+		jumpBehaviour = new Control_Jump(this,
+				PhysicsRef.DEFAULT_PLR_JUMP_STRENGTH);
+		shootBehaviour = new Control_Shoot(this, new Beam(new Graphic("laser"),
+				new Vector2f(0, 0)), PhysicsRef.DEFAULT_SHOOT_SPEED,
+				PhysicsRef.DEFAULT_SHOOT_DELAY);
+
 		this.getPhysics().addControlMechanism(hzMoveBehaviour);
 		this.getPhysics().addControlMechanism(jumpBehaviour);
 		this.getPhysics().addControlMechanism(shootBehaviour);
 		this.setFlag(Flag.obeysGravity, true);
 		this.setFlag(Flag.tangible, true);
 		this.setFlag(Flag.player, true);
+
+		zIndex = 2;
 	}
 
 	public float getSpeed() {

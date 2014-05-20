@@ -1,9 +1,10 @@
 package game.dynamics.control_mechanisms;
 
+import org.newdawn.slick.geom.Vector2f;
+
 import game.entities.ActiveEntity;
 import game.parameters.InputRef.GameKey;
 
-import org.lwjgl.util.vector.Vector2f;
 
 import app.InputManager;
 
@@ -18,21 +19,23 @@ public class Control_OverheadMove extends ControlMechanism {
 	}
 
 	@Override
-	public void update() {
+	public void update(float multiplier) {
+		float mulSpeed = speed * multiplier;
+		
 		if (InputManager.getGameKeyState(GameKey.right, 1)) {
-			actor.getPhysics().addForce(new Vector2f(speed, 0));
+			actor.getPhysics().addForce(new Vector2f(mulSpeed, 0));
 		}
 
 		if (InputManager.getGameKeyState(GameKey.left, 1)) {
-			actor.getPhysics().addForce(new Vector2f(-speed, 0));
+			actor.getPhysics().addForce(new Vector2f(-mulSpeed, 0));
 		}
 
 		if (InputManager.getGameKeyState(GameKey.up, 1)) {
-			actor.getPhysics().addForce(new Vector2f(0, -speed));
+			actor.getPhysics().addForce(new Vector2f(0, -mulSpeed));
 		}
 
 		if (InputManager.getGameKeyState(GameKey.down, 1)) {
-			actor.getPhysics().addForce(new Vector2f(0, speed));
+			actor.getPhysics().addForce(new Vector2f(0, mulSpeed));
 		}
 
 	}

@@ -1,11 +1,11 @@
 package game.structures;
 
-import java.awt.Rectangle;
 import java.io.Serializable;
 
 import game.parameters.ContentRef.ContentType;
 import game.parameters.Ref;
 
+import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.opengl.Texture;
 
 import app.ContentManager;
@@ -55,17 +55,23 @@ public class Graphic implements Serializable {
 	}
 
 	public Texture getTexture() {
+		restoreTextureIfLost();
+
+		return texture;
+	}
+	
+	private void restoreTextureIfLost() {
 		// Textures may have to be nullified during the process of serializing
 		// and deserializing...
 		if (textureName != null && texture == null) {
 			setTexture(textureName);
 		}
 
-		return texture;
 	}
 
 	public Rectangle getCroppedRectangle(Rectangle box) {
-		// System.out.println( binaryPixelGrid.getCroppedRectangle(box));
+		restoreTextureIfLost();
+		
 		return binaryPixelGrid.getCroppedRectangle(box);
 	}
 	// public BinaryPixelGrid getBinaryPixelGrid() {

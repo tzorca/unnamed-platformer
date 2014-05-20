@@ -4,30 +4,33 @@ import game.parameters.Ref.Flag;
 import game.parameters.Ref.SizeMethod;
 import game.structures.Graphic;
 
-import java.awt.Point;
-import java.awt.Rectangle;
 import java.io.Serializable;
 import java.util.EnumSet;
 
-import org.lwjgl.util.vector.Vector2f;
+import org.newdawn.slick.geom.Point;
+import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.opengl.Texture;
 
-public class Entity implements Serializable {
+public abstract class Entity implements Serializable {
 	private static final long serialVersionUID = 2898448772127546782L;
 
 	// protected Behaviour behaviour;
 	protected EnumSet<Flag> flags = EnumSet.noneOf(Flag.class);
-	protected Rectangle box = new Rectangle();
+	protected Rectangle box = new Rectangle(0, 0, 0, 0);
 	public Graphic graphic;
+	
+	
+	public int zIndex = 0; // higher indices are brought to front
 
-	protected Point startPos = new Point();
+	protected Vector2f startPos;
 
-	public int getX() {
-		return box.x;
+	public float getX() {
+		return box.getX();
 	}
 
-	public int getY() {
-		return box.y;
+	public float getY() {
+		return box.getY();
 	}
 
 	public Rectangle getBox() {
@@ -38,46 +41,40 @@ public class Entity implements Serializable {
 		this.box = box;
 	}
 
-	public Entity(Graphic graphic, Point pos, EnumSet<Flag> flags) {
-		setupEntity(graphic, new Rectangle(pos.x, pos.y, 0, 0),
+	public Entity(Graphic graphic, Vector2f pos) {
+		setupEntity(graphic, new Rectangle(pos.getX(), pos.getY(), 0, 0),
 				SizeMethod.TEXTURE, flags);
-		this.startPos = getPos();
+		defaultSetup();
 	}
 
-	public Entity() {
-		setupEntity(null, new Rectangle(), SizeMethod.ABSOLUTE,
-				EnumSet.noneOf(Flag.class));
-		this.startPos = getPos();
-	}
-
-	public Entity(Graphic graphic, Point pos, int width, EnumSet<Flag> flags) {
-		setupEntity(graphic, new Rectangle(pos.x, pos.y, width, width),
+	public Entity(Graphic graphic, Vector2f pos, float width) {
+		setupEntity(graphic,
+				new Rectangle(pos.getX(), pos.getY(), width, width),
 				SizeMethod.TEXTURE_SCALE, flags);
-		this.startPos = getPos();
+		defaultSetup();
 
 	}
+
+	protected abstract void defaultSetup();
 
 	private void setupEntity(Graphic graphic, Rectangle r,
 			SizeMethod sizeMethod, EnumSet<Flag> flags) {
 		this.graphic = graphic;
-		this.box.x = r.x;
-		this.box.y = r.y;
+		this.box.setLocation(r.getLocation());
 
 		Texture texture = graphic.getTexture();
 
 		switch (sizeMethod) {
 		case ABSOLUTE:
-			this.box.width = r.width;
-			this.box.height = r.height;
+			box.setSize(r.getWidth(), r.getHeight());
 			break;
 		case TEXTURE:
-			this.box.width = texture.getImageWidth();
-			this.box.height = texture.getImageHeight();
+			this.box.setSize(texture.getImageWidth(), texture.getImageHeight());
 			break;
 		case TEXTURE_SCALE:
-			this.box.width = r.width;
-			this.box.height = (int) (texture.getImageHeight() * (r.width / (texture
-					.getImageWidth() + 0.0f)));
+			this.box.setWidth(r.getWidth());
+			this.box.setHeight((int) (texture.getImageHeight() * (r.getWidth() / (texture
+					.getImageWidth() + 0.0f))));
 			break;
 		default:
 			break;
@@ -98,7 +95,7 @@ public class Entity implements Serializable {
 
 	private Rectangle getCroppedBox() {
 		Rectangle cropRect = graphic.getCroppedRectangle(box);
-		
+
 		return cropRect;
 	}
 
@@ -106,26 +103,21 @@ public class Entity implements Serializable {
 		return box.contains(p);
 	}
 
-	public Point getPos() {
-		return new Point(box.x, box.y);
+	public Vector2f getPos() {
+		return new Vector2f(box.getX(), box.getY());
 	}
 
-	public Vector2f getPosVector2f() {
-		return new Vector2f(box.x, box.y);
+	public void setPos(Vector2f newPoint) {
+		box.setLocation(newPoint);
 	}
 
-	public void setPos(Point newPoint) {
-		box.x = newPoint.x;
-		box.y = newPoint.y;
+	public Vector2f getCenter() {
+		return new Vector2f(box.getCenterX(), box.getCenterY());
 	}
 
-	public Point getCenter() {
-		return new Point(box.x + box.width / 2, box.y + box.height / 2);
-	}
-
-	public void setCenter(Point p) {
-		box.x = p.x - box.width / 2;
-		box.y = p.y - box.height / 2;
+	public void setCenter(Vector2f p) {
+		box.setCenterX(p.getX());
+		box.setCenterY(p.getY());
 	}
 
 	public boolean isFlagSet(Flag f) {
@@ -148,19 +140,19 @@ public class Entity implements Serializable {
 		}
 	}
 
-	public void setY(int y) {
-		this.box.y = y;
+	public void setY(float y) {
+		box.setY(y);
 	}
 
-	public void setX(int x) {
-		this.box.x = x;
+	public void setX(float x) {
+		box.setX(x);
 	}
 
 	public boolean hasNoFlags() {
 		return flags.isEmpty();
 	}
 
-	public void setStartPos(Point pos) {
+	public void setStartPos(Vector2f pos) {
 		this.startPos = pos;
 	}
 

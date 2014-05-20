@@ -5,9 +5,10 @@ import game.parameters.ContentRef.ContentType;
 import game.parameters.Ref.BlueprintComponent;
 import game.structures.Blueprint;
 
-import java.awt.Rectangle;
 import java.util.LinkedList;
 import java.util.List;
+
+import org.newdawn.slick.geom.Rectangle;
 
 import app.App;
 import app.App.State;
@@ -106,10 +107,10 @@ public class Game {
 		if (App.state == State.edit) {
 			ViewManager.drawEditGrid(level.gridSize);
 		}
+		
+		ViewManager.drawEntities(level.getEntities());
 
-		for (Entity entity : level.getEntities()) {
-			ViewManager.drawEntity(entity);
-		}
+
 
 		if (App.state == State.edit) {
 			GUI_Edit.drawEntityPlaceholder();

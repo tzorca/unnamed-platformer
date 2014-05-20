@@ -2,8 +2,9 @@ package game.parameters;
 
 import game.structures.FlColor;
 
-import java.awt.Rectangle;
 import java.io.Serializable;
+
+import org.newdawn.slick.geom.Rectangle;
 
 public class Ref implements Serializable {
 	private static final long serialVersionUID = 7052842507336198611L;
@@ -32,7 +33,7 @@ public class Ref implements Serializable {
 
 	public static final int FPS = 60;
 
-	public static final long MILLISECS_IN_IDEAL_TIC = (long) (1000.0 / (FPS + 0.0));
+	public static final long MILLISECS_IN_IDEAL_TIC = (long) (1000.0 / (double) FPS);
 
 	public static final int MASK_BLUR_ITERATIONS = 2;
 	public static final float MASK_SIZE_PERCENT = .95f;

@@ -5,7 +5,7 @@ import game.logic.MathHelper;
 
 import java.awt.Point;
 
-import org.lwjgl.util.vector.Vector2f;
+import org.newdawn.slick.geom.Vector2f;
 
 import app.TimeManager;
 
@@ -39,8 +39,11 @@ public class Control_PersistentVectorMovement extends ControlMechanism {
 	}
 
 	@Override
-	public void update() {
-		actor.getPhysics().addForce(vector);
+	public void update(float multiplier) {
+		Vector2f vectorMul = new Vector2f(vector.x * multiplier, vector.y
+				* multiplier);
+		actor.getPhysics().addForce(vectorMul);
+
 		if (endTime > 0 && TimeManager.time() > endTime) {
 			finish();
 		}

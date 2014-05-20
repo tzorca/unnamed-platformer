@@ -14,7 +14,7 @@ public class LevelExitInteraction extends Interaction {
 	}
 
 	@Override
-	public void performInteractionAction(Entity target) {
+	public void duringInteraction(Entity target) {
 		LevelManager.changeLevel(LevelManager.getLevelNumber()
 				+ relativeDestination);
 	}

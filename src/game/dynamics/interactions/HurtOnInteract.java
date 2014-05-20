@@ -18,7 +18,7 @@ public class HurtOnInteract extends Interaction {
 	}
 
 	@Override
-	public void performInteractionAction(Entity target) {
+	public void duringInteraction(Entity target) {
 		((ActiveEntity) target).returnToStart();
 	}
 

@@ -1,10 +1,10 @@
 package game.dynamics.control_mechanisms;
 
+import org.newdawn.slick.geom.Vector2f;
+
 import game.PhysicsInstance;
 import game.entities.ActiveEntity;
 import game.parameters.InputRef.GameKey;
-
-import org.lwjgl.util.vector.Vector2f;
 
 import app.InputManager;
 
@@ -38,35 +38,41 @@ public class Control_HorizontalMove extends ControlMechanism {
 	}
 
 	@Override
-	public void update() {
+	public void update(float multiplier) {
 		PhysicsInstance physics = actor.getPhysics();
 		Vector2f velocity = physics.getVelocity();
 
+		float effectiveAccel = acceleration * multiplier;
+		float effectiveDecel = deceleration * multiplier;
+		float effectiveMaxSpeed = maxSpeed * multiplier;
+
 		float horizontalSpeed = Math.abs(velocity.x);
-		boolean lessThanMaxSpeed = horizontalSpeed < maxSpeed;
+		boolean lessThanMaxSpeed = horizontalSpeed < effectiveMaxSpeed;
 		boolean movingLeft = velocity.x < 0;
 		boolean notMoving = velocity.x == 0;
 
 		boolean rightPressed = InputManager.getGameKeyState(GameKey.right, 1);
 		boolean leftPressed = InputManager.getGameKeyState(GameKey.left, 1);
 
+		Vector2f baseForce = new Vector2f(0, 0);
+
 		if (rightPressed) {
 			if (!movingLeft || notMoving) {
 				if (lessThanMaxSpeed) {
-					physics.addForce(new Vector2f(acceleration, 0f));
+					baseForce.x = effectiveAccel;
 				}
 			} else {
-				physics.addForce(new Vector2f(deceleration, 0f));
+				baseForce.x = effectiveDecel;
 			}
 		}
 
 		if (leftPressed) {
 			if (movingLeft || notMoving) {
 				if (lessThanMaxSpeed) {
-					physics.addForce(new Vector2f(-acceleration, 0f));
+					baseForce.x = -effectiveAccel;
 				}
 			} else {
-				physics.addForce(new Vector2f(-deceleration, 0f));
+				baseForce.x = -effectiveDecel;
 			}
 		}
 
@@ -74,15 +80,18 @@ public class Control_HorizontalMove extends ControlMechanism {
 		if (!leftPressed && !rightPressed && !notMoving) {
 
 			// don't start moving the other direction!
-			float maxDecel = deceleration < horizontalSpeed ? deceleration
+			float maxDecel = effectiveDecel < horizontalSpeed ? effectiveDecel
 					: horizontalSpeed;
 
 			if (movingLeft) {
-				physics.addForce(new Vector2f(maxDecel, 0f));
+				baseForce.x = maxDecel;
 			} else {
-				physics.addForce(new Vector2f(-maxDecel, 0f));
+				baseForce.x = -maxDecel;
 			}
 		}
+
+		
+		physics.addForce(baseForce);
 	}
 
 	public void reset() {

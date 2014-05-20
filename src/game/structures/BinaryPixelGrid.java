@@ -1,8 +1,9 @@
 package game.structures;
 
 import java.awt.Color;
-import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+
+import org.newdawn.slick.geom.Rectangle;
 
 public class BinaryPixelGrid {
 	boolean[][] data;
@@ -82,16 +83,16 @@ public class BinaryPixelGrid {
 				- leftEdge + 1, bottomEdge - topEdge + 1);
 	}
 
-	public Rectangle getCroppedRectangle(Rectangle box) {
-		double wRatio = box.width / (double)originalRectangle.width;
-		double hRatio = box.height / (double)originalRectangle.height;
+	public Rectangle getCroppedRectangle(org.newdawn.slick.geom.Rectangle box) {
+		float wRatio = box.getWidth() / originalRectangle.getWidth();
+		float hRatio = box.getHeight() / originalRectangle.getHeight();
 
-		double x = croppedRectangle.x * wRatio + box.x;
-		double y = croppedRectangle.y * hRatio + box.y;
-		double w = croppedRectangle.width * wRatio;
-		double h = croppedRectangle.height * hRatio;
+		float x = (croppedRectangle.getX() * wRatio + box.getX());
+		float y = (croppedRectangle.getY() * hRatio + box.getY());
+		float w = (croppedRectangle.getWidth() * wRatio);
+		float h = (croppedRectangle.getHeight() * hRatio);
 
-		return new Rectangle((int) x, (int) y, (int) w, (int) h);
+		return new Rectangle(x, y, w, h);
 	}
 
 }

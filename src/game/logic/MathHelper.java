@@ -4,8 +4,6 @@ import game.parameters.PhysicsRef;
 import game.parameters.PhysicsRef.Orientation;
 import game.parameters.PhysicsRef.Side;
 
-import java.awt.Point;
-import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.EnumMap;
@@ -13,35 +11,41 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.lwjgl.util.vector.Vector2f;
+import org.newdawn.slick.geom.Polygon;
+import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Shape;
+import org.newdawn.slick.geom.Vector2f;
 
 public class MathHelper {
 
 	// Move in a direction towards a point (but not past it)
-	public static Point moveTowards(Point a, Point b, double speed) {
+	public static Vector2f moveTowards(Vector2f startPoint,
+			Vector2f targetPoint, double speed) {
 
-		double initialDist = a.distance(b);
-		double theta = Math.atan2(b.y - a.y, b.x - a.x);
-		double movX = speed * Math.cos(theta);
-		double movY = speed * Math.sin(theta);
+		float initialDist = startPoint.distance(targetPoint);
+		double theta = Math.atan2(targetPoint.y - startPoint.y, targetPoint.x
+				- startPoint.x);
+		float movX = (float) (speed * Math.cos(theta));
+		float movY = (float) (speed * Math.sin(theta));
 
-		Point newPoint = new Point((int) (a.x + movX), (int) (a.y + movY));
+		Vector2f newPoint = new Vector2f(startPoint.getX() + movX,
+				startPoint.getY() + movY);
 
-		double newDist = newPoint.distance(b);
+		double newDist = newPoint.distance(targetPoint);
 
 		// don't move past the point
 		if (newDist >= initialDist) {
-			newPoint = b;
+			newPoint = targetPoint;
 		}
 
 		return newPoint;
 	}
 
-	public static Point snapToGrid(Point p, int gridSize) {
-		int x = (int) (p.x / gridSize) * gridSize;
-		int y = (int) (p.y / gridSize) * gridSize;
+	public static Vector2f snapToGrid(Vector2f vector2f, int gridSize) {
+		int x = (int) ((int) vector2f.x / gridSize) * gridSize;
+		int y = (int) ((int) vector2f.y / gridSize) * gridSize;
 
-		return new Point(x, y);
+		return new Vector2f(x, y);
 	}
 
 	public static Vector2f vectorFromAngleAndSpeed(double speed, double angle) {
@@ -50,7 +54,11 @@ public class MathHelper {
 	}
 
 	public static Double getIntersectionAngle(Rectangle a, Rectangle b) {
-		Rectangle c = a.intersection(b);
+		Shape[] unionResult = a.union(b);
+		Shape c = new Rectangle(0, 0, 0, 0);
+		if (unionResult.length > 0) {
+			c = unionResult[0];
+		}
 
 		float intersectionX = (float) (c.getCenterX() - a.getCenterX());
 		float intersectionY = (float) (c.getCenterY() - a.getCenterY());
@@ -108,8 +116,8 @@ public class MathHelper {
 		return null;
 	}
 
-	public static int getArea(Rectangle rect) {
-		return rect.width * rect.height;
+	public static double getArea(Rectangle rect) {
+		return rect.getWidth() * rect.getHeight();
 	}
 
 	// Return a random number inside the range [low, high]

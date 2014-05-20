@@ -6,9 +6,10 @@ package game.structures;
 
 import game.entities.Entity;
 
-import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.newdawn.slick.geom.Rectangle;
 
 public class QuadTree {
 
@@ -20,10 +21,10 @@ public class QuadTree {
 	private Rectangle bounds;
 	private QuadTree[] nodes;
 
-	public QuadTree(int pLevel, Rectangle pBounds) {
+	public QuadTree(int pLevel, Rectangle rect) {
 		level = pLevel;
 		entities = new ArrayList<Entity>();
-		bounds = pBounds;
+		bounds = rect;
 		nodes = new QuadTree[4];
 	}
 
@@ -63,7 +64,6 @@ public class QuadTree {
 		int index = -1;
 
 		pRect = increaseRect(pRect);
-		
 
 		double verticalMidpoint = bounds.getX() + (bounds.getWidth() / 2);
 		double horizontalMidpoint = bounds.getY() + (bounds.getHeight() / 2);
@@ -97,7 +97,9 @@ public class QuadTree {
 
 	// prevent stupid "just barely out of range so fall through ground" bugs
 	private Rectangle increaseRect(Rectangle pRect) {
-		return new Rectangle(pRect.x-32, pRect.y-32, pRect.width+64, pRect.height+64);
+
+		return new Rectangle(pRect.getX() - 32, pRect.getY() - 32,
+				pRect.getWidth() + 64, pRect.getHeight() + 64);
 	}
 
 	/*

@@ -1,23 +1,28 @@
 package app;
 
 import game.entities.Entity;
-import game.parameters.ViewRef;
 import game.parameters.ContentRef.ContentType;
 import game.parameters.Ref.Flag;
+import game.parameters.ViewRef;
 import game.structures.FlColor;
 import game.structures.Graphic;
 
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
-import java.awt.Point;
-import java.awt.Rectangle;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.TreeMap;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.util.Dimension;
+import org.newdawn.slick.geom.Point;
+import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.opengl.Texture;
 
 import app.App.State;
@@ -30,17 +35,21 @@ public class ViewManager {
 	public static int height = ViewRef.DEFAULT_RESOLUTION.y;
 	public static int width = ViewRef.DEFAULT_RESOLUTION.x;
 
-	private static Rectangle viewport = new Rectangle();
+	private static Rectangle viewport = new Rectangle(0, 0,
+			ViewRef.DEFAULT_RESOLUTION.x, ViewRef.DEFAULT_RESOLUTION.y);
 
-	public static void centerCamera(Point center) {
+	public static void centerCamera(Vector2f vector2f) {
 		GL11.glMatrixMode(GL11.GL_PROJECTION);
 		GL11.glLoadIdentity();
 
-		int left = (int) (center.x - width / ViewRef.SCALE / 2);
-		int right = (int) (width / ViewRef.SCALE / 2 + center.x);
+		float x = vector2f.x;
+		float y = vector2f.y;
 
-		int bottom = (int) (height / ViewRef.SCALE / 2 + center.y);
-		int top = (int) (center.y - height / ViewRef.SCALE / 2);
+		int left = (int) (x - width / ViewRef.SCALE / 2);
+		int right = (int) (width / ViewRef.SCALE / 2 + x);
+
+		int bottom = (int) (height / ViewRef.SCALE / 2 + y);
+		int top = (int) (y - height / ViewRef.SCALE / 2);
 
 		viewport = new Rectangle(left, top, right - left, bottom - top);
 
@@ -58,8 +67,8 @@ public class ViewManager {
 
 		float tW = background.getWidth(), tH = background.getHeight();
 
-		x = (float) viewport.x;
-		y = (float) viewport.y;
+		x = (float) (int) viewport.getX();
+		y = (float) (int) viewport.getY();
 		w = (float) background.getTextureWidth();
 		h = (float) background.getTextureHeight();
 
@@ -89,13 +98,16 @@ public class ViewManager {
 		drawGraphic(entity.graphic, entity.getBox());
 	}
 
-	public static void drawGraphic(Graphic graphic, Rectangle box) {
-		if (!box.intersects(viewport)) {
+	public static void drawGraphic(Graphic graphic,
+			org.newdawn.slick.geom.Rectangle rectangle) {
+		if (!rectangle.intersects(viewport)) {
 			return;
 		}
 
-		float x = (float) box.getX(), y = (float) box.getY(), w = (float) box
-				.getWidth(), h = (float) box.getHeight();
+		float x = (float) (int) rectangle.getX();
+		float y = (float) (int) rectangle.getY();
+		float w = (float) (int) rectangle.getWidth();
+		float h = (float) (int) rectangle.getHeight();
 
 		FlColor color = graphic.color;
 		Texture t = graphic.getTexture();
@@ -157,7 +169,7 @@ public class ViewManager {
 
 		GL11.glBegin(GL11.GL_QUADS);
 		for (Point p : points) {
-			drawTex(t, p.x, p.y, w, h, tW, tH);
+			drawTex(t, p.getX(), p.getY(), w, h, tW, tH);
 		}
 		GL11.glEnd();
 	}
@@ -170,10 +182,10 @@ public class ViewManager {
 		saveState();
 		ArrayList<Point> pointBuffer = new ArrayList<Point>();
 		Rectangle levelRect = LevelManager.getRect();
-		for (int x = 0; x <= levelRect.width; x += gridSize) {
-			for (int y = 0; y <= levelRect.height; y += gridSize) {
+		for (int x = 0; x <= levelRect.getWidth(); x += gridSize) {
+			for (int y = 0; y <= levelRect.getHeight(); y += gridSize) {
 				Point p = new Point(x - 2, y - 2);
-				if (viewport.contains(p)) {
+				if (viewport.contains(p.getX(), p.getY())) {
 					pointBuffer.add(p);
 				}
 			}
@@ -183,45 +195,6 @@ public class ViewManager {
 		drawTexturesInBatch(t, pointBuffer);
 		loadState();
 	}
-
-	// public static void drawEditGrid(Rectangle area, int gridSize) {
-	// if (gridSize < 1) {
-	// return;
-	// }
-	//
-	// saveState();
-	// ArrayList<Point> pointBuffer = new ArrayList<Point>();
-	// Rectangle levelRect = LevelManager.getRect();
-	// for (int x = 0; x <= levelRect.width; x += gridSize) {
-	// for (int y = 0; y <= levelRect.height; y += gridSize) {
-	// pointBuffer.add(new Point(x, y));
-	// }
-	// }
-	// drawPoints(GRID_COLOR, pointBuffer);
-	// loadState();
-	// }
-
-	// public static final FlColor GRID_COLOR = new FlColor(0f, 0f, 0f);
-	//
-	// private static void drawPoints(FlColor color, ArrayList<Point> points) {
-	// GL11.glMatrixMode(GL11.GL_MODELVIEW);
-	// GL11.glLoadIdentity();
-	//
-	// GL11.glDisable(GL11.GL_TEXTURE_2D);
-	// GL11.glBegin(GL11.GL_POINTS);
-	//
-	// int dist = 1;
-	//
-	// for (Point p : points) {
-	//
-	// GL11.glColor4f(GRID_COLOR.r(), GRID_COLOR.g(), GRID_COLOR.b(),
-	// alpha);
-	//
-	// GL11.glVertex2f(p.x + i, p.y + j);
-	// }
-	// GL11.glEnd();
-	// GL11.glEnable(GL11.GL_TEXTURE_2D);
-	// }
 
 	public static void init() {
 		if (Display.isCreated()) {
@@ -262,11 +235,12 @@ public class ViewManager {
 		GL11.glPushAttrib(GL11.GL_ALL_ATTRIB_BITS);
 	}
 
-	public static Point translate(Point mousePos) {
-		return new Point(mousePos.x + viewport.x, mousePos.y + viewport.y);
+	public static Vector2f translate(java.awt.Point mousePos) {
+		return new Vector2f(mousePos.x + viewport.getX(), mousePos.y
+				+ viewport.getY());
 	}
 
-	public static Point translateMouse() {
+	public static Vector2f translateMouse() {
 		return translate(InputManager.getMousePos());
 	}
 
@@ -300,13 +274,13 @@ public class ViewManager {
 		Display.update();
 	}
 
-	private static Point screenRes = getCurrentResolution();
+	private static Dimension screenRes = getCurrentResolution();
 
-	private static Point getCurrentResolution() {
+	private static Dimension getCurrentResolution() {
 		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment()
 				.getDefaultScreenDevice();
-		return new Point(gd.getDisplayMode().getWidth(), gd.getDisplayMode()
-				.getHeight());
+		return new Dimension(gd.getDisplayMode().getWidth(), gd
+				.getDisplayMode().getHeight());
 	}
 
 	static boolean fullscreen = false;
@@ -315,8 +289,8 @@ public class ViewManager {
 		fullscreen = !fullscreen;
 
 		if (fullscreen) {
-			width = screenRes.x;
-			height = screenRes.y;
+			width = screenRes.getWidth();
+			height = screenRes.getHeight();
 		} else {
 			width = ViewRef.DEFAULT_RESOLUTION.x;
 			height = ViewRef.DEFAULT_RESOLUTION.y;
@@ -332,5 +306,32 @@ public class ViewManager {
 
 	public static Rectangle getViewRect() {
 		return viewport;
+	}
+
+	public static void drawGraphic(Graphic graphic, Rectangle2D rect2D) {
+		drawGraphic(graphic, new Rectangle((float) rect2D.getX(),
+				(float) rect2D.getY(), (float) rect2D.getWidth(),
+				(float) rect2D.getHeight()));
+
+	}
+
+	private static TreeMap<Integer, List<Entity>> zIndexBuckets = new TreeMap<Integer, List<Entity>>();
+
+	public static void drawEntities(LinkedList<Entity> entities) {
+		zIndexBuckets.clear();
+
+		for (Entity e : entities) {
+			if (!zIndexBuckets.containsKey(e.zIndex)) {
+				zIndexBuckets.put(e.zIndex, new LinkedList<Entity>());
+			}
+			zIndexBuckets.get(e.zIndex).add(e);
+		}
+
+		for (int zIndex : zIndexBuckets.keySet()) {
+			for (Entity e : zIndexBuckets.get(zIndex)) {
+				drawEntity(e);
+			}
+		}
+
 	}
 }

@@ -8,13 +8,11 @@ import game.parameters.PhysicsRef;
 import game.parameters.Ref.Flag;
 import game.structures.ControlMechanismList;
 
-import java.awt.Point;
-import java.awt.Rectangle;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.lwjgl.util.vector.Vector2f;
+import org.newdawn.slick.geom.Vector2f;
 
 public class PhysicsInstance implements Serializable {
 	private static final long serialVersionUID = 7637926114689220693L;
@@ -23,18 +21,20 @@ public class PhysicsInstance implements Serializable {
 
 	public boolean inAir = true;
 	private Vector2f lastMove = new Vector2f(0, 0),
-			lastDirection = new Vector2f(0, 0);
+			lastHorizontalDirection = new Vector2f(0, 0);
 	public boolean upCancel = false;
 
 	Vector2f velocity = new Vector2f(0, 0);
-	Vector2f unscaledVelocity = new Vector2f(0, 0);
 	Vector2f currentForces = new Vector2f();
+
+	private float forceMultiplier = PhysicsRef.DEFAULT_FORCE_MULTIPLIER;
+
 	public MoveResult lastMoveResult = new MoveResult(false, false, 0, 0);
 
 	private ActiveEntity actor;
 
-	public void addForce(Vector2f force) {
-		Vector2f.add(currentForces, force, currentForces);
+	public void addForce(org.newdawn.slick.geom.Vector2f v) {
+		currentForces = currentForces.add(v);
 	}
 
 	public Vector2f getCurrentForce() {
@@ -64,7 +64,7 @@ public class PhysicsInstance implements Serializable {
 		runControlMechanisms();
 
 		if (actor.isFlagSet(Flag.obeysGravity)) {
-			PhysicsProcessor.applyGravity(actor);
+			PhysicsProcessor.applyGravity(actor, forceMultiplier);
 		}
 
 		if (currentForces.equals(PhysicsRef.EMPTY_VECTOR)
@@ -73,22 +73,24 @@ public class PhysicsInstance implements Serializable {
 			return;
 		}
 
-		Vector2f.add(velocity, currentForces, velocity);
+		velocity = velocity.add(currentForces);
 
 		// clear out current force (no longer current next tic)
 		currentForces = new Vector2f(0, 0);
 
 		inAir = false;
 		PhysicsProcessor.queueMove(actor);
+		forceMultiplier = PhysicsRef.DEFAULT_FORCE_MULTIPLIER;
 	}
 
-	public void recalculateDirection(Point original) {
-		Rectangle box = actor.getBox();
+	public void recalculateDirection(Vector2f oldPos) {
 
-		if (box.x - original.x != 0 || box.y - original.y != 0) {
-			lastMove = new Vector2f(box.x - original.x, box.y - original.y);
-			if (box.x - original.x != 0) {
-				lastDirection = new Vector2f(box.x - original.x, 0);
+		Vector2f newPos = actor.getPos();
+
+		if (newPos.x - oldPos.x != 0 || newPos.y - oldPos.y != 0) {
+			lastMove = new Vector2f(newPos.x - oldPos.x, newPos.y - oldPos.y);
+			if (newPos.x - oldPos.x != 0) {
+				lastHorizontalDirection = new Vector2f(lastMove.x, 0);
 			}
 		}
 	}
@@ -100,7 +102,7 @@ public class PhysicsInstance implements Serializable {
 				toRemoveList.add(b);
 				continue;
 			}
-			b.update();
+			b.update(forceMultiplier);
 		}
 		mechanisms.removeAll(toRemoveList);
 	}
@@ -110,7 +112,7 @@ public class PhysicsInstance implements Serializable {
 	}
 
 	public Vector2f getDirection() {
-		return lastDirection;
+		return lastHorizontalDirection;
 	}
 
 	public void zero() {
@@ -139,12 +141,17 @@ public class PhysicsInstance implements Serializable {
 		return this.velocity;
 	}
 
-	public void setYVelocity(int y) {
+	public void setYVelocity(float y) {
 		velocity.y = y;
 	}
 
-	public void setXVelocity(int x) {
+	public void setXVelocity(float x) {
 		velocity.x = x;
+
+	}
+
+	public void setForceMultiplier(float factor) {
+		forceMultiplier = factor;
 
 	}
 

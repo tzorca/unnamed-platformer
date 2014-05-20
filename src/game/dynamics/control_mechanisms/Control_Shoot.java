@@ -6,7 +6,7 @@ import game.parameters.InputRef.GameKey;
 import game.parameters.Ref.Flag;
 
 import org.apache.commons.lang3.SerializationUtils;
-import org.lwjgl.util.vector.Vector2f;
+import org.newdawn.slick.geom.Vector2f;
 
 import app.InputManager;
 import app.LevelManager;
@@ -28,7 +28,7 @@ public class Control_Shoot extends ControlMechanism {
 	}
 
 	@Override
-	public void update() {
+	public void update(float multiplier) {
 		if (InputManager.getGameKeyState(GameKey.a, 1)) {
 			if (TimeManager.time() - TimeManager.lastSample(hashCode()) >= fireDelay) {
 				fire();
@@ -42,10 +42,9 @@ public class Control_Shoot extends ControlMechanism {
 
 		Vector2f v = actor.getPhysics().getDirection();
 		v.y -= 0.1;
-		movingProjectile.getPhysics()
-				.addControlMechanism(new Control_PersistentVectorMovement(
-						movingProjectile, projectileSpeed, MathHelper
-								.angleFromVector(v)));
+		movingProjectile.getPhysics().addControlMechanism(
+				new Control_PersistentVectorMovement(movingProjectile,
+						projectileSpeed, MathHelper.angleFromVector(v)));
 
 		movingProjectile.setCenter(actor.getCenter());
 
@@ -69,7 +68,7 @@ public class Control_Shoot extends ControlMechanism {
 		this.projectile.setFlag(Flag.solid, false);
 		this.projectile.getPhysics().clearControlMechanisms();
 	}
-	
+
 	public void reset() {
 	}
 

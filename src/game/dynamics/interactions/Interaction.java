@@ -44,7 +44,7 @@ public abstract class Interaction implements Serializable {
 			return;
 		}
 
-		performInteractionAction(target);
+		duringInteraction(target);
 	}
 
 	private boolean onActiveside(Entity target) {
@@ -71,6 +71,10 @@ public abstract class Interaction implements Serializable {
 
 	protected abstract boolean isValidTarget(Entity target);
 
-	protected abstract void performInteractionAction(Entity target);
+	protected abstract void duringInteraction(Entity target);
+//	
+//	protected abstract void beforeInteraction(Entity target);
+//	
+//	protected abstract void afterInteraction(Entity target);
 
 }

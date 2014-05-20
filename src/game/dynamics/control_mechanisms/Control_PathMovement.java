@@ -1,9 +1,10 @@
 package game.dynamics.control_mechanisms;
 
+import org.newdawn.slick.geom.Point;
+import org.newdawn.slick.geom.Vector2f;
+
 import game.entities.ActiveEntity;
 import game.logic.MathHelper;
-
-import java.awt.Point;
 
 public class Control_PathMovement extends ControlMechanism {
 	private static final long serialVersionUID = 8775296304473034048L;
@@ -36,16 +37,16 @@ public class Control_PathMovement extends ControlMechanism {
 	}
 
 	@Override
-	public void update() {
+	public void update(float multiplier) {
 		if (relativePath == null || speed == 0) {
 			return;
 		}
 
-		Point startPoint = actor.getPos();
-		Point targetPoint = new Point(origin.x + relativePath[pathState].x,
-				origin.y + relativePath[pathState].y);
+		Vector2f startPoint = actor.getPos();
+		Vector2f targetPoint = new Vector2f(origin.getX() + relativePath[pathState].getX(),
+				origin.getX() + relativePath[pathState].getY());
 
-		Point newPoint = MathHelper.moveTowards(startPoint, targetPoint, speed);
+		Vector2f newPoint = MathHelper.moveTowards(startPoint, targetPoint, speed*multiplier);
 
 		if (newPoint.equals(targetPoint)) {
 			// We've arrived, so begin moving toward the next node in the path

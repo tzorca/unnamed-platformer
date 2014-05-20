@@ -13,6 +13,7 @@ import de.ruedigermoeller.serialization.FSTObjectOutput;
 public class Blueprint extends EnumMap<BlueprintComponent, Object> {
 	private static final long serialVersionUID = -7682315731084504119L;
 
+	
 	private static transient FSTConfiguration conf = FSTConfiguration
 			.createDefaultConfiguration();
 

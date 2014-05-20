@@ -6,6 +6,7 @@ import game.parameters.Ref;
 import game.parameters.ViewRef;
 
 import org.lwjgl.opengl.Display;
+import org.newdawn.slick.geom.Vector2f;
 
 import app.gui.GUIManager;
 
@@ -98,6 +99,10 @@ public class App {
 
 	public static void log(String string) {
 		System.out.println(string);
+	}
+
+	public static void print(Object o) {
+		System.out.println(o + "");
 	}
 
 }
