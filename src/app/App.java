@@ -98,11 +98,11 @@ public class App {
 	}
 
 	public static void log(String string) {
-		System.out.println(string);
+		App.print(string);
 	}
 
 	public static void print(Object o) {
-		System.out.println(o + "");
+		App.print(o + "");
 	}
 
 }

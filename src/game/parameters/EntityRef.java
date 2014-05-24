@@ -1,32 +1,86 @@
 package game.parameters;
 
-import java.util.EnumMap;
-import java.util.HashMap;
+import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ListMultimap;
+import com.google.common.collect.Maps;
+import com.google.common.reflect.ClassPath;
 
 public class EntityRef {
-	public enum EntityType {
-		BreakableBlock, Goal, PlatformPlayer, SpringLike, SolidBlock, Bonus, Hazard, Spikes, Water
-	}
 
-	public static Map<String, EntityType> textureEntityTypeMap = new HashMap<String, EntityType>();
+	private static Map<String, Class> textureName_EntityClass_Map = Maps
+			.newHashMap();
 
-	public static EnumMap<EntityType, List<String>> entityTypeTextureMap = new EnumMap<EntityType, List<String>>(
-			EntityType.class);
+	private static ListMultimap<Class, String> entityClass_TextureName_Map = ArrayListMultimap
+			.create();
+
+	private static Map<String, Class> className_EntityClass_Map = Maps
+			.newHashMap();
 
 	static {
-		// just an alias
-		// Map<String, EntityType> tetm = textureEntityTypeMap;
-		//
-		// tetm.put("black", EntityType.SolidBlock);
-		// tetm.put("white", EntityType.BreakableBlock);
-		// tetm.put("flag", EntityType.Goal);
-		// tetm.put("gem", EntityType.Bonus);
-		// tetm.put("lava", EntityType.Hazard);
-		// tetm.put("player", EntityType.PlatformPlayer);
-		// tetm.put("spikes", EntityType.Hazard);
-		// tetm.put("spring", EntityType.SpringLike);
-		// // textureEntityTypeMap.put("water", EntityType.SlowMovementRegion);
+		ClassPath classpath;
+		try {
+			classpath = ClassPath.from(ClassLoader.getSystemClassLoader());
+			for (ClassPath.ClassInfo classInfo : classpath
+					.getTopLevelClasses("game.entities")) {
+				String name = classInfo.getSimpleName();
+				Class entityClass = classInfo.load();
+
+				className_EntityClass_Map.put(name, entityClass);
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
+
+	public static Collection<Class> getEntitySubclasses() {
+		return className_EntityClass_Map.values();
+	}
+
+	public static Collection<String> getEntitySubclassNames() {
+		return className_EntityClass_Map.keySet();
+	}
+
+	public static Class getClassFromClassName(String className) {
+		return className_EntityClass_Map.get(className);
+	}
+
+	public static boolean classNameExists(String className) {
+		return className_EntityClass_Map.containsKey(className);
+	}
+
+	public static List<String> getTexturesFromEntityClass(Class entityClass) {
+		return entityClass_TextureName_Map.get(entityClass);
+	}
+
+	public static void addTextureNameToEntityClassMapping(String textureName,
+			Class entityClass) {
+
+		EntityRef.textureName_EntityClass_Map.put(textureName, entityClass);
+		EntityRef.entityClass_TextureName_Map.put(entityClass, textureName);
+
+	}
+
+	public static Class getEntityClassFromTextureName(String textureName) {
+		return textureName_EntityClass_Map.get(textureName);
+	}
+
+	public static Set<String> getTextureNamesFromMap() {
+		return textureName_EntityClass_Map.keySet();
+	}
+
+	public static boolean entityClassHasMapping(Class entityClass) {
+		return entityClass_TextureName_Map.containsKey(entityClass);
+	}
+
+	public static boolean textureMapped(String texName) {
+		return textureName_EntityClass_Map.containsKey(texName);
+	}
+
 }

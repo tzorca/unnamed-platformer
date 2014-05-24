@@ -72,7 +72,7 @@ public class Level {
 			}
 		}
 		if (playerEntity == null) {
-			System.out.println("Warning: Player entity not found.");
+			App.print("Warning: Player entity not found.");
 		}
 	}
 
@@ -106,7 +106,7 @@ public class Level {
 	@SuppressWarnings("unchecked")
 	static Level fromBlueprint(Blueprint lBP) {
 		if (lBP == null) {
-			System.out.println("You passed in a null blueprint!");
+			App.print("You passed in a null blueprint!");
 			return null;
 		}
 		Level newLevel = new Level(new LinkedList<Entity>(

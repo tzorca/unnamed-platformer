@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.EnumMap;
 
+import app.App;
 import de.ruedigermoeller.serialization.FSTConfiguration;
 import de.ruedigermoeller.serialization.FSTObjectInput;
 import de.ruedigermoeller.serialization.FSTObjectOutput;
@@ -29,7 +30,7 @@ public class Blueprint extends EnumMap<BlueprintComponent, Object> {
 			fileOut.close();
 			return true;
 		} catch (Exception e) {
-			System.out.println(e.toString());
+			App.print(e.toString());
 			return false;
 		}
 	}
@@ -43,7 +44,7 @@ public class Blueprint extends EnumMap<BlueprintComponent, Object> {
 			in = conf.getObjectInput(fileIn);
 			bp = (Blueprint) in.readObject(Blueprint.class);
 		} catch (Exception e) {
-			System.out.println(e.toString());
+			App.print(e.toString());
 		}
 
 		// close stream
@@ -52,7 +53,7 @@ public class Blueprint extends EnumMap<BlueprintComponent, Object> {
 				fileIn.close();
 			}
 		} catch (IOException e) {
-			System.out.println(e.toString());
+			App.print(e.toString());
 		}
 		
 		return bp;

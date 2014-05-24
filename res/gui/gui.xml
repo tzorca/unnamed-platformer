@@ -69,11 +69,10 @@
 	</layer>
 	
 	<layer id="frontLayer" childLayout="center">
-
-		
 		<panel id="topPanel" width="288px" height="32px" childLayout="horizontal" 
 			valign="top" align="right" backgroundColor="#eeef">
 			<interact onMouseOver="toolbar_MouseOver()" />
+			
 			<!--(separator)-->
 			
 			<panel id="pnlPrevLevel" width="32px" height="32px" visibleToMouse="true"
@@ -100,9 +99,7 @@
 				<interact onClick="pnlRemoveLevel_Clicked()" />
 			</panel>
 
-
 			<!--(separator)-->
-			
 					
 			<panel id="pnlModeSwitch" width="32px" height="32px" visibleToMouse="true"
 				backgroundImage="res/gui/img/modePlay.png">
@@ -134,44 +131,49 @@
 
 <screen id="editSelect" controller="app.gui.GUI_EditSelect">
 	<layer backgroundColor="#333f" childLayout="vertical" width="100%" height="100%" >
-			
-		<panel id="topPanel" width="100%" height="32px" childLayout="horizontal" valign="top">
-			<control id="btnNew" type="button" name="button" padding-right="10%" label="New game">
-				<interact onClick="btnNew_Clicked()" />
-			</control>
-			<control id="btnOpen" type="button" name="button" label="Open selected">
-				<interact onClick="btnOpen_Clicked()" />
-			</control>
-		</panel>
-	
-		<panel id="bottomPanel" width="100%" childLayout="vertical">
+		<panel width="100%" childLayout="vertical" valign="top">
 			<control id="lstGames" name="listBox" vertical="optional" horizontal="off"
 				selection="Single" height="100%" displayItems="18" visibleToMouse="true">
 				<interact onMultiClick="btnOpen_Clicked()" />
 			</control>
 		</panel>
-
+		
+		<panel width="320px" height="32px" childLayout="horizontal">
+			<panel childLayout="center" width="50%" height="100%">
+				<control id="btnOpen" type="button" name="button" width="90%" height="90%" label="Edit Selected">
+					<interact onClick="btnOpen_Clicked()" />
+				</control>
+			</panel>
+			<panel childLayout="center" width="50%" height="100%">
+				<control id="btnNew" type="button" name="button" width="90%" height="90%" label="Create New">
+					<interact onClick="btnNew_Clicked()" />
+				</control>
+			</panel>
+		</panel>
 	</layer>
 </screen>
 
 <screen id="playSelect" controller="app.gui.GUI_PlaySelect">
 	<layer backgroundColor="#333f" childLayout="vertical" width="100%" height="100%" >
 
-		<panel id="topPanel" width="100%" height="32px" childLayout="horizontal" valign="top">
-			<control id="btnPlaySelected" type="button" name="button" label="Play Selected">
-				<interact onClick="btnPlaySelected_Clicked()" />
-			</control>
-			
-			<control id="btnPlayRandom" type="button" name="button" label="Play Random">
-				<interact onClick="btnPlayRandom_Clicked()" />
-			</control>
-		</panel>
-	
-		<panel id="bottomPanel" width="100%" childLayout="vertical">
+		<panel width="100%" childLayout="vertical">
 			<control id="lstGames" name="listBox" vertical="optional" horizontal="off" 
 				selection="Single" height="100%" displayItems="18" visibleToMouse="true">
 				<interact onMultiClick="btnOpen_Clicked()" />
 			</control>
+		</panel>
+		
+		<panel width="320px" height="32px" childLayout="horizontal">
+			<panel childLayout="center" width="50%" height="100%">
+				<control id="btnPlaySelected" type="button" name="button" width="90%" height="90%" label="Play Selected">
+					<interact onClick="btnPlaySelected_Clicked()" />
+				</control>
+			</panel>
+			<panel childLayout="center" width="50%" height="100%">
+				<control id="btnPlayRandom" type="button" name="button" width="90%" height="90%" label="Play Random">
+					<interact onClick="btnPlayRandom_Clicked()" />
+				</control>
+			</panel>
 		</panel>
 
 	</layer>

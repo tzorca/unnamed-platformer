@@ -3,7 +3,6 @@ package game.logic.levelGenerators;
 import game.Level;
 import game.entities.Entity;
 import game.logic.EntityCreator;
-import game.parameters.EntityRef.EntityType;
 import game.parameters.Ref;
 
 import java.util.ArrayList;
@@ -24,9 +23,6 @@ public abstract class LevelGenerator {
 		internalBuild();
 		Level lvl = new Level(entities, levelRect);
 		entities = new LinkedList<Entity>();
-		System.out.println(lvl.getRect().getX() + "," + lvl.getRect().getY()
-				+ "," + lvl.getRect().getWidth() + ","
-				+ lvl.getRect().getHeight());
 		return lvl;
 	}
 
@@ -83,10 +79,11 @@ public abstract class LevelGenerator {
 		}
 	}
 
-	protected Entity add(EntityType type, float x, float y, int grid) {
+	protected Entity add(Class entityClass, float x, float y, int grid) {
 		updateLevelRect(x, y);
 
-		return add(EntityCreator.create(type, new Vector2f(x, y), grid, false));
+		return add(EntityCreator.create(entityClass, new Vector2f(x, y), grid,
+				false));
 	}
 
 	protected Entity add(String textureName, float x, float y, int grid) {

@@ -3,12 +3,10 @@ package game.logic;
 import game.entities.Entity;
 import game.parameters.ContentRef.ContentType;
 import game.parameters.EntityRef;
-import game.parameters.EntityRef.EntityType;
 import game.structures.Graphic;
 
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -16,80 +14,78 @@ import java.util.Set;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.opengl.Texture;
 
+import app.App;
 import app.ContentManager;
 
 public class EntityCreator {
 
+	// Setup texture entity subclass mappings
+	// and load textures and binarypixelgrid
 	public static void init() {
 		Map<File, String> textureFiles = ContentManager
 				.getFileNameMap(ContentType.texture);
 
-		// TODO: Warning: This will cache all textures at the
-		// start of the app. This may not be okay in the future.
 		for (Entry<File, String> entry : textureFiles.entrySet()) {
+
+			// TODO: Warning: This will cache all textures at the
+			// start of the app. This may not be okay in the future.
+			// cache texture and binarypixelgrid
 			ContentManager.customCache(ContentType.texture, entry.getValue(),
 					entry.getKey());
 			ContentManager.customCache(ContentType.binaryPixelGrid,
 					entry.getValue(), entry.getKey());
 
-			String possibleTypeString = new File(entry.getKey().getParent())
+			// get possibleclassname
+			String possibleClassName = new File(entry.getKey().getParent())
 					.getName();
-			EntityType entityType = null;
-			if (possibleTypeString != null) {
-				try {
-					entityType = EntityType.valueOf(possibleTypeString);
-				} catch (Exception e) {
-					// don't need to do anything here, entityType is already
-					// set to null
 
-					// System.out.println(e.toString());
-				}
+			// check if possibleClassName was a valid entity subclass
+			if (possibleClassName == null
+					|| !EntityRef.classNameExists(possibleClassName)) {
+				continue;
 			}
 
-			// If the type name was correct, we can add the entity as a
-			// creatable entity
-			if (entityType != null) {
+			String textureName = entry.getValue();
+			Class entityClass = EntityRef
+					.getClassFromClassName(possibleClassName);
 
-				EntityRef.textureEntityTypeMap
-						.put(entry.getValue(), entityType);
-
-				if (!EntityRef.entityTypeTextureMap.containsKey(entityType)) {
-					EntityRef.entityTypeTextureMap.put(entityType,
-							new ArrayList<String>());
-				}
-				EntityRef.entityTypeTextureMap.get(entityType).add(
-						entry.getValue());
-			}
-
+			// If the possibleClassName was correct, we can
+			// add the entity as a creatable entity
+			EntityRef.addTextureNameToEntityClassMapping(textureName,
+					entityClass);
 		}
 	}
 
-	public static Entity create(EntityType type, Vector2f vector2f,
+	public static Entity create(Class entityClass, Vector2f vector2f,
 			double sizeInput, boolean relativeSize) {
-		if (type == null) {
-			System.out.println("Can't create an entity with an empty type.");
+		if (entityClass == null) {
+			System.out
+					.println("Can't create an entity with an empty entityClass.");
 			return null;
 		}
-		String textureName = (String) MathHelper
-				.randInList(EntityRef.entityTypeTextureMap.get(type));
+		String textureName = (String) MathHelper.randInList(EntityRef
+				.getTexturesFromEntityClass(entityClass));
 
-		return create(textureName, type, vector2f, sizeInput, relativeSize);
+		return create(textureName, entityClass, vector2f, sizeInput,
+				relativeSize);
 	}
 
 	public static Entity create(String textureName, Vector2f location,
 			double sizeInput, boolean relativeSize) {
-		EntityType type = EntityRef.textureEntityTypeMap.get(textureName);
-		if (type == null) {
+		Class entityClass = EntityRef
+				.getEntityClassFromTextureName(textureName);
+		if (entityClass == null) {
 
-			System.out.println("Texture " + textureName
-					+ " is missing a type mapping.");
+			App.print("Texture " + textureName
+					+ " is missing a entityClass mapping.");
 			return null;
 		}
-		return create(textureName, type, location, sizeInput, relativeSize);
+		return create(textureName, entityClass, location, sizeInput,
+				relativeSize);
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public static Entity create(String textureName, EntityType type,
+	@SuppressWarnings({ "unchecked" })
+	public static Entity create(String textureName, Class entityClass,
 			Vector2f location, double sizeInput, boolean relativeSize) {
 
 		int width = (int) sizeInput;
@@ -103,28 +99,21 @@ public class EntityCreator {
 
 		Graphic graphic = new Graphic(textureName);
 
-		Class c;
 		try {
-			c = Class.forName("game.entities." + type.toString());
-		} catch (ClassNotFoundException e) {
-			System.out.println("The entity type " + type.toString()
-					+ " has not yet been implemented.");
-			return null;
-		}
-
-		try {
-			newEntity = (Entity) c.getConstructor(Graphic.class, Vector2f.class,
-					int.class).newInstance(graphic, location, width);
+			newEntity = (Entity) entityClass.getConstructor(Graphic.class,
+					Vector2f.class, int.class).newInstance(graphic, location,
+					width);
 		} catch (InstantiationException | IllegalAccessException
 				| IllegalArgumentException | InvocationTargetException
 				| NoSuchMethodException | SecurityException e) {
-			System.out.println("The class " + type.toString()
+			App.print("The class " + entityClass.toString()
 					+ " has an implementation error: " + e.toString());
 			return null;
 
 		}
 		if (newEntity == null) {
-			System.out.println("Error: " + type.toString() + "was created null.");
+			App.print("Error: " + entityClass.toString()
+					+ "was created null.");
 		}
 
 		return newEntity;
@@ -135,24 +124,24 @@ public class EntityCreator {
 	}
 
 	public static boolean hasMapping(String texName) {
-		return EntityRef.textureEntityTypeMap.containsKey(texName);
+		return EntityRef.textureMapped(texName);
 	}
 
 	public static Set<String> listTextureNames() {
-		return EntityRef.textureEntityTypeMap.keySet();
+		return EntityRef.getTextureNamesFromMap();
 	}
 
 	public static Entity create(String textureName, Vector2f location, int width) {
 		return create(textureName, location, width, false);
 	}
 
-	public static String chooseTextureFromType(EntityType type) {
-		if (!EntityRef.entityTypeTextureMap.containsKey(type)) {
+	public static String chooseTextureFromType(Class entityClass) {
+		if (!EntityRef.entityClassHasMapping(entityClass)) {
 			return null;
 		}
 
-		return (String) MathHelper.randInList(EntityRef.entityTypeTextureMap
-				.get(type));
+		return (String) MathHelper.randInList(EntityRef
+				.getTexturesFromEntityClass(entityClass));
 	}
 
 }

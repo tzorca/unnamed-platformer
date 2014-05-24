@@ -1,12 +1,15 @@
 package game.logic.levelGenerators;
 
+import game.entities.Hazard;
+import game.entities.SolidBlock;
+import game.entities.Spikes;
 import game.logic.EntityCreator;
 import game.logic.MathHelper;
-import game.parameters.EntityRef.EntityType;
+import game.parameters.EntityRef;
 
 import java.awt.Point;
 import java.util.ArrayList;
-import java.util.EnumMap;
+import java.util.HashMap;
 
 import app.ViewManager;
 
@@ -17,16 +20,14 @@ public class SimpleProceduralGenerator extends LevelGenerator {
 		// just an alias
 		ArrayList<SectionSetup> ss = sectionSetups;
 
-		ss.add(new SectionSetup("horizontal", EntityType.SolidBlock, 1, 0));
-		ss.add(new SectionSetup("hazard", false, EntityType.Hazard, 1, 0));
-		ss.add(new SectionSetup("spikes", false, EntityType.Spikes, 1, 0));
-		ss.add(new SectionSetup("slopeDown", EntityType.SolidBlock, 1, 1));
-		ss.add(new SectionSetup("slopeUp", EntityType.SolidBlock, 1, -1));
-		ss.add(new SectionSetup("verticalUp", false, EntityType.SolidBlock, 0,
-				-1));
+		ss.add(new SectionSetup("horizontal", SolidBlock.class, 1, 0));
+		ss.add(new SectionSetup("hazard", false, Hazard.class, 1, 0));
+		ss.add(new SectionSetup("spikes", false, Spikes.class, 1, 0));
+		ss.add(new SectionSetup("slopeDown", SolidBlock.class, 1, 1));
+		ss.add(new SectionSetup("slopeUp", SolidBlock.class, 1, -1));
+		ss.add(new SectionSetup("verticalUp", false, SolidBlock.class, 0, -1));
 
-		ss.add(new SectionSetup("verticalDown", false, EntityType.SolidBlock, 0,
-				1));
+		ss.add(new SectionSetup("verticalDown", false, SolidBlock.class, 0, 1));
 	}
 
 	static int areaCount = 15;
@@ -52,22 +53,22 @@ public class SimpleProceduralGenerator extends LevelGenerator {
 		int pieceCount = 5;
 		for (int areaIterator = 0; areaIterator < areaCount; areaIterator++) {
 
-			// Each area has a single type of texture for each type of entity
+			// Each area chooses a texture for each Entity subclass
 			// These are picked randomly at the start of an area iteration
-			EnumMap<EntityType, String> areaTextureMap = new EnumMap<EntityType, String>(EntityType.class);
-			for (EntityType type : EntityType.values()) {
-				areaTextureMap.put(type,
-						EntityCreator.chooseTextureFromType(type));
+			HashMap<Class, String> areaTextureMap = new HashMap<Class, String>();
+			for (Class entityClass : EntityRef.getEntitySubclasses()) {
+				areaTextureMap.put(entityClass,
+						EntityCreator.chooseTextureFromType(entityClass));
 			}
 
 			sectionCount = MathHelper.randRange(minSections, maxSections);
 			for (int sectionIterator = 0; sectionIterator < sectionCount; sectionIterator++) {
 
 				String textureName = areaTextureMap
-						.get(sectionSetup.entityType);
+						.get(sectionSetup.entityClass);
 
 				String solidBlockTextureName = areaTextureMap
-						.get(EntityType.SolidBlock);
+						.get(SolidBlock.class);
 
 				Point translation = sectionSetup.getTranslation(grid);
 

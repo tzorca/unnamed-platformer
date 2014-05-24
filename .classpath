@@ -24,5 +24,6 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/cloning/objenesis-1.2.jar"/>
 	<classpathentry kind="lib" path="lib/misc/fst-1.55-onejar.jar"/>
+	<classpathentry kind="lib" path="lib/misc/guava-17.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -50,7 +50,7 @@ public class GUI_EditSelect extends GUI_Template {
 		}
 
 		if (!StringHelper.isValidFilename(newGameName.trim())) {
-			System.out.println(newGameName + " is not a valid filename");
+			App.print(newGameName + " is not a valid filename");
 			return;
 		}
 
@@ -61,7 +61,7 @@ public class GUI_EditSelect extends GUI_Template {
 			lstGames.addItem(newGameName);
 			selectGameByIndex(lstGames.getItems().size() - 1);
 		} else {
-			System.out.println("Could not create game with name of "
+			App.print("Could not create game with name of "
 					+ newGameName);
 		}
 	}

@@ -1,27 +1,27 @@
 package game.logic.levelGenerators;
 
-import java.awt.Point;
+import game.entities.SolidBlock;
 
-import game.parameters.EntityRef.EntityType;
+import java.awt.Point;
 
 public class SectionSetup {
 	public boolean allowRepeat = true;
-	public EntityType entityType = EntityType.SolidBlock;
+	public Class entityClass = SolidBlock.class;
 	private Point gridTranslation = new Point(1, 0);
 	public String name = "untitled";
 
 	public SectionSetup(String name, boolean allowRepeat,
-			EntityType entityType, int gridXTrans, int gridYTrans) {
+			Class entityClass, int gridXTrans, int gridYTrans) {
 		this.name = name;
 		this.allowRepeat = allowRepeat;
-		this.entityType = entityType;
+		this.entityClass = entityClass;
 		this.gridTranslation = new Point(gridXTrans, gridYTrans);
 	}
 
-	public SectionSetup(String name, EntityType entityType, int gridXTrans,
+	public SectionSetup(String name, Class entityClass, int gridXTrans,
 			int gridYTrans) {
 		this.name = name;
-		this.entityType = entityType;
+		this.entityClass = entityClass;
 		this.gridTranslation = new Point(gridXTrans, gridYTrans);
 	}
 

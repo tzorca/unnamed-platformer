@@ -57,7 +57,7 @@ public class Game {
 	@SuppressWarnings("unchecked")
 	private static Game fromBlueprint(Blueprint bp, String name) {
 		if (bp == null) {
-			System.out.println("You passed in a null blueprint!");
+			App.print("You passed in a null blueprint!");
 			return null;
 		}
 
@@ -83,7 +83,7 @@ public class Game {
 			level = levels.get(destination);
 			levelIndex = destination;
 		} else {
-			// System.out.println("Level with index " + destination
+			// App.print("Level with index " + destination
 			// + " doesn't exist.");
 			if (level != null) {
 				level.won = true;
@@ -150,7 +150,7 @@ public class Game {
 		if (this.hasLevel(index)) {
 			levels.remove(index);
 		} else {
-			System.out.println("Can't delete level " + index
+			App.print("Can't delete level " + index
 					+ " (it doesn't exist)");
 		}
 	}
