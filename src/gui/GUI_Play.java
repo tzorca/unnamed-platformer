@@ -1,4 +1,4 @@
-package app.gui;
+package gui;
 
 import app.GameManager;
 import app.LevelManager;

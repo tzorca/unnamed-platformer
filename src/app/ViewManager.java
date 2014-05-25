@@ -6,7 +6,9 @@ import game.parameters.Ref.Flag;
 import game.parameters.ViewRef;
 import game.structures.FlColor;
 import game.structures.Graphic;
+import gui.GUIManager;
 
+import java.awt.Canvas;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.geom.Rectangle2D;
@@ -14,6 +16,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.TreeMap;
+
+import javax.swing.JFrame;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
@@ -26,17 +30,33 @@ import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.opengl.Texture;
 
 import app.App.State;
-import app.gui.GUIManager;
 
 public class ViewManager {
-	// TODO: Fix bug in grid transparency
+
+	private static JFrame parentFrame;
+	private static Canvas lwjglCanvas;
+	static {
+		parentFrame = new JFrame("TODO: Title");
+		parentFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		lwjglCanvas = new Canvas();
+		lwjglCanvas.setSize(ViewRef.DEFAULT_RESOLUTION);
+		parentFrame.add(lwjglCanvas);
+		parentFrame.pack();
+		parentFrame.setLocationRelativeTo(null);
+		parentFrame.setVisible(true);
+		try {
+			Display.setParent(lwjglCanvas);
+		} catch (LWJGLException e) {
+			e.printStackTrace();
+		}
+	}
 
 	static Texture background = null;
-	public static int height = ViewRef.DEFAULT_RESOLUTION.y;
-	public static int width = ViewRef.DEFAULT_RESOLUTION.x;
+	public static int height = ViewRef.DEFAULT_RESOLUTION.height;
+	public static int width = ViewRef.DEFAULT_RESOLUTION.width;
 
 	private static Rectangle viewport = new Rectangle(0, 0,
-			ViewRef.DEFAULT_RESOLUTION.x, ViewRef.DEFAULT_RESOLUTION.y);
+			ViewRef.DEFAULT_RESOLUTION.width, ViewRef.DEFAULT_RESOLUTION.height);
 
 	public static void centerCamera(Vector2f vector2f) {
 		GL11.glMatrixMode(GL11.GL_PROJECTION);
@@ -54,7 +74,6 @@ public class ViewManager {
 		viewport = new Rectangle(left, top, right - left, bottom - top);
 
 		GL11.glOrtho(left, right, bottom, top, 1, -1);
-
 	}
 
 	public static void drawBG(Texture background) {
@@ -112,15 +131,11 @@ public class ViewManager {
 		FlColor color = graphic.color;
 		Texture t = graphic.getTexture();
 
-		// if (!graphic.isTempHighlight()) {
 		if (color != null) {
 			GL11.glColor4f(color.r(), color.g(), color.b(), color.a());
 		} else {
 			resetColor();
 		}
-		// } else {
-		// GL11.glColor4f(1, 0.5f, 0.5f, 0.75f);
-		// }
 
 		if (t != null) {
 			float tW = t.getWidth();
@@ -292,8 +307,8 @@ public class ViewManager {
 			width = screenRes.getWidth();
 			height = screenRes.getHeight();
 		} else {
-			width = ViewRef.DEFAULT_RESOLUTION.x;
-			height = ViewRef.DEFAULT_RESOLUTION.y;
+			width = ViewRef.DEFAULT_RESOLUTION.width;
+			height = ViewRef.DEFAULT_RESOLUTION.height;
 		}
 
 		init();

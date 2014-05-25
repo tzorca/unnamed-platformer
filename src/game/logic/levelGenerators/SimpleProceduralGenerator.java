@@ -55,8 +55,8 @@ public class SimpleProceduralGenerator extends LevelGenerator {
 
 			// Each area chooses a texture for each Entity subclass
 			// These are picked randomly at the start of an area iteration
-			HashMap<Class, String> areaTextureMap = new HashMap<Class, String>();
-			for (Class entityClass : EntityRef.getEntitySubclasses()) {
+			HashMap<Class<?>, String> areaTextureMap = new HashMap<Class<?>, String>();
+			for (Class<?> entityClass : EntityRef.getEntitySubclasses()) {
 				areaTextureMap.put(entityClass,
 						EntityCreator.chooseTextureFromType(entityClass));
 			}

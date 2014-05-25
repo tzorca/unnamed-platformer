@@ -7,6 +7,7 @@ import game.parameters.Ref;
 import game.structures.AudioWrapper;
 import game.structures.BinaryPixelGrid;
 import game.structures.ContentDetails;
+import gui.GUIManager;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -21,8 +22,6 @@ import org.newdawn.slick.openal.Audio;
 import org.newdawn.slick.openal.AudioLoader;
 import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
-
-import app.gui.GUIManager;
 
 public class ContentManager {
 

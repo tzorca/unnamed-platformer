@@ -2,6 +2,7 @@ package game.parameters;
 
 import game.structures.FlColor;
 
+import java.io.File;
 import java.io.Serializable;
 
 import org.newdawn.slick.geom.Rectangle;
@@ -27,9 +28,10 @@ public class Ref implements Serializable {
 			2000, 4000);
 	public static final int DEFAULT_LEVEL_GRIDSIZE = 32;
 
-	public static String baseDir = "res/";
 
-	public static String appPath;
+	public static String appPath = new File("").getAbsolutePath();
+
+	public static String resourceDir = appPath + File.separator + "res" + File.separator;
 
 	public static final int FPS = 60;
 

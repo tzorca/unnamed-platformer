@@ -16,10 +16,14 @@ public class FileListHelper {
 
 	public static Collection<String> listFileNames(File dir,
 			boolean excludeExtensions) {
-		File[] files = dir.listFiles();
-
 		List<String> filenames = new ArrayList<String>();
+		
+		if (!dir.canRead()) {
+			System.out.println("Warning: cannot read from directory " + dir.getAbsolutePath());
+			return filenames;
+		}
 
+		File[] files = dir.listFiles();
 		for (int i = 0; i < files.length; i++) {
 			if (files[i].isDirectory()) {
 				filenames.addAll(listFileNames(files[i], excludeExtensions));

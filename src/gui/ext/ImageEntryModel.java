@@ -1,4 +1,4 @@
-package app.gui.ext;
+package gui.ext;
 
 import game.parameters.ContentRef.ContentType;
 import app.ContentManager;

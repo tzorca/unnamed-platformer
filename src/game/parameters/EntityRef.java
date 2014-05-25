@@ -13,13 +13,13 @@ import com.google.common.reflect.ClassPath;
 
 public class EntityRef {
 
-	private static Map<String, Class> textureName_EntityClass_Map = Maps
+	private static Map<String, Class<?>> textureName_EntityClass_Map = Maps
 			.newHashMap();
 
-	private static ListMultimap<Class, String> entityClass_TextureName_Map = ArrayListMultimap
+	private static ListMultimap<Class<?>, String> entityClass_TextureName_Map = ArrayListMultimap
 			.create();
 
-	private static Map<String, Class> className_EntityClass_Map = Maps
+	private static Map<String, Class<?>> className_EntityClass_Map = Maps
 			.newHashMap();
 
 	static {
@@ -29,7 +29,7 @@ public class EntityRef {
 			for (ClassPath.ClassInfo classInfo : classpath
 					.getTopLevelClasses("game.entities")) {
 				String name = classInfo.getSimpleName();
-				Class entityClass = classInfo.load();
+				Class<?> entityClass = classInfo.load();
 
 				className_EntityClass_Map.put(name, entityClass);
 			}
@@ -39,7 +39,7 @@ public class EntityRef {
 		}
 	}
 
-	public static Collection<Class> getEntitySubclasses() {
+	public static Collection<Class<?>> getEntitySubclasses() {
 		return className_EntityClass_Map.values();
 	}
 
@@ -47,7 +47,7 @@ public class EntityRef {
 		return className_EntityClass_Map.keySet();
 	}
 
-	public static Class getClassFromClassName(String className) {
+	public static Class<?> getClassFromClassName(String className) {
 		return className_EntityClass_Map.get(className);
 	}
 
@@ -55,19 +55,19 @@ public class EntityRef {
 		return className_EntityClass_Map.containsKey(className);
 	}
 
-	public static List<String> getTexturesFromEntityClass(Class entityClass) {
+	public static List<String> getTexturesFromEntityClass(Class<?> entityClass) {
 		return entityClass_TextureName_Map.get(entityClass);
 	}
 
 	public static void addTextureNameToEntityClassMapping(String textureName,
-			Class entityClass) {
+			Class<?> entityClass) {
 
 		EntityRef.textureName_EntityClass_Map.put(textureName, entityClass);
 		EntityRef.entityClass_TextureName_Map.put(entityClass, textureName);
 
 	}
 
-	public static Class getEntityClassFromTextureName(String textureName) {
+	public static Class<?> getEntityClassFromTextureName(String textureName) {
 		return textureName_EntityClass_Map.get(textureName);
 	}
 
@@ -75,7 +75,7 @@ public class EntityRef {
 		return textureName_EntityClass_Map.keySet();
 	}
 
-	public static boolean entityClassHasMapping(Class entityClass) {
+	public static boolean entityClassHasMapping(Class<?> entityClass) {
 		return entityClass_TextureName_Map.containsKey(entityClass);
 	}
 

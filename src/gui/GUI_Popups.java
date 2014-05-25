@@ -1,4 +1,4 @@
-package app.gui;
+package gui;
 
 import game.structures.Callback;
 

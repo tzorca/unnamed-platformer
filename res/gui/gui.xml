@@ -13,7 +13,7 @@
 	</panel>
 </controlDefinition>-->
 
-<popup id="popInput" childLayout="center" backgroundColor="#000b" controller="app.gui.GUI_Popups">
+<popup id="popInput" childLayout="center" backgroundColor="#000b" controller="gui.GUI_Popups">
 	<panel childLayout="center" width="320px" height="128px" backgroundColor="#000f">
 	<panel childLayout="center" width="318px" height="126px" backgroundColor="#333f">
 		<text id="popInput_lblMessage" name="popInput_lblMessage" font="fps.fnt" text="" marginTop="16px" align="center" valign="top" />
@@ -41,7 +41,7 @@
 	</panel>
 </popup>
   
-<screen id="start" controller="app.gui.GUI_MainMenu">
+<screen id="start" controller="gui.GUI_MainMenu">
     <layer childLayout="vertical" backgroundColor="#dddf">
 		<panel childLayout="vertical" valign="center" align="center" width="90%" height="100%">
 			<panel id="play" backgroundColor="#363c" childLayout="center" valign="center" align="center">
@@ -56,10 +56,10 @@
 	</layer>
 </screen>
 
-<screen id="play" controller="app.gui.GUI_Play">
+<screen id="play" controller="gui.GUI_Play">
 </screen>
 
-<screen id="edit" controller="app.gui.GUI_Edit">
+<screen id="edit" controller="gui.GUI_Edit">
 	<layer id="backLayer" childLayout="center" width="100%" height="100%">
 		<interact
 			onPrimaryClick="placeObject()"
@@ -129,7 +129,7 @@
 </screen>
 
 
-<screen id="editSelect" controller="app.gui.GUI_EditSelect">
+<screen id="editSelect" controller="gui.GUI_EditSelect">
 	<layer backgroundColor="#333f" childLayout="vertical" width="100%" height="100%" >
 		<panel width="100%" childLayout="vertical" valign="top">
 			<control id="lstGames" name="listBox" vertical="optional" horizontal="off"
@@ -153,7 +153,7 @@
 	</layer>
 </screen>
 
-<screen id="playSelect" controller="app.gui.GUI_PlaySelect">
+<screen id="playSelect" controller="gui.GUI_PlaySelect">
 	<layer backgroundColor="#333f" childLayout="vertical" width="100%" height="100%" >
 
 		<panel width="100%" childLayout="vertical">

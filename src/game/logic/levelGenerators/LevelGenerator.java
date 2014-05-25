@@ -79,7 +79,7 @@ public abstract class LevelGenerator {
 		}
 	}
 
-	protected Entity add(Class entityClass, float x, float y, int grid) {
+	protected Entity add(Class<?> entityClass, float x, float y, int grid) {
 		updateLevelRect(x, y);
 
 		return add(EntityCreator.create(entityClass, new Vector2f(x, y), grid,

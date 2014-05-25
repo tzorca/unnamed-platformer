@@ -1,4 +1,4 @@
-package app.gui.ext;
+package gui.ext;
 
 import de.lessvoid.nifty.controls.ListBox.ListBoxViewConverter;
 import de.lessvoid.nifty.elements.Element;

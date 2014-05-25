@@ -4,11 +4,9 @@ import game.logic.EntityCreator;
 import game.parameters.InputRef.GameKey;
 import game.parameters.Ref;
 import game.parameters.ViewRef;
+import gui.GUIManager;
 
 import org.lwjgl.opengl.Display;
-import org.newdawn.slick.geom.Vector2f;
-
-import app.gui.GUIManager;
 
 public class App {
 

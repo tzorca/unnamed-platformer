@@ -4,6 +4,7 @@ import game.entities.Entity;
 import game.parameters.ContentRef.ContentType;
 import game.parameters.Ref.BlueprintComponent;
 import game.structures.Blueprint;
+import gui.GUI_Edit;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -14,7 +15,6 @@ import app.App;
 import app.App.State;
 import app.ContentManager;
 import app.ViewManager;
-import app.gui.GUI_Edit;
 
 public class Game {
 	private List<Level> levels = new LinkedList<Level>();

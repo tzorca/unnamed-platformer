@@ -1,4 +1,4 @@
-package app.gui;
+package gui;
 
 import game.Level;
 import game.entities.Entity;

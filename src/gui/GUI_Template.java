@@ -1,4 +1,4 @@
-package app.gui;
+package gui;
 
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.screen.Screen;

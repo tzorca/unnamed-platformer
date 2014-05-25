@@ -46,7 +46,7 @@ public class EntityCreator {
 			}
 
 			String textureName = entry.getValue();
-			Class entityClass = EntityRef
+			Class<?> entityClass = EntityRef
 					.getClassFromClassName(possibleClassName);
 
 			// If the possibleClassName was correct, we can
@@ -56,7 +56,7 @@ public class EntityCreator {
 		}
 	}
 
-	public static Entity create(Class entityClass, Vector2f vector2f,
+	public static Entity create(Class<?> entityClass, Vector2f vector2f,
 			double sizeInput, boolean relativeSize) {
 		if (entityClass == null) {
 			System.out
@@ -72,7 +72,7 @@ public class EntityCreator {
 
 	public static Entity create(String textureName, Vector2f location,
 			double sizeInput, boolean relativeSize) {
-		Class entityClass = EntityRef
+		Class<?> entityClass = EntityRef
 				.getEntityClassFromTextureName(textureName);
 		if (entityClass == null) {
 
@@ -84,8 +84,7 @@ public class EntityCreator {
 				relativeSize);
 	}
 
-	@SuppressWarnings({ "unchecked" })
-	public static Entity create(String textureName, Class entityClass,
+	public static Entity create(String textureName, Class<?> entityClass,
 			Vector2f location, double sizeInput, boolean relativeSize) {
 
 		int width = (int) sizeInput;
@@ -112,8 +111,7 @@ public class EntityCreator {
 
 		}
 		if (newEntity == null) {
-			App.print("Error: " + entityClass.toString()
-					+ "was created null.");
+			App.print("Error: " + entityClass.toString() + "was created null.");
 		}
 
 		return newEntity;
@@ -135,7 +133,7 @@ public class EntityCreator {
 		return create(textureName, location, width, false);
 	}
 
-	public static String chooseTextureFromType(Class entityClass) {
+	public static String chooseTextureFromType(Class<?> entityClass) {
 		if (!EntityRef.entityClassHasMapping(entityClass)) {
 			return null;
 		}

@@ -17,11 +17,11 @@ public class ContentDetails {
 	}
 
 	public String getFilename(String name) {
-		return Ref.baseDir + dir + name + ext;
+		return Ref.resourceDir + dir + name + ext;
 	}
 
 	public String getDir() {
-		return Ref.baseDir + dir;
+		return Ref.resourceDir + dir;
 	}
 
 }

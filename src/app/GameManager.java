@@ -1,7 +1,6 @@
 package app;
 
 import game.Game;
-import game.logic.levelGenerators.BlockGenerator;
 import game.logic.levelGenerators.LevelGenerator;
 import game.logic.levelGenerators.SimpleProceduralGenerator;
 

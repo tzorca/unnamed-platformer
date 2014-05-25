@@ -2,6 +2,7 @@ package app;
 
 import game.parameters.InputRef;
 import game.parameters.InputRef.GameKey;
+import gui.GUIManager;
 
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -11,8 +12,6 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
-
-import app.gui.GUIManager;
 
 public class InputManager {
 	private static HashMap<Integer, Boolean> rawKeyStates = new HashMap<Integer, Boolean>();
