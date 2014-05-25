@@ -9,8 +9,7 @@ import game.structures.Graphic;
 import gui.GUIManager;
 
 import java.awt.Canvas;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
+import java.awt.Dimension;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -23,7 +22,6 @@ import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.util.Dimension;
 import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
@@ -138,11 +136,10 @@ public class ViewManager {
 		}
 
 		if (t != null) {
-			float tW = t.getWidth();
-			float tH = t.getHeight();
 			t.bind();
+
 			GL11.glBegin(GL11.GL_QUADS);
-			drawTex(t, x, y, w, h, tW, tH);
+			drawTex(t, x, y, w, h, t.getWidth(), t.getHeight());
 			GL11.glEnd();
 		} else {
 			GL11.glBegin(GL11.GL_QUADS);
@@ -260,42 +257,22 @@ public class ViewManager {
 	}
 
 	public static void clear(FlColor c) {
-
 		GL11.glClearColor(c.r(), c.g(), c.b(), c.a());
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 	}
 
 	public static void update() {
-
 		if (App.state == State.play || App.state == State.edit) {
 
 			Display.setTitle(GameManager.getGameName());
 
-			saveState();
-			GL11.glMatrixMode(GL11.GL_MODELVIEW);
-
 			GameManager.draw();
-
-			loadState();
 		}
 
 		GUIManager.update();
 
-		updateDisplay();
-	}
-
-	private static void updateDisplay() {
-
 		Display.update();
-	}
-
-	private static Dimension screenRes = getCurrentResolution();
-
-	private static Dimension getCurrentResolution() {
-		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment()
-				.getDefaultScreenDevice();
-		return new Dimension(gd.getDisplayMode().getWidth(), gd
-				.getDisplayMode().getHeight());
+		Display.sync(ViewRef.FPS);
 	}
 
 	static boolean fullscreen = false;
@@ -304,8 +281,9 @@ public class ViewManager {
 		fullscreen = !fullscreen;
 
 		if (fullscreen) {
-			width = screenRes.getWidth();
-			height = screenRes.getHeight();
+			Dimension screenRes = ViewRef.getScreenResolution();
+			width = (int) screenRes.getWidth();
+			height = (int) screenRes.getHeight();
 		} else {
 			width = ViewRef.DEFAULT_RESOLUTION.width;
 			height = ViewRef.DEFAULT_RESOLUTION.height;

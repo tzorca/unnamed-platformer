@@ -3,7 +3,6 @@ package app;
 import game.logic.EntityCreator;
 import game.parameters.InputRef.GameKey;
 import game.parameters.Ref;
-import game.parameters.ViewRef;
 import gui.GUIManager;
 
 import org.lwjgl.opengl.Display;
@@ -30,8 +29,6 @@ public class App {
 			InputManager.update();
 			processSpecialInput();
 
-			sync();
-
 			accumulator += millisecDelta;
 
 			while (accumulator >= Ref.MILLISECS_IN_IDEAL_TIC) {
@@ -44,12 +41,6 @@ public class App {
 		}
 	}
 
-	private static void sync() {
-		// According to LWJGL documentation, this should be
-		// called in the game loop
-		Display.sync(ViewRef.FPS);
-	}
-
 	private static void processSpecialInput() {
 		if (InputManager.getGameKeyState(GameKey.restartApp, 1)) {
 			GUIManager.setStateHeld(false);
@@ -60,8 +51,7 @@ public class App {
 			GameManager.generateRandomGame();
 			App.state = State.play;
 		}
-		
-		
+
 		if (InputManager.getGameKeyState(GameKey.saveTempGame, 1)) {
 			GameManager.saveCurrentGame("Temp");
 		}
