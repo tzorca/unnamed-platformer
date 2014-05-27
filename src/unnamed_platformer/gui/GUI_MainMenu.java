@@ -7,10 +7,10 @@ public class GUI_MainMenu extends GUI_Template {
 
 
 	public void play() {
-		App.state = State.playSelect;
+		App.state = State.PlaySelect;
 	}
 	
 	public void edit() {
-		App.state = State.editSelect;
+		App.state = State.EditSelect;
 	}
 }

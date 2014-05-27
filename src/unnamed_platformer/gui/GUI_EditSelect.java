@@ -82,6 +82,6 @@ public class GUI_EditSelect extends GUI_Template {
 		}
 
 		GameManager.loadGame(currentGameName);
-		App.state = State.edit;
+		App.state = State.Edit;
 	}
 }

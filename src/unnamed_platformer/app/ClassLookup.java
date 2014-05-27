@@ -77,4 +77,8 @@ public class ClassLookup {
 		}
 		return null;
 	}
+
+	public static Object instantiate(String packageName, String className) {
+		return instantiate(getClass(packageName, className));
+	}
 }

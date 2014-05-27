@@ -36,7 +36,7 @@ public class SimpleProceduralGenerator extends LevelGenerator {
 
 	@Override
 	protected void internalBuild() {
-		grid = 56;
+		grid = 48;
 		int maxY = grid * 64;
 
 		// put player at bottom-left
@@ -50,7 +50,7 @@ public class SimpleProceduralGenerator extends LevelGenerator {
 		SectionSetup lastSectionSetup = (SectionSetup) MathHelper
 				.randInList(sectionSetups);
 		int sectionCount;
-		int pieceCount = 5;
+		int pieceCount = 4;
 		for (int areaIterator = 0; areaIterator < areaCount; areaIterator++) {
 
 			// Each area chooses a texture for each Entity subclass

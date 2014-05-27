@@ -91,7 +91,7 @@ public class GUI_Edit extends GUI_Template {
 	}
 
 	public void placeObject() {
-		if (App.state != State.edit) {
+		if (App.state != State.Edit) {
 			return;
 		}
 
@@ -187,7 +187,7 @@ public class GUI_Edit extends GUI_Template {
 	}
 
 	public void removeObject() {
-		if (App.state != State.edit) {
+		if (App.state != State.Edit) {
 			return;
 		}
 
@@ -204,7 +204,7 @@ public class GUI_Edit extends GUI_Template {
 	}
 
 	public void update() {
-		if (App.state == State.edit) {
+		if (App.state == State.Edit) {
 			ViewManager.centerCamera(cameraPos);
 
 			processControls();
@@ -238,7 +238,7 @@ public class GUI_Edit extends GUI_Template {
 
 	public static void drawEntityPlaceholder() {
 
-		if (!placeholderVisible || App.state != State.edit) {
+		if (!placeholderVisible || App.state != State.Edit) {
 			return;
 		}
 
@@ -296,11 +296,11 @@ public class GUI_Edit extends GUI_Template {
 
 	public void pnlModeSwitch_Clicked() {
 
-		if (App.state == State.edit) {
+		if (App.state == State.Edit) {
 			currentLevel.resetToCurrent();
 
 			GUIManager.setStateHeld(true);
-			App.state = State.play;
+			App.state = State.Play;
 
 			NiftyImage newImage = GUIManager
 					.getImage("res/gui/img/modeEdit.png");
@@ -310,7 +310,7 @@ public class GUI_Edit extends GUI_Template {
 			currentLevel.resetToOriginal();
 
 			GUIManager.setStateHeld(false);
-			App.state = State.edit;
+			App.state = State.Edit;
 
 			NiftyImage newImage = GUIManager
 					.getImage("res/gui/img/modePlay.png");

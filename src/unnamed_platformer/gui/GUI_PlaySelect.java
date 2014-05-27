@@ -43,12 +43,12 @@ public class GUI_PlaySelect extends GUI_Template {
 			return;
 		}
 		GameManager.loadGame(currentGameName);
-		App.state = State.play;
+		App.state = State.Play;
 	}
 
 	public void btnPlayRandom_Clicked() {
 		GameManager.generateRandomGame();
-		App.state = State.play;
+		App.state = State.Play;
 	}
 
 }

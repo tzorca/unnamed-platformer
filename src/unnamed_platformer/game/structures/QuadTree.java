@@ -13,14 +13,14 @@ import unnamed_platformer.game.entities.Entity;
 
 public class QuadTree {
 
-	private int MAX_OBJECTS = 40;
-	private int MAX_LEVELS = 10;
+	private int MAX_OBJECTS = 5;
+	private int MAX_LEVELS = 40;
 
 	private int level;
 	private List<Entity> entities;
 	private Rectangle bounds;
 	private QuadTree[] nodes;
-
+ 
 	public QuadTree(int pLevel, Rectangle rect) {
 		level = pLevel;
 		entities = new ArrayList<Entity>();
@@ -63,8 +63,6 @@ public class QuadTree {
 	private int getIndex(Rectangle pRect) {
 		int index = -1;
 
-		pRect = increaseRect(pRect);
-
 		double verticalMidpoint = bounds.getX() + (bounds.getWidth() / 2);
 		double horizontalMidpoint = bounds.getY() + (bounds.getHeight() / 2);
 
@@ -96,8 +94,8 @@ public class QuadTree {
 	}
 
 	// prevent stupid "just barely out of range so fall through ground" bugs
-	private Rectangle increaseRect(Rectangle pRect) {
-
+	public static Rectangle increaseRect(Rectangle pRect) {
+		
 		return new Rectangle(pRect.getX() - 32, pRect.getY() - 32,
 				pRect.getWidth() + 64, pRect.getHeight() + 64);
 	}
@@ -106,12 +104,12 @@ public class QuadTree {
 	 * Insert the object into the quadtree. If the node exceeds the capacity, it
 	 * will split and add all objects to their corresponding nodes.
 	 */
-	public void insert(Entity e) {
+	public void insert(Entity e, Rectangle box) {
 		if (nodes[0] != null) {
-			int index = getIndex(increaseRect(e.getBox()));
+			int index = getIndex(box);
 
 			if (index != -1) {
-				nodes[index].insert(e);
+				nodes[index].insert(e, box);
 				return;
 			}
 		}
@@ -127,7 +125,7 @@ public class QuadTree {
 			while (i < entities.size()) {
 				int index = getIndex(increaseRect(entities.get(i).getBox()));
 				if (index != -1) {
-					nodes[index].insert(entities.remove(i));
+					nodes[index].insert(entities.remove(i), box);
 				} else {
 					i++;
 				}

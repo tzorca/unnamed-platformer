@@ -1,7 +1,10 @@
 package unnamed_platformer.app;
 
+import java.awt.BorderLayout;
 import java.awt.Canvas;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Panel;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -22,9 +25,9 @@ import org.newdawn.slick.opengl.Texture;
 
 import unnamed_platformer.app.App.State;
 import unnamed_platformer.game.entities.Entity;
-import unnamed_platformer.game.parameters.ViewRef;
 import unnamed_platformer.game.parameters.ContentRef.ContentType;
 import unnamed_platformer.game.parameters.Ref.Flag;
+import unnamed_platformer.game.parameters.ViewRef;
 import unnamed_platformer.game.structures.FlColor;
 import unnamed_platformer.game.structures.Graphic;
 import unnamed_platformer.gui.GUIManager;
@@ -33,17 +36,17 @@ public class ViewManager {
 
 	private static JFrame parentFrame;
 	private static Canvas renderCanvas;
-	private static JPanel guiPanel;
+	private static Panel guiPanel;
 	static {
 		parentFrame = new JFrame("TODO: Title");
 		parentFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		renderCanvas = new Canvas();
-		guiPanel = new JPanel();
+		renderCanvas.setBackground(Color.black);
 		renderCanvas.setSize(ViewRef.DEFAULT_RESOLUTION);
-		guiPanel.setSize(ViewRef.DEFAULT_RESOLUTION);
+		parentFrame.setLayout(new BorderLayout());
+		guiPanel = new Panel();
 		parentFrame.add(guiPanel);
 		parentFrame.add(renderCanvas);
-		guiPanel.setVisible(false);
 		parentFrame.pack();
 		parentFrame.setLocationRelativeTo(null);
 		parentFrame.setVisible(true);
@@ -62,8 +65,6 @@ public class ViewManager {
 			ViewRef.DEFAULT_RESOLUTION.width, ViewRef.DEFAULT_RESOLUTION.height);
 
 	public static void centerCamera(Vector2f vector2f) {
-		GL11.glMatrixMode(GL11.GL_PROJECTION);
-		GL11.glLoadIdentity();
 
 		float x = vector2f.x;
 		float y = vector2f.y;
@@ -76,7 +77,11 @@ public class ViewManager {
 
 		viewport = new Rectangle(left, top, right - left, bottom - top);
 
-		GL11.glOrtho(left, right, bottom, top, 1, -1);
+		if (Display.isActive()) {
+			GL11.glMatrixMode(GL11.GL_PROJECTION);
+			GL11.glLoadIdentity();
+			GL11.glOrtho(left, right, bottom, top, 1, -1);
+		}
 	}
 
 	public static void drawBG(Texture background) {
@@ -267,7 +272,7 @@ public class ViewManager {
 	}
 
 	public static void update() {
-		if (App.state == State.play || App.state == State.edit) {
+		if (App.state == State.Play || App.state == State.Edit) {
 
 			Display.setTitle(GameManager.getGameName());
 
@@ -336,7 +341,10 @@ public class ViewManager {
 		renderCanvas.setVisible(b);
 	}
 
-	public static void setGUIPanel(JPanel panel) {
+	public static void setGUIPanel(Panel panel) {
+		parentFrame.remove(guiPanel);
 		guiPanel = panel;
+		parentFrame.add(guiPanel);
+		parentFrame.validate();
 	}
 }

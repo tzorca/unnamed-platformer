@@ -9,11 +9,11 @@ import unnamed_platformer.gui.GUIManager;
 
 public class App {
 
-	public static State initialState = State.start;
+	public static State initialState = State.Start;
 	public static State state = initialState;
 
 	public static enum State {
-		start, choosePlayLevel, chooseEditLevel, play, edit, editSelect, playSelect
+		Start, ChoosePlayLevel, ChooseEditLevel, Play, Edit, EditSelect, PlaySelect
 	}
 
 	static long accumulator = 0;
@@ -49,7 +49,7 @@ public class App {
 
 		if (InputManager.getGameKeyState(GameKey.startRandomGame, 1)) {
 			GameManager.generateRandomGame();
-			App.state = State.play;
+			App.state = State.Play;
 		}
 
 		if (InputManager.getGameKeyState(GameKey.saveTempGame, 1)) {
@@ -79,7 +79,7 @@ public class App {
 	}
 
 	public static void restart() {
-		state = State.start;
+		state = State.Start;
 
 		// aMgr.loadSample("beep", "beep.wav");
 		// aMgr.play("beep");

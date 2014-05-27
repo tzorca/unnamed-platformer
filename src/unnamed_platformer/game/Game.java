@@ -103,7 +103,7 @@ public class Game {
 		ViewManager.clear(level.bgGraphic.color);
 		ViewManager.drawBG(level.bgGraphic.getTexture());
 
-		if (App.state == State.edit) {
+		if (App.state == State.Edit) {
 			ViewManager.drawEditGrid(level.gridSize);
 		}
 		
@@ -111,7 +111,7 @@ public class Game {
 
 
 
-		if (App.state == State.edit) {
+		if (App.state == State.Edit) {
 			GUI_Edit.drawEntityPlaceholder();
 		}
 	}

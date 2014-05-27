@@ -67,6 +67,7 @@ public class Level {
 		for (Entity e : entities) {
 			if (e.isFlagSet(Flag.player)) {
 				playerEntity = e;
+
 				ViewManager.centerCamera(playerEntity.getCenter());
 			}
 		}
@@ -175,7 +176,7 @@ public class Level {
 				continue;
 			}
 
-			if (App.state == State.play) {
+			if (App.state == State.Play) {
 				// perform entity logic
 				entity.update();
 
@@ -188,7 +189,7 @@ public class Level {
 			// unless they are the player entity
 			if (entity.isFlagSet(Flag.outOfPlay)) {
 
-				if (entity.isFlagSet(Flag.player) && App.state != State.edit) {
+				if (entity.isFlagSet(Flag.player) && App.state != State.Edit) {
 					continue;
 				}
 				entityIterator.remove();
@@ -196,12 +197,12 @@ public class Level {
 			}
 
 			// add existing entities to quadtree
-			if (App.state == State.play) {
-				quadTree.insert(entity);
+			if (App.state == State.Play) {
+				quadTree.insert(entity, QuadTree.increaseRect(entity.getBox()));
 			}
 		}
 
-		if (App.state == State.play) {
+		if (App.state == State.Play) {
 			PhysicsProcessor.processMoves();
 
 			if (playerEntity != null) {

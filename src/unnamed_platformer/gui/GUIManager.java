@@ -3,9 +3,9 @@ package unnamed_platformer.gui;
 import org.lwjgl.opengl.GL11;
 
 import unnamed_platformer.app.App;
+import unnamed_platformer.app.App.State;
 import unnamed_platformer.app.ClassLookup;
 import unnamed_platformer.app.ViewManager;
-import unnamed_platformer.app.App.State;
 import unnamed_platformer.game.parameters.GUIRef;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.builder.ElementBuilder;
@@ -21,7 +21,7 @@ import de.lessvoid.nifty.tools.TimeProvider;
 @SuppressWarnings("deprecation")
 public class GUIManager {
 	private static Nifty nifty;
-	private static Screen screen;
+	private static ZScreen screen;
 
 	public static void init() {
 		LwjglInputSystem inputSystem = new LwjglInputSystem();
@@ -34,10 +34,12 @@ public class GUIManager {
 				inputSystem, new TimeProvider());
 
 		nifty.setIgnoreKeyboardEvents(false);
-		nifty.fromXml("res/gui/gui.xml", "start");
+		nifty.fromXml("res/gui/gui.xml", "Start");
+		
+		screenChange();
 	}
 
-	private static State lastState = State.start;
+	private static State lastState = State.Start;
 	private static boolean stateHeld = false;
 
 	public static boolean isStateHeld() {
@@ -72,15 +74,19 @@ public class GUIManager {
 		((GUI_Template) getCurrentScreen().getScreenController()).update();
 	}
 
-	public static void screenChange() {
+	private static void screenChange() {
 		nifty.gotoScreen(App.state.toString());
 
 		String className = "Screen_" + App.state.toString();
 
 		if (ClassLookup.classExists(GUIRef.PACKAGE_NAME, className)) {
-			screen = (Screen) ClassLookup.instantiate(ClassLookup.getClass(
-					GUIRef.PACKAGE_NAME, className));
+			screen = (ZScreen) ClassLookup.instantiate(GUIRef.PACKAGE_NAME,
+					className);
+		} else {
+			screen = (ZScreen) ClassLookup.instantiate(GUIRef.PACKAGE_NAME,
+					"BaseScreen_Render");
 		}
+		ViewManager.setGUIPanel(screen.getPanel());
 	}
 
 	public static Nifty getNifty() {
