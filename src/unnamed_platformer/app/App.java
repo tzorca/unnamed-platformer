@@ -13,7 +13,7 @@ public class App {
 	public static State state = initialState;
 
 	public static enum State {
-		Start, ChoosePlayLevel, ChooseEditLevel, Play, Edit, EditSelect, PlaySelect
+		Start, SelectWorld, Play, Edit
 	}
 
 	static long accumulator = 0;
@@ -90,7 +90,7 @@ public class App {
 	}
 
 	public static void print(Object o) {
-		App.print(o + "");
+		System.out.println(o + "");
 	}
 
 }

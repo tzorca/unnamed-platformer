@@ -1,7 +1,6 @@
 package unnamed_platformer.app;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 
 import unnamed_platformer.game.parameters.Ref;
@@ -11,8 +10,6 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Table;
 import com.google.common.reflect.ClassPath;
-
-import de.lessvoid.nifty.screen.Screen;
 
 public class ClassLookup {
 
@@ -29,27 +26,27 @@ public class ClassLookup {
 		ClassPath classpath = null;
 		try {
 			classpath = ClassPath.from(ClassLoader.getSystemClassLoader());
+			for (ClassPath.ClassInfo classInfo : classpath.getAllClasses()) {
+				// if (classInfo.getClass())
+				try {
+					String packageName = classInfo.getPackageName();
+					
+					if (!packageName.startsWith(Ref.BASE_PACKAGE_NAME)) {
+						continue;
+					}
+					Class<?> clazz = classInfo.load();
+					String className = classInfo.getSimpleName();
+					classesInPackages.put(packageName, clazz);
+					classNamesInPackages.put(packageName, className);
+					classesByClassNameInPackages.put(packageName, className, clazz);
+				} catch (Exception e) {
+					continue;
+				}
+			}
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		for (ClassPath.ClassInfo classInfo : classpath.getAllClasses()) {
-			// if (classInfo.getClass())
-			try {
-				String packageName = classInfo.getPackageName();
-				
-				if (!packageName.startsWith(Ref.BASE_PACKAGE_NAME)) {
-					continue;
-				}
-				Class<?> clazz = classInfo.load();
-				String className = classInfo.getSimpleName();
-				classesInPackages.put(packageName, clazz);
-				classNamesInPackages.put(packageName, className);
-				classesByClassNameInPackages.put(packageName, className, clazz);
-			} catch (Exception e) {
-				continue;
-			}
-		}
-		System.out.println(classesByClassNameInPackages.size());
+		
 	}
 
 	public static Collection<Class<?>> getClassesInPackage(String packageName) {

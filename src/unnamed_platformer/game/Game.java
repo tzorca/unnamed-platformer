@@ -56,8 +56,8 @@ public class Game {
 	@SuppressWarnings("unchecked")
 	private static Game fromBlueprint(Blueprint bp, String name) {
 		if (bp == null) {
-			App.print("You passed in a null blueprint!");
-			return null;
+			App.print("Currently existing blueprint is invalid. Creating new game...");
+			return new Game(name, true);
 		}
 
 		List<Blueprint> lBPs = (LinkedList<Blueprint>) bp

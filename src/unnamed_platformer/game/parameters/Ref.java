@@ -44,4 +44,6 @@ public class Ref implements Serializable {
 
 	public static final String BASE_PACKAGE_NAME = "unnamed_platformer";
 
+	public static final String APP_TITLE = "TODO: Title";
+
 }

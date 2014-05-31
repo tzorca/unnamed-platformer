@@ -12,12 +12,13 @@ import unnamed_platformer.app.App;
 import unnamed_platformer.app.GameManager;
 import unnamed_platformer.app.App.State;
 import unnamed_platformer.game.parameters.GUIRef;
+import unnamed_platformer.game.parameters.Ref;
 
 public class Screen_Start extends BaseScreen_GUI {
 
 	// Instance initializer
 	{
-		JLabel lblGameTitle = new JLabel("TODO: Title");
+		JLabel lblGameTitle = new JLabel(Ref.APP_TITLE);
 		lblGameTitle.setFont(GUIRef.HEADING_FONT);
 		lblGameTitle.setForeground(Color.darkGray);
 
@@ -37,7 +38,7 @@ public class Screen_Start extends BaseScreen_GUI {
 		btnCustomWorlds.setBorder(new EmptyBorder(15, 20, 15, 20));
 		btnCustomWorlds.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				App.state = State.EditSelect;
+				App.state = State.SelectWorld;
 			}
 		});
 

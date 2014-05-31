@@ -34,8 +34,8 @@ public class GUIManager {
 				inputSystem, new TimeProvider());
 
 		nifty.setIgnoreKeyboardEvents(false);
-		nifty.fromXml("res/gui/gui.xml", "Start");
-		
+		nifty.fromXmlWithoutStartScreen("res/gui/gui.xml");
+
 		screenChange();
 	}
 
@@ -71,11 +71,17 @@ public class GUIManager {
 
 		ViewManager.loadState();
 
-		((GUI_Template) getCurrentScreen().getScreenController()).update();
+		if (!getCurrentScreen().isNull()) {
+			((GUI_Template) getCurrentScreen().getScreenController()).update();
+		}
 	}
 
 	private static void screenChange() {
-		nifty.gotoScreen(App.state.toString());
+		String screenName = App.state.toString();
+
+		if (nifty.getAllScreensName().contains(screenName)) {
+			nifty.gotoScreen(App.state.toString());
+		}
 
 		String className = "Screen_" + App.state.toString();
 
@@ -123,5 +129,6 @@ public class GUIManager {
 
 		}
 	}
+
 
 }

@@ -3,62 +3,7 @@
 <nifty>
 <useStyles filename="nifty-default-styles.xml" />
 <useControls filename="nifty-default-controls.xml" />
-	  
-<!--<controlDefinition name="image-list-entry">
-	<panel childLayout="vertical" width="100%" align="left">
-		<image id="#line-icon" width="32px" height="32px"/>
-		<control id="#line-text" font="fps.fnt" name="label" align="left" 
-			textHAlign="left" height="23px" width="64px" wrap="true" 
-		/>	
-	</panel>
-</controlDefinition>-->
-
-<popup id="popInput" childLayout="center" backgroundColor="#000b" controller="unnamed_platformer.gui.GUI_Popups">
-	<panel childLayout="center" width="320px" height="128px" backgroundColor="#000f">
-	<panel childLayout="center" width="318px" height="126px" backgroundColor="#333f">
-		<text id="popInput_lblMessage" name="popInput_lblMessage" font="fps.fnt" text="" marginTop="16px" align="center" valign="top" />
-		
-		<panel width="100%" childLayout="vertical" valign="bottom">
-			<control id="popInput_txtInput" name="popInput_txtInput" type="textfield" width="95%" align="center" />
-			
-			<panel width="100%" height="16px" />
-			
-			<panel height="32px" childLayout="horizontal" align="center">
-				<panel childLayout="center" width="50%" height="100%">
-					<control id="popInput_btnOkay" type="button" width="90%" height="90%" label="Okay">
-						<interact onClick="popInput_btnOkay_Clicked()" />
-					</control>
-				</panel>
-				
-				<panel childLayout="center" width="50%" height="100%">
-					<control id="popInput_btnCancel" type="button" width="90%" height="90%" label="Cancel">
-						<interact onClick="popInput_btnCancel_Clicked()" />
-					</control>
-				</panel>
-			</panel>
-		</panel>
-	</panel>
-	</panel>
-</popup>
-  
-<screen id="Start" controller="unnamed_platformer.gui.GUI_MainMenu">
-    <layer childLayout="vertical" backgroundColor="#dddf">
-		<panel childLayout="vertical" valign="center" align="center" width="90%" height="100%">
-			<panel id="play" backgroundColor="#363c" childLayout="center" valign="center" align="center">
-				<interact onClick="play()" />
-				<text font="fps.fnt" color="#000f" text="Play Level" align="center" valign="center" width="100%" height="100%"/>
-			</panel>
-			<panel id="edit" backgroundColor="#630c" childLayout="center" valign="center" align="center">
-				<interact onClick="edit()" />
-				<text font="fps.fnt" color="#000f" text="Edit Level" align="center" valign="center" width="100%" height="100%"/>
-			</panel>
-		</panel>
-	</layer>
-</screen>
-
-<screen id="Play" controller="unnamed_platformer.gui.GUI_Play">
-</screen>
-
+	
 <screen id="Edit" controller="unnamed_platformer.gui.GUI_Edit">
 	<layer id="backLayer" childLayout="center" width="100%" height="100%">
 		<interact
@@ -117,65 +62,10 @@
 			<interact onMouseOver="toolbar_MouseOver()" />
 		
 			<control id="lstObjects" name="listBox" vertical="optional" horizontal="off" selection="Single" displayItems="18">
-				<!--viewConverterClass="structures.ImageListBoxViewConverter">			
-					<control name="image-list-entry" 
-					controller="de.lessvoid.nifty.controls.listbox.ListBoxItemController">
-				</control>-->
 				
 				<interact onClick="selectObject()" />
 			</control>
 		</panel>
-	</layer>
-</screen>
-
-
-<screen id="EditSelect" controller="unnamed_platformer.gui.GUI_EditSelect">
-	<layer backgroundColor="#333f" childLayout="vertical" width="100%" height="100%" >
-		<panel width="100%" childLayout="vertical" valign="top">
-			<control id="lstGames" name="listBox" vertical="optional" horizontal="off"
-				selection="Single" height="100%" displayItems="18" visibleToMouse="true">
-				<interact onMultiClick="btnOpen_Clicked()" />
-			</control>
-		</panel>
-		
-		<panel width="320px" height="32px" childLayout="horizontal">
-			<panel childLayout="center" width="50%" height="100%">
-				<control id="btnOpen" type="button" name="button" width="90%" height="90%" label="Edit Selected">
-					<interact onClick="btnOpen_Clicked()" />
-				</control>
-			</panel>
-			<panel childLayout="center" width="50%" height="100%">
-				<control id="btnNew" type="button" name="button" width="90%" height="90%" label="Create New">
-					<interact onClick="btnNew_Clicked()" />
-				</control>
-			</panel>
-		</panel>
-	</layer>
-</screen>
-
-<screen id="PlaySelect" controller="unnamed_platformer.gui.GUI_PlaySelect">
-	<layer backgroundColor="#333f" childLayout="vertical" width="100%" height="100%" >
-
-		<panel width="100%" childLayout="vertical">
-			<control id="lstGames" name="listBox" vertical="optional" horizontal="off" 
-				selection="Single" height="100%" displayItems="18" visibleToMouse="true">
-				<interact onMultiClick="btnOpen_Clicked()" />
-			</control>
-		</panel>
-		
-		<panel width="320px" height="32px" childLayout="horizontal">
-			<panel childLayout="center" width="50%" height="100%">
-				<control id="btnPlaySelected" type="button" name="button" width="90%" height="90%" label="Play Selected">
-					<interact onClick="btnPlaySelected_Clicked()" />
-				</control>
-			</panel>
-			<panel childLayout="center" width="50%" height="100%">
-				<control id="btnPlayRandom" type="button" name="button" width="90%" height="90%" label="Play Random">
-					<interact onClick="btnPlayRandom_Clicked()" />
-				</control>
-			</panel>
-		</panel>
-
 	</layer>
 </screen>
 

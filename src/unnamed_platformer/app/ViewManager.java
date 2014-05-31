@@ -3,6 +3,7 @@ package unnamed_platformer.app;
 import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Panel;
 import java.awt.geom.Rectangle2D;
@@ -12,7 +13,6 @@ import java.util.List;
 import java.util.TreeMap;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
@@ -26,6 +26,7 @@ import org.newdawn.slick.opengl.Texture;
 import unnamed_platformer.app.App.State;
 import unnamed_platformer.game.entities.Entity;
 import unnamed_platformer.game.parameters.ContentRef.ContentType;
+import unnamed_platformer.game.parameters.Ref;
 import unnamed_platformer.game.parameters.Ref.Flag;
 import unnamed_platformer.game.parameters.ViewRef;
 import unnamed_platformer.game.structures.FlColor;
@@ -38,7 +39,7 @@ public class ViewManager {
 	private static Canvas renderCanvas;
 	private static Panel guiPanel;
 	static {
-		parentFrame = new JFrame("TODO: Title");
+		parentFrame = new JFrame(Ref.APP_TITLE);
 		parentFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		renderCanvas = new Canvas();
 		renderCanvas.setBackground(Color.black);
@@ -68,14 +69,14 @@ public class ViewManager {
 
 		float x = vector2f.x;
 		float y = vector2f.y;
-
+		
 		int left = (int) (x - width / ViewRef.SCALE / 2);
 		int right = (int) (width / ViewRef.SCALE / 2 + x);
 
 		int bottom = (int) (height / ViewRef.SCALE / 2 + y);
 		int top = (int) (y - height / ViewRef.SCALE / 2);
 
-		viewport = new Rectangle(left, top, right - left, bottom - top);
+		viewport.setBounds(left,  top,  right-left,  bottom-top);
 
 		if (Display.isActive()) {
 			GL11.glMatrixMode(GL11.GL_PROJECTION);
@@ -346,5 +347,13 @@ public class ViewManager {
 		guiPanel = panel;
 		parentFrame.add(guiPanel);
 		parentFrame.validate();
+	}
+	
+	public static Panel getGUIPanel() {
+		return guiPanel;
+	}
+
+	public static Component getFrame() {
+		return parentFrame;
 	}
 }

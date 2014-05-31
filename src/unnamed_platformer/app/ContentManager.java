@@ -31,12 +31,12 @@ public class ContentManager {
 
 	public static Collection<String> list(ContentType contentType,
 			boolean excludeExtensions) {
-		return FileListHelper.listFilenames(ContentRef.details.get(contentType)
+		return FileHelper.listFilenames(ContentRef.details.get(contentType)
 				.getDir(), excludeExtensions);
 	}
 
 	public static Map<File, String> getFileNameMap(ContentType contentType) {
-		return FileListHelper.getFileNameMap(ContentRef.details
+		return FileHelper.getFileNameMap(ContentRef.details
 				.get(contentType).getDir());
 	}
 
