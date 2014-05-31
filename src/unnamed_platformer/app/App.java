@@ -41,6 +41,12 @@ public class App {
 		}
 	}
 
+	// public static void catchCloseEvent() {
+	// if (state = State.Edit && changes) {
+	// TODO: Prompt to save edited level on exit
+	// }
+	// }
+
 	private static void processSpecialInput() {
 		if (InputManager.getGameKeyState(GameKey.restartApp, 1)) {
 			GUIManager.setStateHeld(false);
@@ -48,7 +54,7 @@ public class App {
 		}
 
 		if (InputManager.getGameKeyState(GameKey.startRandomGame, 1)) {
-			GameManager.generateRandomGame();
+			GameManager.playRandomGame();
 			App.state = State.Play;
 		}
 

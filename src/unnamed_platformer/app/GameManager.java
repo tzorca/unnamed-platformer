@@ -9,9 +9,6 @@ public class GameManager {
 	public static Game currentGame;
 
 	public static void init() {
-		// currentGame = GameManager.generateRandomGame();
-		// saveGame();
-		// loadGame("test");
 	}
 
 	public static void update() {
@@ -28,7 +25,7 @@ public class GameManager {
 		currentGame = Game.load(name);
 	}
 
-	public static Game generateRandomGame() {
+	public static Game playRandomGame() {
 		Game newGame = new Game("Randomly Generated Game", false);
 		
 		LevelGenerator generator = new SimpleProceduralGenerator();

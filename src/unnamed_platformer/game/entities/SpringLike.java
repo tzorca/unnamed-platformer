@@ -7,6 +7,7 @@ import unnamed_platformer.game.logic.MathHelper;
 import unnamed_platformer.game.parameters.PhysicsRef;
 import unnamed_platformer.game.structures.Graphic;
 
+// TODO: Fix spring physics (way too powerful)
 public class SpringLike extends ActiveEntity {
 	private static final long serialVersionUID = -6977486102061938504L;
 

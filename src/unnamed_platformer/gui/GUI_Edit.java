@@ -32,6 +32,7 @@ import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.elements.render.ImageRenderer;
 import de.lessvoid.nifty.render.NiftyImage;
 
+// TODO: Implement background texture selection in editor
 public class GUI_Edit extends GUI_Template {
 
 	Level currentLevel;
@@ -83,6 +84,11 @@ public class GUI_Edit extends GUI_Template {
 
 		changeLevel(0);
 
+	}
+
+	@Override
+	public void onEndScreen() {
+		// TODO: Prompt to save level
 	}
 
 	public static Graphic getCurrentGraphic() {

@@ -57,7 +57,6 @@ public class PhysicsInstance implements Serializable {
 		mechanisms.clear();
 	}
 
-	// TODO: Still needs some work...
 	public void update() {
 		isZero = false;
 

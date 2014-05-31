@@ -10,6 +10,7 @@ import unnamed_platformer.game.parameters.GUIRef;
 import unnamed_platformer.gui.objects.WorldCell;
 import unnamed_platformer.gui.objects.WorldTableModel;
 
+// TODO: Implement support for double-clicking in listing
 public class Screen_SelectWorld extends BaseScreen_GUI {
 
 	// instance initializer

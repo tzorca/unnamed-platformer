@@ -18,6 +18,9 @@ import de.lessvoid.nifty.renderer.lwjgl.render.LwjglRenderDevice;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.tools.TimeProvider;
 
+// TODO: Add button/key to return to previous menu
+// TODO: Implement pause key functionality (return to ...)
+// TODO: Add options screen
 @SuppressWarnings("deprecation")
 public class GUIManager {
 	private static Nifty nifty;
@@ -129,6 +132,5 @@ public class GUIManager {
 
 		}
 	}
-
 
 }

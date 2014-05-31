@@ -17,6 +17,7 @@ import unnamed_platformer.game.parameters.EntityRef;
 import unnamed_platformer.game.parameters.ContentRef.ContentType;
 import unnamed_platformer.game.structures.Graphic;
 
+// TODO: Customizable entity orientation
 public class EntityCreator {
 
 	// Setup texture entity subclass mappings
@@ -27,8 +28,9 @@ public class EntityCreator {
 
 		for (Entry<File, String> entry : textureFiles.entrySet()) {
 
-			// TODO: Warning: This will cache all textures at the
-			// start of the app. This may not be okay in the future.
+			// TODO: More auto entity classification -> dev productivity++
+			// TODO: Replace folder system (don't load textures on startup)
+
 			// cache texture and binarypixelgrid
 			ContentManager.customCache(ContentType.texture, entry.getValue(),
 					entry.getKey());
@@ -38,7 +40,7 @@ public class EntityCreator {
 			// get possibleclassname
 			String possibleClassName = new File(entry.getKey().getParent())
 					.getName();
-			
+
 			if (possibleClassName == null) {
 				continue;
 			}
@@ -50,8 +52,8 @@ public class EntityCreator {
 			}
 
 			String textureName = entry.getValue();
-			Class<?> entityClass = ClassLookup.getClass(
-					EntityRef.PACKAGE_NAME, possibleClassName);
+			Class<?> entityClass = ClassLookup.getClass(EntityRef.PACKAGE_NAME,
+					possibleClassName);
 
 			// If the possibleClassName was correct, we can
 			// add the entity as a creatable entity

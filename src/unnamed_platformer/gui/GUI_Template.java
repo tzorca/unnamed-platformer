@@ -10,19 +10,13 @@ public class GUI_Template implements ScreenController {
 
 	@Override
 	public void bind(Nifty nifty, Screen screen) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void onEndScreen() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void onStartScreen() {
-		// TODO Auto-generated method stub
-
 	}
 }

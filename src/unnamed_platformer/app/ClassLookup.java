@@ -69,8 +69,7 @@ public class ClassLookup {
 		try {
 			return clazz.getConstructor().newInstance();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println(clazz.getName() + " Instantiation failed: " + e.getMessage());
 		}
 		return null;
 	}

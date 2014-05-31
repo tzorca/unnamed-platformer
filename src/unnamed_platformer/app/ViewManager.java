@@ -69,14 +69,14 @@ public class ViewManager {
 
 		float x = vector2f.x;
 		float y = vector2f.y;
-		
+
 		int left = (int) (x - width / ViewRef.SCALE / 2);
 		int right = (int) (width / ViewRef.SCALE / 2 + x);
 
 		int bottom = (int) (height / ViewRef.SCALE / 2 + y);
 		int top = (int) (y - height / ViewRef.SCALE / 2);
 
-		viewport.setBounds(left,  top,  right-left,  bottom-top);
+		viewport.setBounds(left, top, right - left, bottom - top);
 
 		if (Display.isActive()) {
 			GL11.glMatrixMode(GL11.GL_PROJECTION);
@@ -85,8 +85,8 @@ public class ViewManager {
 		}
 	}
 
+	// TODO: Fix background tiling mechanism
 	public static void drawBG(Texture background) {
-
 		float x, y, w, h;
 
 		if (background == null) {
@@ -197,6 +197,7 @@ public class ViewManager {
 		GL11.glEnd();
 	}
 
+	// TODO: Fix bug in grid transparency when no objects displayed
 	public static void drawEditGrid(int gridSize) {
 		if (gridSize < 1) {
 			return;
@@ -288,6 +289,7 @@ public class ViewManager {
 
 	static boolean fullscreen = false;
 
+	// TODO: Implement working fullscreen/different window size functionality
 	public static void toggleFullscreen() {
 		fullscreen = !fullscreen;
 
@@ -348,7 +350,7 @@ public class ViewManager {
 		parentFrame.add(guiPanel);
 		parentFrame.validate();
 	}
-	
+
 	public static Panel getGUIPanel() {
 		return guiPanel;
 	}

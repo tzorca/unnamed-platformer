@@ -58,7 +58,7 @@ public class WorldTableModel extends AbstractTableModel {
 		fireTableDataChanged();
 	}
 
-	// TODO: fix
+	// TODO: Make row removal work in model
 	public void removeRow(String gameName) {
 		data.remove(gameName);
 		fireTableDataChanged();

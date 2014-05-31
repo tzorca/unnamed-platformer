@@ -9,6 +9,7 @@ import unnamed_platformer.game.parameters.PhysicsRef;
 import unnamed_platformer.game.parameters.Ref.Flag;
 import unnamed_platformer.game.structures.Graphic;
 
+//TODO: Fix launched projectiles to have constant speed
 public class PlatformPlayer extends ActiveEntity {
 	private static final long serialVersionUID = 8624310770832698957L;
 

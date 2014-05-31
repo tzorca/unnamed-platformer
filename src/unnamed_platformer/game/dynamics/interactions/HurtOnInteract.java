@@ -5,6 +5,9 @@ import unnamed_platformer.game.entities.Entity;
 import unnamed_platformer.game.parameters.PhysicsRef.Side;
 import unnamed_platformer.game.parameters.Ref.Flag;
 
+// TODO: Add health system
+// TODO: Implement temporary invincibility after nonlethal hit
+// TODO: Implement small waiting period after death but before restarting level
 public class HurtOnInteract extends Interaction {
 	private static final long serialVersionUID = 3886834248152875541L;
 

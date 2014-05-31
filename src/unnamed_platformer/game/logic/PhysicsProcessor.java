@@ -14,6 +14,13 @@ import unnamed_platformer.game.parameters.PhysicsRef;
 import unnamed_platformer.game.parameters.PhysicsRef.Axis;
 import unnamed_platformer.game.parameters.Ref.Flag;
 
+// TODO: Implement choice of collision polygon shape (circle/square)
+// TODO: Slope physics (see below)
+// Implement image mask -> polygon
+// 1 - create polygon from coordinates of edge pixels
+// 2 - remove points from polygon and see how much area is reduced
+// 3 - if area is reduced < x%, allow point removal
+
 public class PhysicsProcessor {
 
 	public static Vector2f calculateGravity() {

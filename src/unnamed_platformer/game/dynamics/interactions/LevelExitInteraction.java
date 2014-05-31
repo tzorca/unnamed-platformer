@@ -15,6 +15,9 @@ public class LevelExitInteraction extends Interaction {
 
 	@Override
 	public void duringInteraction(Entity target) {
+		// TODO: Show level end animation (probably as a Screen)
+		// TODO: Show current level in HUD
+		// TODO: Create GameFinished screen and ask if user wants to restart
 		LevelManager.changeLevel(LevelManager.getLevelNumber()
 				+ relativeDestination);
 	}

@@ -1,18 +1,8 @@
 package unnamed_platformer.app;
 
-import java.awt.Desktop.Action;
-import java.awt.KeyEventDispatcher;
-import java.awt.KeyboardFocusManager;
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.util.HashMap;
-
-import javax.swing.AbstractAction;
-import javax.swing.KeyStroke;
-import javax.swing.SwingUtilities;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
