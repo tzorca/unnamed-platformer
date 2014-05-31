@@ -36,7 +36,7 @@ public class WorldCell extends ReadOnlyInteractiveCell implements
 	JButton btnCopy = new JButton("Copy");
 	JButton btnDelete = new JButton("Delete");
 
-	String gameName;
+	private String gameName;
 	WorldTableModel model;
 
 	private int thisRow;
@@ -88,16 +88,16 @@ public class WorldCell extends ReadOnlyInteractiveCell implements
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals(Actions.PLAY.name())) {
-			GameManager.loadGame(gameName);
+			GameManager.loadGame(getGameName());
 			App.state = State.Play;
 		} else if (e.getActionCommand().equals(Actions.EDIT.name())) {
-			GameManager.loadGame(gameName);
+			GameManager.loadGame(getGameName());
 			App.state = State.Edit;
 		}
 
 		else {
 			String filename = ContentManager.getFilename(ContentType.game,
-					gameName);
+					getGameName());
 			File gameFile = new File(filename);
 
 			if (!gameFile.exists()) {
@@ -118,7 +118,7 @@ public class WorldCell extends ReadOnlyInteractiveCell implements
 	}
 
 	private void tryRename(File gameFile) {
-		String newName = GUIHelper.getInput("New name:", gameName);
+		String newName = GUIHelper.getInput("New name:", getGameName());
 		if (newName.length() > 0) {
 			rename(gameFile, newName);
 		}
@@ -127,42 +127,43 @@ public class WorldCell extends ReadOnlyInteractiveCell implements
 	private void rename(File gameFile, String newName) {
 		try {
 			FileHelper.renameKeepExtension(gameFile, newName);
-			// Todo: Get the update function working right
-			model.setValueAt(newName, thisRow, thisColumn);
+			model.setCellValue(thisRow, thisColumn, newName);
+			update(newName);
+
 		} catch (Exception e) {
 			// TODO: Show error in GUI
-			App.print("Could not rename " + gameName + ": " + e.getMessage());
+			// TODO: Show a better e.getMessage() than null
+			App.print("Could not rename " + getGameName() + ": "
+					+ e.getMessage());
 		}
 	}
 
 	private void delete(File gameFile) {
 		if (gameFile.delete()) {
-			model.removeRow(gameName);
+			model.removeRow(thisRow);
 		} else {
-			App.print("Could not delete " + gameName);
+			App.print("Could not delete " + getGameName());
 			// TODO: Show error in GUI
 		}
 	}
 
 	private boolean confirmDelete() {
 		return GUIHelper.confirmDangerous("Are you sure you want to delete "
-				+ gameName + "?");
+				+ getGameName() + "?");
 	}
 
 	private void copy(File gameFile) {
 		if (FileHelper.copyFileInSameDir(gameFile, " - Copy")) {
-			model.addRow(gameName + " - Copy");
+			model.addRow(new String[] { getGameName() + " - Copy" });
 		} else {
-			App.print("Could not create copy of " + gameName);
+			App.print("Could not create copy of " + getGameName());
 			// TODO: Show error in GUI
 		}
 	}
 
 	public Component getTableCellRendererComponent(JTable table, Object object,
 			boolean isSelected, boolean hasFocus, int row, int column) {
-		this.gameName = (String) object;
-
-		lblTitle.setText(gameName);
+		update((String) object);
 
 		if (isSelected || hasFocus) {
 			pnlContainer.setBackground(table.getSelectionBackground());
@@ -172,18 +173,21 @@ public class WorldCell extends ReadOnlyInteractiveCell implements
 		thisRow = row;
 		thisColumn = column;
 
-		// auto update row height to fit
-		int height = new Double(pnlContainer.getPreferredSize().getHeight())
-				.intValue();
-		if (table.getRowHeight(row) < height)
-			table.setRowHeight(row, height);
-
 		return pnlContainer;
 	}
 
 	@Override
 	public Object getCellEditorValue() {
+		return getGameName();
+	}
+
+	String getGameName() {
 		return gameName;
+	}
+
+	void update(String gameName) {
+		this.gameName = gameName;
+		lblTitle.setText(gameName);
 	}
 
 }

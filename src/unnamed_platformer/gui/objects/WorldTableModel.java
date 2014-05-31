@@ -1,6 +1,6 @@
 package unnamed_platformer.gui.objects;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
@@ -8,61 +8,86 @@ import javax.swing.table.AbstractTableModel;
 import unnamed_platformer.app.ContentManager;
 import unnamed_platformer.game.parameters.ContentRef.ContentType;
 
-// TODO: Improve rendering of update to prevent displaying partial rows
 public class WorldTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = -8391825996500804868L;
-	List<String> data = new ArrayList<String>();
+
+	protected List<List<Object>> data = new LinkedList<List<Object>>();
+	protected List<String> columnNames = new LinkedList<String>();
 
 	public WorldTableModel() {
-		reloadAll();
+		columnNames.add("World");
+		for (String name : ContentManager.list(ContentType.game, true)) {
+			addRow(new String[] { name });
+		}
 	}
 
+	public void clear() {
+		data.clear();
+	}
+
+	@Override
 	public Class<?> getColumnClass(int columnIndex) {
-		return String.class;
+		Class<?> clazz = data.get(0).get(columnIndex).getClass();
+		return clazz;
 	}
 
-	public int getColumnCount() {
-		return 1;
+	public void addRow(Object[] rowData) {
+		List<Object> newRow = new LinkedList<Object>();
+		for (Object o : rowData) {
+			newRow.add(o);
+		}
+		addRow(newRow);
 	}
 
-	public String getColumnName(int columnIndex) {
-		return "";
+	public void addRow(List<Object> newRow) {
+		data.add(newRow);
+		this.fireTableDataChanged();
+	}
+
+	public void removeRow(int row) {
+		data.remove(row);
+		this.fireTableDataChanged();
+	}
+
+	public void setColumnNames(List<String> columnNames) {
+		this.columnNames = columnNames;
 	}
 
 	public int getRowCount() {
-		return (data == null) ? 0 : data.size();
+		return data.size();
 	}
 
-	public String getValueAt(int rowIndex, int columnIndex) {
-		return data.get(rowIndex);
+	public int getColumnCount() {
+		return columnNames.size();
 	}
 
-	public void setValueAt(Object val, int row, int column) {
-		data.set(row, val.toString());
-		this.fireTableCellUpdated(row, column);
+	public String getColumnName(int column) {
+		Object id = null;
+
+		if (column < columnNames.size() && (column >= 0)) {
+			id = columnNames.get(column);
+		}
+		return (id == null) ? super.getColumnName(column) : id.toString();
 	}
 
-	public boolean isCellEditable(int rowIndex, int columnIndex) {
+	public boolean isCellEditable(int row, int column) {
 		return true;
 	}
 
-	public void reloadAll() {
-		data.clear();
-		data.addAll(ContentManager.list(ContentType.game, true));
-
-		fireTableDataChanged();
+	public Object getValueAt(int row, int column) {
+		return data.get(row).get(column);
 	}
 
-	public void addRow(String worldName) {
-		data.add(worldName);
-		fireTableDataChanged();
+	@Override
+	public void setValueAt(Object value, int row, int column) {
+		// This function needs to stay blank
+		// Swing is calling it at the wrong time and overwriting the data
 	}
 
-	// TODO: Make row removal work in model
-	public void removeRow(String gameName) {
-		data.remove(gameName);
-		fireTableDataChanged();
-
+	// This is the real setValueAt function
+	public void setCellValue(int row, int column, Object value) {
+		data.get(row).set(column, value);
+		this.fireTableCellUpdated(row, column);
 	}
 
 }

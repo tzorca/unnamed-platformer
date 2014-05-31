@@ -5,6 +5,7 @@ import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 
 import unnamed_platformer.game.parameters.GUIRef;
 import unnamed_platformer.gui.objects.WorldCell;
@@ -24,12 +25,8 @@ public class Screen_SelectWorld extends BaseScreen_GUI {
 		tblWorlds.setDefaultRenderer(String.class, new WorldCell(mdlWorlds));
 		tblWorlds.setDefaultEditor(String.class, new WorldCell(mdlWorlds));
 		tblWorlds.setTableHeader(null);
-
-		// tblWorlds.setRowSorter
-		// GUIHelper.autofitRowHeight(tblWorlds);
-		GUIHelper.autofitRowHeight(tblWorlds);
-		tblWorlds.setPreferredScrollableViewportSize(tblWorlds
-				.getPreferredSize());
+		tblWorlds.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		tblWorlds.setRowHeight(64);
 
 		panel.add(lblGameTitle, GUIRef.CENTER_LAYOUT + ", gapBottom 5%");
 		panel.add(new JScrollPane(tblWorlds), "growx");

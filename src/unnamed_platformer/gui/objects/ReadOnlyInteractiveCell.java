@@ -13,8 +13,8 @@ public abstract class ReadOnlyInteractiveCell extends AbstractCellEditor
 
 	@Override
 	public Component getTableCellEditorComponent(JTable table,
-			Object optionsCellObject, boolean isSelected, int row, int column) {
-		return getTableCellRendererComponent(table, optionsCellObject, isSelected, true, row, column);
+			Object object, boolean isSelected, int row, int column) {
+		return getTableCellRendererComponent(table, object, isSelected, true, row, column);
 	}
 
 
