@@ -8,9 +8,12 @@ public class BaseScreen_Render extends ZScreen {
 	protected void update() {
 	}
 
-	public BaseScreen_Render() {
+	// Instance initializer
+	{
 		ViewManager.setRenderCanvasVisibility(true);
 		panel.setVisible(false);
+		panel.setIgnoreRepaint(true);
+		panel.setEnabled(false);
 	}
 
 }

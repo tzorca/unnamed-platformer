@@ -8,6 +8,8 @@ import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.opengl.Texture;
 
+import unnamed_platformer.game.EntitySetup;
+import unnamed_platformer.game.parameters.EntityRef.EntityParam;
 import unnamed_platformer.game.parameters.Ref.Flag;
 import unnamed_platformer.game.parameters.Ref.SizeMethod;
 import unnamed_platformer.game.structures.Graphic;
@@ -15,12 +17,11 @@ import unnamed_platformer.game.structures.Graphic;
 public abstract class Entity implements Serializable {
 	private static final long serialVersionUID = 2898448772127546782L;
 
-	// protected Behaviour behaviour;
+	private EntitySetup originalSetup;
 	protected EnumSet<Flag> flags = EnumSet.noneOf(Flag.class);
 	protected Rectangle box = new Rectangle(0, 0, 0, 0);
 	public Graphic graphic;
-	
-	
+
 	public int zIndex = 0; // higher indices are brought to front
 
 	protected Vector2f startPos;
@@ -41,21 +42,25 @@ public abstract class Entity implements Serializable {
 		this.box = box;
 	}
 
-	public Entity(Graphic graphic, Vector2f pos) {
-		setupEntity(graphic, new Rectangle(pos.getX(), pos.getY(), 0, 0),
-				SizeMethod.TEXTURE, flags);
-		defaultSetup();
+	public EntitySetup getOriginalSetup() {
+		return originalSetup;
 	}
 
-	public Entity(Graphic graphic, Vector2f pos, float width) {
-		setupEntity(graphic,
-				new Rectangle(pos.getX(), pos.getY(), width, width),
-				SizeMethod.TEXTURE_SCALE, flags);
-		defaultSetup();
+	public Entity(EntitySetup setup) {
+		Graphic graphic = (Graphic) setup.get(EntityParam.graphic);
+		Vector2f pos = (Vector2f) setup.get(EntityParam.location);
+		setup.setEntityType(this.getClass());
+		originalSetup = setup;
 
+		if (!setup.has(EntityParam.width)) {
+			setupEntity(graphic, new Rectangle(pos.getX(), pos.getY(), 0, 0),
+					SizeMethod.TEXTURE, flags);
+		} else {
+			float width = (float) setup.get(EntityParam.width);
+			setupEntity(graphic, new Rectangle(pos.getX(), pos.getY(), width,
+					width), SizeMethod.TEXTURE_SCALE, flags);
+		}
 	}
-
-	protected abstract void defaultSetup();
 
 	private void setupEntity(Graphic graphic, Rectangle r,
 			SizeMethod sizeMethod, EnumSet<Flag> flags) {

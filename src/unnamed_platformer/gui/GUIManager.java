@@ -88,6 +88,10 @@ public class GUIManager {
 
 		String className = "Screen_" + App.state.toString();
 
+		if (screen != null) {
+			screen.finish();
+		}
+		
 		if (ClassLookup.classExists(GUIRef.PACKAGE_NAME, className)) {
 			screen = (ZScreen) ClassLookup.instantiate(GUIRef.PACKAGE_NAME,
 					className);

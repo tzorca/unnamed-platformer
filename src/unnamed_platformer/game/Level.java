@@ -9,10 +9,10 @@ import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 
 import unnamed_platformer.app.App;
-import unnamed_platformer.app.CloneManager;
-import unnamed_platformer.app.ViewManager;
 import unnamed_platformer.app.App.State;
+import unnamed_platformer.app.ViewManager;
 import unnamed_platformer.game.entities.Entity;
+import unnamed_platformer.game.logic.EntityCreator;
 import unnamed_platformer.game.logic.PhysicsProcessor;
 import unnamed_platformer.game.parameters.Ref;
 import unnamed_platformer.game.parameters.Ref.BlueprintComponent;
@@ -28,8 +28,8 @@ public class Level {
 	public int gridSize = Ref.DEFAULT_LEVEL_GRIDSIZE;
 
 	private LinkedList<Entity> entities = new LinkedList<Entity>(),
-			originalEntities = new LinkedList<Entity>(),
 			newEntities = new LinkedList<Entity>();
+	private LinkedList<EntitySetup> entitySetups = new LinkedList<EntitySetup>();
 
 	private Rectangle rect = Ref.DEFAULT_LEVEL_RECTANGLE;
 	private transient QuadTree quadTree = new QuadTree(0,
@@ -56,7 +56,7 @@ public class Level {
 	}
 
 	private void init(LinkedList<Entity> origEntities, Rectangle levelRect) {
-		resetTo(origEntities);
+		resetTo(EntityCreator.getSetupCollection(origEntities));
 		setRect(levelRect);
 		setupPlayer();
 	}
@@ -91,7 +91,7 @@ public class Level {
 
 		lBP.put(BlueprintComponent.levelBG, bgGraphic);
 		lBP.put(BlueprintComponent.levelRect, getRect());
-		lBP.put(BlueprintComponent.levelEntities, originalEntities);
+		lBP.put(BlueprintComponent.levelEntities, entitySetups);
 
 		return lBP;
 	}
@@ -109,8 +109,12 @@ public class Level {
 			App.print("You passed in a null blueprint!");
 			return null;
 		}
-		Level newLevel = new Level(new LinkedList<Entity>(
-				(List<Entity>) lBP.get(BlueprintComponent.levelEntities)));
+
+		LinkedList<EntitySetup> entitySetups = (LinkedList<EntitySetup>) lBP
+				.get(BlueprintComponent.levelEntities);
+		
+		Level newLevel = new Level(
+				EntityCreator.buildFromSetupCollection(entitySetups));
 		newLevel.bgGraphic = (Graphic) lBP.get(BlueprintComponent.levelBG);
 		newLevel.setRect((Rectangle) lBP.get(BlueprintComponent.levelRect));
 
@@ -118,12 +122,12 @@ public class Level {
 	}
 
 	public void resetToOriginal() {
-		resetTo(originalEntities);
+		resetTo(entitySetups);
 	}
 
-	private void resetTo(LinkedList<Entity> srcEntities) {
-		originalEntities = srcEntities;
-		entities = CloneManager.deepClone(srcEntities);
+	private void resetTo(LinkedList<EntitySetup> setups) {
+		entitySetups = setups;
+		entities = EntityCreator.buildFromSetupCollection(entitySetups);
 	}
 
 	public void materializeNewEntities() {
@@ -231,7 +235,7 @@ public class Level {
 	}
 
 	public void resetToCurrent() {
-		resetTo(entities);
+		resetTo(EntityCreator.getSetupCollection(entities));
 	}
 
 	public List<Entity> retrieveFromQuadTree(List<Entity> entities,

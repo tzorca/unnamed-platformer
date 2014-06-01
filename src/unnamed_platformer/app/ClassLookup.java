@@ -30,7 +30,7 @@ public class ClassLookup {
 				// if (classInfo.getClass())
 				try {
 					String packageName = classInfo.getPackageName();
-					
+
 					if (!packageName.startsWith(Ref.BASE_PACKAGE_NAME)) {
 						continue;
 					}
@@ -38,7 +38,8 @@ public class ClassLookup {
 					String className = classInfo.getSimpleName();
 					classesInPackages.put(packageName, clazz);
 					classNamesInPackages.put(packageName, className);
-					classesByClassNameInPackages.put(packageName, className, clazz);
+					classesByClassNameInPackages.put(packageName, className,
+							clazz);
 				} catch (Exception e) {
 					continue;
 				}
@@ -46,7 +47,7 @@ public class ClassLookup {
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		
+
 	}
 
 	public static Collection<Class<?>> getClassesInPackage(String packageName) {
@@ -69,7 +70,8 @@ public class ClassLookup {
 		try {
 			return clazz.getConstructor().newInstance();
 		} catch (Exception e) {
-			System.out.println(clazz.getName() + " Instantiation failed: " + e.getMessage());
+			System.out.println(clazz.getName() + " Instantiation failed: "
+					+ e.getMessage());
 		}
 		return null;
 	}

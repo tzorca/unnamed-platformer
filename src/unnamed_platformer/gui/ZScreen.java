@@ -12,4 +12,12 @@ public abstract class ZScreen {
 	public Panel getPanel() {
 		return panel;
 	}
+
+	public void finish() {
+		panel.removeAll();
+		panel.setIgnoreRepaint(true);
+		panel.setEnabled(false);
+		panel.setVisible(false);
+		panel = null;
+	}
 }

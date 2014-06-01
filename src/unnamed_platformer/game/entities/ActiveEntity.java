@@ -1,9 +1,7 @@
 package unnamed_platformer.game.entities;
 
-import org.newdawn.slick.geom.Vector2f;
-
+import unnamed_platformer.game.EntitySetup;
 import unnamed_platformer.game.PhysicsInstance;
-import unnamed_platformer.game.structures.Graphic;
 import unnamed_platformer.game.structures.InteractionList;
 
 public abstract class ActiveEntity extends Entity {
@@ -12,18 +10,10 @@ public abstract class ActiveEntity extends Entity {
 	private PhysicsInstance physics;
 	public InteractionList interactions = new InteractionList();
 
-	public ActiveEntity(Graphic graphic, Vector2f pos) {
-		super(graphic, pos);
+	public ActiveEntity(EntitySetup entitySetup) {
+		super(entitySetup);
 		interactions = new InteractionList();
 		zIndex = 1;
-		defaultActiveSetup();
-	}
-
-	public ActiveEntity(Graphic graphic, Vector2f pos, int width) {
-		super(graphic, pos, width);
-		interactions = new InteractionList();
-		zIndex = 1;
-		defaultActiveSetup();
 	}
 
 	public void returnToStart() {
@@ -55,12 +45,5 @@ public abstract class ActiveEntity extends Entity {
 
 	public boolean hasPhysics() {
 		return this.physics != null;
-	}
-
-	protected abstract void defaultActiveSetup();
-
-	@Override
-	protected void defaultSetup() {
-
 	}
 }
