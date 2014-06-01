@@ -28,10 +28,13 @@ public class Ref implements Serializable {
 			2000, 4000);
 	public static final int DEFAULT_LEVEL_GRIDSIZE = 32;
 
+	public static final String APP_PATH = new File("").getAbsolutePath();
 
-	public static String appPath = new File("").getAbsolutePath();
+	public static String RESOURCE_DIR = APP_PATH + File.separator + "res"
+			+ File.separator;
 
-	public static String resourceDir = appPath + File.separator + "res" + File.separator;
+	public static final String SCREENSHOT_DIR = APP_PATH + File.separator
+			+ "scr" + File.separator;
 
 	public static final int FPS = 60;
 

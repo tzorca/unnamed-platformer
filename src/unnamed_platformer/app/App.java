@@ -3,8 +3,8 @@ package unnamed_platformer.app;
 import org.lwjgl.opengl.Display;
 
 import unnamed_platformer.game.logic.EntityCreator;
-import unnamed_platformer.game.parameters.Ref;
 import unnamed_platformer.game.parameters.InputRef.GameKey;
+import unnamed_platformer.game.parameters.Ref;
 import unnamed_platformer.gui.GUIManager;
 
 public class App {
@@ -61,6 +61,11 @@ public class App {
 		if (InputManager.getGameKeyState(GameKey.saveTempGame, 1)) {
 			GameManager.saveCurrentGame("Temp");
 		}
+		
+		if (InputManager.getGameKeyState(GameKey.saveScreenshot, 1)) {
+			ImageHelper.saveScreenshot();
+		}
+		
 	}
 
 	public static void main(String[] args) {

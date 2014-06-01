@@ -9,6 +9,7 @@ import java.awt.image.ColorModel;
 import java.awt.image.ConvolveOp;
 import java.awt.image.Kernel;
 import java.awt.image.WritableRaster;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -18,7 +19,7 @@ public class ImageHelper {
 	public static BufferedImage loadImage(InputStream input) throws IOException {
 		return ImageIO.read(input);
 	}
-	
+
 	public static BufferedImage blurImage(BufferedImage originalImage,
 			int repetitions) {
 		BufferedImage modImage = cloneBufferedImage(originalImage);
@@ -55,7 +56,7 @@ public class ImageHelper {
 		WritableRaster raster = bi.copyData(null);
 		return new BufferedImage(cm, raster, isAlphaPremultiplied, null);
 	}
-	
+
 	public static BufferedImage resizeImageWithinCanvas(BufferedImage img,
 			double percent) {
 		int scaleX = (int) (img.getWidth() * percent);
@@ -70,5 +71,21 @@ public class ImageHelper {
 
 		buffered.getGraphics().drawImage(scaled, startX, startY, null);
 		return buffered;
+	}
+
+	public static void saveScreenshot() {
+		String newFilename = FileHelper.determineScreenshotFilename();
+		if (newFilename == null) {
+			return;
+		}
+
+		BufferedImage image = ViewManager.getScreenshot();
+
+		try {
+			ImageIO.write(image, "PNG", new File(newFilename));
+		} catch (IOException e) {
+			System.out.println("Screenshot failed: " + e.getMessage());
+			e.printStackTrace();
+		}
 	}
 }

@@ -21,6 +21,7 @@ import unnamed_platformer.app.GameManager;
 import unnamed_platformer.game.parameters.ContentRef.ContentType;
 import unnamed_platformer.gui.GUIHelper;
 
+// TODO: Show screenshots of levels
 // TODO: Move file and screen operation logic to a controller
 public class WorldCell extends ReadOnlyInteractiveCell implements
 		ActionListener {

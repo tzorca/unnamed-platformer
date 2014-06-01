@@ -5,13 +5,19 @@ import java.io.IOException;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
+
+import unnamed_platformer.game.parameters.Ref;
+import unnamed_platformer.game.parameters.RegexRef;
 
 public class FileHelper {
 
@@ -117,4 +123,54 @@ public class FileHelper {
 
 	}
 
+	public static File getLastMatchingFileInDir(String dirFilename,
+			Pattern pattern) {
+
+		File dirFile = new File(dirFilename);
+		List<String> filenames = Arrays.asList(dirFile.list());
+		Collections.sort(filenames);
+		Collections.reverse(filenames);
+
+		// Enumerate through files in reverse alphabetical order
+		for (String filename : filenames) {
+			if (pattern.matcher(filename).matches()) {
+				return new File(filename);
+			}
+		}
+
+		// Didn't find a match
+		return null;
+	}
+
+	public static boolean mkDir(String absolutePath) {
+		try {
+			new File(absolutePath).mkdirs();
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+	
+	public static String determineScreenshotFilename() {
+		mkDir(Ref.SCREENSHOT_DIR);
+
+		Integer number = 0;
+		File lastFile = getLastMatchingFileInDir(Ref.SCREENSHOT_DIR,
+				RegexRef.SCREENSHOT_NAME);
+		if (lastFile != null) {
+			String lastFilename = FilenameUtils.removeExtension(lastFile
+					.getName());
+			try {
+				String numericSuffix = RegexRef.findMatch(lastFilename,
+						RegexRef.NUMERIC_SUFFIX);
+				number = new Integer(numericSuffix) + 1;
+			} catch (Exception e) {
+				System.out.println("Screenshot failed: " + e.getMessage());
+				return null;
+			}
+		}
+		return Ref.SCREENSHOT_DIR + "scr" + String.format("%04d", number)
+				+ ".png";
+
+	}
 }

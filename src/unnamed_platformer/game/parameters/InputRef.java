@@ -9,7 +9,7 @@ import unnamed_platformer.app.InputManager.PlayerGameKey;
 public class InputRef {
 
 	public enum GameKey {
-		left, right, up, down, a, b, start, scrollIn, scrollOut, sizePlus, sizeMinus, restartApp, toggleFullscreen, startRandomGame, saveTempGame,
+		left, right, up, down, a, b, start, scrollIn, scrollOut, sizePlus, sizeMinus, restartApp, toggleFullscreen, startRandomGame, saveTempGame, saveScreenshot,
 	}
 
 	public static final HashMap<Integer, PlayerGameKey> DEFAULT_GAME_KEYS = new HashMap<Integer, PlayerGameKey>();
@@ -20,6 +20,7 @@ public class InputRef {
 
 		dgk.put(Input.KEY_F2, new PlayerGameKey(1, GameKey.restartApp));
 		dgk.put(Input.KEY_F11, new PlayerGameKey(1, GameKey.toggleFullscreen));
+		dgk.put(Input.KEY_F12, new PlayerGameKey(1, GameKey.saveScreenshot));
 		dgk.put(Input.KEY_F3, new PlayerGameKey(1, GameKey.startRandomGame));
 		dgk.put(Input.KEY_F6, new PlayerGameKey(1, GameKey.saveTempGame));
 
