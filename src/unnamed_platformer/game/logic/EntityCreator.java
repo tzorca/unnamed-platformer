@@ -132,7 +132,7 @@ public class EntityCreator {
 		setup.set(EntityParam.graphic, graphic);
 		setup.set(EntityParam.location, location);
 		setup.set(EntityParam.width, width);
-		setup.setEntityType(entityClass);
+		setup.setEntityClassName(entityClass.getSimpleName());
 
 		return buildFromSetup(setup);
 
@@ -140,7 +140,7 @@ public class EntityCreator {
 
 	private static Entity buildFromSetup(EntitySetup setup) {
 		Entity newEntity = null;
-		Class<?> entityClass = setup.getEntityType();
+		Class<?> entityClass = ClassLookup.getClass(EntityRef.PACKAGE_NAME,setup.getEntityClassName());
 		try {
 			newEntity = (Entity) getConstructor(entityClass).newInstance(setup);
 		} catch (Exception e) {

@@ -49,7 +49,7 @@ public abstract class Entity implements Serializable {
 	public Entity(EntitySetup setup) {
 		Graphic graphic = (Graphic) setup.get(EntityParam.graphic);
 		Vector2f pos = (Vector2f) setup.get(EntityParam.location);
-		setup.setEntityType(this.getClass());
+		setup.setEntityClassName(this.getClass().getSimpleName());
 		originalSetup = setup;
 
 		if (!setup.has(EntityParam.width)) {

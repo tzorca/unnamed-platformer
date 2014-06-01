@@ -1,14 +1,8 @@
 package unnamed_platformer.game.parameters;
 
-import java.lang.reflect.Constructor;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import unnamed_platformer.app.ClassLookup;
-import unnamed_platformer.game.EntitySetup;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;

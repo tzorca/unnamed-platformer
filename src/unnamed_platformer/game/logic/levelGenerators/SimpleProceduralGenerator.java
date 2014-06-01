@@ -30,7 +30,7 @@ public class SimpleProceduralGenerator extends LevelGenerator {
 		ss.add(new SectionSetup("verticalDown", false, SolidBlock.class, 0, 1));
 	}
 
-	static int areaCount = 15;
+	static int areaCount = 30;
 	static int minSections = 3, maxSections = 9;
 	static int maxPieces = 3;
 
