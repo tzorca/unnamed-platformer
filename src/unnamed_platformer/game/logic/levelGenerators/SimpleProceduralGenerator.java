@@ -30,7 +30,7 @@ public class SimpleProceduralGenerator extends LevelGenerator {
 		ss.add(new SectionSetup("verticalDown", false, SolidBlock.class, 0, 1));
 	}
 
-	static int areaCount = 30;
+	static int areaCount = 8;
 	static int minSections = 3, maxSections = 9;
 	static int maxPieces = 3;
 
@@ -50,7 +50,7 @@ public class SimpleProceduralGenerator extends LevelGenerator {
 		SectionSetup lastSectionSetup = (SectionSetup) MathHelper
 				.randInList(sectionSetups);
 		int sectionCount;
-		int pieceCount = 4;
+		int pieceCount = 5;
 		for (int areaIterator = 0; areaIterator < areaCount; areaIterator++) {
 
 			// Each area chooses a texture for each Entity subclass
@@ -61,6 +61,7 @@ public class SimpleProceduralGenerator extends LevelGenerator {
 				areaTextureMap.put(entityClass,
 						EntityCreator.chooseTextureFromType(entityClass));
 			}
+			String solidBlockTextureName = areaTextureMap.get(SolidBlock.class);
 
 			sectionCount = MathHelper.randRange(minSections, maxSections);
 			for (int sectionIterator = 0; sectionIterator < sectionCount; sectionIterator++) {
@@ -68,18 +69,19 @@ public class SimpleProceduralGenerator extends LevelGenerator {
 				String textureName = areaTextureMap
 						.get(sectionSetup.entityClass);
 
-				String solidBlockTextureName = areaTextureMap
-						.get(SolidBlock.class);
-
 				Point translation = sectionSetup.getTranslation(grid);
 
+				int lastX = cursor.x;
 				for (int pieceIterator = 0; pieceIterator < pieceCount; pieceIterator++) {
 					cursor.translate(translation.x, translation.y);
 					add(textureName, cursor.x, cursor.y, grid);
-					for (int undergroundIterator = grid; undergroundIterator < ViewManager.height * 2; undergroundIterator += grid) {
 
-						add(solidBlockTextureName, cursor.x, cursor.y
-								+ undergroundIterator, grid);
+					if (lastX != cursor.x) {
+						for (int undergroundIterator = grid; undergroundIterator < ViewManager.height * 1.2; undergroundIterator += grid) {
+
+							add(solidBlockTextureName, cursor.x, cursor.y
+									+ undergroundIterator, grid);
+						}
 					}
 				}
 				pieceCount = MathHelper.randRange(1, maxPieces);
