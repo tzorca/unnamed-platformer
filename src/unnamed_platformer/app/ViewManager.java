@@ -345,6 +345,9 @@ public class ViewManager {
 
 	public static void setRenderCanvasVisibility(boolean b) {
 		renderCanvas.setVisible(b);
+		if (b) {
+			renderCanvas.requestFocus();
+		}
 	}
 
 	public static void setGUIPanel(Panel panel) {
