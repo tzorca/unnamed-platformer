@@ -49,23 +49,22 @@ public class App {
 
 	private static void processSpecialInput() {
 		if (InputManager.getGameKeyState(GameKey.restartApp, 1)) {
-			GUIManager.setStateHeld(false);
 			App.restart();
 		}
 
 		if (InputManager.getGameKeyState(GameKey.startRandomGame, 1)) {
+			GUIManager.setStateHeld(false);
 			GameManager.playRandomGame();
-			App.state = State.Play;
 		}
 
 		if (InputManager.getGameKeyState(GameKey.saveTempGame, 1)) {
 			GameManager.saveCurrentGame("Temp");
 		}
-		
+
 		if (InputManager.getGameKeyState(GameKey.saveScreenshot, 1)) {
 			ImageHelper.saveScreenshot();
 		}
-		
+
 	}
 
 	public static void main(String[] args) {
@@ -82,7 +81,6 @@ public class App {
 		ContentManager.init();
 		EntityCreator.init();
 		GUIManager.init();
-		GameManager.init();
 	}
 
 	private static void end() {
@@ -90,11 +88,12 @@ public class App {
 	}
 
 	public static void restart() {
+		GUIManager.setStateHeld(false);
 		state = State.Start;
-
-		// aMgr.loadSample("beep", "beep.wav");
-		// aMgr.play("beep");
 	}
+
+	// aMgr.loadSample("beep", "beep.wav");
+	// aMgr.play("beep");
 
 	public static void log(String string) {
 		App.print(string);

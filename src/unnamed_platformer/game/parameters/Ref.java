@@ -18,8 +18,9 @@ public class Ref implements Serializable {
 		ABSOLUTE, TEXTURE, TEXTURE_SCALE
 	}
 
-	public enum BlueprintComponent {
-		levelBG, levelRect, levelEntities, levelPlayerEntity, levels, gameName
+	
+	public enum BlueprintField {
+		levelBG, levelRect, levelEntities, levels, previewImage
 	}
 
 	public static final FlColor DEFAULT_COLOR = new FlColor(1, 1, 1, 1);

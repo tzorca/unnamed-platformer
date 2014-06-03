@@ -6,41 +6,48 @@ import java.io.IOException;
 import java.util.EnumMap;
 
 import unnamed_platformer.app.App;
-import unnamed_platformer.game.parameters.Ref.BlueprintComponent;
+import unnamed_platformer.game.parameters.Ref.BlueprintField;
 import de.ruedigermoeller.serialization.FSTConfiguration;
 import de.ruedigermoeller.serialization.FSTObjectInput;
 import de.ruedigermoeller.serialization.FSTObjectOutput;
 
-public class Blueprint extends EnumMap<BlueprintComponent, Object> {
+public class Blueprint extends EnumMap<BlueprintField, Object> {
 	private static final long serialVersionUID = -7682315731084504119L;
 
 	private static transient FSTConfiguration conf = FSTConfiguration
 			.createDefaultConfiguration();
 
 	public Blueprint() {
-		super(BlueprintComponent.class);
+		super(BlueprintField.class);
 	}
 
 	public boolean save(String filename) {
+		FileOutputStream stream = null;
 		try {
-			FileOutputStream fileOut = new FileOutputStream(filename);
-			FSTObjectOutput out = conf.getObjectOutput(fileOut);
+			stream = new FileOutputStream(filename);
+			FSTObjectOutput out = conf.getObjectOutput(stream);
 			out.writeObject(this, Blueprint.class);
-			fileOut.close();
+			out.flush();
 			return true;
 		} catch (Exception e) {
 			App.print(e.toString());
 			return false;
+		} finally {
+			try {
+				stream.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
-	public static Blueprint load(String filename) {
+	public static Blueprint load(String filename, boolean loadHeader) {
 		Blueprint bp = null;
-		FileInputStream fileIn = null;
+		FileInputStream stream = null;
 		FSTObjectInput in = null;
 		try {
-			fileIn = new FileInputStream(filename);
-			in = conf.getObjectInput(fileIn);
+			stream = new FileInputStream(filename);
+			in = conf.getObjectInput(stream);
 			bp = (Blueprint) in.readObject(Blueprint.class);
 		} catch (Exception e) {
 			App.print(e.toString());
@@ -48,13 +55,13 @@ public class Blueprint extends EnumMap<BlueprintComponent, Object> {
 
 		// close stream
 		try {
-			if (fileIn != null) {
-				fileIn.close();
+			if (stream != null) {
+				stream.close();
 			}
 		} catch (IOException e) {
 			App.print(e.toString());
 		}
-		
+
 		return bp;
 	}
 

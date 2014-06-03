@@ -201,14 +201,14 @@ public class ViewManager {
 	}
 
 	// TODO: Fix bug in grid transparency when no objects displayed
-	public static void drawEditGrid(int gridSize) {
+	public static void drawEditorGrid(int gridSize) {
 		if (gridSize < 1) {
 			return;
 		}
 
 		saveState();
 		ArrayList<Point> pointBuffer = new ArrayList<Point>();
-		Rectangle levelRect = LevelManager.getRect();
+		Rectangle levelRect = GameManager.getRect();
 		for (int x = 0; x <= levelRect.getWidth(); x += gridSize) {
 			for (int y = 0; y <= levelRect.getHeight(); y += gridSize) {
 				Point p = new Point(x - 2, y - 2);

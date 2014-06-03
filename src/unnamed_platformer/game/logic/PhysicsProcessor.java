@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.newdawn.slick.geom.Vector2f;
 
-import unnamed_platformer.app.LevelManager;
+import unnamed_platformer.app.GameManager;
 import unnamed_platformer.game.PhysicsInstance;
 import unnamed_platformer.game.dynamics.interactions.Interaction;
 import unnamed_platformer.game.entities.ActiveEntity;
@@ -42,7 +42,7 @@ public class PhysicsProcessor {
 
 			// only check entities in nearby regions
 			List<Entity> entitiesToCheck = new ArrayList<Entity>();
-			LevelManager.retrieveFromQuadTree(entitiesToCheck, a.getBox());
+			GameManager.retrieveFromQuadTree(entitiesToCheck, a.getBox());
 			processMove(a, entitiesToCheck);
 			entitiesToCheck.clear();
 		}

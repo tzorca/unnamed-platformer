@@ -23,7 +23,6 @@ public class FileHelper {
 
 	public static class RenameFailedException extends Exception {
 		private static final long serialVersionUID = 2628470090472936861L;
-
 	}
 
 	public static Collection<String> listFilenames(String dirName,
@@ -150,7 +149,7 @@ public class FileHelper {
 			return false;
 		}
 	}
-	
+
 	public static String determineScreenshotFilename() {
 		mkDir(Ref.SCREENSHOT_DIR);
 

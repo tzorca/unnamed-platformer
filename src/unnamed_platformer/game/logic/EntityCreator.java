@@ -182,7 +182,7 @@ public class EntityCreator {
 	}
 
 	public static LinkedList<Entity> buildFromSetupCollection(
-			Collection<EntitySetup> setups) {
+			LinkedList<EntitySetup> setups) {
 		LinkedList<Entity> entities = new LinkedList<Entity>();
 
 		for (EntitySetup setup : setups) {
@@ -195,7 +195,7 @@ public class EntityCreator {
 	}
 
 	public static LinkedList<EntitySetup> getSetupCollection(
-			Collection<Entity> entities) {
+			LinkedList<Entity> entities) {
 		LinkedList<EntitySetup> entitySetups = new LinkedList<EntitySetup>();
 
 		for (Entity entity : entities) {

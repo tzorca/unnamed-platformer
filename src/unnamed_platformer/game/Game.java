@@ -1,17 +1,22 @@
 package unnamed_platformer.game;
 
+import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 import java.util.List;
+
+import javax.swing.ImageIcon;
 
 import org.newdawn.slick.geom.Rectangle;
 
 import unnamed_platformer.app.App;
+import unnamed_platformer.app.App.State;
 import unnamed_platformer.app.ContentManager;
 import unnamed_platformer.app.ViewManager;
-import unnamed_platformer.app.App.State;
 import unnamed_platformer.game.entities.Entity;
+import unnamed_platformer.game.logic.Editor;
 import unnamed_platformer.game.parameters.ContentRef.ContentType;
-import unnamed_platformer.game.parameters.Ref.BlueprintComponent;
+import unnamed_platformer.game.parameters.Ref.BlueprintField;
 import unnamed_platformer.game.structures.Blueprint;
 import unnamed_platformer.gui.GUI_Edit;
 
@@ -20,6 +25,7 @@ public class Game {
 	private Level level; // current Level
 	private int levelIndex = 0;
 	private String name;
+	private ImageIcon previewImage = null;
 
 	public Game(String name, boolean addBlank) {
 		this.name = name;
@@ -37,18 +43,21 @@ public class Game {
 
 	public static Game load(String name) {
 		String filename = ContentManager.getFilename(ContentType.game, name);
-		return fromBlueprint(Blueprint.load(filename), name);
+		return fromBlueprint(Blueprint.load(filename, false), name);
 	}
 
 	public Blueprint toBlueprint() {
 		Blueprint gBP = new Blueprint();
 
+
+		gBP.put(BlueprintField.previewImage, previewImage);
+		
 		List<Blueprint> lBPs = new LinkedList<Blueprint>();
 		for (Level lvl : levels) {
 			lBPs.add(lvl.toBlueprint());
 		}
 
-		gBP.put(BlueprintComponent.levels, lBPs);
+		gBP.put(BlueprintField.levels, lBPs);
 
 		return gBP;
 	}
@@ -61,7 +70,7 @@ public class Game {
 		}
 
 		List<Blueprint> lBPs = (LinkedList<Blueprint>) bp
-				.get(BlueprintComponent.levels);
+				.get(BlueprintField.levels);
 
 		Game newGame = new Game(name, false);
 
@@ -71,6 +80,15 @@ public class Game {
 
 		newGame.setCurrentLevel(0);
 		return newGame;
+	}
+
+	public static Image getPreviewImage(Blueprint bp) {
+
+		if (bp == null || !bp.containsKey(BlueprintField.previewImage)) {
+
+			return new BufferedImage(32, 32, BufferedImage.TYPE_INT_RGB);
+		}
+		return ((ImageIcon) bp.get(BlueprintField.previewImage)).getImage();
 	}
 
 	public boolean hasLevel(int destination) {
@@ -104,12 +122,10 @@ public class Game {
 		ViewManager.drawBG(level.bgGraphic.getTexture());
 
 		if (App.state == State.Edit) {
-			ViewManager.drawEditGrid(level.gridSize);
+			ViewManager.drawEditorGrid(Editor.gridSize);
 		}
-		
+
 		ViewManager.drawEntities(level.getEntities());
-
-
 
 		if (App.state == State.Edit) {
 			GUI_Edit.drawEntityPlaceholder();
@@ -149,8 +165,7 @@ public class Game {
 		if (this.hasLevel(index)) {
 			levels.remove(index);
 		} else {
-			App.print("Can't delete level " + index
-					+ " (it doesn't exist)");
+			App.print("Can't delete level " + index + " (it doesn't exist)");
 		}
 	}
 
@@ -161,6 +176,11 @@ public class Game {
 	public void replaceCurrentLevel(Level lvl) {
 		level = lvl;
 		levels.set(levelIndex, lvl);
+	}
+
+	public void setPreviewImage(
+			ImageIcon previewImage) {
+		this.previewImage = previewImage;
 	}
 
 }

@@ -1,6 +1,6 @@
 package unnamed_platformer.game.dynamics.interactions;
 
-import unnamed_platformer.app.LevelManager;
+import unnamed_platformer.app.GameManager;
 import unnamed_platformer.game.entities.Entity;
 import unnamed_platformer.game.parameters.Ref.Flag;
 
@@ -18,7 +18,7 @@ public class LevelExitInteraction extends Interaction {
 		// TODO: Show level end animation (probably as a Screen)
 		// TODO: Show current level in HUD
 		// TODO: Create GameFinished screen and ask if user wants to restart
-		LevelManager.changeLevel(LevelManager.getLevelNumber()
+		GameManager.changeLevelToIndex(GameManager.getCurrentLevelNumber()
 				+ relativeDestination);
 	}
 

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.lwjgl.input.Keyboard;
-import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.opengl.Texture;
 
@@ -13,15 +12,12 @@ import unnamed_platformer.app.App;
 import unnamed_platformer.app.App.State;
 import unnamed_platformer.app.GameManager;
 import unnamed_platformer.app.InputManager;
-import unnamed_platformer.app.LevelManager;
 import unnamed_platformer.app.ViewManager;
 import unnamed_platformer.game.Level;
-import unnamed_platformer.game.entities.Entity;
+import unnamed_platformer.game.logic.Editor;
 import unnamed_platformer.game.logic.EntityCreator;
 import unnamed_platformer.game.logic.MathHelper;
 import unnamed_platformer.game.parameters.InputRef.GameKey;
-import unnamed_platformer.game.parameters.Ref;
-import unnamed_platformer.game.parameters.Ref.Flag;
 import unnamed_platformer.game.structures.FlColor;
 import unnamed_platformer.game.structures.Graphic;
 import de.lessvoid.nifty.NiftyEventSubscriber;
@@ -35,33 +31,11 @@ import de.lessvoid.nifty.render.NiftyImage;
 // TODO: Implement background texture selection in editor
 public class GUI_Edit extends GUI_Template {
 
-	Level currentLevel;
-	int currentLevelIndex = 0;
 	static List<Graphic> entityPlaceholderGraphics = new ArrayList<Graphic>();
-	boolean playerAdded = false;
 
-	Vector2f cameraPos = new Vector2f(Ref.DEFAULT_LEVEL_GRIDSIZE * 4,
-			Ref.DEFAULT_LEVEL_GRIDSIZE * 4);
-
-	private boolean changeLevel(int index) {
-		if (!LevelManager.levelExists(index)) {
-			return false;
-		}
-
-		LevelManager.changeLevel(index);
-		currentLevel = LevelManager.getCurrentLevel();
-		currentLevelIndex = index;
-		lblCurrentLevel.setText("" + index);
-
-		Entity player = currentLevel.findEntityByFlag(Flag.player);
-		if (player != null) {
-			cameraPos = player.getCenter();
-			playerAdded = true;
-		} else {
-			playerAdded = false;
-		}
-
-		return true;
+	public static Graphic getCurrentGraphic() {
+		return entityPlaceholderGraphics.get(lstTextureNames
+				.getFocusItemIndex());
 	}
 
 	private void loadEntityPlaceholderGraphics() {
@@ -76,14 +50,14 @@ public class GUI_Edit extends GUI_Template {
 		lstTextureNames.selectItemByIndex(0);
 	}
 
+	Editor editor;
+
 	@Override
 	public void onStartScreen() {
 		hookControls();
 
 		loadEntityPlaceholderGraphics();
-
-		changeLevel(0);
-
+		editor = new Editor(0);
 	}
 
 	@Override
@@ -91,127 +65,9 @@ public class GUI_Edit extends GUI_Template {
 		// TODO: Prompt to save level
 	}
 
-	public static Graphic getCurrentGraphic() {
-		return entityPlaceholderGraphics.get(lstTextureNames
-				.getFocusItemIndex());
-	}
-
-	public void placeObject() {
-		if (App.state != State.Edit) {
-			return;
-		}
-
-		Vector2f loc = MathHelper.snapToGrid(ViewManager.translateMouse(),
-				currentLevel.gridSize);
-
-		if (!currentLevel.getRect().includes(loc.x, loc.y)
-				&& !currentLevel.getRect().contains(loc.x, loc.y)) {
-			return;
-		}
-
-		String currentTextureName = lstTextureNames.getFocusItem();
-
-		Entity newEntity = EntityCreator.create(currentTextureName, loc);
-
-		if (newEntity == null) {
-			return;
-		}
-
-		if (newEntity.isFlagSet(Flag.player)) {
-			if (playerAdded) {
-				return;
-			}
-			playerAdded = true;
-		}
-
-		currentLevel.addEntity(newEntity);
-	}
-
-	private void processControls() {
-
-		processCameraControls();
-
-		processGridControls();
-	}
-
-	private void processGridControls() {
-
-		int newGridSize = currentLevel.gridSize;
-		if (InputManager.getGameKeyState(GameKey.scrollIn, 1)) {
-			newGridSize /= 2;
-			InputManager.resetGameKey(GameKey.scrollIn, 1);
-			if (newGridSize >= 16 && newGridSize <= 128) {
-				currentLevel.gridSize = newGridSize;
-			}
-		} else if (InputManager.getGameKeyState(GameKey.scrollOut, 1)) {
-			newGridSize *= 2;
-			InputManager.resetGameKey(GameKey.scrollOut, 1);
-			if (newGridSize >= 16 && newGridSize <= 128) {
-				currentLevel.gridSize = newGridSize;
-			}
-		}
-
-	}
-
-	private void processCameraControls() {
-
-		Rectangle cameraBounds = currentLevel.getRect();
-		cameraBounds.setX(cameraBounds.getX() - ViewManager.width / 4);
-		cameraBounds.setWidth(cameraBounds.getWidth() + ViewManager.width / 2);
-		cameraBounds.setY(cameraBounds.getY() - ViewManager.height / 4);
-		cameraBounds.setHeight(cameraBounds.getHeight() + ViewManager.height
-				/ 2);
-
-		float oX = cameraPos.x;
-
-		if (InputManager.getKeyState(Keyboard.KEY_RIGHT)) {
-			cameraPos.x += 8;
-		}
-
-		if (InputManager.getKeyState(Keyboard.KEY_LEFT)) {
-			cameraPos.x -= 8;
-		}
-
-		if (!cameraBounds.contains(cameraPos.x, cameraPos.y)) {
-			cameraPos.x = oX;
-		}
-
-		float oY = cameraPos.y;
-
-		if (InputManager.getKeyState(Keyboard.KEY_UP)) {
-			cameraPos.y -= 8;
-		}
-
-		if (InputManager.getKeyState(Keyboard.KEY_DOWN)) {
-			cameraPos.y += 8;
-		}
-
-		if (!cameraBounds.contains(cameraPos.x, cameraPos.y)) {
-			cameraPos.y = oY;
-		}
-
-	}
-
-	public void removeObject() {
-		if (App.state != State.Edit) {
-			return;
-		}
-
-		Entity atMouse = currentLevel.getTopmostEntity(ViewManager
-				.translateMouse());
-
-		if (atMouse != null) {
-			currentLevel.removeEntity(atMouse);
-
-			if (atMouse.isFlagSet(Flag.player)) {
-				playerAdded = false;
-			}
-		}
-	}
-
 	public void update() {
 		if (App.state == State.Edit) {
-			ViewManager.centerCamera(cameraPos);
+			editor.update();
 
 			processControls();
 
@@ -228,6 +84,54 @@ public class GUI_Edit extends GUI_Template {
 				}
 			}
 		}
+	}
+
+	private void processControls() {
+
+		processCameraControls();
+
+		processGridControls();
+	}
+
+	private void processGridControls() {
+
+		int newGridSize = Editor.gridSize;
+		if (InputManager.getGameKeyState(GameKey.scrollIn, 1)) {
+			newGridSize /= 2;
+			InputManager.resetGameKey(GameKey.scrollIn, 1);
+			if (newGridSize >= 8 && newGridSize <= 128) {
+				Editor.gridSize = newGridSize;
+			}
+		} else if (InputManager.getGameKeyState(GameKey.scrollOut, 1)) {
+			newGridSize *= 2;
+			InputManager.resetGameKey(GameKey.scrollOut, 1);
+			if (newGridSize >= 8 && newGridSize <= 128) {
+				Editor.gridSize = newGridSize;
+			}
+		}
+
+	}
+
+	private void processCameraControls() {
+		Vector2f cameraDelta = new Vector2f(0, 0);
+		if (InputManager.getKeyState(Keyboard.KEY_RIGHT)) {
+			cameraDelta.x += 8;
+		}
+
+		if (InputManager.getKeyState(Keyboard.KEY_LEFT)) {
+			cameraDelta.x -= 8;
+		}
+
+		if (InputManager.getKeyState(Keyboard.KEY_UP)) {
+			cameraDelta.y -= 8;
+		}
+
+		if (InputManager.getKeyState(Keyboard.KEY_DOWN)) {
+			cameraDelta.y += 8;
+		}
+
+		editor.tryMoveCamera(cameraDelta);
+
 	}
 
 	public void main_MouseOver() {
@@ -254,10 +158,10 @@ public class GUI_Edit extends GUI_Template {
 			return;
 		}
 
-		Level currentLevel = LevelManager.getCurrentLevel();
+		Level currentLevel = GameManager.getCurrentLevel();
 
 		Vector2f loc = MathHelper.snapToGrid(ViewManager.translateMouse(),
-				currentLevel.gridSize);
+				Editor.gridSize);
 
 		Texture t = entityPlaceholderGraphic.getTexture();
 
@@ -274,6 +178,17 @@ public class GUI_Edit extends GUI_Template {
 		} else {
 			ViewManager.setColor(transColor);
 		}
+	}
+
+	// hooks into nifty gui event
+	public void placeObject() {
+		editor.placeObject(ViewManager.translateMouse(),
+				lstTextureNames.getFocusItem());
+	}
+
+	// hooks into nifty gui event
+	public void removeObject() {
+		editor.removeObject(ViewManager.translateMouse());
 	}
 
 	Label lblCurrentLevel;
@@ -301,22 +216,15 @@ public class GUI_Edit extends GUI_Template {
 	}
 
 	public void pnlModeSwitch_Clicked() {
-
 		if (App.state == State.Edit) {
-			currentLevel.resetToCurrent();
-
-			GUIManager.setStateHeld(true);
-			App.state = State.Play;
+			editor.switchToPlayMode();
 
 			NiftyImage newImage = GUIManager
 					.getImage("res/gui/img/modeEdit.png");
 			pnlModeSwitch.getRenderer(ImageRenderer.class).setImage(newImage);
 
 		} else {
-			currentLevel.resetToOriginal();
-
-			GUIManager.setStateHeld(false);
-			App.state = State.Edit;
+			editor.switchToEditMode();
 
 			NiftyImage newImage = GUIManager
 					.getImage("res/gui/img/modePlay.png");
@@ -335,26 +243,31 @@ public class GUI_Edit extends GUI_Template {
 
 	public void pnlAddLevel_Clicked() {
 		GameManager.addBlankLevel();
-		changeLevel(LevelManager.getLevelCount() - 1);
+		editor.changeLevel(GameManager.getLevelCount() - 1);
+		updateCurrentLevelLabel();
+	}
+
+	private void updateCurrentLevelLabel() {
+		lblCurrentLevel.setText(GameManager.getCurrentLevelNumber() + "");
 	}
 
 	public void pnlNextLevel_Clicked() {
-		changeLevel(currentLevelIndex + 1);
+		editor.levelInc(1);
+		updateCurrentLevelLabel();
 	}
 
 	public void pnlPrevLevel_Clicked() {
-		changeLevel(currentLevelIndex - 1);
+		editor.levelInc(-1);
+		updateCurrentLevelLabel();
 	}
 
 	public void pnlRemoveLevel_Clicked() {
-		int levelIndexToRemove = currentLevelIndex;
-		if (changeLevel(currentLevelIndex - 1)) {
-			LevelManager.removeLevel(levelIndexToRemove);
-		}
+		editor.removeLevel();
+		updateCurrentLevelLabel();
 	}
 
 	public void pnlSave_Clicked() {
-		currentLevel.resetToCurrent();
+		editor.resetToEditPlacement();
 		GameManager.saveCurrentGame();
 	}
 

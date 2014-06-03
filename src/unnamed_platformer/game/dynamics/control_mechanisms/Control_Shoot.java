@@ -3,8 +3,8 @@ package unnamed_platformer.game.dynamics.control_mechanisms;
 import org.apache.commons.lang3.SerializationUtils;
 import org.newdawn.slick.geom.Vector2f;
 
+import unnamed_platformer.app.GameManager;
 import unnamed_platformer.app.InputManager;
-import unnamed_platformer.app.LevelManager;
 import unnamed_platformer.app.TimeManager;
 import unnamed_platformer.game.entities.ActiveEntity;
 import unnamed_platformer.game.logic.MathHelper;
@@ -47,7 +47,7 @@ public class Control_Shoot extends ControlMechanism {
 
 		movingProjectile.setCenter(actor.getCenter());
 
-		LevelManager.addEntity(movingProjectile);
+		GameManager.addEntity(movingProjectile);
 	}
 
 	public double getSpeed() {

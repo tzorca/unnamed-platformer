@@ -28,7 +28,6 @@ public class Screen_Start extends BaseScreen_GUI {
 		btnDynamicWorld.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				GameManager.playRandomGame();
-				App.state = State.Play;
 			}
 		});
 		

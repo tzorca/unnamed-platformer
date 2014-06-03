@@ -1,21 +1,25 @@
 package unnamed_platformer.game;
 
+import java.awt.image.BufferedImage;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
+
+import javax.swing.ImageIcon;
 
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 
 import unnamed_platformer.app.App;
 import unnamed_platformer.app.App.State;
+import unnamed_platformer.app.GameManager;
 import unnamed_platformer.app.ViewManager;
 import unnamed_platformer.game.entities.Entity;
 import unnamed_platformer.game.logic.EntityCreator;
 import unnamed_platformer.game.logic.PhysicsProcessor;
 import unnamed_platformer.game.parameters.Ref;
-import unnamed_platformer.game.parameters.Ref.BlueprintComponent;
+import unnamed_platformer.game.parameters.Ref.BlueprintField;
 import unnamed_platformer.game.parameters.Ref.Flag;
 import unnamed_platformer.game.structures.Blueprint;
 import unnamed_platformer.game.structures.Graphic;
@@ -81,7 +85,7 @@ public class Level {
 	}
 
 	public static Level load(String filename) {
-		return fromBlueprint(Blueprint.load(filename));
+		return fromBlueprint(Blueprint.load(filename, false));
 	}
 
 	public Blueprint toBlueprint() {
@@ -89,9 +93,9 @@ public class Level {
 
 		updateStartPositions();
 
-		lBP.put(BlueprintComponent.levelBG, bgGraphic);
-		lBP.put(BlueprintComponent.levelRect, getRect());
-		lBP.put(BlueprintComponent.levelEntities, entitySetups);
+		lBP.put(BlueprintField.levelBG, bgGraphic);
+		lBP.put(BlueprintField.levelRect, getRect());
+		lBP.put(BlueprintField.levelEntities, entitySetups);
 
 		return lBP;
 	}
@@ -111,12 +115,12 @@ public class Level {
 		}
 
 		LinkedList<EntitySetup> entitySetups = (LinkedList<EntitySetup>) lBP
-				.get(BlueprintComponent.levelEntities);
-		
+				.get(BlueprintField.levelEntities);
+
 		Level newLevel = new Level(
 				EntityCreator.buildFromSetupCollection(entitySetups));
-		newLevel.bgGraphic = (Graphic) lBP.get(BlueprintComponent.levelBG);
-		newLevel.setRect((Rectangle) lBP.get(BlueprintComponent.levelRect));
+		newLevel.bgGraphic = (Graphic) lBP.get(BlueprintField.levelBG);
+		newLevel.setRect((Rectangle) lBP.get(BlueprintField.levelRect));
 
 		return newLevel;
 	}
@@ -128,6 +132,7 @@ public class Level {
 	private void resetTo(LinkedList<EntitySetup> setups) {
 		entitySetups = setups;
 		entities = EntityCreator.buildFromSetupCollection(entitySetups);
+		onStart();
 	}
 
 	public void materializeNewEntities() {
@@ -222,7 +227,6 @@ public class Level {
 		Iterator<Entity> entityIterator = entities.iterator();
 		while (entityIterator.hasNext()) {
 			Entity entity = entityIterator.next();
-
 			if (entity.isFlagSet(flag)) {
 				return entity;
 			}
@@ -241,6 +245,19 @@ public class Level {
 	public List<Entity> retrieveFromQuadTree(List<Entity> entities,
 			Rectangle box) {
 		return quadTree.retrieve(entities, box);
+	}
+
+	private void onStart() {
+		// take screenshot on start of level 1 if in edit mode
+		if (GameManager.currentGame != null && GameManager.currentGame.getLevelIndex() == 0
+				&& App.state == State.Edit) {
+
+			BufferedImage screenshot = ViewManager.getScreenshot();
+			ImageIcon serializablePreviewImage = new ImageIcon(screenshot);
+			if (screenshot != null) {
+				GameManager.currentGame.setPreviewImage(serializablePreviewImage);
+			}
+		}
 	}
 
 }
