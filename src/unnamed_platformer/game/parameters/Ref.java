@@ -2,6 +2,7 @@ package unnamed_platformer.game.parameters;
 
 import java.io.File;
 import java.io.Serializable;
+import java.util.List;
 
 import org.newdawn.slick.geom.Rectangle;
 
@@ -22,6 +23,12 @@ public class Ref implements Serializable {
 	public enum BlueprintField {
 		levelBG, levelRect, levelEntities, levels, previewImage
 	}
+	
+	public static <T> void multiadd(List<T> list, T[] elements) {
+		for (T element : elements) {
+			list.add(element);
+		}
+	}
 
 	public static final FlColor DEFAULT_COLOR = new FlColor(1, 1, 1, 1);
 
@@ -31,7 +38,7 @@ public class Ref implements Serializable {
 
 	public static final String APP_PATH = new File("").getAbsolutePath();
 
-	public static String RESOURCE_DIR = APP_PATH + File.separator + "res"
+	public static final String RESOURCE_DIR = APP_PATH + File.separator + "res"
 			+ File.separator;
 
 	public static final String SCREENSHOT_DIR = APP_PATH + File.separator

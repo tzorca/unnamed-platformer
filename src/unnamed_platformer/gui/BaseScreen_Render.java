@@ -2,7 +2,7 @@ package unnamed_platformer.gui;
 
 import unnamed_platformer.app.ViewManager;
 
-public class BaseScreen_Render extends ZScreen {
+public class BaseScreen_Render extends Screen {
 
 	@Override
 	protected void update() {
@@ -10,10 +10,11 @@ public class BaseScreen_Render extends ZScreen {
 
 	// Instance initializer
 	{
+		ViewManager.resetRenderCanvasBounds();
 		ViewManager.setRenderCanvasVisibility(true);
-		panel.setVisible(false);
-		panel.setIgnoreRepaint(true);
-		panel.setEnabled(false);
+		pnlSurface.setVisible(false);
+		pnlSurface.setIgnoreRepaint(true);
+		pnlSurface.setEnabled(false);
 	}
 
 }

@@ -162,7 +162,7 @@ public class FileHelper {
 			try {
 				String numericSuffix = RegexRef.findMatch(lastFilename,
 						RegexRef.NUMERIC_SUFFIX);
-				number = new Integer(numericSuffix) + 1;
+				number = Integer.valueOf(numericSuffix) + 1;
 			} catch (Exception e) {
 				System.out.println("Screenshot failed: " + e.getMessage());
 				return null;

@@ -27,7 +27,7 @@ public class TimeManager {
 		return (Sys.getTime() * 1000) / Sys.getTimerResolution();
 	}
 
-	public static Map<Integer, Long> samples = new HashMap<Integer, Long>();
+	public static final Map<Integer, Long> samples = new HashMap<Integer, Long>();
 
 	public static long lastSample(int hashCode) {
 		if (!samples.containsKey(hashCode)) {

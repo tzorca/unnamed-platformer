@@ -14,6 +14,9 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+
+import unnamed_platformer.game.parameters.ContentRef.ContentType;
 
 public class ImageHelper {
 	public static BufferedImage loadImage(InputStream input) throws IOException {
@@ -87,5 +90,9 @@ public class ImageHelper {
 			System.out.println("Screenshot failed: " + e.getMessage());
 			e.printStackTrace();
 		}
+	}
+	
+	public static ImageIcon getImageIconContent(String name) {
+		return new ImageIcon((BufferedImage)ContentManager.get(ContentType.image, name));
 	}
 }

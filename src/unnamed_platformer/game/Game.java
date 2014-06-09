@@ -18,7 +18,9 @@ import unnamed_platformer.game.logic.Editor;
 import unnamed_platformer.game.parameters.ContentRef.ContentType;
 import unnamed_platformer.game.parameters.Ref.BlueprintField;
 import unnamed_platformer.game.structures.Blueprint;
-import unnamed_platformer.gui.GUI_Edit;
+import unnamed_platformer.gui.GUIManager;
+import unnamed_platformer.gui.Screen_Edit;
+import unnamed_platformer.gui.Screen;
 
 public class Game {
 	private List<Level> levels = new LinkedList<Level>();
@@ -49,9 +51,8 @@ public class Game {
 	public Blueprint toBlueprint() {
 		Blueprint gBP = new Blueprint();
 
-
 		gBP.put(BlueprintField.previewImage, previewImage);
-		
+
 		List<Blueprint> lBPs = new LinkedList<Blueprint>();
 		for (Level lvl : levels) {
 			lBPs.add(lvl.toBlueprint());
@@ -128,7 +129,10 @@ public class Game {
 		ViewManager.drawEntities(level.getEntities());
 
 		if (App.state == State.Edit) {
-			GUI_Edit.drawEntityPlaceholder();
+			Screen currentScreen = GUIManager.getScreen();
+			if (currentScreen instanceof Screen_Edit) {
+				((Screen_Edit) currentScreen).drawEntityPlaceholder();
+			}
 		}
 	}
 
@@ -153,7 +157,6 @@ public class Game {
 	}
 
 	public void addBlankLevel() {
-
 		levels.add(new Level(new LinkedList<Entity>()));
 	}
 
@@ -178,8 +181,7 @@ public class Game {
 		levels.set(levelIndex, lvl);
 	}
 
-	public void setPreviewImage(
-			ImageIcon previewImage) {
+	public void setPreviewImage(ImageIcon previewImage) {
 		this.previewImage = previewImage;
 	}
 

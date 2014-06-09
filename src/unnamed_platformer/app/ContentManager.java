@@ -8,20 +8,21 @@ import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.imageio.ImageIO;
+
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.openal.Audio;
 import org.newdawn.slick.openal.AudioLoader;
 import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
 
-import unnamed_platformer.game.parameters.ContentRef;
-import unnamed_platformer.game.parameters.Ref;
 import unnamed_platformer.game.parameters.AudioRef.AudioType;
+import unnamed_platformer.game.parameters.ContentRef;
 import unnamed_platformer.game.parameters.ContentRef.ContentType;
+import unnamed_platformer.game.parameters.Ref;
 import unnamed_platformer.game.structures.AudioWrapper;
 import unnamed_platformer.game.structures.BinaryPixelGrid;
 import unnamed_platformer.game.structures.ContentDetails;
-import unnamed_platformer.gui.GUIManager;
 
 public class ContentManager {
 
@@ -94,6 +95,9 @@ public class ContentManager {
 						.getResourceAsStream(file.getAbsolutePath()), false,
 						GL11.GL_LINEAR);
 				break;
+			case image:
+				newResource = ImageIO.read(file);
+				break;
 			case binaryPixelGrid:
 				BufferedImage tmpImage = ImageHelper.loadImage(ResourceLoader
 						.getResourceAsStream(file.getAbsolutePath()));
@@ -101,9 +105,6 @@ public class ContentManager {
 				ImageHelper.blurImage(tmpImage, Ref.MASK_BLUR_ITERATIONS),
 				Ref.MASK_SIZE_PERCENT);
 				newResource = new BinaryPixelGrid(tmpImage);
-				break;
-			case niftyImage:
-				newResource = GUIManager.getImage(file.getAbsolutePath());
 				break;
 			case audioSample:
 				newResource = loadAudio(AudioType.SAMPLE, contentName);

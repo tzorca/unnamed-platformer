@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.Panel;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -44,9 +43,11 @@ public class ViewManager {
 	static {
 		parentFrame = new JFrame(Ref.APP_TITLE);
 		parentFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		parentFrame.setLayout(null);
 		renderCanvas = new Canvas();
-		renderCanvas.setBackground(Color.black);
+		renderCanvas.setBackground(Color.white);
 		renderCanvas.setSize(ViewRef.DEFAULT_RESOLUTION);
+		renderCanvas.setIgnoreRepaint(true);
 		parentFrame.setLayout(new BorderLayout());
 		guiPanel = new Panel();
 		parentFrame.add(guiPanel);
@@ -62,8 +63,6 @@ public class ViewManager {
 	}
 
 	static Texture background = null;
-	public static int height = ViewRef.DEFAULT_RESOLUTION.height;
-	public static int width = ViewRef.DEFAULT_RESOLUTION.width;
 
 	private static Rectangle viewport = new Rectangle(0, 0,
 			ViewRef.DEFAULT_RESOLUTION.width, ViewRef.DEFAULT_RESOLUTION.height);
@@ -73,11 +72,14 @@ public class ViewManager {
 		float x = vector2f.x;
 		float y = vector2f.y;
 
-		int left = (int) (x - width / ViewRef.SCALE / 2);
-		int right = (int) (width / ViewRef.SCALE / 2 + x);
+		int left = (int) (x - ViewRef.DEFAULT_RESOLUTION.width / ViewRef.SCALE
+				/ 2);
+		int right = (int) (ViewRef.DEFAULT_RESOLUTION.width / ViewRef.SCALE / 2 + x);
 
-		int bottom = (int) (height / ViewRef.SCALE / 2 + y);
-		int top = (int) (y - height / ViewRef.SCALE / 2);
+		int bottom = (int) (ViewRef.DEFAULT_RESOLUTION.height / ViewRef.SCALE
+				/ 2 + y);
+		int top = (int) (y - ViewRef.DEFAULT_RESOLUTION.height / ViewRef.SCALE
+				/ 2);
 
 		viewport.setBounds(left, top, right - left, bottom - top);
 
@@ -228,7 +230,9 @@ public class ViewManager {
 			Display.destroy();
 		}
 		try {
-			Display.setDisplayMode(new DisplayMode(width, height));
+			Display.setDisplayMode(new DisplayMode(
+					ViewRef.DEFAULT_RESOLUTION.width,
+					ViewRef.DEFAULT_RESOLUTION.height));
 			Display.setFullscreen(fullscreen);
 			Display.create();
 		} catch (LWJGLException e) {
@@ -237,6 +241,7 @@ public class ViewManager {
 		}
 
 		setup();
+		renderCanvas.setIgnoreRepaint(true);
 	}
 
 	private static void setup() {
@@ -246,11 +251,13 @@ public class ViewManager {
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
-		GL11.glViewport(0, 0, width, height);
+		GL11.glViewport(0, 0, ViewRef.DEFAULT_RESOLUTION.width,
+				ViewRef.DEFAULT_RESOLUTION.height);
 
 		GL11.glMatrixMode(GL11.GL_PROJECTION);
 		GL11.glLoadIdentity();
-		GL11.glOrtho(0, width, height, 0, 1, -1);
+		GL11.glOrtho(0, ViewRef.DEFAULT_RESOLUTION.width,
+				ViewRef.DEFAULT_RESOLUTION.height, 0, 1, -1);
 		GL11.glMatrixMode(GL11.GL_MODELVIEW);
 	}
 
@@ -260,15 +267,6 @@ public class ViewManager {
 
 	public static void saveState() {
 		GL11.glPushAttrib(GL11.GL_ALL_ATTRIB_BITS);
-	}
-
-	public static Vector2f translate(java.awt.Point mousePos) {
-		return new Vector2f(mousePos.x + viewport.getX(), mousePos.y
-				+ viewport.getY());
-	}
-
-	public static Vector2f translateMouse() {
-		return translate(InputManager.getMousePos());
 	}
 
 	public static void clear(FlColor c) {
@@ -286,35 +284,21 @@ public class ViewManager {
 
 		GUIManager.update();
 
-		Display.update();
 		Display.sync(ViewRef.FPS);
+		Display.update();
 	}
+
+	// TODO: Remove references to ViewRef.DEFAULT_RESOLUTION...
+	// Keep in mind that the internal render resolution should stay the same
+	// But it will not be equivalent to the renderCanvas resolution
 
 	static boolean fullscreen = false;
 
 	// TODO: Implement working fullscreen/different window size functionality
-	public static void toggleFullscreen() {
-		fullscreen = !fullscreen;
-
-		if (fullscreen) {
-			Dimension screenRes = ViewRef.getScreenResolution();
-			width = (int) screenRes.getWidth();
-			height = (int) screenRes.getHeight();
-		} else {
-			width = ViewRef.DEFAULT_RESOLUTION.width;
-			height = ViewRef.DEFAULT_RESOLUTION.height;
-		}
-
-		init();
-	}
 
 	public static void resetColor() {
 
 		GL11.glColor4f(1, 1, 1, 1);
-	}
-
-	public static Rectangle getViewRect() {
-		return viewport;
 	}
 
 	public static void drawGraphic(Graphic graphic, Rectangle2D rect2D) {
@@ -389,6 +373,38 @@ public class ViewManager {
 		}
 
 		return image;
+	}
+
+	public static void resetRenderCanvasBounds() {
+		renderCanvas.setSize(ViewRef.DEFAULT_RESOLUTION);
+	}
+
+	public static void setRenderCanvasBounds(int x, int y, int width, int height) {
+		renderCanvas.setBounds(x, y, width, height);
+	}
+
+	public static boolean rectInView(Rectangle r) {
+		return viewport.intersects(r) || viewport.contains(r);
+	}
+
+	public static float getViewportX() {
+		return viewport.getX();
+	}
+
+	public static float getViewportY() {
+		return viewport.getY();
+	}
+
+	public static int getRenderCanvasY() {
+		return renderCanvas.getY();
+	}
+
+	public static float getRenderCanvasX() {
+		return renderCanvas.getX();
+	}
+
+	public static void focusRenderCanvas() {
+		renderCanvas.requestFocusInWindow();
 	}
 
 }

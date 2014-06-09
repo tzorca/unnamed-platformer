@@ -4,8 +4,9 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.lwjgl.opengl.Display;
+
 import unnamed_platformer.app.ClassLookup;
-import unnamed_platformer.app.ViewManager;
 import unnamed_platformer.game.entities.Hazard;
 import unnamed_platformer.game.entities.SolidBlock;
 import unnamed_platformer.game.entities.Spikes;
@@ -38,6 +39,8 @@ public class SimpleProceduralGenerator extends LevelGenerator {
 	protected void internalBuild() {
 		grid = 48;
 		int maxY = grid * 64;
+		
+		int viewHeight = Display.getHeight();
 
 		// put player at bottom-left
 		addDistinct("player", grid * 4, maxY - grid * 4);
@@ -77,7 +80,7 @@ public class SimpleProceduralGenerator extends LevelGenerator {
 					add(textureName, cursor.x, cursor.y, grid);
 
 					if (lastX != cursor.x) {
-						for (int undergroundIterator = grid; undergroundIterator < ViewManager.height * 1.2; undergroundIterator += grid) {
+						for (int undergroundIterator = grid; undergroundIterator < viewHeight * 1.2; undergroundIterator += grid) {
 
 							add(solidBlockTextureName, cursor.x, cursor.y
 									+ undergroundIterator, grid);

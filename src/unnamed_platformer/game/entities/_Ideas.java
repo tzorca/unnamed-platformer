@@ -15,5 +15,8 @@ public class _Ideas {
 	// TODO: climbable (vine/ladder/fencing)
 	// TODO: collapseable bridge (reappear after offscreen)
 	// TODO: pipe warp
+	// TODO: arrow/bullet bill launchers / fire-breathing statues
+	// TODO: slippery liquid diagonal slides
+	// TODO: conveyer belts
 
 }

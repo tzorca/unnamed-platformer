@@ -1,7 +1,9 @@
 package unnamed_platformer.gui;
 
 import java.awt.Component;
+import java.awt.Insets;
 
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 
@@ -38,5 +40,11 @@ public class GUIHelper {
 	public static String getInput(String msg, String defaultVal) {
 		String result = JOptionPane.showInputDialog(msg, defaultVal);
 		return result != null ? result : "";
+	}
+
+	public static void removeButtonPadding(JButton btn) {
+		btn.setBorder(null);
+		btn.setBorderPainted(false);
+		btn.setMargin(new Insets(0,0,0,0));
 	}
 }

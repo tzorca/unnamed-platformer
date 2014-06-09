@@ -1,12 +1,14 @@
 package unnamed_platformer.game;
 
 import java.awt.image.BufferedImage;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 
 import javax.swing.ImageIcon;
+import javax.swing.SwingUtilities;
 
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
@@ -172,16 +174,13 @@ public class Level {
 		// clear previous update's quad tree
 		quadTree.clear();
 
-		// grab viewRect for use in loop
-		Rectangle viewRect = ViewManager.getViewRect();
-
 		// perform entity logic and update quadtree
 		// only for entities in the player's current view
 		Iterator<Entity> entityIterator = entities.iterator();
 		while (entityIterator.hasNext()) {
 			Entity entity = entityIterator.next();
 
-			if (!entity.getBox().intersects(viewRect)) {
+			if (!ViewManager.rectInView(entity.getBox())) {
 				continue;
 			}
 
@@ -191,6 +190,7 @@ public class Level {
 
 				if (entity.isFlagSet(Flag.player)) {
 					playerEntity = entity;
+					
 				}
 			}
 
@@ -248,16 +248,27 @@ public class Level {
 	}
 
 	private void onStart() {
-		// take screenshot on start of level 1 if in edit mode
-		if (GameManager.currentGame != null && GameManager.currentGame.getLevelIndex() == 0
-				&& App.state == State.Edit) {
-
-			BufferedImage screenshot = ViewManager.getScreenshot();
-			ImageIcon serializablePreviewImage = new ImageIcon(screenshot);
-			if (screenshot != null) {
-				GameManager.currentGame.setPreviewImage(serializablePreviewImage);
-			}
-		}
+//		// take screenshot on start of level 1 
+//		if (GameManager.currentGame == null || GameManager.currentGame.getLevelIndex() != 0
+//				|| App.state != State.Play) {
+//			return;
+//		}
+//		
+//		try {
+//			SwingUtilities.invokeLater(new Runnable(){
+//
+//				@Override
+//				public void run() {
+//					BufferedImage screenshot = ViewManager.getScreenshot();
+//					ImageIcon serializablePreviewImage = new ImageIcon(screenshot);
+//					if (screenshot != null) {
+//						GameManager.currentGame.setPreviewImage(serializablePreviewImage);
+//					}
+//				
+//			}});
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 	}
 
 }

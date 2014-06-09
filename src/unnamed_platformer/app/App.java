@@ -9,7 +9,7 @@ import unnamed_platformer.gui.GUIManager;
 
 public class App {
 
-	public static State initialState = State.Start;
+	public final static State initialState = State.Start;
 	public static State state = initialState;
 
 	public static enum State {

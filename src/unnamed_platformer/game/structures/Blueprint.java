@@ -33,10 +33,12 @@ public class Blueprint extends EnumMap<BlueprintField, Object> {
 			App.print(e.toString());
 			return false;
 		} finally {
-			try {
-				stream.close();
-			} catch (IOException e) {
-				e.printStackTrace();
+			if (stream != null) {
+				try {
+					stream.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}

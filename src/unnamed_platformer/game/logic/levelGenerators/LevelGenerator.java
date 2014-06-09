@@ -5,10 +5,10 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.lwjgl.opengl.Display;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 
-import unnamed_platformer.app.ViewManager;
 import unnamed_platformer.game.Level;
 import unnamed_platformer.game.entities.Entity;
 import unnamed_platformer.game.logic.EntityCreator;
@@ -129,12 +129,15 @@ public abstract class LevelGenerator {
 		float maxX = levelRect.getWidth();
 		float maxY = levelRect.getHeight();
 		int borderBlockSize = 128;
+		
+		int viewHeight = Display.getHeight();
+		int viewWidth = Display.getWidth();
 
 		// draw vertical edges
-		for (int i = -ViewManager.height; i <= maxY + ViewManager.height; i += borderBlockSize) {
+		for (int i = -viewHeight; i <= maxY + viewHeight; i += borderBlockSize) {
 			Vector2f posT = new Vector2f(-borderBlockSize, i);
 			Vector2f posB = new Vector2f(maxX, i);
-			for (int j = 0; j <= ViewManager.height; j += borderBlockSize) {
+			for (int j = 0; j <= viewHeight; j += borderBlockSize) {
 				Vector2f posTadj = new Vector2f(posT.x - j, posT.y);
 				Vector2f posBadj = new Vector2f(posB.x + j, posB.y);
 
@@ -146,12 +149,12 @@ public abstract class LevelGenerator {
 		}
 
 		// draw horizontal edges
-		for (int i = -ViewManager.width; i <= maxX + ViewManager.width; i += borderBlockSize) {
+		for (int i = -viewWidth; i <= maxX + viewWidth; i += borderBlockSize) {
 
 			Vector2f posL = new Vector2f(i, -borderBlockSize);
 			Vector2f posR = new Vector2f(i, maxY);
 
-			for (int j = 0; j <= ViewManager.width; j += borderBlockSize) {
+			for (int j = 0; j <= viewWidth; j += borderBlockSize) {
 				Vector2f posLadj = new Vector2f(posL.x, posL.y - j);
 				Vector2f posRadj = new Vector2f(posR.x, posR.y + j);
 

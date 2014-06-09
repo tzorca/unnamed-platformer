@@ -2,16 +2,18 @@ package unnamed_platformer.app;
 
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.util.EnumMap;
 import java.util.HashMap;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.Display;
+import org.newdawn.slick.geom.Vector2f;
 
 import unnamed_platformer.game.parameters.InputRef;
 import unnamed_platformer.game.parameters.InputRef.GameKey;
-import unnamed_platformer.gui.GUIManager;
 
 public class InputManager {
 	private static HashMap<Integer, Boolean> rawKeyStates = new HashMap<Integer, Boolean>();
@@ -31,41 +33,99 @@ public class InputManager {
 		rawKeyToPlayerGameKeyMapping.remove(key);
 	}
 
-	public static Point getMousePos() {
-		return new Point(Mouse.getX(), ViewManager.height - Mouse.getY());
+	public static Vector2f getGameMousePos() {
+		Vector2f mousePos = new Vector2f(Mouse.getX(),  Mouse.getY());
+
+//		mousePos.x -= ViewManager.getRenderCanvasX();
+		mousePos.y += ViewManager.getRenderCanvasY();
+		
+		mousePos.y = Display.getHeight() - mousePos.y;
+		
+		mousePos.x += ViewManager.getViewportX();
+		mousePos.y += ViewManager.getViewportY();
+		
+		return mousePos;
+	}
+	
+	public boolean getMouseButtonState(MouseButton mb) {
+		return nowMouseButtonStates.get(mb);
 	}
 
-	public boolean leftMouseClicked() {
-		return leftMouseClicked;
+	public enum MouseButton {
+		left, right
 	}
-
-	public static boolean leftMouseDown;
-	private static boolean leftMouseClicked;
 
 	private static Rectangle mouseBox = new Rectangle();
 
 	public static void update() {
-		getMouseActions();
+		detectMouseButtons();
+		detectMousePos();
 		getKeys();
 	}
 
-	private static void getMouseActions() {
-		if (Mouse.isButtonDown(0)) {
-			if (!leftMouseDown) {
-				leftMouseClicked = true;
+	private static EnumMap<MouseButton, Boolean> nowMouseButtonStates = new EnumMap<MouseButton, Boolean>(
+			MouseButton.class);
+	private static EnumMap<MouseButton, Boolean> prevMouseButtonStates = new EnumMap<MouseButton, Boolean>(
+			MouseButton.class);
+
+	private static void detectMouseButtons() {
+		nowMouseButtonStates.put(MouseButton.left, Mouse.isButtonDown(0));
+		nowMouseButtonStates.put(MouseButton.right, Mouse.isButtonDown(1));
+
+		if (!prevMouseButtonStates.isEmpty()) {
+			for (MouseButton button : MouseButton.values()) {
+				boolean nowState = nowMouseButtonStates.get(button);
+				boolean prevState = prevMouseButtonStates.get(button);
+				if (!nowState && prevState) {
+					switch (button) {
+					case left:
+						eventHandlers.get(InputEventType.leftClick).run();
+						break;
+					case right:
+						eventHandlers.get(InputEventType.rightClick).run();
+						break;
+					}
+				}
 			}
-			leftMouseDown = true;
-		} else {
-			leftMouseDown = false;
-			leftMouseClicked = false;
 		}
 
-		Point mousePos = getMousePos();
+		prevMouseButtonStates.putAll(nowMouseButtonStates);
+	}
+
+	private static void detectMousePos() {
+		Vector2f vectMousePos = getGameMousePos();
+		Point mousePos = new Point((int)vectMousePos.x, (int)vectMousePos.y);
+		
 		mouseBox = new Rectangle(mousePos.x - 8, mousePos.y - 8, 16, 16);
 	}
 
+	public enum InputEventType {
+		leftClick, rightClick
+	}
+
+	private static EnumMap<InputEventType, Runnable> eventHandlers = new EnumMap<InputEventType, Runnable>(
+			InputEventType.class);
+
+	static {
+		// setup event handlers to be non-null initially
+		resetEventHandlers();
+	}
+
+	public static void resetEventHandlers() {
+		for (InputEventType iet : InputEventType.values()) {
+			eventHandlers.put(iet, new Runnable() {
+				public void run() {
+				}
+			});
+		}
+	}
+
+	public static void setEventHandler(InputEventType inputEventType,
+			Runnable runnable) {
+		eventHandlers.put(inputEventType, runnable);
+	}
+
 	private static void getKeys() {
-		// if LWJGL has keys for us
 		while (Keyboard.next()) {
 			int keycode = Keyboard.getEventKey();
 			boolean state = Keyboard.getEventKeyState();
@@ -79,7 +139,6 @@ public class InputManager {
 			playerGameKeyStates.put(rawKeyToPlayerGameKeyMapping.get(keycode),
 					state);
 		}
-		GUIManager.pushKeyEvent(keycode, Keyboard.getEventCharacter(), state);
 	}
 
 	public static boolean getKeyState(Integer keycode) {
@@ -108,10 +167,6 @@ public class InputManager {
 		}
 
 		playerGameKeyStates.put(pgk, false);
-	}
-
-	public static boolean leftMouseWasClicked() {
-		return leftMouseClicked;
 	}
 
 	public static class PlayerGameKey {

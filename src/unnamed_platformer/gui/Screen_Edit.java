@@ -1,0 +1,327 @@
+package unnamed_platformer.gui;
+
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.FlowLayout;
+import java.awt.Panel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
+import org.lwjgl.input.Keyboard;
+import org.newdawn.slick.geom.Vector2f;
+import org.newdawn.slick.opengl.Texture;
+
+import unnamed_platformer.app.App;
+import unnamed_platformer.app.App.State;
+import unnamed_platformer.app.GameManager;
+import unnamed_platformer.app.ImageHelper;
+import unnamed_platformer.app.InputManager;
+import unnamed_platformer.app.InputManager.InputEventType;
+import unnamed_platformer.app.ViewManager;
+import unnamed_platformer.game.Level;
+import unnamed_platformer.game.logic.Editor;
+import unnamed_platformer.game.logic.EntityCreator;
+import unnamed_platformer.game.logic.MathHelper;
+import unnamed_platformer.game.parameters.InputRef.GameKey;
+import unnamed_platformer.game.parameters.Ref;
+import unnamed_platformer.game.structures.FlColor;
+import unnamed_platformer.game.structures.Graphic;
+
+public class Screen_Edit extends BaseScreen_Hybrid {
+
+	Editor editor = new Editor(0);
+
+	List<Graphic> entityPlaceholderGraphics = new ArrayList<Graphic>();
+	ImageIcon imgEditMode = ImageHelper.getImageIconContent("gui_modeEdit"),
+			imgPlayMode = ImageHelper.getImageIconContent("gui_modePlay"),
+			imgAdd = ImageHelper.getImageIconContent("gui_add"),
+			imgNext = ImageHelper.getImageIconContent("gui_next"),
+			imgPrev = ImageHelper.getImageIconContent("gui_prev"),
+			imgRemove = ImageHelper.getImageIconContent("gui_remove"),
+			imgSave = ImageHelper.getImageIconContent("gui_save");
+
+	DefaultListModel<String> mdlTextureNames = new DefaultListModel<String>();
+	JList<String> lstTextureNames = new JList<String>();
+	JLabel lblCurrentLevel = new JLabel();
+	JButton btnModeSwitch = new JButton(imgPlayMode),
+			btnPrevLevel = new JButton(imgPrev), btnAddLevel = new JButton(
+					imgAdd), btnNextLevel = new JButton(imgNext),
+			btnRemoveLevel = new JButton(imgRemove),
+			btnSaveLevel = new JButton(imgSave);
+	List<Component> ctlList_EditMode = new ArrayList<Component>();
+
+	// Instance Initializer
+	{
+
+		// Misc
+		Ref.multiadd(ctlList_EditMode, new Component[] { lstTextureNames,
+				lblCurrentLevel, btnPrevLevel, btnAddLevel, btnNextLevel,
+				btnRemoveLevel, btnSaveLevel });
+		loadEntityPlaceholderGraphics();
+
+		// Toolbar Setup
+		setToolbarSize(Side.left, 96);
+		setToolbarSize(Side.top, 36);
+		setToolbarSize(Side.bottom, 0);
+		setToolbarSize(Side.right, 0);
+		Panel leftToolbar = toolbars.get(Side.left);
+		leftToolbar.setLayout(new BorderLayout());
+		Panel topToolbar = toolbars.get(Side.top);
+		FlowLayout flowLayout = new FlowLayout(FlowLayout.RIGHT);
+		flowLayout.setVgap(0);
+		flowLayout.setHgap(0);
+		topToolbar.setLayout(flowLayout);
+
+		// Left Toolbar : Components
+		lstTextureNames.setBackground(leftToolbar.getBackground());
+		lstTextureNames.setModel(mdlTextureNames);
+		lstTextureNames.setSelectedIndex(0);
+		lstTextureNames
+				.addListSelectionListener(new lstTextureNames_ListSelection());
+		lstTextureNames.setFocusable(false);
+
+		leftToolbar.add(lstTextureNames, BorderLayout.CENTER);
+
+		// Canvas : Click Listeners
+		InputManager.setEventHandler(InputEventType.leftClick,
+				new RenderCanvas_LeftClick());
+
+		InputManager.setEventHandler(InputEventType.rightClick,
+				new RenderCanvas_RightClick());
+
+		// Top Toolbar : Components
+		GUIHelper.removeButtonPadding(btnPrevLevel);
+		btnPrevLevel.addActionListener(new btnPrevLevel_Click());
+		topToolbar.add(btnPrevLevel);
+
+		lblCurrentLevel.setText("0");
+		lblCurrentLevel.setBorder(new EmptyBorder(8, 8, 8, 8));
+		topToolbar.add(lblCurrentLevel);
+
+		GUIHelper.removeButtonPadding(btnNextLevel);
+		btnNextLevel.addActionListener(new btnNextLevel_Click());
+		topToolbar.add(btnNextLevel);
+
+		GUIHelper.removeButtonPadding(btnAddLevel);
+		btnAddLevel.addActionListener(new btnAddLevel_Click());
+		topToolbar.add(btnAddLevel);
+
+		GUIHelper.removeButtonPadding(btnRemoveLevel);
+		btnRemoveLevel.addActionListener(new btnRemoveLevel_Click());
+		topToolbar.add(btnRemoveLevel);
+
+		GUIHelper.removeButtonPadding(btnSaveLevel);
+		btnSaveLevel.addActionListener(new btnSaveLevel_Click());
+		topToolbar.add(btnSaveLevel);
+
+		GUIHelper.removeButtonPadding(btnModeSwitch);
+		btnModeSwitch.addActionListener(new btnModeSwitch_Click());
+		topToolbar.add(btnModeSwitch);
+
+	}
+
+	public Graphic getCurrentGraphic() {
+		return entityPlaceholderGraphics
+				.get(lstTextureNames.getSelectedIndex());
+	}
+
+	private void loadEntityPlaceholderGraphics() {
+		mdlTextureNames.clear();
+		for (String textureName : EntityCreator.listTextureNames()) {
+			mdlTextureNames.addElement(textureName);
+			entityPlaceholderGraphics.add(new Graphic(textureName, transColor));
+		}
+	}
+
+	public void update() {
+		boolean isEditMode = App.state == State.Edit;
+
+		if (isEditMode) {
+			editor.update();
+			processControls();
+		}
+
+		for (Component editModeComponent : ctlList_EditMode) {
+			if (editModeComponent.isVisible() != isEditMode) {
+				editModeComponent.setVisible(isEditMode);
+			}
+		}
+	}
+
+	private void processControls() {
+		processCameraControls();
+		processGridControls();
+	}
+
+	private void processGridControls() {
+
+		int newGridSize = Editor.gridSize;
+		if (InputManager.getGameKeyState(GameKey.scrollIn, 1)) {
+			newGridSize /= 2;
+			InputManager.resetGameKey(GameKey.scrollIn, 1);
+			if (newGridSize >= 8 && newGridSize <= 128) {
+				Editor.gridSize = newGridSize;
+			}
+		} else if (InputManager.getGameKeyState(GameKey.scrollOut, 1)) {
+			newGridSize *= 2;
+			InputManager.resetGameKey(GameKey.scrollOut, 1);
+			if (newGridSize >= 8 && newGridSize <= 128) {
+				Editor.gridSize = newGridSize;
+			}
+		}
+
+	}
+
+	private void processCameraControls() {
+		Vector2f cameraDelta = new Vector2f(0, 0);
+
+		if (InputManager.getKeyState(Keyboard.KEY_RIGHT)) {
+			cameraDelta.x += 8;
+		}
+
+		if (InputManager.getKeyState(Keyboard.KEY_LEFT)) {
+			cameraDelta.x -= 8;
+		}
+
+		if (InputManager.getKeyState(Keyboard.KEY_UP)) {
+			cameraDelta.y -= 8;
+		}
+
+		if (InputManager.getKeyState(Keyboard.KEY_DOWN)) {
+			cameraDelta.y += 8;
+		}
+
+		editor.tryMoveCamera(cameraDelta);
+	}
+
+	static FlColor transColor = new FlColor(1, 1, 1, 0.75f);
+
+	public void drawEntityPlaceholder() {
+
+		if (App.state != State.Edit) {
+			return;
+		}
+
+		Graphic entityPlaceholderGraphic = getCurrentGraphic();
+
+		if (entityPlaceholderGraphic == null) {
+			return;
+		}
+
+		Level currentLevel = GameManager.getCurrentLevel();
+
+		Vector2f loc = MathHelper.snapToGrid(InputManager.getGameMousePos(),
+				Editor.gridSize);
+
+		Texture t = entityPlaceholderGraphic.getTexture();
+
+		Rectangle2D entityPlaceholderRect = new Rectangle2D.Float(loc.x, loc.y,
+				t.getImageWidth(), t.getImageHeight());
+
+		Rectangle2D levelRect = new Rectangle2D.Float(currentLevel.getRect()
+				.getX(), currentLevel.getRect().getY(), currentLevel.getRect()
+				.getWidth(), currentLevel.getRect().getHeight());
+
+		if (levelRect.contains(entityPlaceholderRect)) {
+			ViewManager.drawGraphic(entityPlaceholderGraphic,
+					entityPlaceholderRect);
+		} else {
+			ViewManager.setColor(transColor);
+		}
+	}
+
+	private void updateCurrentLevelLabel() {
+		lblCurrentLevel.setText(GameManager.getCurrentLevelNumber() + "");
+	}
+
+	// ===============================================================================
+	// Event Handlers
+	// ===============================================================================
+	public class RenderCanvas_LeftClick implements Runnable {
+		public void run() {
+			editor.placeObject(InputManager.getGameMousePos(),
+					lstTextureNames.getSelectedValue());
+		}
+	}
+
+	public class RenderCanvas_RightClick implements Runnable {
+		public void run() {
+			editor.removeObject(InputManager.getGameMousePos());
+		}
+	}
+
+	public class lstTextureNames_ListSelection implements ListSelectionListener {
+		public void valueChanged(ListSelectionEvent e) {
+			ViewManager.focusRenderCanvas();
+		}
+
+	}
+	
+	public class btnModeSwitch_Click implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			if (App.state == State.Edit) {
+				editor.switchToPlayMode();
+				btnModeSwitch.setIcon(imgEditMode);
+			} else {
+				editor.switchToEditMode();
+				btnModeSwitch.setIcon(imgPlayMode);
+			}
+
+			ViewManager.focusRenderCanvas();
+		}
+	}
+
+	public class btnAddLevel_Click implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			GameManager.addBlankLevel();
+			editor.changeLevel(GameManager.getLevelCount() - 1);
+			updateCurrentLevelLabel();
+			ViewManager.focusRenderCanvas();
+		}
+	}
+
+	public class btnNextLevel_Click implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			editor.levelInc(1);
+			updateCurrentLevelLabel();
+			ViewManager.focusRenderCanvas();
+		}
+	}
+
+	public class btnPrevLevel_Click implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			editor.levelInc(-1);
+			updateCurrentLevelLabel();
+			ViewManager.focusRenderCanvas();
+		}
+	}
+
+	public class btnRemoveLevel_Click implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			editor.removeLevel();
+			updateCurrentLevelLabel();
+			ViewManager.focusRenderCanvas();
+		}
+	}
+
+	public class btnSaveLevel_Click implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			editor.resetToEditPlacement();
+			GameManager.saveCurrentGame();
+			ViewManager.focusRenderCanvas();
+		}
+	}
+
+}

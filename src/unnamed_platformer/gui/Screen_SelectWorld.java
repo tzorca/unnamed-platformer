@@ -28,8 +28,8 @@ public class Screen_SelectWorld extends BaseScreen_GUI {
 		tblWorlds.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tblWorlds.setRowHeight(64);
 
-		panel.add(lblGameTitle, GUIRef.CENTER_LAYOUT + ", gapBottom 5%");
-		panel.add(new JScrollPane(tblWorlds), "growx");
+		pnlSurface.add(lblGameTitle, GUIRef.CENTER_LAYOUT + ", gapBottom 5%");
+		pnlSurface.add(new JScrollPane(tblWorlds), "growx");
 	}
 
 }
