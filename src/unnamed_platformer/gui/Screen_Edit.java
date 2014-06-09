@@ -6,6 +6,8 @@ import java.awt.FlowLayout;
 import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +17,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -38,6 +41,8 @@ import unnamed_platformer.game.parameters.InputRef.GameKey;
 import unnamed_platformer.game.parameters.Ref;
 import unnamed_platformer.game.structures.FlColor;
 import unnamed_platformer.game.structures.Graphic;
+import unnamed_platformer.gui.objects.ImageListEntry;
+import unnamed_platformer.gui.objects.ImageListEntryRenderer;
 
 public class Screen_Edit extends BaseScreen_Hybrid {
 
@@ -52,8 +57,12 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 			imgRemove = ImageHelper.getImageIconContent("gui_remove"),
 			imgSave = ImageHelper.getImageIconContent("gui_save");
 
-	DefaultListModel<String> mdlTextureNames = new DefaultListModel<String>();
-	JList<String> lstTextureNames = new JList<String>();
+	DefaultListModel<ImageListEntry> mdlTextureNames = new DefaultListModel<ImageListEntry>();
+	JList<ImageListEntry> lstTextureNames = new JList<ImageListEntry>();
+	JScrollPane scrlTextureNames = new JScrollPane(lstTextureNames,
+			JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+			JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+
 	JLabel lblCurrentLevel = new JLabel();
 	JButton btnModeSwitch = new JButton(imgPlayMode),
 			btnPrevLevel = new JButton(imgPrev), btnAddLevel = new JButton(
@@ -64,7 +73,6 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 
 	// Instance Initializer
 	{
-
 		// Misc
 		Ref.multiadd(ctlList_EditMode, new Component[] { lstTextureNames,
 				lblCurrentLevel, btnPrevLevel, btnAddLevel, btnNextLevel,
@@ -86,15 +94,15 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 
 		// Left Toolbar : Components
 		lstTextureNames.setBackground(leftToolbar.getBackground());
+		lstTextureNames.setCellRenderer(new ImageListEntryRenderer());
 		lstTextureNames.setModel(mdlTextureNames);
-		lstTextureNames.setSelectedIndex(0);
 		lstTextureNames
 				.addListSelectionListener(new lstTextureNames_ListSelection());
-		lstTextureNames.setFocusable(false);
+		lstTextureNames.setSelectedIndex(0);
 
-		leftToolbar.add(lstTextureNames, BorderLayout.CENTER);
+		leftToolbar.add(scrlTextureNames, BorderLayout.CENTER);
 
-		// Canvas : Click Listeners
+		// Canvas : Listeners
 		InputManager.setEventHandler(InputEventType.leftClick,
 				new RenderCanvas_LeftClick());
 
@@ -129,7 +137,6 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 		GUIHelper.removeButtonPadding(btnModeSwitch);
 		btnModeSwitch.addActionListener(new btnModeSwitch_Click());
 		topToolbar.add(btnModeSwitch);
-
 	}
 
 	public Graphic getCurrentGraphic() {
@@ -140,7 +147,9 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 	private void loadEntityPlaceholderGraphics() {
 		mdlTextureNames.clear();
 		for (String textureName : EntityCreator.listTextureNames()) {
-			mdlTextureNames.addElement(textureName);
+			
+			mdlTextureNames.addElement(new ImageListEntry(ImageHelper
+					.getImageIconContentScaleDown(textureName,48), textureName));
 			entityPlaceholderGraphics.add(new Graphic(textureName, transColor));
 		}
 	}
@@ -249,6 +258,7 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 	// ===============================================================================
 	// Event Handlers
 	// ===============================================================================
+
 	public class RenderCanvas_LeftClick implements Runnable {
 		public void run() {
 			editor.placeObject(InputManager.getGameMousePos(),
@@ -266,9 +276,18 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 		public void valueChanged(ListSelectionEvent e) {
 			ViewManager.focusRenderCanvas();
 		}
-
 	}
-	
+
+	public class Edit_FocusListener implements FocusListener {
+		public void focusGained(FocusEvent e) {
+			ViewManager.focusRenderCanvas();
+		}
+
+		public void focusLost(FocusEvent e) {
+			ViewManager.focusRenderCanvas();
+		}
+	}
+
 	public class btnModeSwitch_Click implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			if (App.state == State.Edit) {

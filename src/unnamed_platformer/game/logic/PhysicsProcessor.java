@@ -21,6 +21,8 @@ import unnamed_platformer.game.parameters.Ref.Flag;
 // 2 - remove points from polygon and see how much area is reduced
 // 3 - if area is reduced < x%, allow point removal
 
+// TODO: Fix (separate x/y checking -related) pixel collision bug
+
 public class PhysicsProcessor {
 
 	public static Vector2f calculateGravity() {

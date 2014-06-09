@@ -2,6 +2,7 @@ package unnamed_platformer.app;
 
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.event.KeyEvent;
 import java.util.EnumMap;
 import java.util.HashMap;
 
@@ -34,19 +35,19 @@ public class InputManager {
 	}
 
 	public static Vector2f getGameMousePos() {
-		Vector2f mousePos = new Vector2f(Mouse.getX(),  Mouse.getY());
+		Vector2f mousePos = new Vector2f(Mouse.getX(), Mouse.getY());
 
-//		mousePos.x -= ViewManager.getRenderCanvasX();
+		// mousePos.x -= ViewManager.getRenderCanvasX();
 		mousePos.y += ViewManager.getRenderCanvasY();
-		
+
 		mousePos.y = Display.getHeight() - mousePos.y;
-		
+
 		mousePos.x += ViewManager.getViewportX();
 		mousePos.y += ViewManager.getViewportY();
-		
+
 		return mousePos;
 	}
-	
+
 	public boolean getMouseButtonState(MouseButton mb) {
 		return nowMouseButtonStates.get(mb);
 	}
@@ -67,6 +68,7 @@ public class InputManager {
 			MouseButton.class);
 	private static EnumMap<MouseButton, Boolean> prevMouseButtonStates = new EnumMap<MouseButton, Boolean>(
 			MouseButton.class);
+	private static Point lastMousePos = new Point(0,0);
 
 	private static void detectMouseButtons() {
 		nowMouseButtonStates.put(MouseButton.left, Mouse.isButtonDown(0));
@@ -94,13 +96,19 @@ public class InputManager {
 
 	private static void detectMousePos() {
 		Vector2f vectMousePos = getGameMousePos();
-		Point mousePos = new Point((int)vectMousePos.x, (int)vectMousePos.y);
+		Point mousePos = new Point((int) vectMousePos.x, (int) vectMousePos.y);
 		
+		if (!mousePos.equals(lastMousePos)) {
+			eventHandlers.get(InputEventType.mouseMotion).run();
+		}
+		
+		lastMousePos  = mousePos;
+
 		mouseBox = new Rectangle(mousePos.x - 8, mousePos.y - 8, 16, 16);
 	}
 
 	public enum InputEventType {
-		leftClick, rightClick
+		leftClick, rightClick, mouseMotion
 	}
 
 	private static EnumMap<InputEventType, Runnable> eventHandlers = new EnumMap<InputEventType, Runnable>(
@@ -201,6 +209,17 @@ public class InputManager {
 
 	public static boolean mouseIntersects(Rectangle box) {
 		return mouseBox.intersects(box);
+	}
+
+	public static boolean isArrowKey(int keyCode) {
+		switch (keyCode) {
+		case KeyEvent.VK_LEFT:
+		case KeyEvent.VK_RIGHT:
+		case KeyEvent.VK_UP:
+		case KeyEvent.VK_DOWN:
+			return true;
+		}
+		return false;
 	}
 
 }

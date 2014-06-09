@@ -13,6 +13,7 @@ import unnamed_platformer.game.entities.Entity;
 import unnamed_platformer.game.parameters.Ref;
 import unnamed_platformer.game.parameters.Ref.Flag;
 import unnamed_platformer.gui.GUIManager;
+import unnamed_platformer.gui.objects.ImageListEntry;
 
 public class Editor {
 
@@ -49,7 +50,7 @@ public class Editor {
 		return true;
 	}
 
-	public void placeObject(Vector2f location, String textureName) {
+	public void placeObject(Vector2f location, ImageListEntry imageListEntry) {
 		if (App.state != State.Edit) {
 			return;
 		}
@@ -61,7 +62,7 @@ public class Editor {
 			return;
 		}
 
-		String currentTextureName = textureName;
+		String currentTextureName = imageListEntry.getText();
 
 		Entity newEntity = EntityCreator.create(currentTextureName, loc);
 

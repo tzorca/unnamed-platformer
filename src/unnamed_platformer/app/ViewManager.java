@@ -404,7 +404,9 @@ public class ViewManager {
 	}
 
 	public static void focusRenderCanvas() {
-		renderCanvas.requestFocusInWindow();
+		if (!renderCanvas.hasFocus()) {
+			renderCanvas.requestFocusInWindow();
+		}
 	}
 
 }

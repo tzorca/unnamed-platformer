@@ -58,8 +58,10 @@ public class EntityCreator {
 			// TODO: More auto entity classification -> dev productivity++
 			// TODO: Replace folder system (don't load textures on startup)
 
-			// cache texture and binarypixelgrid
+			// cache texture and binarypixelgrid and image
 			ContentManager.customCache(ContentType.texture, entry.getValue(),
+					entry.getKey());
+			ContentManager.customCache(ContentType.image, entry.getValue(),
 					entry.getKey());
 			ContentManager.customCache(ContentType.binaryPixelGrid,
 					entry.getValue(), entry.getKey());

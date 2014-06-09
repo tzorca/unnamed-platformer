@@ -91,8 +91,23 @@ public class ImageHelper {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static ImageIcon getImageIconContent(String name) {
-		return new ImageIcon((BufferedImage)ContentManager.get(ContentType.image, name));
+		return new ImageIcon((BufferedImage) ContentManager.get(
+				ContentType.image, name));
+	}
+
+	public static ImageIcon getImageIconContentScaleDown(String name, int size) {
+		BufferedImage img = (BufferedImage) ContentManager.get(
+				ContentType.image, name);
+
+		if (img.getWidth() < size) {
+			return new ImageIcon(img);
+		}
+
+		float ratio = img.getWidth() / img.getHeight();
+
+		return new ImageIcon(img.getScaledInstance(size, (int) (size / ratio),
+				java.awt.Image.SCALE_SMOOTH));
 	}
 }
