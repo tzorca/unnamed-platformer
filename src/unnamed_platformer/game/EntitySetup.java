@@ -3,7 +3,7 @@ package unnamed_platformer.game;
 import java.io.Serializable;
 import java.util.EnumMap;
 
-import unnamed_platformer.game.parameters.EntityRef.EntityParam;
+import unnamed_platformer.globals.EntityRef.EntityParam;
 
 public class EntitySetup implements Serializable {
 	private static final long serialVersionUID = 5451535085901404848L;

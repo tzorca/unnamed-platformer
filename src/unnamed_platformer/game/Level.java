@@ -1,35 +1,28 @@
 package unnamed_platformer.game;
 
-import java.awt.image.BufferedImage;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 
-import javax.swing.ImageIcon;
-import javax.swing.SwingUtilities;
-
+import org.newdawn.slick.Color;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 
-import unnamed_platformer.app.App;
-import unnamed_platformer.app.App.State;
-import unnamed_platformer.app.GameManager;
+import unnamed_platformer.app.Main;
+import unnamed_platformer.app.Main.State;
 import unnamed_platformer.app.ViewManager;
 import unnamed_platformer.game.entities.Entity;
-import unnamed_platformer.game.logic.EntityCreator;
-import unnamed_platformer.game.logic.PhysicsProcessor;
-import unnamed_platformer.game.parameters.Ref;
-import unnamed_platformer.game.parameters.Ref.BlueprintField;
-import unnamed_platformer.game.parameters.Ref.Flag;
-import unnamed_platformer.game.structures.Blueprint;
-import unnamed_platformer.game.structures.Graphic;
-import unnamed_platformer.game.structures.QuadTree;
+import unnamed_platformer.globals.Ref;
+import unnamed_platformer.globals.Ref.BlueprintField;
+import unnamed_platformer.globals.Ref.Flag;
+import unnamed_platformer.structures.Blueprint;
+import unnamed_platformer.structures.Graphic;
+import unnamed_platformer.structures.QuadTree;
 
 public class Level {
 	public boolean bgStretch = false;
-	public Graphic bgGraphic = new Graphic();
+	public Graphic bgGraphic = new Graphic(new Color(0xF8,0xF8,0xFF,1));
 
 	public int gridSize = Ref.DEFAULT_LEVEL_GRIDSIZE;
 
@@ -78,7 +71,7 @@ public class Level {
 			}
 		}
 		if (playerEntity == null) {
-			App.print("Warning: Player entity not found.");
+			System.out.println("Warning: Player entity not found.");
 		}
 	}
 
@@ -112,7 +105,7 @@ public class Level {
 	@SuppressWarnings("unchecked")
 	static Level fromBlueprint(Blueprint lBP) {
 		if (lBP == null) {
-			App.print("You passed in a null blueprint!");
+			System.out.println("You passed in a null blueprint!");
 			return null;
 		}
 
@@ -184,7 +177,7 @@ public class Level {
 				continue;
 			}
 
-			if (App.state == State.Play) {
+			if (Main.state == State.Play) {
 				// perform entity logic
 				entity.update();
 
@@ -198,7 +191,7 @@ public class Level {
 			// unless they are the player entity
 			if (entity.isFlagSet(Flag.outOfPlay)) {
 
-				if (entity.isFlagSet(Flag.player) && App.state != State.Edit) {
+				if (entity.isFlagSet(Flag.player) && Main.state != State.Edit) {
 					continue;
 				}
 				entityIterator.remove();
@@ -206,12 +199,12 @@ public class Level {
 			}
 
 			// add existing entities to quadtree
-			if (App.state == State.Play) {
+			if (Main.state == State.Play) {
 				quadTree.insert(entity, QuadTree.increaseRect(entity.getBox()));
 			}
 		}
 
-		if (App.state == State.Play) {
+		if (Main.state == State.Play) {
 			PhysicsProcessor.processMoves();
 
 			if (playerEntity != null) {

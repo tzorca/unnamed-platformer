@@ -1,8 +1,9 @@
 package unnamed_platformer.game.entities;
 
+import org.newdawn.slick.Color;
+
 import unnamed_platformer.game.EntitySetup;
-import unnamed_platformer.game.dynamics.interactions.WaterInteraction;
-import unnamed_platformer.game.structures.FlColor;
+import unnamed_platformer.game.interactions.Interaction_Water;
 
 public class Water extends ActiveEntity {
 
@@ -11,8 +12,8 @@ public class Water extends ActiveEntity {
 	public Water(EntitySetup entitySetup) {
 		super(entitySetup);
 
-		interactions.add(new WaterInteraction(this));
+		interactions.add(new Interaction_Water(this));
 		zIndex = 3;
-		graphic.color = new FlColor(1,1,1,0.5f);
+		graphic.color = new Color(1,1,1,0.5f);
 	}
 }

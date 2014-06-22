@@ -3,13 +3,13 @@ package unnamed_platformer.game.entities;
 import org.newdawn.slick.geom.Vector2f;
 
 import unnamed_platformer.game.EntitySetup;
-import unnamed_platformer.game.dynamics.control_mechanisms.Control_HorizontalMove;
-import unnamed_platformer.game.dynamics.control_mechanisms.Control_Jump;
-import unnamed_platformer.game.dynamics.control_mechanisms.Control_Shoot;
-import unnamed_platformer.game.parameters.EntityRef.EntityParam;
-import unnamed_platformer.game.parameters.PhysicsRef;
-import unnamed_platformer.game.parameters.Ref.Flag;
-import unnamed_platformer.game.structures.Graphic;
+import unnamed_platformer.game.ctrl_methods.Control_HorizontalMove;
+import unnamed_platformer.game.ctrl_methods.Control_Jump;
+import unnamed_platformer.game.ctrl_methods.Control_Shoot;
+import unnamed_platformer.globals.PhysicsRef;
+import unnamed_platformer.globals.EntityRef.EntityParam;
+import unnamed_platformer.globals.Ref.Flag;
+import unnamed_platformer.structures.Graphic;
 
 //TODO: Fix launched projectiles to have constant speed
 public class PlatformPlayer extends ActiveEntity {

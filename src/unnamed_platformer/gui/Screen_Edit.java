@@ -26,25 +26,28 @@ import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.opengl.Texture;
 
-import unnamed_platformer.app.App;
-import unnamed_platformer.app.App.State;
 import unnamed_platformer.app.GameManager;
 import unnamed_platformer.app.ImageHelper;
 import unnamed_platformer.app.InputManager;
 import unnamed_platformer.app.InputManager.InputEventType;
+import unnamed_platformer.app.Main;
+import unnamed_platformer.app.Main.State;
+import unnamed_platformer.app.MathHelper;
 import unnamed_platformer.app.ViewManager;
+import unnamed_platformer.game.Editor;
+import unnamed_platformer.game.EntityCreator;
 import unnamed_platformer.game.Level;
-import unnamed_platformer.game.logic.Editor;
-import unnamed_platformer.game.logic.EntityCreator;
-import unnamed_platformer.game.logic.MathHelper;
-import unnamed_platformer.game.parameters.InputRef.GameKey;
-import unnamed_platformer.game.parameters.Ref;
-import unnamed_platformer.game.structures.FlColor;
-import unnamed_platformer.game.structures.Graphic;
+import unnamed_platformer.globals.InputRef.GameKey;
+import unnamed_platformer.globals.Ref;
 import unnamed_platformer.gui.objects.ImageListEntry;
 import unnamed_platformer.gui.objects.ImageListEntryRenderer;
+import unnamed_platformer.res_mgt.ResManager;
+import unnamed_platformer.structures.Graphic;
 
 public class Screen_Edit extends BaseScreen_Hybrid {
+
+	// TODO: Fix level bounds bug (probably related to that other bug with
+	// entity placeholder positioning)
 
 	Editor editor = new Editor(0);
 
@@ -146,16 +149,22 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 
 	private void loadEntityPlaceholderGraphics() {
 		mdlTextureNames.clear();
-		for (String textureName : EntityCreator.listTextureNames()) {
-			
-			mdlTextureNames.addElement(new ImageListEntry(ImageHelper
-					.getImageIconContentScaleDown(textureName,48), textureName));
-			entityPlaceholderGraphics.add(new Graphic(textureName, transColor));
+		for (String internalTextureName : EntityCreator.listTextureNames()) {
+
+			String displayName = ResManager
+					.getDisplayName(internalTextureName);
+			ImageIcon imageIcon = ImageHelper.getImageIconContentScaleDown(
+					internalTextureName, 48);
+
+			mdlTextureNames.addElement(new ImageListEntry(imageIcon,
+					displayName, internalTextureName));
+			entityPlaceholderGraphics.add(new Graphic(internalTextureName,
+					Ref.COLOR_75_PERCENT_TRANS));
 		}
 	}
 
 	public void update() {
-		boolean isEditMode = App.state == State.Edit;
+		boolean isEditMode = Main.state == State.Edit;
 
 		if (isEditMode) {
 			editor.update();
@@ -215,11 +224,10 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 		editor.tryMoveCamera(cameraDelta);
 	}
 
-	static FlColor transColor = new FlColor(1, 1, 1, 0.75f);
 
 	public void drawEntityPlaceholder() {
 
-		if (App.state != State.Edit) {
+		if (Main.state != State.Edit) {
 			return;
 		}
 
@@ -247,7 +255,7 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 			ViewManager.drawGraphic(entityPlaceholderGraphic,
 					entityPlaceholderRect);
 		} else {
-			ViewManager.setColor(transColor);
+			ViewManager.setColor(Ref.COLOR_75_PERCENT_TRANS);
 		}
 	}
 
@@ -290,12 +298,14 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 
 	public class btnModeSwitch_Click implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			if (App.state == State.Edit) {
+			if (Main.state == State.Edit) {
 				editor.switchToPlayMode();
 				btnModeSwitch.setIcon(imgEditMode);
+				setToolbarSize(Side.left, 0);
 			} else {
 				editor.switchToEditMode();
 				btnModeSwitch.setIcon(imgPlayMode);
+				setToolbarSize(Side.left, 96);
 			}
 
 			ViewManager.focusRenderCanvas();

@@ -21,7 +21,6 @@ public abstract class Screen {
 
 	public void finish() {
 		pnlSurface.removeAll();
-		pnlSurface.setIgnoreRepaint(true);
 		pnlSurface.setEnabled(false);
 		pnlSurface.setVisible(false);
 		pnlSurface = null;

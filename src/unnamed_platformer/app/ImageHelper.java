@@ -16,20 +16,19 @@ import java.io.InputStream;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
-import unnamed_platformer.game.parameters.ContentRef.ContentType;
+import unnamed_platformer.res_mgt.FileHelper;
+import unnamed_platformer.res_mgt.ResManager;
 
 public class ImageHelper {
 	public static BufferedImage loadImage(InputStream input) throws IOException {
 		return ImageIO.read(input);
 	}
 
-	public static BufferedImage blurImage(BufferedImage originalImage,
-			int repetitions) {
+	public static BufferedImage blurImage(BufferedImage originalImage, int repetitions) {
 		BufferedImage modImage = cloneBufferedImage(originalImage);
 
 		for (int i = 0; i < repetitions; i++) {
-			BufferedImage filteredImage = new BufferedImage(
-					modImage.getWidth(null), modImage.getHeight(null),
+			BufferedImage filteredImage = new BufferedImage(modImage.getWidth(null), modImage.getHeight(null),
 					BufferedImage.TYPE_BYTE_GRAY);
 
 			Dimension size = new Dimension();
@@ -39,13 +38,11 @@ public class ImageHelper {
 			Graphics g = filteredImage.getGraphics();
 			g.drawImage(modImage, 455, 255, null);
 
-			float[] blurKernel = { 1 / 9f, 1 / 9f, 1 / 9f, 1 / 9f, 1 / 9f,
-					1 / 9f, 1 / 9f, 1 / 9f, 1 / 9f };
+			float[] blurKernel = { 1 / 9f, 1 / 9f, 1 / 9f, 1 / 9f, 1 / 9f, 1 / 9f, 1 / 9f, 1 / 9f, 1 / 9f };
 
 			BufferedImageOp blur = new ConvolveOp(new Kernel(3, 3, blurKernel));
 			modImage = blur.filter(modImage,
-					new BufferedImage(modImage.getWidth(),
-							modImage.getHeight(), modImage.getType()));
+					new BufferedImage(modImage.getWidth(), modImage.getHeight(), modImage.getType()));
 
 			g.dispose();
 		}
@@ -60,17 +57,14 @@ public class ImageHelper {
 		return new BufferedImage(cm, raster, isAlphaPremultiplied, null);
 	}
 
-	public static BufferedImage resizeImageWithinCanvas(BufferedImage img,
-			double percent) {
+	public static BufferedImage resizeImageWithinCanvas(BufferedImage img, double percent) {
 		int scaleX = (int) (img.getWidth() * percent);
 		int scaleY = (int) (img.getHeight() * percent);
 		int startX = (int) (img.getWidth() * (1 - percent) / 2);
 		int startY = (int) (img.getHeight() * (1 - percent) / 2);
 
-		Image scaled = img
-				.getScaledInstance(scaleX, scaleY, Image.SCALE_SMOOTH);
-		BufferedImage buffered = new BufferedImage(img.getWidth(),
-				img.getHeight(), img.getType());
+		Image scaled = img.getScaledInstance(scaleX, scaleY, Image.SCALE_SMOOTH);
+		BufferedImage buffered = new BufferedImage(img.getWidth(), img.getHeight(), img.getType());
 
 		buffered.getGraphics().drawImage(scaled, startX, startY, null);
 		return buffered;
@@ -93,13 +87,11 @@ public class ImageHelper {
 	}
 
 	public static ImageIcon getImageIconContent(String name) {
-		return new ImageIcon((BufferedImage) ContentManager.get(
-				ContentType.image, name));
+		return new ImageIcon(ResManager.get(BufferedImage.class, name));
 	}
 
 	public static ImageIcon getImageIconContentScaleDown(String name, int size) {
-		BufferedImage img = (BufferedImage) ContentManager.get(
-				ContentType.image, name);
+		BufferedImage img = ResManager.get(BufferedImage.class, name);
 
 		if (img.getWidth() < size) {
 			return new ImageIcon(img);
@@ -107,7 +99,6 @@ public class ImageHelper {
 
 		float ratio = img.getWidth() / img.getHeight();
 
-		return new ImageIcon(img.getScaledInstance(size, (int) (size / ratio),
-				java.awt.Image.SCALE_SMOOTH));
+		return new ImageIcon(img.getScaledInstance(size, (int) (size / ratio), java.awt.Image.SCALE_SMOOTH));
 	}
 }

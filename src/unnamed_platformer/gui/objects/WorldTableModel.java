@@ -5,8 +5,8 @@ import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
-import unnamed_platformer.app.ContentManager;
-import unnamed_platformer.game.parameters.ContentRef.ContentType;
+import unnamed_platformer.game.Game;
+import unnamed_platformer.res_mgt.ResManager;
 
 public class WorldTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = -8391825996500804868L;
@@ -16,7 +16,7 @@ public class WorldTableModel extends AbstractTableModel {
 
 	public WorldTableModel() {
 		columnNames.add("World");
-		for (String name : ContentManager.list(ContentType.game, true)) {
+		for (String name : ResManager.list(Game.class, true)) {
 			addRow(new String[] { name });
 		}
 	}

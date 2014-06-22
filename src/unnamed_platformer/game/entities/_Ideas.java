@@ -1,6 +1,6 @@
-package unnamed_platformer.game.entities;
-
-public class _Ideas {
+//package unnamed_platformer.game.entities;
+//
+//public class _Ideas {
 	// TODO: Simple walk-on-floor AI
 	// TODO: crusher
 	// TODO: flame/fish jumper
@@ -19,4 +19,4 @@ public class _Ideas {
 	// TODO: slippery liquid diagonal slides
 	// TODO: conveyer belts
 
-}
+//}

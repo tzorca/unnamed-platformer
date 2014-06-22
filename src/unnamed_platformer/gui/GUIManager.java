@@ -1,10 +1,10 @@
 package unnamed_platformer.gui;
 
-import unnamed_platformer.app.App;
-import unnamed_platformer.app.App.State;
-import unnamed_platformer.app.ClassLookup;
+import unnamed_platformer.app.Main;
+import unnamed_platformer.app.Main.State;
 import unnamed_platformer.app.ViewManager;
-import unnamed_platformer.game.parameters.GUIRef;
+import unnamed_platformer.globals.GUIRef;
+import unnamed_platformer.res_mgt.ClassLookup;
 
 // TODO: Add button/key to return to previous menu
 // TODO: Implement pause key functionality (return to ...)
@@ -29,16 +29,16 @@ public class GUIManager {
 	}
 
 	public static void update() {
-		if (App.state != lastState && !stateHeld) {
+		if (Main.state != lastState && !stateHeld) {
 			screenChange();
-			lastState = App.state;
+			lastState = Main.state;
 		}
 
 		screen.update();
 	}
 
 	private static void screenChange() {
-		String className = "Screen_" + App.state.toString();
+		String className = "Screen_" + Main.state.toString();
 
 		if (screen != null) {
 			screen.finish();
@@ -56,6 +56,11 @@ public class GUIManager {
 
 	public static Screen getScreen() {
 		return screen;
+	}
+
+	public static void changeState(State state) {
+		Main.state = state;
+		screenChange();
 	}
 
 }

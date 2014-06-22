@@ -27,7 +27,7 @@ public class ImageListEntryRenderer extends JLabel implements
 	public Component getListCellRendererComponent(
 			JList<? extends ImageListEntry> list, ImageListEntry value,
 			int index, boolean isSelected, boolean cellHasFocus) {
-		String text = value.getText();
+		String text = value.getDisplayName();
 		if (text.length() > MAX_TEXT_LENGTH) {
 			text = text.substring(0, MAX_TEXT_LENGTH - 3) + "...";
 		}

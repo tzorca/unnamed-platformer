@@ -1,18 +1,21 @@
 package unnamed_platformer.game.entities;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import unnamed_platformer.game.EntitySetup;
 import unnamed_platformer.game.PhysicsInstance;
-import unnamed_platformer.game.structures.InteractionList;
+import unnamed_platformer.game.interactions.Interaction;
 
 public abstract class ActiveEntity extends Entity {
 	private static final long serialVersionUID = 7803333719264801403L;
 
 	private PhysicsInstance physics;
-	public InteractionList interactions = new InteractionList();
+	public List<Interaction> interactions = new LinkedList<Interaction>();
 
 	public ActiveEntity(EntitySetup entitySetup) {
 		super(entitySetup);
-		interactions = new InteractionList();
+		interactions = new LinkedList<Interaction>();
 		zIndex = 1;
 	}
 

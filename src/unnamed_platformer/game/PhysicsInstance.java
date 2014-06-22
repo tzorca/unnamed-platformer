@@ -6,13 +6,11 @@ import java.util.List;
 
 import org.newdawn.slick.geom.Vector2f;
 
-import unnamed_platformer.game.dynamics.control_mechanisms.ControlMechanism;
+import unnamed_platformer.game.ctrl_methods.ControlMechanism;
 import unnamed_platformer.game.entities.ActiveEntity;
-import unnamed_platformer.game.logic.MoveResult;
-import unnamed_platformer.game.logic.PhysicsProcessor;
-import unnamed_platformer.game.parameters.PhysicsRef;
-import unnamed_platformer.game.parameters.Ref.Flag;
-import unnamed_platformer.game.structures.ControlMechanismList;
+import unnamed_platformer.globals.PhysicsRef;
+import unnamed_platformer.globals.Ref.Flag;
+import unnamed_platformer.structures.MoveResult;
 
 public class PhysicsInstance implements Serializable {
 	private static final long serialVersionUID = 7637926114689220693L;
@@ -95,7 +93,7 @@ public class PhysicsInstance implements Serializable {
 	}
 
 	private void runControlMechanisms() {
-		ControlMechanismList toRemoveList = new ControlMechanismList();
+		List<ControlMechanism> toRemoveList = new LinkedList<ControlMechanism>();
 		for (ControlMechanism b : mechanisms) {
 			if (b.toRemove) {
 				toRemoveList.add(b);

@@ -13,18 +13,17 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 
-import unnamed_platformer.app.App;
-import unnamed_platformer.app.App.State;
-import unnamed_platformer.app.ContentManager;
-import unnamed_platformer.app.FileHelper;
+import unnamed_platformer.app.Main;
+import unnamed_platformer.app.Main.State;
 import unnamed_platformer.app.GameManager;
-import unnamed_platformer.game.parameters.ContentRef.ContentType;
+import unnamed_platformer.game.Game;
 import unnamed_platformer.gui.GUIHelper;
+import unnamed_platformer.res_mgt.FileHelper;
+import unnamed_platformer.res_mgt.ResManager;
 
 // TODO: Show screenshots of levels
 // TODO: Move file and screen operation logic to a controller
-public class WorldCell extends ReadOnlyInteractiveCell implements
-		ActionListener {
+public class WorldCell extends ReadOnlyInteractiveCell implements ActionListener {
 	private static final long serialVersionUID = 4749665181832067296L;
 
 	// Instantiate GUI components
@@ -90,15 +89,14 @@ public class WorldCell extends ReadOnlyInteractiveCell implements
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals(Actions.PLAY.name())) {
 			GameManager.loadGame(getGameName());
-			App.state = State.Play;
+			Main.state = State.Play;
 		} else if (e.getActionCommand().equals(Actions.EDIT.name())) {
 			GameManager.loadGame(getGameName());
-			App.state = State.Edit;
+			Main.state = State.Edit;
 		}
 
 		else {
-			String filename = ContentManager.getFilename(ContentType.game,
-					getGameName());
+			String filename = ResManager.getFilename(Game.class, getGameName());
 			File gameFile = new File(filename);
 
 			if (!gameFile.exists()) {
@@ -134,8 +132,7 @@ public class WorldCell extends ReadOnlyInteractiveCell implements
 		} catch (Exception e) {
 			// TODO: Show error in GUI
 			// TODO: Show a better e.getMessage() than null
-			App.print("Could not rename " + getGameName() + ": "
-					+ e.getMessage());
+			System.out.println("Could not rename " + getGameName() + ": " + e.getMessage());
 		}
 	}
 
@@ -143,27 +140,26 @@ public class WorldCell extends ReadOnlyInteractiveCell implements
 		if (gameFile.delete()) {
 			model.removeRow(thisRow);
 		} else {
-			App.print("Could not delete " + getGameName());
+			System.out.println("Could not delete " + getGameName());
 			// TODO: Show error in GUI
 		}
 	}
 
 	private boolean confirmDelete() {
-		return GUIHelper.confirmDangerous("Are you sure you want to delete "
-				+ getGameName() + "?");
+		return GUIHelper.confirmDangerous("Are you sure you want to delete " + getGameName() + "?");
 	}
 
 	private void copy(File gameFile) {
 		if (FileHelper.copyFileInSameDir(gameFile, " - Copy")) {
 			model.addRow(new String[] { getGameName() + " - Copy" });
 		} else {
-			App.print("Could not create copy of " + getGameName());
+			System.out.println("Could not create copy of " + getGameName());
 			// TODO: Show error in GUI
 		}
 	}
 
-	public Component getTableCellRendererComponent(JTable table, Object object,
-			boolean isSelected, boolean hasFocus, int row, int column) {
+	public Component getTableCellRendererComponent(JTable table, Object object, boolean isSelected, boolean hasFocus,
+			int row, int column) {
 		update((String) object);
 
 		if (isSelected || hasFocus) {

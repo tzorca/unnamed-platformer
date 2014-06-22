@@ -8,7 +8,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 
 import unnamed_platformer.app.ViewManager;
-import unnamed_platformer.game.parameters.Ref;
+import unnamed_platformer.globals.Ref;
 
 public class GUIHelper {
 	public static void autofitRowHeight(JTable table) {

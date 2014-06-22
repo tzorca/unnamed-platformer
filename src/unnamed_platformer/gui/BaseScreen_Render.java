@@ -13,7 +13,6 @@ public class BaseScreen_Render extends Screen {
 		ViewManager.resetRenderCanvasBounds();
 		ViewManager.setRenderCanvasVisibility(true);
 		pnlSurface.setVisible(false);
-		pnlSurface.setIgnoreRepaint(true);
 		pnlSurface.setEnabled(false);
 	}
 

@@ -9,18 +9,16 @@ import javax.swing.ImageIcon;
 
 import org.newdawn.slick.geom.Rectangle;
 
-import unnamed_platformer.app.App;
-import unnamed_platformer.app.App.State;
-import unnamed_platformer.app.ContentManager;
+import unnamed_platformer.app.Main;
+import unnamed_platformer.app.Main.State;
 import unnamed_platformer.app.ViewManager;
 import unnamed_platformer.game.entities.Entity;
-import unnamed_platformer.game.logic.Editor;
-import unnamed_platformer.game.parameters.ContentRef.ContentType;
-import unnamed_platformer.game.parameters.Ref.BlueprintField;
-import unnamed_platformer.game.structures.Blueprint;
+import unnamed_platformer.globals.Ref.BlueprintField;
 import unnamed_platformer.gui.GUIManager;
-import unnamed_platformer.gui.Screen_Edit;
 import unnamed_platformer.gui.Screen;
+import unnamed_platformer.gui.Screen_Edit;
+import unnamed_platformer.res_mgt.ResManager;
+import unnamed_platformer.structures.Blueprint;
 
 public class Game {
 	private List<Level> levels = new LinkedList<Level>();
@@ -39,12 +37,12 @@ public class Game {
 
 	public boolean save(String name) {
 		this.name = name;
-		String filename = ContentManager.getFilename(ContentType.game, name);
+		String filename = ResManager.getFilename(Game.class, name);
 		return toBlueprint().save(filename);
 	}
 
 	public static Game load(String name) {
-		String filename = ContentManager.getFilename(ContentType.game, name);
+		String filename = ResManager.getFilename(Game.class, name);
 		return fromBlueprint(Blueprint.load(filename, false), name);
 	}
 
@@ -66,12 +64,11 @@ public class Game {
 	@SuppressWarnings("unchecked")
 	private static Game fromBlueprint(Blueprint bp, String name) {
 		if (bp == null) {
-			App.print("Currently existing blueprint is invalid. Creating new game...");
+			System.out.println("Currently existing blueprint is invalid. Creating new game...");
 			return new Game(name, true);
 		}
 
-		List<Blueprint> lBPs = (LinkedList<Blueprint>) bp
-				.get(BlueprintField.levels);
+		List<Blueprint> lBPs = (LinkedList<Blueprint>) bp.get(BlueprintField.levels);
 
 		Game newGame = new Game(name, false);
 
@@ -120,15 +117,17 @@ public class Game {
 
 	public void draw() {
 		ViewManager.clear(level.bgGraphic.color);
-		ViewManager.drawBG(level.bgGraphic.getTexture());
+		if (level.bgGraphic.hasTextureName()) {
+			ViewManager.drawBG(level.bgGraphic.getTexture());
+		}
 
-		if (App.state == State.Edit) {
+		if (Main.state == State.Edit) {
 			ViewManager.drawEditorGrid(Editor.gridSize);
 		}
 
 		ViewManager.drawEntities(level.getEntities());
 
-		if (App.state == State.Edit) {
+		if (Main.state == State.Edit) {
 			Screen currentScreen = GUIManager.getScreen();
 			if (currentScreen instanceof Screen_Edit) {
 				((Screen_Edit) currentScreen).drawEntityPlaceholder();
@@ -168,7 +167,7 @@ public class Game {
 		if (this.hasLevel(index)) {
 			levels.remove(index);
 		} else {
-			App.print("Can't delete level " + index + " (it doesn't exist)");
+			System.out.println("Can't delete level " + index + " (it doesn't exist)");
 		}
 	}
 

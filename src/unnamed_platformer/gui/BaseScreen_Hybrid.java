@@ -7,7 +7,7 @@ import javax.swing.SwingUtilities;
 
 import net.miginfocom.swing.MigLayout;
 import unnamed_platformer.app.ViewManager;
-import unnamed_platformer.game.parameters.ViewRef;
+import unnamed_platformer.globals.ViewRef;
 
 public class BaseScreen_Hybrid extends Screen {
 

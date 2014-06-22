@@ -1,18 +1,19 @@
 package unnamed_platformer.game.entities;
 
+import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import java.util.EnumSet;
 
 import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
-import org.newdawn.slick.opengl.Texture;
 
 import unnamed_platformer.game.EntitySetup;
-import unnamed_platformer.game.parameters.EntityRef.EntityParam;
-import unnamed_platformer.game.parameters.Ref.Flag;
-import unnamed_platformer.game.parameters.Ref.SizeMethod;
-import unnamed_platformer.game.structures.Graphic;
+import unnamed_platformer.globals.EntityRef.EntityParam;
+import unnamed_platformer.globals.Ref.Flag;
+import unnamed_platformer.structures.Graphic;
+import unnamed_platformer.structures.SizeStrategy;
+import unnamed_platformer.structures.SizeStrategy.Strategy;
 
 public abstract class Entity implements Serializable {
 	private static final long serialVersionUID = 2898448772127546782L;
@@ -52,37 +53,45 @@ public abstract class Entity implements Serializable {
 		setup.setEntityClassName(this.getClass().getSimpleName());
 		originalSetup = setup;
 
-		if (!setup.has(EntityParam.width)) {
-			setupEntity(graphic, new Rectangle(pos.getX(), pos.getY(), 0, 0),
-					SizeMethod.TEXTURE, flags);
-		} else {
-			float width = (float) setup.get(EntityParam.width);
-			setupEntity(graphic, new Rectangle(pos.getX(), pos.getY(), width,
-					width), SizeMethod.TEXTURE_SCALE, flags);
-		}
+		SizeStrategy sizeStrategy = (SizeStrategy) setup.get(EntityParam.sizeStrategy);
+
+		setupEntity(graphic, pos, sizeStrategy, flags);
 	}
 
-	private void setupEntity(Graphic graphic, Rectangle r,
-			SizeMethod sizeMethod, EnumSet<Flag> flags) {
+	private void setupEntity(Graphic graphic, Vector2f pos, SizeStrategy sizeStrategy, EnumSet<Flag> flags) {
 		this.graphic = graphic;
-		this.box.setLocation(r.getLocation());
+		this.box.setLocation(pos);
 
-		Texture texture = graphic.getTexture();
+		BufferedImage image = graphic.getTextureImage();
 
-		switch (sizeMethod) {
-		case ABSOLUTE:
-			box.setSize(r.getWidth(), r.getHeight());
-			break;
-		case TEXTURE:
-			this.box.setSize(texture.getImageWidth(), texture.getImageHeight());
-			break;
-		case TEXTURE_SCALE:
-			this.box.setWidth(r.getWidth());
-			this.box.setHeight((int) (texture.getImageHeight() * (r.getWidth() / (texture
-					.getImageWidth() + 0.0f))));
-			break;
-		default:
-			break;
+		if (sizeStrategy == null) {
+			sizeStrategy = new SizeStrategy(Strategy.texture, 1);
+		} else if (sizeStrategy.getStrategy() == Strategy.absoluteSize && sizeStrategy.getSize() == null) {
+			System.out.println("Warning: Invalid size strategy specified. Defaulting to texture size.");
+			sizeStrategy = new SizeStrategy(Strategy.texture, 1);
+		}
+		try {
+			switch (sizeStrategy.getStrategy()) {
+			case absoluteSize:
+				box.setSize(sizeStrategy.getSize().getX(), sizeStrategy.getSize().getY());
+				break;
+			case texture:
+				this.box.setSize(image.getWidth(), image.getHeight());
+				break;
+			case textureScale:
+				this.box.setWidth(image.getWidth()*sizeStrategy.getSizeScale());
+				this.box.setHeight((int) (image.getHeight() * (this.box.getWidth() / (image.getWidth() + 0.0f))));
+				break;
+			case absoluteWidth:
+				this.box.setWidth(sizeStrategy.getSizeScale());
+				this.box.setHeight((int) (image.getHeight() * (this.box.getWidth() / (image.getWidth() + 0.0f))));
+				break;
+			default:
+				break;
+			}
+		} catch (Exception e) {
+			System.out.println("Error setting entity size " + e.toString());
+
 		}
 
 		this.flags = flags;

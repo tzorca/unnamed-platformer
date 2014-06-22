@@ -4,12 +4,12 @@ import java.util.List;
 
 import org.newdawn.slick.geom.Rectangle;
 
-import unnamed_platformer.app.App.State;
+import unnamed_platformer.app.Main.State;
 import unnamed_platformer.game.Game;
 import unnamed_platformer.game.Level;
 import unnamed_platformer.game.entities.Entity;
-import unnamed_platformer.game.logic.levelGenerators.LevelGenerator;
-import unnamed_platformer.game.logic.levelGenerators.SimpleProceduralGenerator;
+import unnamed_platformer.game.lvl_gen.BaseLevelGenerator;
+import unnamed_platformer.game.lvl_gen.ProceduralGenerator;
 
 public class GameManager {
 
@@ -32,13 +32,13 @@ public class GameManager {
 	public static Game playRandomGame() {
 		Game newGame = new Game("Randomly Generated Game", false);
 
-		LevelGenerator generator = new SimpleProceduralGenerator();
+		BaseLevelGenerator generator = new ProceduralGenerator();
 		for (int i = 0; i < 10; i++) {
 			newGame.addPremadeLevel(generator.generate());
 		}
 
 		newGame.setCurrentLevel(0);
-		App.state = State.Play;
+		Main.state = State.Play;
 		currentGame = newGame;
 		return newGame;
 	}

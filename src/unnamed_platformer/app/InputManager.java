@@ -13,8 +13,8 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.geom.Vector2f;
 
-import unnamed_platformer.game.parameters.InputRef;
-import unnamed_platformer.game.parameters.InputRef.GameKey;
+import unnamed_platformer.globals.InputRef;
+import unnamed_platformer.globals.InputRef.GameKey;
 
 public class InputManager {
 	private static HashMap<Integer, Boolean> rawKeyStates = new HashMap<Integer, Boolean>();

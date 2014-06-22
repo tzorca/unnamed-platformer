@@ -7,7 +7,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 
-import unnamed_platformer.game.parameters.GUIRef;
+import unnamed_platformer.globals.GUIRef;
 import unnamed_platformer.gui.objects.WorldCell;
 import unnamed_platformer.gui.objects.WorldTableModel;
 
