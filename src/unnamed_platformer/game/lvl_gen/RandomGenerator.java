@@ -8,7 +8,6 @@ import org.newdawn.slick.geom.Vector2f;
 import unnamed_platformer.app.MathHelper;
 import unnamed_platformer.game.EntityCreator;
 import unnamed_platformer.game.entities.Entity;
-import unnamed_platformer.res_mgt.ResManager;
 
 public class RandomGenerator extends BaseLevelGenerator {
 
@@ -55,7 +54,7 @@ public class RandomGenerator extends BaseLevelGenerator {
 
 		do {
 			rTex = (String) MathHelper.randInSet(textureNames);
-		} while (rTex.equals("flag") || ResManager.getDisplayName(rTex).equals("player"));
+		} while (rTex.equals("flag") || rTex.equals("player"));
 		// this is just for testing and will not be hardcoded in the future
 
 		Vector2f rPos = MathHelper.snapToGrid(

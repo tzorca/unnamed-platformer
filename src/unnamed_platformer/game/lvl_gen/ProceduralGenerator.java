@@ -43,7 +43,7 @@ public class ProceduralGenerator extends BaseLevelGenerator {
 		int viewHeight = Display.getHeight();
 
 		// put player at bottom-left
-		addDistinct("platformplayer_player", grid * 4, maxY - grid * 4);
+		addDistinct("player", grid * 4, maxY - grid * 4);
 
 		// create a cursor to the left and below the
 		// player's initial position
@@ -101,7 +101,7 @@ public class ProceduralGenerator extends BaseLevelGenerator {
 
 		// put goal at end
 		cursor.y -= grid;
-		addDistinct("goal_flag", cursor.x, cursor.y);
+		addDistinct("flag", cursor.x, cursor.y);
 
 	}
 

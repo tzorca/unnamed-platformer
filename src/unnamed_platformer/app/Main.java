@@ -77,15 +77,17 @@ public class Main {
 	private static void init() {
 		LibraryLoader.init();
 		ViewManager.init();
+		ResManager.init();
+		SQLiteStuff.init();
 		TimeManager.init();
 		InputManager.init();
-		ResManager.init();
 		EntityCreator.init();
 		GUIManager.init();
 	}
 
 	private static void end() {
 		Display.destroy();
+		SQLiteStuff.finish();
 	}
 
 	public static void restart() {

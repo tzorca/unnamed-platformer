@@ -7,7 +7,6 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.opengl.Texture;
 
-import unnamed_platformer.globals.Ref;
 import unnamed_platformer.res_mgt.ResManager;
 
 public class Graphic implements Serializable {

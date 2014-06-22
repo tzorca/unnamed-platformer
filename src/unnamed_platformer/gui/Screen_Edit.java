@@ -152,7 +152,7 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 		for (String internalTextureName : EntityCreator.listTextureNames()) {
 
 			String displayName = ResManager
-					.getDisplayName(internalTextureName);
+					.humanizeName(internalTextureName);
 			ImageIcon imageIcon = ImageHelper.getImageIconContentScaleDown(
 					internalTextureName, 48);
 

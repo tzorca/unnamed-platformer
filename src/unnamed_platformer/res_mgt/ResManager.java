@@ -49,19 +49,15 @@ public class ResManager {
 		addResLoader(Game.class, new GameResDummyLoader());
 	}
 
-	public static String getDisplayName(String contentName) {
-		StringBuilder sb = new StringBuilder("");
-
-		String nameAfterUnderscores = contentName.contains("_") ? contentName
-				.substring(contentName.lastIndexOf('_') + 1) : contentName;
-
+	public static String humanizeName(String internalName) {
+		StringBuilder sb = new StringBuilder(internalName);
 		// capitalize first letter
-		sb.append(Character.toUpperCase(nameAfterUnderscores.charAt(0)));
+		sb.append(Character.toUpperCase(internalName.charAt(0)));
 
 		// replace camelCase with spaces
 		int state = 0;
-		for (int i = 1; i < nameAfterUnderscores.length(); i++) {
-			char c = nameAfterUnderscores.charAt(i);
+		for (int i = 1; i < internalName.length(); i++) {
+			char c = internalName.charAt(i);
 			if (state == 0 && Character.isUpperCase(c)) {
 				sb.append(' ');
 			}
@@ -73,13 +69,5 @@ public class ResManager {
 		return sb.toString();
 	}
 
-	public static String getClassNameFromContentName(String contentName) {
-		// class name will be before the underscore
-		if (!contentName.contains("_")) {
-			return null;
-		}
-
-		return contentName.substring(0, contentName.indexOf('_'));
-	}
 
 }

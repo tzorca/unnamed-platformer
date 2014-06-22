@@ -7,14 +7,12 @@ import java.util.LinkedList;
 import java.util.Set;
 
 import org.newdawn.slick.geom.Vector2f;
-import org.newdawn.slick.opengl.Texture;
 
 import unnamed_platformer.app.MathHelper;
 import unnamed_platformer.game.entities.Entity;
 import unnamed_platformer.globals.EntityRef;
 import unnamed_platformer.globals.EntityRef.EntityParam;
 import unnamed_platformer.res_mgt.ClassLookup;
-import unnamed_platformer.res_mgt.ResManager;
 import unnamed_platformer.structures.Graphic;
 import unnamed_platformer.structures.SizeStrategy;
 
@@ -26,7 +24,7 @@ public class EntityCreator {
 	// Setup texture entity subclass mappings
 	// and load textures and binarypixelgrid
 	public static void init() {
-		setupTextureMappings();
+//		setupTextureMappings();
 		cacheEntityConstructors();
 	}
 
@@ -43,32 +41,32 @@ public class EntityCreator {
 		}
 	}
 
-	private static void setupTextureMappings() {
-		Collection<String> textureNames = ResManager.list(Texture.class, true);
-
-		for (String internalTextureName : textureNames) {
-
-			// get possibleclassname
-			String possibleClassName = ResManager.getClassNameFromContentName(internalTextureName);
-
-			if (possibleClassName == null) {
-				continue;
-			}
-
-			// check if possibleClassName was a valid entity subclass
-			if (!ClassLookup.classExists(EntityRef.PACKAGE_NAME, possibleClassName)) {
-				continue;
-			}
-
-			Class<?> entityClass = ClassLookup.getClass(EntityRef.PACKAGE_NAME, possibleClassName);
-
-			// If the possibleClassName was correct, we can
-			// add the entity as a creatable entity
-			EntityRef.addTextureNameToEntityClassMapping(internalTextureName, entityClass);
-		
-//			ContentManager.get(ContentType.texture,internalTextureName);
-		}
-	}
+//	private static void setupTextureMappings() {
+//		Collection<String> textureNames = ResManager.list(Texture.class, true);
+//
+//		for (String internalTextureName : textureNames) {
+//
+//			// get possibleclassname
+//			String possibleClassName = ResManager.getClassNameFromContentName(internalTextureName);
+//
+//			if (possibleClassName == null) {
+//				continue;
+//			}
+//
+//			// check if possibleClassName was a valid entity subclass
+//			if (!ClassLookup.classExists(EntityRef.PACKAGE_NAME, possibleClassName)) {
+//				continue;
+//			}
+//
+//			Class<?> entityClass = ClassLookup.getClass(EntityRef.PACKAGE_NAME, possibleClassName);
+//
+//			// If the possibleClassName was correct, we can
+//			// add the entity as a creatable entity
+//			EntityRef.addTextureNameToEntityClassMapping(internalTextureName, entityClass);
+//		
+////			ContentManager.get(ContentType.texture,internalTextureName);
+//		}
+//	}
 
 	public static Entity create(Class<?> entityClass, Vector2f vector2f, float sizeInput, boolean relativeSize) {
 		if (entityClass == null) {
