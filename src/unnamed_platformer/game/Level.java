@@ -21,20 +21,16 @@ import unnamed_platformer.structures.Graphic;
 import unnamed_platformer.structures.QuadTree;
 
 public class Level {
-	public boolean bgStretch = false;
-	public Graphic bgGraphic = new Graphic(new Color(0xF8,0xF8,0xFF,1));
+	// private boolean bgStretch = false;
+	private Graphic bgGraphic = new Graphic(new Color(0xF8, 0xF8, 0xFF, 1));
 
 	public int gridSize = Ref.DEFAULT_LEVEL_GRIDSIZE;
 
-	private LinkedList<Entity> entities = new LinkedList<Entity>(),
-			newEntities = new LinkedList<Entity>();
+	private LinkedList<Entity> entities = new LinkedList<Entity>(), newEntities = new LinkedList<Entity>();
 	private LinkedList<EntitySetup> entitySetups = new LinkedList<EntitySetup>();
 
 	private Rectangle rect = Ref.DEFAULT_LEVEL_RECTANGLE;
-	private transient QuadTree quadTree = new QuadTree(0,
-			Ref.DEFAULT_LEVEL_RECTANGLE);
-
-	public boolean won = false;
+	private transient QuadTree quadTree = new QuadTree(0, Ref.DEFAULT_LEVEL_RECTANGLE);
 
 	private void setRect(Rectangle rect) {
 		quadTree = new QuadTree(0, rect);
@@ -42,8 +38,7 @@ public class Level {
 	}
 
 	public Rectangle getRect() {
-		return new Rectangle(rect.getX(), rect.getY(), rect.getWidth(),
-				rect.getHeight());
+		return new Rectangle(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
 	}
 
 	public Level(LinkedList<Entity> origEntities, Rectangle levelRect) {
@@ -105,15 +100,13 @@ public class Level {
 	@SuppressWarnings("unchecked")
 	static Level fromBlueprint(Blueprint lBP) {
 		if (lBP == null) {
-			System.out.println("You passed in a null blueprint!");
+			System.out.println("Error: Can't create a level from a null blueprint.");
 			return null;
 		}
 
-		LinkedList<EntitySetup> entitySetups = (LinkedList<EntitySetup>) lBP
-				.get(BlueprintField.levelEntities);
+		LinkedList<EntitySetup> entitySetups = (LinkedList<EntitySetup>) lBP.get(BlueprintField.levelEntities);
 
-		Level newLevel = new Level(
-				EntityCreator.buildFromSetupCollection(entitySetups));
+		Level newLevel = new Level(EntityCreator.buildFromSetupCollection(entitySetups));
 		newLevel.bgGraphic = (Graphic) lBP.get(BlueprintField.levelBG);
 		newLevel.setRect((Rectangle) lBP.get(BlueprintField.levelRect));
 
@@ -183,7 +176,7 @@ public class Level {
 
 				if (entity.isFlagSet(Flag.player)) {
 					playerEntity = entity;
-					
+
 				}
 			}
 
@@ -235,33 +228,41 @@ public class Level {
 		resetTo(EntityCreator.getSetupCollection(entities));
 	}
 
-	public List<Entity> retrieveFromQuadTree(List<Entity> entities,
-			Rectangle box) {
+	public List<Entity> retrieveFromQuadTree(List<Entity> entities, Rectangle box) {
 		return quadTree.retrieve(entities, box);
 	}
 
 	private void onStart() {
-//		// take screenshot on start of level 1 
-//		if (GameManager.currentGame == null || GameManager.currentGame.getLevelIndex() != 0
-//				|| App.state != State.Play) {
-//			return;
-//		}
-//		
-//		try {
-//			SwingUtilities.invokeLater(new Runnable(){
-//
-//				@Override
-//				public void run() {
-//					BufferedImage screenshot = ViewManager.getScreenshot();
-//					ImageIcon serializablePreviewImage = new ImageIcon(screenshot);
-//					if (screenshot != null) {
-//						GameManager.currentGame.setPreviewImage(serializablePreviewImage);
-//					}
-//				
-//			}});
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
+		// // take screenshot on start of level 1
+		// if (GameManager.currentGame == null ||
+		// GameManager.currentGame.getLevelIndex() != 0
+		// || App.state != State.Play) {
+		// return;
+		// }
+		//
+		// try {
+		// SwingUtilities.invokeLater(new Runnable(){
+		//
+		// @Override
+		// public void run() {
+		// BufferedImage screenshot = ViewManager.getScreenshot();
+		// ImageIcon serializablePreviewImage = new ImageIcon(screenshot);
+		// if (screenshot != null) {
+		// GameManager.currentGame.setPreviewImage(serializablePreviewImage);
+		// }
+		//
+		// }});
+		// } catch (Exception e) {
+		// e.printStackTrace();
+		// }
+	}
+
+	public Graphic getBackgroundGraphic() {
+		return bgGraphic;
+	}
+
+	public void setSize(Rectangle newRect) {
+		this.rect = newRect;
 	}
 
 }

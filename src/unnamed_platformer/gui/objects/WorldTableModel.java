@@ -5,7 +5,7 @@ import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
-import unnamed_platformer.game.Game;
+import unnamed_platformer.game.World;
 import unnamed_platformer.res_mgt.ResManager;
 
 public class WorldTableModel extends AbstractTableModel {
@@ -16,7 +16,7 @@ public class WorldTableModel extends AbstractTableModel {
 
 	public WorldTableModel() {
 		columnNames.add("World");
-		for (String name : ResManager.list(Game.class, true)) {
+		for (String name : ResManager.list(World.class, true)) {
 			addRow(new String[] { name });
 		}
 	}

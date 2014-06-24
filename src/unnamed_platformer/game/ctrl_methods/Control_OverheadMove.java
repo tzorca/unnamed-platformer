@@ -6,8 +6,6 @@ import unnamed_platformer.app.InputManager;
 import unnamed_platformer.game.entities.ActiveEntity;
 import unnamed_platformer.globals.InputRef.GameKey;
 
-
-
 public class Control_OverheadMove extends ControlMechanism {
 	private static final long serialVersionUID = 8927418630246157688L;
 
@@ -19,9 +17,9 @@ public class Control_OverheadMove extends ControlMechanism {
 	}
 
 	@Override
-	public void update(float multiplier) {
+	public void doUpdate(float multiplier) {
 		float mulSpeed = speed * multiplier;
-		
+
 		if (InputManager.getGameKeyState(GameKey.right, 1)) {
 			actor.getPhysics().addForce(new Vector2f(mulSpeed, 0));
 		}

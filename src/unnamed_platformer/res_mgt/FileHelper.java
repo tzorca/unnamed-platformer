@@ -35,8 +35,8 @@ public class FileHelper {
 		List<String> filenames = new ArrayList<String>();
 
 		if (!dir.canRead()) {
-			System.out.println("Warning: cannot read from directory "
-					+ dir.getAbsolutePath());
+			System.out.println("Warning: cannot read from directory '"
+					+ dir.getAbsolutePath() + "'");
 			return filenames;
 		}
 

@@ -20,7 +20,7 @@ public class Control_Jump extends ControlMechanism {
 	}
 
 	@Override
-	public void update(float multiplier) {
+	public void doUpdate(float multiplier) {
 		PhysicsInstance physics = actor.getPhysics();
 
 		if (physics.lastMoveResult.hadYCollision()

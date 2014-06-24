@@ -2,11 +2,9 @@ package unnamed_platformer.globals;
 
 import org.newdawn.slick.geom.Vector2f;
 
-
 public class PhysicsRef {
 
 	public static Vector2f gravity = new Vector2f(0, 0.23f);
-
 
 	public enum Orientation {
 		UP, DOWN, LEFT, RIGHT, UPRIGHT, UPLEFT, DOWNRIGHT, DOWNLEFT
@@ -27,6 +25,10 @@ public class PhysicsRef {
 	public static final float DEFAULT_SHOOT_SPEED = 0.9f;
 	public static final float DEFAULT_SHOOT_DELAY = 100;
 
+	public static final float DEFAULT_FLAME_JUMP_INTERVAL = 3f;
+	public static final float DEFAULT_FLAME_SPEED = 5f;
+	public static final float DEFAULT_FLAME_JUMP_HEIGHT = 192;
+
 	public enum Side {
 		TOP(-Math.PI / 2), RIGHT(0), LEFT(Math.PI), BOTTOM(Math.PI / 2);
 
@@ -46,7 +48,6 @@ public class PhysicsRef {
 
 	public static final double STRICT_SIDE_MATCH_DISTANCE = Math.PI / 2;
 	public static final double LOOSE_SIDE_MATCH_DISTANCE = Math.PI / 2.5;
-	
 
 	public final static float WATER_SPEED_FACTOR = 0.5f;
 
@@ -55,4 +56,7 @@ public class PhysicsRef {
 	public static final float GLOBAL_SPEED_LIMIT = 32;
 
 	public static final float DEFAULT_FORCE_MULTIPLIER = 0.9f;
+
+	public static final float DEFAULT_ORBIT_HAZARD_SPEED = 10;
+
 }

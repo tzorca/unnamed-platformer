@@ -6,7 +6,7 @@ import java.util.HashMap;
 
 import org.newdawn.slick.opengl.Texture;
 
-import unnamed_platformer.game.Game;
+import unnamed_platformer.game.World;
 import unnamed_platformer.structures.BinaryPixelGrid;
 
 @SuppressWarnings("unchecked")
@@ -46,11 +46,11 @@ public class ResManager {
 		addResLoader(Texture.class, new TextureResLoader());
 		addResLoader(BufferedImage.class, new ImageResLoader());
 		addResLoader(BinaryPixelGrid.class, new BinaryPixelGridResLoader());
-		addResLoader(Game.class, new GameResDummyLoader());
+		addResLoader(World.class, new GameResDummyLoader());
 	}
 
 	public static String humanizeName(String internalName) {
-		StringBuilder sb = new StringBuilder(internalName);
+		StringBuilder sb = new StringBuilder("");
 		// capitalize first letter
 		sb.append(Character.toUpperCase(internalName.charAt(0)));
 

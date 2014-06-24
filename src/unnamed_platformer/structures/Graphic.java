@@ -30,7 +30,7 @@ public class Graphic implements Serializable {
 
 	public Texture getTexture() {
 		if (textureName == null) {
-			System.out.println("Texturename is blank");
+			System.out.println("Warning: Unable to return texture from a null textureName");
 			return null;
 		}
 		return ResManager.get(Texture.class, textureName);

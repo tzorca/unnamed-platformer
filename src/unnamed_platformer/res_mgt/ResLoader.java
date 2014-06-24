@@ -31,7 +31,7 @@ public abstract class ResLoader<T> {
 		try {
 			res = load(name);
 		} catch (Exception e) {
-			System.out.println("Error loading resource " + name + ": " + e.toString());
+			System.out.println("Error loading resource '" + name + "': " + e.toString());
 			return null;
 		}
 		

@@ -36,7 +36,7 @@ public class EntityCreator {
 				entityConstructorCache.put(clazz, clazz.getConstructor(EntitySetup.class));
 			} catch (Exception e) {
 				System.out
-						.println("Warning: Entity class " + clazz.getName() + " has not implemented its constructor.");
+						.println("Warning: Entity class '" + clazz.getName() + "' has not implemented its constructor.");
 			}
 		}
 	}
@@ -82,7 +82,7 @@ public class EntityCreator {
 		Class<?> entityClass = EntityRef.getEntityClassFromTextureName(textureName);
 		if (entityClass == null) {
 
-			System.out.println("Texture " + textureName + " is missing a entity class mapping.");
+			System.out.println("Texture '" + textureName + "' is missing a entity class mapping.");
 			return null;
 		}
 		return create(textureName, entityClass, location, sizeInput, relativeSize);
@@ -109,12 +109,12 @@ public class EntityCreator {
 		try {
 			newEntity = (Entity) getConstructor(entityClass).newInstance(setup);
 		} catch (Exception e) {
-			System.out.println("The class " + entityClass.toString() + " has an implementation error: " + e.toString());
+			System.out.println("Warning: Class '" + entityClass.toString() + "' has an implementation error: " + e.toString());
 			return null;
 		}
 
 		if (newEntity == null) {
-			System.out.println("Error: " + entityClass.toString() + " was created null.");
+			System.out.println("Warning: '" + entityClass.toString() + "' was created null.");
 		}
 
 		return newEntity;

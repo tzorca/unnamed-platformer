@@ -33,7 +33,7 @@ public class Ref implements Serializable {
 	public static final Color COLOR_75_PERCENT_TRANS = new Color(1, 1, 1, 0.75f);
 
 	public static final Rectangle DEFAULT_LEVEL_RECTANGLE = new Rectangle(0, 0,
-			2000, 4000);
+			16000, 4000);
 	public static final int DEFAULT_LEVEL_GRIDSIZE = 32;
 
 	public static final String APP_PATH = new File("").getAbsolutePath();

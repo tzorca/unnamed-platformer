@@ -5,7 +5,7 @@ import java.util.List;
 import org.newdawn.slick.geom.Rectangle;
 
 import unnamed_platformer.app.Main.State;
-import unnamed_platformer.game.Game;
+import unnamed_platformer.game.World;
 import unnamed_platformer.game.Level;
 import unnamed_platformer.game.entities.Entity;
 import unnamed_platformer.game.lvl_gen.BaseLevelGenerator;
@@ -13,90 +13,82 @@ import unnamed_platformer.game.lvl_gen.ProceduralGenerator;
 
 public class GameManager {
 
-	public static Game currentGame;
 
-	public static void update() {
-		if (currentGame != null) {
-			currentGame.update();
-		}
-	}
 
 	public static void draw() {
-		currentGame.draw();
+		World.draw();
 	}
 
 	public static void loadGame(String name) {
-		currentGame = Game.load(name);
+		World.load(name);
 	}
 
-	public static Game playRandomGame() {
-		Game newGame = new Game("Randomly Generated Game", false);
+	public static void playRandomGame() {
+		World.reset("Randomly Generated Game", false);
 
 		BaseLevelGenerator generator = new ProceduralGenerator();
 		for (int i = 0; i < 10; i++) {
-			newGame.addPremadeLevel(generator.generate());
+			World.addPremadeLevel(generator.generate());
 		}
 
-		newGame.setCurrentLevel(0);
+		World.setCurrentLevel(0);
 		Main.state = State.Play;
-		currentGame = newGame;
-		return newGame;
 	}
 
 	public static void addBlankLevel() {
-		currentGame.addBlankLevel();
+		World.addBlankLevel();
 	}
 
 	public static void saveCurrentGame(String name) {
-		currentGame.save(name);
+		World.save(name);
 	}
 
 	public static void saveCurrentGame() {
-		currentGame.save(currentGame.getName());
+		World.save(World.getName());
 	}
 
 	public static String getGameName() {
-		return currentGame.getName();
+		return World.getName();
 	}
 
 	public static void changeLevelToIndex(int destIndex) {
-		currentGame.setCurrentLevel(destIndex);
+		World.setCurrentLevel(destIndex);
 	}
 
 	public static List<Entity> getCurrentEntities() {
-		return currentGame.getEntities();
+		return World.getEntities();
 	}
 
 	public static void addEntity(Entity e) {
-		currentGame.addEntity(e);
+		World.addEntity(e);
 	}
 
 	public static int getCurrentLevelNumber() {
-		return currentGame.getLevelIndex();
+		return World.getLevelIndex();
 	}
 
 	public static Rectangle getRect() {
-		return currentGame.getLevelRect();
+		return World.getLevelRect();
 	}
 
 	public static Level getCurrentLevel() {
-		return currentGame.getLevel();
+		return World.getLevel();
 	}
 
 	public static boolean levelExists(int index) {
-		return currentGame.hasLevel(index);
+		return World.hasLevel(index);
 	}
 
 	public static int getLevelCount() {
-		return currentGame.getLevelCount();
+		return World.getLevelCount();
 	}
 
 	public static void removeLevelByIndex(int index) {
-		currentGame.removeLevel(index);
+		World.removeLevel(index);
 	}
 
 	public static void replaceCurrentLevel(Level lvl) {
-		currentGame.replaceCurrentLevel(lvl);
+		World.replaceCurrentLevel(lvl);
 	}
 
 	public static void retrieveFromQuadTree(List<Entity> entities, Rectangle box) {

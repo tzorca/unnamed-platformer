@@ -97,7 +97,7 @@ public class ImageHelper {
 			return new ImageIcon(img);
 		}
 
-		float ratio = img.getWidth() / img.getHeight();
+		float ratio = (float)img.getWidth() / img.getHeight();
 
 		return new ImageIcon(img.getScaledInstance(size, (int) (size / ratio), java.awt.Image.SCALE_SMOOTH));
 	}

@@ -17,14 +17,14 @@ import com.almworks.sqlite4java.SQLiteStatement;
 
 public class SQLiteStuff {
 
-	private static class Names {
-		public static class tbl {
-			static String textureMappings = "textureMappings";
+	private static final class Names {
+		public static final class Tbl {
+			static final String textureMappings = "textureMappings";
 		}
 
-		public static class col {
-			static String textureName = "textureName";
-			static String entityName = "entityName";
+		public static final class Col {
+			static final String textureName = "textureName";
+			static final String entityName = "entityName";
 		}
 	}
 
@@ -39,9 +39,8 @@ public class SQLiteStuff {
 	}
 
 	private static void addTextureMappings() {
-		SQLiteStatement st = null;
 		try {
-			st = db.prepare("select * FROM " + Names.tbl.textureMappings + ";");
+			SQLiteStatement st = db.prepare("select * FROM " + Names.Tbl.textureMappings + ";");
 
 			while (st.step()) {
 				String entityClassName = st.columnString(1);
@@ -52,20 +51,19 @@ public class SQLiteStuff {
 				Class<?> entityClass = ClassLookup.getClass(EntityRef.PACKAGE_NAME, entityClassName);
 				EntityRef.addTextureNameToEntityClassMapping(textureName, entityClass);
 			}
+
+			st.dispose();
 		} catch (SQLiteException e) {
 			System.out.println("Could not add texture mappings: " + e.toString());
 			e.printStackTrace();
 			System.exit(0);
-		} finally {
-			st.dispose();
 		}
 
 	}
 
 	private static void insertNewTextureNames() {
-		SQLiteStatement st = null;
 		try {
-			st = db.prepare("insert or ignore into " + Names.tbl.textureMappings + " values (?, ?);");
+			SQLiteStatement st = db.prepare("insert or ignore into " + Names.Tbl.textureMappings + " values (?, ?);");
 
 			for (String textureName : ResManager.list(Texture.class, true)) {
 				st.bind(1, textureName);
@@ -73,19 +71,19 @@ public class SQLiteStuff {
 				exec(st);
 				st.reset();
 			}
+
+			st.dispose();
 		} catch (Exception e) {
 			System.out.println("Could not insert new texture names: " + e.toString());
 			e.printStackTrace();
 			System.exit(0);
-		} finally {
-			st.dispose();
 		}
 	}
 
 	private static void initTables() {
 		try {
-			db.exec("create table if not exists " + Names.tbl.textureMappings + " (" + Names.col.textureName
-					+ " text, " + Names.col.entityName + " text, PRIMARY KEY(" + Names.col.textureName + "));");
+			db.exec("create table if not exists " + Names.Tbl.textureMappings + " (" + Names.Col.textureName
+					+ " text, " + Names.Col.entityName + " text, PRIMARY KEY(" + Names.Col.textureName + "));");
 
 		} catch (SQLiteException e) {
 			System.out.println("Could not create tables: " + e.toString());

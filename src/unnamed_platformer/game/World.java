@@ -19,34 +19,37 @@ import unnamed_platformer.gui.Screen;
 import unnamed_platformer.gui.Screen_Edit;
 import unnamed_platformer.res_mgt.ResManager;
 import unnamed_platformer.structures.Blueprint;
+import unnamed_platformer.structures.Graphic;
 
-public class Game {
-	private List<Level> levels = new LinkedList<Level>();
-	private Level level; // current Level
-	private int levelIndex = 0;
-	private String name;
-	private ImageIcon previewImage = null;
+public class World {
+	private static List<Level> levels = new LinkedList<Level>();
+	private static Level level; // current Level
+	private static int levelIndex = 0;
+	private static String _name;
+	private static ImageIcon previewImage = null;
 
-	public Game(String name, boolean addBlank) {
-		this.name = name;
+	public static void reset(String name, boolean addBlank) {
+		_name = name;
+		levels.clear();
 		if (addBlank) {
 			addBlankLevel();
 		}
 		setCurrentLevel(0);
 	}
 
-	public boolean save(String name) {
-		this.name = name;
-		String filename = ResManager.getFilename(Game.class, name);
+	public static boolean save(String name) {
+		_name = name;
+		String filename = ResManager.getFilename(World.class, name);
 		return toBlueprint().save(filename);
 	}
 
-	public static Game load(String name) {
-		String filename = ResManager.getFilename(Game.class, name);
-		return fromBlueprint(Blueprint.load(filename, false), name);
+	public static void load(String name) {
+		reset(name, false);
+		String filename = ResManager.getFilename(World.class, name);
+		fromBlueprint(Blueprint.load(filename, false), name);
 	}
 
-	public Blueprint toBlueprint() {
+	public static Blueprint toBlueprint() {
 		Blueprint gBP = new Blueprint();
 
 		gBP.put(BlueprintField.previewImage, previewImage);
@@ -62,22 +65,22 @@ public class Game {
 	}
 
 	@SuppressWarnings("unchecked")
-	private static Game fromBlueprint(Blueprint bp, String name) {
+	private static void fromBlueprint(Blueprint bp, String name) {
 		if (bp == null) {
 			System.out.println("Currently existing blueprint is invalid. Creating new game...");
-			return new Game(name, true);
+			reset(name, true);
+			return;
 		}
 
 		List<Blueprint> lBPs = (LinkedList<Blueprint>) bp.get(BlueprintField.levels);
 
-		Game newGame = new Game(name, false);
+		reset(name, false);
 
 		for (Blueprint lvlBlueprint : lBPs) {
-			newGame.levels.add(Level.fromBlueprint(lvlBlueprint));
+			levels.add(Level.fromBlueprint(lvlBlueprint));
 		}
 
-		newGame.setCurrentLevel(0);
-		return newGame;
+		setCurrentLevel(0);
 	}
 
 	public static Image getPreviewImage(Blueprint bp) {
@@ -89,11 +92,11 @@ public class Game {
 		return ((ImageIcon) bp.get(BlueprintField.previewImage)).getImage();
 	}
 
-	public boolean hasLevel(int destination) {
+	public static boolean hasLevel(int destination) {
 		return levels.size() > destination && destination >= 0;
 	}
 
-	public void setCurrentLevel(int destination) {
+	public static void setCurrentLevel(int destination) {
 		if (hasLevel(destination)) {
 			level = levels.get(destination);
 			levelIndex = destination;
@@ -101,24 +104,27 @@ public class Game {
 			// App.print("Level with index " + destination
 			// + " doesn't exist.");
 			if (level != null) {
-				level.won = true;
+				// level.won = true;
 			}
 			return;
 		}
 	}
 
-	public void update() {
-		level.update();
+	public static void update() {
+		if (level != null) {
+			level.update();
+		}
 	}
 
-	public List<Entity> getEntities() {
+	public static List<Entity> getEntities() {
 		return level.getEntities();
 	}
 
-	public void draw() {
-		ViewManager.clear(level.bgGraphic.color);
-		if (level.bgGraphic.hasTextureName()) {
-			ViewManager.drawBG(level.bgGraphic.getTexture());
+	public static void draw() {
+		Graphic levelBG = level.getBackgroundGraphic();
+		ViewManager.clear(levelBG.color);
+		if (levelBG.hasTextureName()) {
+			ViewManager.drawBG(levelBG.getTexture());
 		}
 
 		if (Main.state == State.Edit) {
@@ -135,53 +141,53 @@ public class Game {
 		}
 	}
 
-	public void addEntity(Entity e) {
+	public static void addEntity(Entity e) {
 		level.addEntity(e);
 	}
 
-	public int getLevelIndex() {
+	public static int getLevelIndex() {
 		return levelIndex;
 	}
 
-	public Rectangle getLevelRect() {
+	public static Rectangle getLevelRect() {
 		return level.getRect();
 	}
 
-	public void addPremadeLevel(Level lvl) {
+	public static void addPremadeLevel(Level lvl) {
 		levels.add(lvl);
 	}
 
-	public Level getLevel() {
+	public static Level getLevel() {
 		return level;
 	}
 
-	public void addBlankLevel() {
+	public static void addBlankLevel() {
 		levels.add(new Level(new LinkedList<Entity>()));
 	}
 
-	public int getLevelCount() {
+	public static int getLevelCount() {
 		return levels.size();
 	}
 
-	public void removeLevel(int index) {
-		if (this.hasLevel(index)) {
+	public static void removeLevel(int index) {
+		if (hasLevel(index)) {
 			levels.remove(index);
 		} else {
-			System.out.println("Can't delete level " + index + " (it doesn't exist)");
+			System.out.println("Can't delete level #" + index + " -- it doesn't exist");
 		}
 	}
 
-	public String getName() {
-		return this.name;
+	public static String getName() {
+		return _name;
 	}
 
-	public void replaceCurrentLevel(Level lvl) {
+	public static void replaceCurrentLevel(Level lvl) {
 		level = lvl;
 		levels.set(levelIndex, lvl);
 	}
 
-	public void setPreviewImage(ImageIcon previewImage) {
-		this.previewImage = previewImage;
+	public static void setPreviewImage(ImageIcon previewImage) {
+		World.previewImage = previewImage;
 	}
 
 }

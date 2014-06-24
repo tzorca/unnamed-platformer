@@ -21,7 +21,7 @@ public class ImageListEntryRenderer extends JLabel implements
 		this.setBorder(new EmptyBorder(4, 0, 4, 0));
 	}
 
-	private final int MAX_TEXT_LENGTH = 12;
+	private static final int MAX_TEXT_LENGTH = 12;
 
 	@Override
 	public Component getListCellRendererComponent(

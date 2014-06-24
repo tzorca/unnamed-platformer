@@ -4,6 +4,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.newdawn.slick.opengl.Texture;
+
+import unnamed_platformer.res_mgt.ResManager;
+
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Maps;
@@ -34,6 +38,9 @@ public class EntityRef {
 	public static void addTextureNameToEntityClassMapping(String textureName,
 			Class<?> entityClass) {
 
+		if (!ResManager.contentExists(Texture.class, textureName)) {
+			return;
+		}
 		EntityRef.textureName_EntityClass_Map.put(textureName, entityClass);
 		EntityRef.entityClass_TextureName_Map.put(entityClass, textureName);
 

@@ -17,8 +17,9 @@ import unnamed_platformer.gui.objects.ImageListEntry;
 
 public class Editor {
 	
-	// TODO: Fix save broken bug
 	// TODO: Fix random generation broken bug
+	// TODO: Fix collision bug with complicated object size/shape
+	// TODO: Fix respawn location bug
 
 	public static int gridSize = 32;
 	Level currentLevel;
@@ -30,6 +31,7 @@ public class Editor {
 
 	public Editor(int levelIndex) {
 		changeLevel(levelIndex);
+		currentLevel.setSize(Ref.DEFAULT_LEVEL_RECTANGLE);
 	}
 
 	// returns the level index after the change

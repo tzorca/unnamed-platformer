@@ -90,7 +90,7 @@ public abstract class Entity implements Serializable {
 				break;
 			}
 		} catch (Exception e) {
-			System.out.println("Error setting entity size " + e.toString());
+			System.out.println("Error setting entity size: " + e.toString());
 
 		}
 

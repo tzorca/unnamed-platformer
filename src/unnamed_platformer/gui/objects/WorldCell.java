@@ -16,7 +16,7 @@ import javax.swing.JTable;
 import unnamed_platformer.app.Main;
 import unnamed_platformer.app.Main.State;
 import unnamed_platformer.app.GameManager;
-import unnamed_platformer.game.Game;
+import unnamed_platformer.game.World;
 import unnamed_platformer.gui.GUIHelper;
 import unnamed_platformer.res_mgt.FileHelper;
 import unnamed_platformer.res_mgt.ResManager;
@@ -96,7 +96,7 @@ public class WorldCell extends ReadOnlyInteractiveCell implements ActionListener
 		}
 
 		else {
-			String filename = ResManager.getFilename(Game.class, getGameName());
+			String filename = ResManager.getFilename(World.class, getGameName());
 			File gameFile = new File(filename);
 
 			if (!gameFile.exists()) {
@@ -132,7 +132,7 @@ public class WorldCell extends ReadOnlyInteractiveCell implements ActionListener
 		} catch (Exception e) {
 			// TODO: Show error in GUI
 			// TODO: Show a better e.getMessage() than null
-			System.out.println("Could not rename " + getGameName() + ": " + e.getMessage());
+			System.out.println("Could not rename '" + getGameName() + "': " + e.getMessage());
 		}
 	}
 
@@ -140,7 +140,7 @@ public class WorldCell extends ReadOnlyInteractiveCell implements ActionListener
 		if (gameFile.delete()) {
 			model.removeRow(thisRow);
 		} else {
-			System.out.println("Could not delete " + getGameName());
+			System.out.println("Could not delete '" + getGameName() + "'");
 			// TODO: Show error in GUI
 		}
 	}
@@ -153,7 +153,7 @@ public class WorldCell extends ReadOnlyInteractiveCell implements ActionListener
 		if (FileHelper.copyFileInSameDir(gameFile, " - Copy")) {
 			model.addRow(new String[] { getGameName() + " - Copy" });
 		} else {
-			System.out.println("Could not create copy of " + getGameName());
+			System.out.println("Could not create copy of '" + getGameName() + "'");
 			// TODO: Show error in GUI
 		}
 	}

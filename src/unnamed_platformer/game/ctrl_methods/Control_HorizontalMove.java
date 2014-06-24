@@ -37,7 +37,7 @@ public class Control_HorizontalMove extends ControlMechanism {
 	}
 
 	@Override
-	public void update(float multiplier) {
+	public void doUpdate(float multiplier) {
 		PhysicsInstance physics = actor.getPhysics();
 		Vector2f velocity = physics.getVelocity();
 

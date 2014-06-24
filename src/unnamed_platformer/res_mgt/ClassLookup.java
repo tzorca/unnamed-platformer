@@ -72,8 +72,8 @@ public class ClassLookup {
 		try {
 			return clazz.getConstructor().newInstance();
 		} catch (Exception e) {
-			System.out.println("Instantiation of " + clazz.getName()
-					+ " failed. " + e.getMessage());
+			System.out.println("Error: Could not instantiate '" + clazz.getName()
+					+ "': " + e.getMessage());
 		}
 		return null;
 	}

@@ -18,17 +18,14 @@ import unnamed_platformer.globals.PhysicsRef.Side;
 public class MathHelper {
 
 	// Move in a direction towards a point (but not past it)
-	public static Vector2f moveTowards(Vector2f startPoint,
-			Vector2f targetPoint, double speed) {
+	public static Vector2f moveTowards(Vector2f startPoint, Vector2f targetPoint, double speed) {
 
 		float initialDist = startPoint.distance(targetPoint);
-		double theta = Math.atan2(targetPoint.y - startPoint.y, targetPoint.x
-				- startPoint.x);
+		double theta = Math.atan2(targetPoint.y - startPoint.y, targetPoint.x - startPoint.x);
 		float movX = (float) (speed * Math.cos(theta));
 		float movY = (float) (speed * Math.sin(theta));
 
-		Vector2f newPoint = new Vector2f(startPoint.getX() + movX,
-				startPoint.getY() + movY);
+		Vector2f newPoint = new Vector2f(startPoint.getX() + movX, startPoint.getY() + movY);
 
 		double newDist = newPoint.distance(targetPoint);
 
@@ -48,8 +45,7 @@ public class MathHelper {
 	}
 
 	public static Vector2f vectorFromAngleAndSpeed(double speed, double angle) {
-		return new Vector2f((float) (speed * Math.cos(angle)),
-				(float) (speed * Math.sin(angle)));
+		return new Vector2f((float) (speed * Math.cos(angle)), (float) (speed * Math.sin(angle)));
 	}
 
 	public static Double getIntersectionAngle(Rectangle a, Rectangle b) {
@@ -70,8 +66,7 @@ public class MathHelper {
 		return Math.atan2(vector.y, vector.x);
 	}
 
-	public static EnumMap<Side, Double> getSideDistances(Double radians,
-			Side[] sidesToCheck) {
+	public static EnumMap<Side, Double> getSideDistances(Double radians, Side[] sidesToCheck) {
 		EnumMap<Side, Double> distances = new EnumMap<Side, Double>(Side.class);
 
 		for (Side side : sidesToCheck) {
@@ -92,8 +87,7 @@ public class MathHelper {
 		return value;
 	}
 
-	public static Vector2f vectorFromOrientationAndLength(Orientation o,
-			float length) {
+	public static Vector2f vectorFromOrientationAndLength(Orientation o, float length) {
 		switch (o) {
 		case DOWN:
 			return new Vector2f(0, length);
@@ -145,8 +139,7 @@ public class MathHelper {
 	}
 
 	public static Object randInCollection(Collection<?> collection) {
-		return new ArrayList<>(collection).get(randRange(0,
-				collection.size() - 1));
+		return new ArrayList<>(collection).get(randRange(0, collection.size() - 1));
 	}
 
 	public static Object randKeyInMap(Map<?, ?> map) {
@@ -155,6 +148,29 @@ public class MathHelper {
 
 	public static Object randValueInMap(Map<?, ?> map) {
 		return randInCollection(map.values());
+	}
+
+	public static List<Vector2f> createUpDownPath(float dist) {
+		List<Vector2f> path = new ArrayList<Vector2f>();
+		path.add(new Vector2f(0, 0));
+		path.add(new Vector2f(0, -dist));
+		path.add(new Vector2f(0, 0));
+
+		return path;
+	}
+	
+	public static List<Vector2f> createCirclePath(float radius) {
+		List<Vector2f> path = new ArrayList<Vector2f>();
+		Vector2f shiftVector = new Vector2f(0, -radius);
+		Vector2f initialVector = new Vector2f(shiftVector);
+		for (int i = 0; i <= 360; i++) {
+			initialVector.setTheta(i);
+			path.add(new Vector2f(initialVector));
+			System.out.println(path.get(path.size()-1));
+		}
+
+
+		return path;
 	}
 
 }

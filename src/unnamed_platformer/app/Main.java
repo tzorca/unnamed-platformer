@@ -3,6 +3,7 @@ package unnamed_platformer.app;
 import org.lwjgl.opengl.Display;
 
 import unnamed_platformer.game.EntityCreator;
+import unnamed_platformer.game.World;
 import unnamed_platformer.globals.Ref;
 import unnamed_platformer.globals.InputRef.GameKey;
 import unnamed_platformer.gui.GUIManager;
@@ -33,7 +34,7 @@ public class Main {
 			accumulator += millisecDelta;
 
 			while (accumulator >= Ref.MILLISECS_IN_IDEAL_TIC) {
-				GameManager.update();
+				World.update();
 				accumulator -= Ref.MILLISECS_IN_IDEAL_TIC;
 			}
 
