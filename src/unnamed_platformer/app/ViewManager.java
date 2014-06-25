@@ -202,7 +202,7 @@ public class ViewManager {
 
 	}
 
-	public static void drawTexturesInBatch(Texture t, List<Point> points) {
+	public static void drawTexturesInBatch(Texture t, ArrayList<int[]> pointBuffer) {
 		t.bind();
 
 		int w = t.getImageWidth();
@@ -212,8 +212,8 @@ public class ViewManager {
 		float tH = t.getHeight();
 
 		GL11.glBegin(GL11.GL_QUADS);
-		for (Point p : points) {
-			drawTex(t, p.getX(), p.getY(), w, h, tW, tH);
+		for (int[] point : pointBuffer) {
+			drawTex(t, point[0], point[1], w, h, tW, tH);
 		}
 		GL11.glEnd();
 	}
@@ -225,14 +225,21 @@ public class ViewManager {
 		}
 
 		saveState();
-		ArrayList<Point> pointBuffer = new ArrayList<Point>();
+		ArrayList<int[]> pointBuffer = new ArrayList<int[]>();
 		Rectangle levelRect = GameManager.getRect();
+
+		int minX = (int) viewport.getMinX(), maxX = (int) viewport.getMaxX(), minY = (int) viewport.getMinY(), maxY = (int) viewport
+				.getMaxY();
+		
 		for (int x = 0; x <= levelRect.getWidth(); x += gridSize) {
+			if (x < minX || x > maxX) {
+				continue;
+			}
 			for (int y = 0; y <= levelRect.getHeight(); y += gridSize) {
-				Point p = new Point(x - 2, y - 2);
-				if (viewport.contains(p.getX(), p.getY())) {
-					pointBuffer.add(p);
+				if (y < minY || y > maxY) {
+					continue;
 				}
+					pointBuffer.add(new int[] { x - 2, y - 2 });
 			}
 		}
 
@@ -385,6 +392,10 @@ public class ViewManager {
 		if (!renderCanvas.hasFocus()) {
 			renderCanvas.requestFocusInWindow();
 		}
+	}
+
+	public static Object getRenderCanvas() {
+		return renderCanvas;
 	}
 
 }
