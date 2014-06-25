@@ -166,7 +166,6 @@ public class MathHelper {
 		for (int i = 0; i <= 360; i++) {
 			initialVector.setTheta(i);
 			path.add(new Vector2f(initialVector));
-			System.out.println(path.get(path.size()-1));
 		}
 
 

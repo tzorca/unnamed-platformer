@@ -1,10 +1,13 @@
 package unnamed_platformer.app;
 
+import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.util.EnumMap;
 import java.util.HashMap;
+
+import javax.swing.SwingUtilities;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -34,13 +37,24 @@ public class InputManager {
 		rawKeyToPlayerGameKeyMapping.remove(key);
 	}
 
+	private static Point getMousePosInWindow() {
+		Point mousePos = MouseInfo.getPointerInfo().getLocation();
+		Point contentLocation = ViewManager.getFrame().getContentPane().getLocation();
+		Point windowLocation = ViewManager.getFrame().getLocation();
+		mousePos.x -= contentLocation.x + windowLocation.x;
+		mousePos.y -= contentLocation.y + windowLocation.y;
+
+		return mousePos;
+	}
+
 	public static Vector2f getGameMousePos() {
-		Vector2f mousePos = new Vector2f(Mouse.getX(), Mouse.getY());
+		Point awtMousePoint = getMousePosInWindow();
+		Vector2f awtMouseVector = new Vector2f(awtMousePoint.x, awtMousePoint.y);
 
 		Vector2f gameMousePos = new Vector2f();
 
-		gameMousePos.x = mousePos.x + ViewManager.getViewportX();
-		gameMousePos.y = Display.getHeight() - mousePos.y + ViewManager.getRenderCanvasY() + ViewManager.getViewportY();
+		gameMousePos.x = ViewManager.getViewportX() - Display.getX() + awtMouseVector.x;
+		gameMousePos.y = ViewManager.getViewportY() - Display.getY() + awtMouseVector.y;
 
 		return gameMousePos;
 	}
