@@ -37,15 +37,12 @@ public class InputManager {
 	public static Vector2f getGameMousePos() {
 		Vector2f mousePos = new Vector2f(Mouse.getX(), Mouse.getY());
 
-		// mousePos.x -= ViewManager.getRenderCanvasX();
-		mousePos.y += ViewManager.getRenderCanvasY();
+		Vector2f gameMousePos = new Vector2f();
 
-		mousePos.y = Display.getHeight() - mousePos.y;
+		gameMousePos.x = mousePos.x + ViewManager.getViewportX();
+		gameMousePos.y = Display.getHeight() - mousePos.y + ViewManager.getRenderCanvasY() + ViewManager.getViewportY();
 
-		mousePos.x += ViewManager.getViewportX();
-		mousePos.y += ViewManager.getViewportY();
-
-		return mousePos;
+		return gameMousePos;
 	}
 
 	public boolean getMouseButtonState(MouseButton mb) {
@@ -68,7 +65,7 @@ public class InputManager {
 			MouseButton.class);
 	private static EnumMap<MouseButton, Boolean> prevMouseButtonStates = new EnumMap<MouseButton, Boolean>(
 			MouseButton.class);
-	private static Point lastMousePos = new Point(0,0);
+	private static Point lastMousePos = new Point(0, 0);
 
 	private static void detectMouseButtons() {
 		nowMouseButtonStates.put(MouseButton.left, Mouse.isButtonDown(0));
@@ -97,12 +94,12 @@ public class InputManager {
 	private static void detectMousePos() {
 		Vector2f vectMousePos = getGameMousePos();
 		Point mousePos = new Point((int) vectMousePos.x, (int) vectMousePos.y);
-		
+
 		if (!mousePos.equals(lastMousePos)) {
 			eventHandlers.get(InputEventType.mouseMotion).run();
 		}
-		
-		lastMousePos  = mousePos;
+
+		lastMousePos = mousePos;
 
 		mouseBox = new Rectangle(mousePos.x - 8, mousePos.y - 8, 16, 16);
 	}
@@ -128,8 +125,7 @@ public class InputManager {
 		}
 	}
 
-	public static void setEventHandler(InputEventType inputEventType,
-			Runnable runnable) {
+	public static void setEventHandler(InputEventType inputEventType, Runnable runnable) {
 		eventHandlers.put(inputEventType, runnable);
 	}
 
@@ -144,8 +140,7 @@ public class InputManager {
 	private static void setKey(int keycode, boolean state) {
 		rawKeyStates.put(keycode, state);
 		if (rawKeyToPlayerGameKeyMapping.containsKey(keycode)) {
-			playerGameKeyStates.put(rawKeyToPlayerGameKeyMapping.get(keycode),
-					state);
+			playerGameKeyStates.put(rawKeyToPlayerGameKeyMapping.get(keycode), state);
 		}
 	}
 
@@ -201,8 +196,7 @@ public class InputManager {
 				return false;
 
 			PlayerGameKey rhs = (PlayerGameKey) obj;
-			return new EqualsBuilder().append(playerNo, rhs.playerNo)
-					.append(gameKey, rhs.gameKey).isEquals();
+			return new EqualsBuilder().append(playerNo, rhs.playerNo).append(gameKey, rhs.gameKey).isEquals();
 		}
 
 	}

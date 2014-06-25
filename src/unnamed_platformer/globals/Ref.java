@@ -1,14 +1,12 @@
 package unnamed_platformer.globals;
 
 import java.io.File;
-import java.io.Serializable;
 import java.util.List;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.geom.Rectangle;
 
-public class Ref implements Serializable {
-	private static final long serialVersionUID = 7052842507336198611L;
+public class Ref {
 
 	public enum Flag {
 		solid, hurtsOthers, obeysGravity, outOfPlay, dissolvesOnContact, tangible, breakableBlock, levelGoal, player, invisible, editLogic

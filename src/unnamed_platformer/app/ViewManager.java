@@ -92,10 +92,10 @@ public class ViewManager {
 		float y = vector2f.y;
 
 		int left = (int) (x - ViewRef.DEFAULT_RESOLUTION.width / ViewRef.SCALE / 2);
-		int right = (int) (ViewRef.DEFAULT_RESOLUTION.width / ViewRef.SCALE / 2 + x);
-
-		int bottom = (int) (ViewRef.DEFAULT_RESOLUTION.height / ViewRef.SCALE / 2 + y);
 		int top = (int) (y - ViewRef.DEFAULT_RESOLUTION.height / ViewRef.SCALE / 2);
+
+		int right = (int) (ViewRef.DEFAULT_RESOLUTION.width / ViewRef.SCALE / 2 + x);
+		int bottom = (int) (ViewRef.DEFAULT_RESOLUTION.height / ViewRef.SCALE / 2 + y);
 
 		viewport.setBounds(left, top, right - left, bottom - top);
 
@@ -154,7 +154,7 @@ public class ViewManager {
 		if (!rectangle.intersects(viewport)) {
 			return;
 		}
-		
+
 		float x = (float) (int) rectangle.getX();
 		float y = (float) (int) rectangle.getY();
 		float w = (float) (int) rectangle.getWidth();

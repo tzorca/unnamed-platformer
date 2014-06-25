@@ -95,9 +95,7 @@ public class QuadTree {
 
 	// prevent stupid "just barely out of range so fall through ground" bugs
 	public static Rectangle increaseRect(Rectangle pRect) {
-		
-		return new Rectangle(pRect.getX() - 32, pRect.getY() - 32,
-				pRect.getWidth() + 64, pRect.getHeight() + 64);
+		return new Rectangle(pRect.getX() - pRect.getWidth()*2, pRect.getY()-pRect.getHeight()*2, pRect.getWidth()*4, pRect.getHeight()*4);
 	}
 
 	/*

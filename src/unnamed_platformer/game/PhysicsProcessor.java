@@ -34,9 +34,7 @@ public class PhysicsProcessor {
 			return;
 		}
 
-		actor.getPhysics().addForce(
-				new Vector2f(PhysicsRef.gravity.x * multiplier,
-						PhysicsRef.gravity.y * multiplier));
+		actor.getPhysics().addForce(new Vector2f(PhysicsRef.gravity.x * multiplier, PhysicsRef.gravity.y * multiplier));
 	}
 
 	public static void processMoves() {
@@ -52,8 +50,8 @@ public class PhysicsProcessor {
 
 	}
 
-	private static boolean findAndProcessInteractions(ActiveEntity a,
-			Axis direction, float originalPos, List<Entity> entitiesToCheck) {
+	private static boolean findAndProcessInteractions(ActiveEntity a, Axis direction, float originalPos,
+			List<Entity> entitiesToCheck) {
 		boolean collided = false;
 		for (Entity b : entitiesToCheck) {
 			if (a != b && a.collidesWith(b)) {
@@ -66,8 +64,7 @@ public class PhysicsProcessor {
 		return collided;
 	}
 
-	private static boolean processInteraction(ActiveEntity a, Entity b,
-			Axis direction, float originalPos) {
+	private static boolean processInteraction(ActiveEntity a, Entity b, Axis direction, float originalPos) {
 		if (a.isFlagSet(Flag.hurtsOthers) && b.isFlagSet(Flag.breakableBlock)) {
 
 			b.setFlag(Flag.outOfPlay, true);
@@ -75,8 +72,7 @@ public class PhysicsProcessor {
 			return false;
 		}
 
-		if (a.isFlagSet(Flag.dissolvesOnContact) && b.isFlagSet(Flag.solid)
-				&& !b.isFlagSet(Flag.breakableBlock)) {
+		if (a.isFlagSet(Flag.dissolvesOnContact) && b.isFlagSet(Flag.solid) && !b.isFlagSet(Flag.breakableBlock)) {
 			a.setFlag(Flag.outOfPlay, true);
 			return false;
 		}
@@ -88,8 +84,7 @@ public class PhysicsProcessor {
 			}
 		}
 
-		if (a.isFlagSet(Flag.tangible) && b.isFlagSet(Flag.solid)
-				&& a.hasPhysics()) {
+		if (a.isFlagSet(Flag.tangible) && b.isFlagSet(Flag.solid) && a.hasPhysics()) {
 			if (a.getPhysics().isZero()) {
 				return false;
 			}
@@ -121,8 +116,7 @@ public class PhysicsProcessor {
 
 	}
 
-	private static void processMove(ActiveEntity actor,
-			List<Entity> entitiesToCheck) {
+	private static void processMove(ActiveEntity actor, List<Entity> entitiesToCheck) {
 
 		Vector2f original = actor.getPos();
 		Vector2f velocity = actor.getPhysics().getVelocity();
@@ -130,23 +124,27 @@ public class PhysicsProcessor {
 
 		applyGlobalSpeedLimit(velocity);
 
-		actor.setX(original.x + velocity.getX());
-		boolean xCollision = findAndProcessInteractions(actor, Axis.HORIZONTAL,
-				original.x, entitiesToCheck);
-		actor.setY(original.y + velocity.getY());
-		boolean yCollision = findAndProcessInteractions(actor, Axis.VERTICAL,
-				original.y, entitiesToCheck);
+		boolean xCollision = false, yCollision = false;
+		if (velocity.x > velocity.y) {
+			actor.setX(original.x + velocity.x);
+			xCollision = findAndProcessInteractions(actor, Axis.HORIZONTAL, original.x, entitiesToCheck);
+			actor.setY(original.y + velocity.y);
+			yCollision = findAndProcessInteractions(actor, Axis.VERTICAL, original.y, entitiesToCheck);
+		} else {
+			actor.setY(original.y + velocity.y);
+			yCollision = findAndProcessInteractions(actor, Axis.VERTICAL, original.y, entitiesToCheck);
+			actor.setX(original.x + velocity.x);
+			xCollision = findAndProcessInteractions(actor, Axis.HORIZONTAL, original.x, entitiesToCheck);
+		}
 
-		actor.getPhysics().lastMoveResult = new MoveResult(xCollision,
-				yCollision, originalVelocity.x, originalVelocity.y);
+		actor.getPhysics().lastMoveResult = new MoveResult(xCollision, yCollision, originalVelocity.x,
+				originalVelocity.y);
 		actor.getPhysics().recalculateDirection(original);
 	}
 
 	private static void applyGlobalSpeedLimit(Vector2f velocity) {
-		velocity.x = velocity.x > PhysicsRef.GLOBAL_SPEED_LIMIT ? PhysicsRef.GLOBAL_SPEED_LIMIT
-				: velocity.x;
-		velocity.y = velocity.y > PhysicsRef.GLOBAL_SPEED_LIMIT ? PhysicsRef.GLOBAL_SPEED_LIMIT
-				: velocity.y;
+		velocity.x = velocity.x > PhysicsRef.GLOBAL_SPEED_LIMIT ? PhysicsRef.GLOBAL_SPEED_LIMIT : velocity.x;
+		velocity.y = velocity.y > PhysicsRef.GLOBAL_SPEED_LIMIT ? PhysicsRef.GLOBAL_SPEED_LIMIT : velocity.y;
 
 	}
 
