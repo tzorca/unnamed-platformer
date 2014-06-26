@@ -6,8 +6,8 @@ import unnamed_platformer.game.EntitySetup;
 import unnamed_platformer.game.ctrl_methods.Control_HorizontalMove;
 import unnamed_platformer.game.ctrl_methods.Control_Jump;
 import unnamed_platformer.game.ctrl_methods.Control_Shoot;
-import unnamed_platformer.globals.PhysicsRef;
 import unnamed_platformer.globals.EntityRef.EntityParam;
+import unnamed_platformer.globals.GameRef;
 import unnamed_platformer.globals.Ref.Flag;
 import unnamed_platformer.structures.Graphic;
 
@@ -23,19 +23,19 @@ public class PlatformPlayer extends ActiveEntity {
 		super(entitySetup);
 
 		hzMoveBehaviour = new Control_HorizontalMove(this,
-				PhysicsRef.DEFAULT_PLR_ACCELERATION,
-				PhysicsRef.DEFAULT_PLR_DECELERATION,
-				PhysicsRef.DEFAULT_PLR_MAX_SPEED);
+				GameRef.DEFAULT_PLR_ACCELERATION,
+				GameRef.DEFAULT_PLR_DECELERATION,
+				GameRef.DEFAULT_PLR_MAX_SPEED);
 
 		jumpBehaviour = new Control_Jump(this,
-				PhysicsRef.DEFAULT_PLR_JUMP_STRENGTH);
+				GameRef.DEFAULT_PLR_JUMP_STRENGTH);
 
 		EntitySetup setup = new EntitySetup();
 		setup.set(EntityParam.graphic, new Graphic("laser"));
 		setup.set(EntityParam.location, new Vector2f(0, 0));
 
 		shootBehaviour = new Control_Shoot(this, new Beam(setup),
-				PhysicsRef.DEFAULT_SHOOT_SPEED, PhysicsRef.DEFAULT_SHOOT_DELAY);
+				GameRef.DEFAULT_SHOOT_SPEED, GameRef.DEFAULT_SHOOT_DELAY);
 
 		this.getPhysics().addControlMechanism(hzMoveBehaviour);
 		this.getPhysics().addControlMechanism(jumpBehaviour);

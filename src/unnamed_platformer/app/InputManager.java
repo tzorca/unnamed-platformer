@@ -7,8 +7,6 @@ import java.awt.event.KeyEvent;
 import java.util.EnumMap;
 import java.util.HashMap;
 
-import javax.swing.SwingUtilities;
-
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.lwjgl.input.Keyboard;

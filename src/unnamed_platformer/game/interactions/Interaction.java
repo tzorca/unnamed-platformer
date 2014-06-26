@@ -21,8 +21,7 @@ public abstract class Interaction implements Serializable {
 		activeSides = Side.values();
 	}
 
-	public Interaction(Entity source, Side[] activeSides,
-			boolean strictSideMatching) {
+	public Interaction(Entity source, Side[] activeSides, boolean strictSideMatching) {
 		this.source = source;
 
 		this.activeSides = activeSides;
@@ -53,11 +52,9 @@ public abstract class Interaction implements Serializable {
 			return true;
 		}
 
-		Double intersectionAngle = MathHelper.getIntersectionAngle(
-				source.getBox(), target.getBox());
+		Double intersectionAngle = MathHelper.getIntersectionAngle(source.getBox(), target.getBox());
 
-		EnumMap<Side, Double> sideDistances = MathHelper.getSideDistances(
-				intersectionAngle, activeSides);
+		EnumMap<Side, Double> sideDistances = MathHelper.getSideDistances(intersectionAngle, activeSides);
 
 		for (Side side : activeSides) {
 			if (sideDistances.get(side) <= maxSideMatchDistance) {
@@ -72,9 +69,9 @@ public abstract class Interaction implements Serializable {
 	protected abstract boolean isValidTarget(Entity target);
 
 	protected abstract void duringInteraction(Entity target);
-//	
-//	protected abstract void beforeInteraction(Entity target);
-//	
-//	protected abstract void afterInteraction(Entity target);
+	//
+	// protected abstract void beforeInteraction(Entity target);
+	//
+	// protected abstract void afterInteraction(Entity target);
 
 }

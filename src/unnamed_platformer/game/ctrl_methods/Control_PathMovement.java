@@ -15,10 +15,13 @@ public class Control_PathMovement extends ControlMechanism {
 	private double speed = 0;
 	private int pathIndex = 0;
 	boolean loop = false;
+	Vector2f targetPoint = new Vector2f();
 
 	private Vector2f origin = null;
 
 	private boolean finished;
+
+	private int lastPathIndex;
 
 	public Vector2f getOrigin() {
 		return origin;
@@ -37,43 +40,50 @@ public class Control_PathMovement extends ControlMechanism {
 		this.origin = startPos;
 		this.relativePath = relativePath;
 		this.speed = speed;
+		reset();
 	}
 
 	public void reset() {
-		pathIndex = 0;
+		setPathIndex(0);
 		actor.setPos(origin);
 		finished = false;
 	}
 
 	@Override
 	public void doUpdate(float multiplier) {
-		if (finished) {
-			return;
-		}
-		if (relativePath == null || speed == 0) {
+		if (finished || relativePath == null || speed == 0) {
 			return;
 		}
 
-		Vector2f startPoint = actor.getPos();
-		Vector2f targetPoint = new Vector2f(origin.getX() + relativePath.get(pathIndex).getX(), origin.getX()
-				+ relativePath.get(pathIndex).getY());
-
-		Vector2f newPoint = MathHelper.moveTowards(startPoint, targetPoint, speed * multiplier);
-
-		if (newPoint.equals(targetPoint)) {
-			// We've arrived, so begin moving toward the next node in the path
-			pathIndex++;
-
-			if (pathIndex > relativePath.size() - 1) {
-				pathIndex = 0;
-
-				if (!loop) {
-					finished = true;
-				}
-			}
-		}
+		Vector2f newPoint = MathHelper.moveTowards(actor.getPos(), targetPoint, speed * multiplier);
 
 		actor.setPos(newPoint);
+
+		if (newPoint.x == targetPoint.x && newPoint.y == targetPoint.y) {
+			if (pathIndex == 0 && lastPathIndex == relativePath.size() - 1 && !loop) {
+				finished = true;
+				return;
+			}
+
+			incrementPathIndex();
+		}
+
+	}
+
+	private void setPathIndex(int index) {
+		lastPathIndex = pathIndex;
+		pathIndex = index;
+		targetPoint = new Vector2f(origin);
+		targetPoint.x += relativePath.get(pathIndex).getX();
+		targetPoint.y += relativePath.get(pathIndex).getY();
+	}
+
+	private void incrementPathIndex() {
+		if (pathIndex + 1 > relativePath.size() - 1) {
+			setPathIndex(0);
+		} else {
+			setPathIndex(pathIndex + 1);
+		}
 	}
 
 	public double getSpeed() {
