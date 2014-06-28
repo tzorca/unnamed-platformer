@@ -110,6 +110,7 @@ public class EntityCreator {
 			newEntity = (Entity) getConstructor(entityClass).newInstance(setup);
 		} catch (Exception e) {
 			System.out.println("Warning: Class '" + entityClass.toString() + "' has an implementation error: " + e.toString());
+			e.printStackTrace();
 			return null;
 		}
 

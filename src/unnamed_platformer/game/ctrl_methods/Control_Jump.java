@@ -5,8 +5,8 @@ import org.newdawn.slick.geom.Vector2f;
 import unnamed_platformer.app.InputManager;
 import unnamed_platformer.game.PhysicsInstance;
 import unnamed_platformer.game.entities.ActiveEntity;
+import unnamed_platformer.globals.GameRef.Flag;
 import unnamed_platformer.globals.InputRef.GameKey;
-import unnamed_platformer.globals.Ref.Flag;
 
 public class Control_Jump extends ControlMechanism {
 	private static final long serialVersionUID = 6634477314813175782L;

@@ -5,6 +5,7 @@ import java.util.EnumMap;
 
 import unnamed_platformer.app.MathHelper;
 import unnamed_platformer.game.entities.Entity;
+import unnamed_platformer.globals.GameRef.InteractionResult;
 import unnamed_platformer.globals.PhysicsRef;
 import unnamed_platformer.globals.PhysicsRef.Side;
 
@@ -34,16 +35,16 @@ public abstract class Interaction implements Serializable {
 
 	}
 
-	public final void interactWith(Entity target) {
+	public final InteractionResult interactWith(Entity target) {
 		if (!isValidTarget(target)) {
-			return;
+			return InteractionResult.NO_RESULT;
 		}
 
 		if (!onActiveside(target)) {
-			return;
+			return InteractionResult.NO_RESULT;
 		}
 
-		duringInteraction(target);
+		return performInteraction(target);
 	}
 
 	private boolean onActiveside(Entity target) {
@@ -68,10 +69,5 @@ public abstract class Interaction implements Serializable {
 
 	protected abstract boolean isValidTarget(Entity target);
 
-	protected abstract void duringInteraction(Entity target);
-	//
-	// protected abstract void beforeInteraction(Entity target);
-	//
-	// protected abstract void afterInteraction(Entity target);
-
+	protected abstract InteractionResult performInteraction(Entity target);
 }

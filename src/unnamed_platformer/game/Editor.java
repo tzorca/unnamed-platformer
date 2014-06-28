@@ -4,14 +4,14 @@ import org.lwjgl.opengl.Display;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 
+import unnamed_platformer.app.GameManager;
 import unnamed_platformer.app.Main;
 import unnamed_platformer.app.Main.State;
-import unnamed_platformer.app.GameManager;
 import unnamed_platformer.app.MathHelper;
 import unnamed_platformer.app.ViewManager;
 import unnamed_platformer.game.entities.Entity;
+import unnamed_platformer.globals.GameRef.Flag;
 import unnamed_platformer.globals.Ref;
-import unnamed_platformer.globals.Ref.Flag;
 import unnamed_platformer.gui.GUIManager;
 import unnamed_platformer.gui.objects.ImageListEntry;
 

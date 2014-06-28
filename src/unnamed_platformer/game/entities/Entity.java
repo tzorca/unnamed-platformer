@@ -10,7 +10,7 @@ import org.newdawn.slick.geom.Vector2f;
 
 import unnamed_platformer.game.EntitySetup;
 import unnamed_platformer.globals.EntityRef.EntityParam;
-import unnamed_platformer.globals.Ref.Flag;
+import unnamed_platformer.globals.GameRef.Flag;
 import unnamed_platformer.structures.Graphic;
 import unnamed_platformer.structures.SizeStrategy;
 import unnamed_platformer.structures.SizeStrategy.Strategy;
@@ -18,7 +18,7 @@ import unnamed_platformer.structures.SizeStrategy.Strategy;
 public abstract class Entity implements Serializable {
 	private static final long serialVersionUID = 2898448772127546782L;
 
-	private EntitySetup originalSetup;
+	protected EntitySetup originalSetup;
 	protected EnumSet<Flag> flags = EnumSet.noneOf(Flag.class);
 	protected Rectangle box = new Rectangle(0, 0, 0, 0);
 	public Graphic graphic;
@@ -96,7 +96,7 @@ public abstract class Entity implements Serializable {
 
 		this.flags = flags;
 
-		this.startPos = getPos();
+		this.startPos = pos;
 	}
 
 	public void update() {
@@ -107,7 +107,7 @@ public abstract class Entity implements Serializable {
 
 	}
 
-	private Rectangle getCroppedBox() {
+	public Rectangle getCroppedBox() {
 		Rectangle cropRect = graphic.getCroppedRectangle(box);
 
 		return cropRect;
@@ -122,7 +122,7 @@ public abstract class Entity implements Serializable {
 	}
 
 	public void setPos(Vector2f newPoint) {
-		box.setLocation(newPoint);
+		box.setLocation(new Vector2f(newPoint));
 	}
 
 	public Vector2f getCenter() {
@@ -164,10 +164,6 @@ public abstract class Entity implements Serializable {
 
 	public boolean hasNoFlags() {
 		return flags.isEmpty();
-	}
-
-	public void setStartPos(Vector2f pos) {
-		this.startPos = pos;
 	}
 
 }

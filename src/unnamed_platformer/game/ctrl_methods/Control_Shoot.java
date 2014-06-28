@@ -8,8 +8,8 @@ import unnamed_platformer.app.InputManager;
 import unnamed_platformer.app.MathHelper;
 import unnamed_platformer.app.TimeManager;
 import unnamed_platformer.game.entities.ActiveEntity;
+import unnamed_platformer.globals.GameRef.Flag;
 import unnamed_platformer.globals.InputRef.GameKey;
-import unnamed_platformer.globals.Ref.Flag;
 
 public class Control_Shoot extends ControlMechanism {
 	private static final long serialVersionUID = 2964710767437924198L;

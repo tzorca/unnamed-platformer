@@ -8,7 +8,7 @@ import unnamed_platformer.game.ctrl_methods.Control_Jump;
 import unnamed_platformer.game.ctrl_methods.Control_Shoot;
 import unnamed_platformer.globals.EntityRef.EntityParam;
 import unnamed_platformer.globals.GameRef;
-import unnamed_platformer.globals.Ref.Flag;
+import unnamed_platformer.globals.GameRef.Flag;
 import unnamed_platformer.structures.Graphic;
 
 //TODO: Fix launched projectiles to have constant speed

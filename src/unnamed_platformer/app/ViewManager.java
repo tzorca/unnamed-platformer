@@ -25,8 +25,8 @@ import org.newdawn.slick.opengl.Texture;
 
 import unnamed_platformer.app.Main.State;
 import unnamed_platformer.game.entities.Entity;
+import unnamed_platformer.globals.GameRef.Flag;
 import unnamed_platformer.globals.Ref;
-import unnamed_platformer.globals.Ref.Flag;
 import unnamed_platformer.globals.ViewRef;
 import unnamed_platformer.gui.GUIManager;
 import unnamed_platformer.res_mgt.ResManager;

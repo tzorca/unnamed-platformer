@@ -1,17 +1,22 @@
 package unnamed_platformer.game;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
+import java.util.Set;
 
+import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 
 import unnamed_platformer.app.GameManager;
 import unnamed_platformer.game.entities.ActiveEntity;
 import unnamed_platformer.game.entities.Entity;
 import unnamed_platformer.game.interactions.Interaction;
+import unnamed_platformer.globals.GameRef.Flag;
+import unnamed_platformer.globals.GameRef.InteractionResult;
 import unnamed_platformer.globals.PhysicsRef;
 import unnamed_platformer.globals.PhysicsRef.Axis;
-import unnamed_platformer.globals.Ref.Flag;
+import unnamed_platformer.res_mgt.CloneManager;
 import unnamed_platformer.structures.MoveResult;
 
 // TODO: Implement choice of collision polygon shape (circle/square)
@@ -50,70 +55,59 @@ public class PhysicsProcessor {
 
 	}
 
-	private static boolean findAndProcessInteractions(ActiveEntity a, Axis direction, float originalPos,
+	private static Set<InteractionResult> findAndProcessInteractions(ActiveEntity a, Axis direction, Vector2f velocity,
 			List<Entity> entitiesToCheck) {
-		boolean collided = false;
-		for (Entity b : entitiesToCheck) {
-			if (a != b && a.collidesWith(b)) {
-				if (processInteraction(a, b, direction, originalPos)) {
-					collided = true;
-				}
+		Set<InteractionResult> interactionResults = EnumSet.noneOf(InteractionResult.class);
 
+		// setup checking rectangle to include either x or y velocity,
+		// depending on axis
+		Rectangle checkRect = CloneManager.deepClone(a.getCroppedBox());
+		switch (direction) {
+		case HORIZONTAL:
+			checkRect.setX(checkRect.getX() + velocity.x);
+			break;
+		case VERTICAL:
+			checkRect.setY(checkRect.getY() + velocity.y);
+			break;
+		case NONE:
+			return interactionResults;
+		}
+
+		for (Entity b : entitiesToCheck) {
+			if (a != b && checkRect.intersects(b.getCroppedBox())) {
+				interactionResults.addAll(processInteraction(a, b, direction));
 			}
 		}
-		return collided;
+
+		return interactionResults;
 	}
 
-	private static boolean processInteraction(ActiveEntity a, Entity b, Axis direction, float originalPos) {
-		if (a.isFlagSet(Flag.hurtsOthers) && b.isFlagSet(Flag.breakableBlock)) {
+	private static Set<InteractionResult> processInteraction(ActiveEntity a, Entity b, Axis direction) {
+		EnumSet<InteractionResult> interactionResults = EnumSet.noneOf(InteractionResult.class);
 
-			b.setFlag(Flag.outOfPlay, true);
-			a.setFlag(Flag.outOfPlay, true);
-			return false;
-		}
-
-		if (a.isFlagSet(Flag.dissolvesOnContact) && b.isFlagSet(Flag.solid) && !b.isFlagSet(Flag.breakableBlock)) {
-			a.setFlag(Flag.outOfPlay, true);
-			return false;
-		}
-
-		// this ordering of b and a is important
+		// the ordering of b and a is important
 		if (b instanceof ActiveEntity) {
 			for (Interaction i : ((ActiveEntity) b).interactions) {
-				i.interactWith(a);
-			}
-		}
-
-		if (a.isFlagSet(Flag.tangible) && b.isFlagSet(Flag.solid) && a.hasPhysics()) {
-			if (a.getPhysics().isZero()) {
-				return false;
-			}
-
-			if (direction == Axis.HORIZONTAL) {
-				a.setX(originalPos);
-
-				a.getPhysics().setXVelocity(0);
-				return true;
-
-			} else {
-				PhysicsInstance physics = a.getPhysics();
-				physics.inAir = false;
-				if (a.getY() < originalPos) {
-					physics.upCancel = true;
+				InteractionResult result = i.interactWith(a);
+				if (result != InteractionResult.NO_RESULT) {
+					interactionResults.add(result);
 				}
-				a.setY(originalPos);
-
-				a.getPhysics().setYVelocity(0);
-				return true;
 			}
 		}
 
-		if (direction == Axis.VERTICAL && Math.abs(a.getY() - originalPos) > 2) {
-			a.getPhysics().inAir = true;
+		// physics not applicable in this scenario
+		if (!a.hasPhysics() || a.getPhysics().isZero()) {
+			return interactionResults;
 		}
 
-		return false;
+		// if a solid collision occurred
+		if (a.isFlagSet(Flag.tangible) && b.isFlagSet(Flag.solid)) {
+			interactionResults.add(direction == Axis.HORIZONTAL ? InteractionResult.X_COLLISION
+					: InteractionResult.Y_COLLISION);
+		}
 
+		return interactionResults;
+		// return false;
 	}
 
 	private static void processMove(ActiveEntity actor, List<Entity> entitiesToCheck) {
@@ -125,16 +119,44 @@ public class PhysicsProcessor {
 		applyGlobalSpeedLimit(velocity);
 
 		boolean xCollision = false, yCollision = false;
-		if (velocity.x > velocity.y) {
-			actor.setX(original.x + velocity.x);
-			xCollision = findAndProcessInteractions(actor, Axis.HORIZONTAL, original.x, entitiesToCheck);
-			actor.setY(original.y + velocity.y);
-			yCollision = findAndProcessInteractions(actor, Axis.VERTICAL, original.y, entitiesToCheck);
-		} else {
-			actor.setY(original.y + velocity.y);
-			yCollision = findAndProcessInteractions(actor, Axis.VERTICAL, original.y, entitiesToCheck);
-			actor.setX(original.x + velocity.x);
-			xCollision = findAndProcessInteractions(actor, Axis.HORIZONTAL, original.x, entitiesToCheck);
+
+		Axis[] axisCheckingOrder = velocity.x > velocity.y ? new Axis[] {
+				Axis.HORIZONTAL, Axis.VERTICAL
+		} : new Axis[] {
+				Axis.VERTICAL, Axis.HORIZONTAL
+		};
+
+		Set<InteractionResult> interactionResults = EnumSet.noneOf(InteractionResult.class);
+		for (Axis axis : axisCheckingOrder) {
+			interactionResults.addAll(findAndProcessInteractions(actor, axis, velocity, entitiesToCheck));
+
+		}
+
+		if (!interactionResults.contains(InteractionResult.SKIP_PHYSICS)) {
+			if (interactionResults.contains(InteractionResult.X_COLLISION)) {
+				actor.getPhysics().setXVelocity(0);
+				xCollision = true;
+			} else {
+				actor.setX(original.x + velocity.x);
+			}
+
+			if (interactionResults.contains(InteractionResult.Y_COLLISION)) {
+				PhysicsInstance physics = actor.getPhysics();
+				physics.inAir = false;
+				if (velocity.y < 0) {
+					physics.upCancel = true;
+				}
+
+				physics.setYVelocity(0);
+
+				yCollision = true;
+			} else {
+				actor.setY(original.y + velocity.y);
+
+				if (Math.abs(velocity.y) > 2) {
+					actor.getPhysics().inAir = true;
+				}
+			}
 		}
 
 		actor.getPhysics().lastMoveResult = new MoveResult(xCollision, yCollision, originalVelocity.x,

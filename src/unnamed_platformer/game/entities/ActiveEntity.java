@@ -1,30 +1,35 @@
 package unnamed_platformer.game.entities;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
+
+import org.newdawn.slick.geom.Vector2f;
 
 import unnamed_platformer.game.EntitySetup;
 import unnamed_platformer.game.PhysicsInstance;
 import unnamed_platformer.game.interactions.Interaction;
+import unnamed_platformer.globals.EntityRef.EntityParam;
 
 public abstract class ActiveEntity extends Entity {
 	private static final long serialVersionUID = 7803333719264801403L;
 
 	private PhysicsInstance physics;
-	public List<Interaction> interactions = new LinkedList<Interaction>();
+	public Set<Interaction> interactions = new HashSet<Interaction>();
 
 	public ActiveEntity(EntitySetup entitySetup) {
 		super(entitySetup);
-		interactions = new LinkedList<Interaction>();
+		interactions = new HashSet<Interaction>();
 		zIndex = 1;
 	}
 
 	public void returnToStart() {
-		setPos(this.startPos); // return to starting position
+		// return to starting position
+		setPos((Vector2f) originalSetup.get(EntityParam.location));
 
 		if (physics != null) {
 			this.getPhysics().zero();
 		}
+
 	}
 
 	public void update() {

@@ -13,9 +13,9 @@ import unnamed_platformer.app.Main;
 import unnamed_platformer.app.Main.State;
 import unnamed_platformer.app.ViewManager;
 import unnamed_platformer.game.entities.Entity;
+import unnamed_platformer.globals.GameRef.Flag;
 import unnamed_platformer.globals.Ref;
 import unnamed_platformer.globals.Ref.BlueprintField;
-import unnamed_platformer.globals.Ref.Flag;
 import unnamed_platformer.structures.Blueprint;
 import unnamed_platformer.structures.Graphic;
 import unnamed_platformer.structures.QuadTree;
@@ -81,20 +81,11 @@ public class Level {
 	public Blueprint toBlueprint() {
 		Blueprint lBP = new Blueprint();
 
-		updateStartPositions();
-
 		lBP.put(BlueprintField.levelBG, bgGraphic);
 		lBP.put(BlueprintField.levelRect, getRect());
 		lBP.put(BlueprintField.levelEntities, entitySetups);
 
 		return lBP;
-	}
-
-	public void updateStartPositions() {
-		for (Entity e : entities) {
-			e.setStartPos(e.getPos());
-		}
-
 	}
 
 	@SuppressWarnings("unchecked")
