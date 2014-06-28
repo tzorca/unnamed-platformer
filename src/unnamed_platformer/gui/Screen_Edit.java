@@ -44,10 +44,6 @@ import unnamed_platformer.res_mgt.ResManager;
 import unnamed_platformer.structures.Graphic;
 
 public class Screen_Edit extends BaseScreen_Hybrid {
-
-	// TODO: Fix level bounds bug (probably related to that other bug with
-	// entity placeholder positioning)
-
 	Editor editor = new Editor(0);
 
 	List<Graphic> entityPlaceholderGraphics = new ArrayList<Graphic>();
@@ -71,8 +67,9 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 	// Instance Initializer
 	{
 		// Misc
-		Ref.multiadd(ctlList_EditMode, new Component[] { lstTextureNames, lblCurrentLevel, btnPrevLevel, btnAddLevel,
-				btnNextLevel, btnRemoveLevel, btnSaveLevel });
+		Ref.multiadd(ctlList_EditMode, new Component[] {
+				lstTextureNames, lblCurrentLevel, btnPrevLevel, btnAddLevel, btnNextLevel, btnRemoveLevel, btnSaveLevel
+		});
 		loadEntityPlaceholderGraphics();
 
 		// Toolbar Setup

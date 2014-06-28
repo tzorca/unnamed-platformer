@@ -9,7 +9,6 @@ public class Interaction_Breakable extends Interaction {
 
 	public Interaction_Breakable(Entity source) {
 		super(source);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

@@ -16,18 +16,16 @@ import unnamed_platformer.gui.GUIManager;
 import unnamed_platformer.gui.objects.ImageListEntry;
 
 public class Editor {
-	
+
 	// TODO: Fix random generation broken bug
 	// TODO: Fix collision bug with complicated object size/shape
-	// TODO: Fix respawn location bug
 
 	public static int gridSize = 32;
 	Level currentLevel;
 	int currentLevelIndex = 0;
 	boolean playerAdded = false;
 
-	Vector2f cameraPos = new Vector2f(Ref.DEFAULT_LEVEL_GRIDSIZE * 4,
-			Ref.DEFAULT_LEVEL_GRIDSIZE * 4);
+	Vector2f cameraPos = new Vector2f(Ref.DEFAULT_LEVEL_GRIDSIZE * 4, Ref.DEFAULT_LEVEL_GRIDSIZE * 4);
 
 	public Editor(int levelIndex) {
 		changeLevel(levelIndex);
@@ -62,8 +60,7 @@ public class Editor {
 
 		Vector2f loc = MathHelper.snapToGrid(location, gridSize);
 
-		if (!currentLevel.getRect().includes(loc.x, loc.y)
-				&& !currentLevel.getRect().contains(loc.x, loc.y)) {
+		if (!currentLevel.getRect().includes(loc.x, loc.y) && !currentLevel.getRect().contains(loc.x, loc.y)) {
 			return;
 		}
 
@@ -127,11 +124,9 @@ public class Editor {
 
 		Rectangle cameraBounds = currentLevel.getRect();
 		cameraBounds.setX(cameraBounds.getX() - Display.getWidth() / 4f);
-		cameraBounds.setWidth(cameraBounds.getWidth() + Display.getWidth()
-				/ 2f);
+		cameraBounds.setWidth(cameraBounds.getWidth() + Display.getWidth() / 2f);
 		cameraBounds.setY(cameraBounds.getY() - Display.getHeight() / 4f);
-		cameraBounds.setHeight(cameraBounds.getHeight() + Display.getHeight()
-				/ 2f);
+		cameraBounds.setHeight(cameraBounds.getHeight() + Display.getHeight() / 2f);
 
 		float origX = cameraPos.x;
 		cameraPos.x += cameraDelta.x;

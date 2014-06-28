@@ -55,18 +55,26 @@ public class Control_PathMovement extends ControlMechanism {
 			return;
 		}
 
-		Vector2f newPoint = MathHelper.moveTowards(actor.getPos(), targetPoint, speed * multiplier);
+		Vector2f origPoint = actor.getPos();
+		Vector2f newPoint = actor.getPos();
 
-		actor.setPos(newPoint);
+		double requiredDist = speed * multiplier;
+		do {
+			newPoint = MathHelper.moveTowards(actor.getPos(), targetPoint, requiredDist);
+			requiredDist -= newPoint.distance(origPoint);
 
-		if (newPoint.x == targetPoint.x && newPoint.y == targetPoint.y) {
-			if (pathIndex == 0 && lastPathIndex == relativePath.size() - 1 && !loop) {
-				finished = true;
-				return;
+			actor.setPos(newPoint);
+
+			if (newPoint.x == targetPoint.x && newPoint.y == targetPoint.y) {
+				if (pathIndex == 0 && lastPathIndex == relativePath.size() - 1 && !loop) {
+					finished = true;
+					return;
+				}
+
+				incrementPathIndex();
 			}
 
-			incrementPathIndex();
-		}
+		} while (requiredDist > 0);
 
 	}
 
