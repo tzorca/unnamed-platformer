@@ -35,7 +35,7 @@ public abstract class Entity implements Serializable {
 		return box.getY();
 	}
 
-	public Rectangle getBox() {
+	private Rectangle getBox() {
 		return box;
 	}
 
@@ -79,7 +79,7 @@ public abstract class Entity implements Serializable {
 				this.box.setSize(image.getWidth(), image.getHeight());
 				break;
 			case textureScale:
-				this.box.setWidth(image.getWidth()*sizeStrategy.getSizeScale());
+				this.box.setWidth(image.getWidth() * sizeStrategy.getSizeScale());
 				this.box.setHeight((int) (image.getHeight() * (this.box.getWidth() / (image.getWidth() + 0.0f))));
 				break;
 			case absoluteWidth:
@@ -102,12 +102,7 @@ public abstract class Entity implements Serializable {
 	public void update() {
 	}
 
-	public boolean collidesWith(Entity otherEntity) {
-		return getCroppedBox().intersects(otherEntity.getCroppedBox());
-
-	}
-
-	public Rectangle getCroppedBox() {
+	public Rectangle getCollisionBox() {
 		Rectangle cropRect = graphic.getCroppedRectangle(box);
 
 		return cropRect;
@@ -164,6 +159,10 @@ public abstract class Entity implements Serializable {
 
 	public boolean hasNoFlags() {
 		return flags.isEmpty();
+	}
+
+	public Rectangle getOriginalBox() {
+		return getBox();
 	}
 
 }

@@ -47,7 +47,7 @@ public class PhysicsProcessor {
 
 			// only check entities in nearby regions
 			List<Entity> entitiesToCheck = new ArrayList<Entity>();
-			GameManager.retrieveFromQuadTree(entitiesToCheck, a.getBox());
+			GameManager.retrieveFromQuadTree(entitiesToCheck, a.getCollisionBox());
 			processMove(a, entitiesToCheck);
 			entitiesToCheck.clear();
 		}
@@ -61,7 +61,7 @@ public class PhysicsProcessor {
 
 		// setup checking rectangle to include either x or y velocity,
 		// depending on axis
-		Rectangle checkRect = CloneManager.deepClone(a.getCroppedBox());
+		Rectangle checkRect = CloneManager.deepClone(a.getCollisionBox());
 		switch (direction) {
 		case HORIZONTAL:
 			checkRect.setX(checkRect.getX() + velocity.x);
@@ -74,7 +74,7 @@ public class PhysicsProcessor {
 		}
 
 		for (Entity b : entitiesToCheck) {
-			if (a != b && checkRect.intersects(b.getCroppedBox())) {
+			if (a != b && checkRect.intersects(b.getCollisionBox())) {
 				interactionResults.addAll(processInteraction(a, b, direction));
 			}
 		}

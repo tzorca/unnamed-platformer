@@ -7,7 +7,7 @@ public class PhysicsRef {
 	public static Vector2f gravity = new Vector2f(0, 0.23f);
 
 	public enum Orientation {
-		UP, DOWN, LEFT, RIGHT, UPRIGHT, UPLEFT, DOWNRIGHT, DOWNLEFT
+		UP, DOWN, LEFT, RIGHT, UP_RIGHT, UP_LEFT, DOWN_RIGHT, DOWN_LEFT
 	}
 
 	public enum Axis {
@@ -31,8 +31,8 @@ public class PhysicsRef {
 	public static final double MIN_RAD = -2 * Math.PI;
 	public static final double MAX_RAD = 2 * Math.PI;
 
-	public static final double STRICT_SIDE_MATCH_DISTANCE = Math.PI / 2;
-	public static final double LOOSE_SIDE_MATCH_DISTANCE = Math.PI / 2.5;
+	public static final double STRICT_SIDE_MATCH_DISTANCE = Math.PI / 6;
+	public static final double LOOSE_SIDE_MATCH_DISTANCE = Math.PI / 2;
 
 	public static final Vector2f EMPTY_VECTOR = new Vector2f(0, 0);
 

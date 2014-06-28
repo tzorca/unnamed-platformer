@@ -141,7 +141,7 @@ public class ViewManager {
 			return;
 		}
 
-		drawGraphic(entity.graphic, entity.getBox());
+		drawGraphic(entity.graphic, entity.getOriginalBox());
 	}
 
 	@SuppressWarnings("unused")

@@ -53,7 +53,7 @@ public abstract class Interaction implements Serializable {
 			return true;
 		}
 
-		Double intersectionAngle = MathHelper.getIntersectionAngle(source.getBox(), target.getBox());
+		Double intersectionAngle = MathHelper.getIntersectionAngle(source.getOriginalBox(), target.getOriginalBox());
 
 		EnumMap<Side, Double> sideDistances = MathHelper.getSideDistances(intersectionAngle, activeSides);
 

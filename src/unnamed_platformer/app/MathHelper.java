@@ -91,9 +91,9 @@ public class MathHelper {
 		switch (o) {
 		case DOWN:
 			return new Vector2f(0, length);
-		case DOWNLEFT:
+		case DOWN_LEFT:
 			return new Vector2f(-length / 2, length / 2);
-		case DOWNRIGHT:
+		case DOWN_RIGHT:
 			return new Vector2f(length / 2, length / 2);
 		case LEFT:
 			return new Vector2f(-length, 0);
@@ -101,9 +101,9 @@ public class MathHelper {
 			return new Vector2f(length, 0);
 		case UP:
 			return new Vector2f(0, -length);
-		case UPLEFT:
+		case UP_LEFT:
 			return new Vector2f(-length / 2, -length / 2);
-		case UPRIGHT:
+		case UP_RIGHT:
 			return new Vector2f(length / 2, -length / 2);
 		}
 		return null;
