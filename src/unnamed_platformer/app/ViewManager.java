@@ -368,7 +368,7 @@ public class ViewManager {
 	}
 
 	public static boolean rectInView(Rectangle r) {
-		return viewport.intersects(r) || viewport.contains(r);
+		return r.intersects(viewport);
 	}
 
 	public static float getViewportX() {
