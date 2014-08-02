@@ -37,7 +37,8 @@ public class InputManager {
 
 	private static Point getMousePosInWindow() {
 		Point mousePos = MouseInfo.getPointerInfo().getLocation();
-		Point contentLocation = ViewManager.getFrame().getContentPane().getLocation();
+		Point contentLocation = ViewManager.getFrame().getContentPane()
+				.getLocation();
 		Point windowLocation = ViewManager.getFrame().getLocation();
 		mousePos.x -= contentLocation.x + windowLocation.x;
 		mousePos.y -= contentLocation.y + windowLocation.y;
@@ -51,8 +52,10 @@ public class InputManager {
 
 		Vector2f gameMousePos = new Vector2f();
 
-		gameMousePos.x = ViewManager.getViewportX() - Display.getX() + awtMouseVector.x;
-		gameMousePos.y = ViewManager.getViewportY() - Display.getY() + awtMouseVector.y;
+		gameMousePos.x = ViewManager.getViewportX() - Display.getX()
+				+ awtMouseVector.x;
+		gameMousePos.y = ViewManager.getViewportY() - Display.getY()
+				+ awtMouseVector.y;
 
 		return gameMousePos;
 	}
@@ -87,6 +90,19 @@ public class InputManager {
 			for (MouseButton button : MouseButton.values()) {
 				boolean nowState = nowMouseButtonStates.get(button);
 				boolean prevState = prevMouseButtonStates.get(button);
+
+				// TODO: Check if this is CPU-intensive or not
+				if (nowState) {
+					switch (button) {
+					case left:
+						eventHandlers.get(InputEventType.leftMouseDown).run();
+						break;
+					case right:
+						eventHandlers.get(InputEventType.rightMouseDown).run();
+						break;
+					}
+				}
+
 				if (!nowState && prevState) {
 					switch (button) {
 					case left:
@@ -117,7 +133,7 @@ public class InputManager {
 	}
 
 	public enum InputEventType {
-		leftClick, rightClick, mouseMotion
+		leftClick, rightClick, leftMouseDown, rightMouseDown, mouseMotion
 	}
 
 	private static EnumMap<InputEventType, Runnable> eventHandlers = new EnumMap<InputEventType, Runnable>(
@@ -137,7 +153,8 @@ public class InputManager {
 		}
 	}
 
-	public static void setEventHandler(InputEventType inputEventType, Runnable runnable) {
+	public static void setEventHandler(InputEventType inputEventType,
+			Runnable runnable) {
 		eventHandlers.put(inputEventType, runnable);
 	}
 
@@ -152,7 +169,8 @@ public class InputManager {
 	private static void setKey(int keycode, boolean state) {
 		rawKeyStates.put(keycode, state);
 		if (rawKeyToPlayerGameKeyMapping.containsKey(keycode)) {
-			playerGameKeyStates.put(rawKeyToPlayerGameKeyMapping.get(keycode), state);
+			playerGameKeyStates.put(rawKeyToPlayerGameKeyMapping.get(keycode),
+					state);
 		}
 	}
 
@@ -208,7 +226,8 @@ public class InputManager {
 				return false;
 
 			PlayerGameKey rhs = (PlayerGameKey) obj;
-			return new EqualsBuilder().append(playerNo, rhs.playerNo).append(gameKey, rhs.gameKey).isEquals();
+			return new EqualsBuilder().append(playerNo, rhs.playerNo)
+					.append(gameKey, rhs.gameKey).isEquals();
 		}
 
 	}
@@ -226,6 +245,11 @@ public class InputManager {
 			return true;
 		}
 		return false;
+	}
+
+	public static boolean isShiftHeld() {
+		return getKeyState(Keyboard.KEY_LSHIFT)
+				|| getKeyState(Keyboard.KEY_RSHIFT);
 	}
 
 }

@@ -7,10 +7,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Vector2f;
 
+import unnamed_platformer.game.Editor;
 import unnamed_platformer.globals.PhysicsRef;
 import unnamed_platformer.globals.PhysicsRef.Orientation;
 import unnamed_platformer.globals.PhysicsRef.Side;
@@ -18,14 +20,17 @@ import unnamed_platformer.globals.PhysicsRef.Side;
 public class MathHelper {
 
 	// Move in a direction towards a point (but not past it)
-	public static Vector2f moveTowards(Vector2f startPoint, Vector2f targetPoint, double speed) {
+	public static Vector2f moveTowards(Vector2f startPoint,
+			Vector2f targetPoint, double speed) {
 
 		float initialDist = startPoint.distance(targetPoint);
-		double theta = Math.atan2(targetPoint.y - startPoint.y, targetPoint.x - startPoint.x);
+		double theta = Math.atan2(targetPoint.y - startPoint.y, targetPoint.x
+				- startPoint.x);
 		float movX = (float) (speed * Math.cos(theta));
 		float movY = (float) (speed * Math.sin(theta));
 
-		Vector2f newPoint = new Vector2f(startPoint.getX() + movX, startPoint.getY() + movY);
+		Vector2f newPoint = new Vector2f(startPoint.getX() + movX,
+				startPoint.getY() + movY);
 
 		double newDist = newPoint.distance(targetPoint);
 
@@ -45,7 +50,8 @@ public class MathHelper {
 	}
 
 	public static Vector2f vectorFromAngleAndSpeed(double speed, double angle) {
-		return new Vector2f((float) (speed * Math.cos(angle)), (float) (speed * Math.sin(angle)));
+		return new Vector2f((float) (speed * Math.cos(angle)),
+				(float) (speed * Math.sin(angle)));
 	}
 
 	public static Double getIntersectionAngle(Rectangle a, Rectangle b) {
@@ -66,7 +72,8 @@ public class MathHelper {
 		return Math.atan2(vector.y, vector.x);
 	}
 
-	public static EnumMap<Side, Double> getSideDistances(Double radians, Side[] sidesToCheck) {
+	public static EnumMap<Side, Double> getSideDistances(Double radians,
+			Side[] sidesToCheck) {
 		EnumMap<Side, Double> distances = new EnumMap<Side, Double>(Side.class);
 
 		for (Side side : sidesToCheck) {
@@ -87,7 +94,8 @@ public class MathHelper {
 		return value;
 	}
 
-	public static Vector2f vectorFromOrientationAndLength(Orientation o, float length) {
+	public static Vector2f vectorFromOrientationAndLength(Orientation o,
+			float length) {
 		switch (o) {
 		case DOWN:
 			return new Vector2f(0, length);
@@ -139,7 +147,8 @@ public class MathHelper {
 	}
 
 	public static Object randInCollection(Collection<?> collection) {
-		return new ArrayList<>(collection).get(randRange(0, collection.size() - 1));
+		return new ArrayList<>(collection).get(randRange(0,
+				collection.size() - 1));
 	}
 
 	public static Object randKeyInMap(Map<?, ?> map) {
@@ -158,7 +167,7 @@ public class MathHelper {
 
 		return path;
 	}
-	
+
 	public static List<Vector2f> createCirclePath(float radius) {
 		List<Vector2f> path = new ArrayList<Vector2f>();
 		Vector2f shiftVector = new Vector2f(0, -radius);
@@ -168,8 +177,24 @@ public class MathHelper {
 			path.add(new Vector2f(initialVector));
 		}
 
-
 		return path;
+	}
+
+	public static java.awt.Point vectorToPoint(Vector2f vector) {
+		return new java.awt.Point((int) vector.x, (int) vector.y);
+	}
+
+	public static Rectangle getEnclosingRect(Vector2f origin, Vector2f dest) {
+		if (dest.x - origin.x < 0 || dest.y - origin.y < 0) {
+			Vector2f prevOrigin = origin;
+			Vector2f prevDest = dest;
+			dest = prevOrigin;
+			origin = prevDest;
+		}
+		int width = (int) (dest.x - origin.x);
+		int height = (int) (dest.y - origin.y);
+		
+		return new Rectangle(origin.x, origin.y,  width, height);
 	}
 
 }

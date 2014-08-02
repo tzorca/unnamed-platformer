@@ -31,7 +31,6 @@ import unnamed_platformer.app.InputManager;
 import unnamed_platformer.app.InputManager.InputEventType;
 import unnamed_platformer.app.Main;
 import unnamed_platformer.app.Main.State;
-import unnamed_platformer.app.MathHelper;
 import unnamed_platformer.app.ViewManager;
 import unnamed_platformer.game.Editor;
 import unnamed_platformer.game.EntityCreator;
@@ -96,8 +95,10 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 
 		// Canvas : Listeners
 		InputManager.setEventHandler(InputEventType.leftClick, new RenderCanvas_LeftClick());
-
 		InputManager.setEventHandler(InputEventType.rightClick, new RenderCanvas_RightClick());
+
+		InputManager.setEventHandler(InputEventType.leftMouseDown, new RenderCanvas_LeftMouseDown());
+		InputManager.setEventHandler(InputEventType.rightMouseDown, new RenderCanvas_RightMouseDown());
 
 		// Top Toolbar : Components
 		GUIHelper.removeButtonPadding(btnPrevLevel);
@@ -166,6 +167,19 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 	private void processControls() {
 		processCameraControls();
 		processGridControls();
+		processMultipaintControls();
+	}
+
+	private boolean lastShiftState = false;
+
+	private void processMultipaintControls() {
+		boolean shiftState = InputManager.isShiftHeld();
+		if (shiftState && !lastShiftState) {
+			editor.startMultiselect(InputManager.getGameMousePos());
+		} else if (!shiftState && lastShiftState) {
+			editor.exitMultiselect();
+		}
+		lastShiftState = shiftState;
 	}
 
 	private void processGridControls() {
@@ -174,42 +188,29 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 		if (InputManager.getGameKeyState(GameKey.scrollIn, 1)) {
 			newGridSize /= 2;
 			InputManager.resetGameKey(GameKey.scrollIn, 1);
-			if (newGridSize >= 8 && newGridSize <= 128) {
-				Editor.gridSize = newGridSize;
-			}
+
 		} else if (InputManager.getGameKeyState(GameKey.scrollOut, 1)) {
 			newGridSize *= 2;
 			InputManager.resetGameKey(GameKey.scrollOut, 1);
-			if (newGridSize >= 8 && newGridSize <= 128) {
-				Editor.gridSize = newGridSize;
-			}
 		}
 
+		if (newGridSize >= 8 && newGridSize <= 128) {
+			Editor.gridSize = newGridSize;
+		}
 	}
 
 	private void processCameraControls() {
 		Vector2f cameraDelta = new Vector2f(0, 0);
 
-		if (InputManager.getKeyState(Keyboard.KEY_RIGHT)) {
-			cameraDelta.x += 8;
-		}
-
-		if (InputManager.getKeyState(Keyboard.KEY_LEFT)) {
-			cameraDelta.x -= 8;
-		}
-
-		if (InputManager.getKeyState(Keyboard.KEY_UP)) {
-			cameraDelta.y -= 8;
-		}
-
-		if (InputManager.getKeyState(Keyboard.KEY_DOWN)) {
-			cameraDelta.y += 8;
-		}
+		cameraDelta.x -= InputManager.getKeyState(Keyboard.KEY_LEFT) ? 8 : 0;
+		cameraDelta.x += InputManager.getKeyState(Keyboard.KEY_RIGHT) ? 8 : 0;
+		cameraDelta.y -= InputManager.getKeyState(Keyboard.KEY_UP) ? 8 : 0;
+		cameraDelta.y += InputManager.getKeyState(Keyboard.KEY_DOWN) ? 8 : 0;
 
 		editor.tryMoveCamera(cameraDelta);
 	}
 
-	public void drawEntityPlaceholder() {
+	public void draw() {
 
 		if (Main.state != State.Edit) {
 			return;
@@ -221,21 +222,24 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 			return;
 		}
 
-		Level currentLevel = GameManager.getCurrentLevel();
-
-		Vector2f loc = MathHelper.snapToGrid(InputManager.getGameMousePos(), Editor.gridSize);
-
 		Texture t = entityPlaceholderGraphic.getTexture();
-
-		Rectangle2D entityPlaceholderRect = new Rectangle2D.Float(loc.x, loc.y, t.getImageWidth(), t.getImageHeight());
+		Level currentLevel = GameManager.getCurrentLevel();
 
 		Rectangle2D levelRect = new Rectangle2D.Float(currentLevel.getRect().getX(), currentLevel.getRect().getY(),
 				currentLevel.getRect().getWidth(), currentLevel.getRect().getHeight());
 
-		if (levelRect.contains(entityPlaceholderRect)) {
-			ViewManager.drawGraphic(entityPlaceholderGraphic, entityPlaceholderRect);
-		} else {
-			ViewManager.setColor(Ref.COLOR_75_PERCENT_TRANS);
+		List<Vector2f> drawLocations = editor.getPaintDrawLocations(t.getImageWidth(), t.getImageHeight());
+
+		for (Vector2f drawLocation : drawLocations) {
+
+			Rectangle2D drawRect = new Rectangle2D.Float(drawLocation.x, drawLocation.y, t.getImageWidth(),
+					t.getImageHeight());
+
+			if (levelRect.contains(drawRect)) {
+				ViewManager.drawGraphic(entityPlaceholderGraphic, drawRect);
+			} else {
+				ViewManager.setColor(Ref.COLOR_75_PERCENT_TRANS);
+			}
 		}
 	}
 
@@ -257,6 +261,20 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 		public void run() {
 			editor.removeObject(InputManager.getGameMousePos());
 		}
+	}
+
+	private class RenderCanvas_LeftMouseDown implements Runnable {
+		public void run() {
+
+		}
+
+	}
+
+	private class RenderCanvas_RightMouseDown implements Runnable {
+		public void run() {
+
+		}
+
 	}
 
 	private class lstTextureNames_ListSelection implements ListSelectionListener {

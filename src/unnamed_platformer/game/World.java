@@ -136,7 +136,7 @@ public class World {
 		if (Main.state == State.Edit) {
 			Screen currentScreen = GUIManager.getScreen();
 			if (currentScreen instanceof Screen_Edit) {
-				((Screen_Edit) currentScreen).drawEntityPlaceholder();
+				((Screen_Edit) currentScreen).draw();
 			}
 		}
 	}

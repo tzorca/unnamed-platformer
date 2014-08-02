@@ -1,10 +1,15 @@
 package unnamed_platformer.game;
 
+import java.util.List;
+
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 
+import com.google.common.collect.Lists;
+
 import unnamed_platformer.app.GameManager;
+import unnamed_platformer.app.InputManager;
 import unnamed_platformer.app.Main;
 import unnamed_platformer.app.Main.State;
 import unnamed_platformer.app.MathHelper;
@@ -58,15 +63,26 @@ public class Editor {
 			return;
 		}
 
-		Vector2f loc = MathHelper.snapToGrid(location, gridSize);
+		if (multiselect == null) {
+			Vector2f v = MathHelper.snapToGrid(location, gridSize);
+			_placeObject(v, imageListEntry);
+		} else {
+			for (Vector2f v : multiselect.getLastLocations()) {
+				_placeObject(v, imageListEntry);
+			}
+		}
 
-		if (!currentLevel.getRect().includes(loc.x, loc.y) && !currentLevel.getRect().contains(loc.x, loc.y)) {
+	}
+
+	public void _placeObject(Vector2f v, ImageListEntry imageListEntry) {
+
+		if (!currentLevel.getRect().includes(v.x, v.y) && !currentLevel.getRect().contains(v.x, v.y)) {
 			return;
 		}
 
 		String currentTextureName = imageListEntry.getInternalName();
 
-		Entity newEntity = EntityCreator.create(currentTextureName, loc);
+		Entity newEntity = EntityCreator.create(currentTextureName, v);
 
 		if (newEntity == null) {
 			return;
@@ -159,4 +175,59 @@ public class Editor {
 		return false;
 	}
 
+	private Multiselect multiselect = null;
+
+	public void startMultiselect(Vector2f origin) {
+		multiselect = new Multiselect(origin);
+	}
+
+	protected class Multiselect {
+		private Vector2f origin;
+
+		public Multiselect(Vector2f origin) {
+			this.origin = origin;
+		}
+
+		public Vector2f getOrigin() {
+			return origin;
+		}
+
+		public List<Vector2f> getLastLocations() {
+			return lastLocations;
+		}
+
+		private List<Vector2f> lastLocations;
+
+		public List<Vector2f> getLocations(Vector2f dest, int xSeparation, int ySeparation) {
+			Rectangle rect = MathHelper.getEnclosingRect(MathHelper.snapToGrid(origin, gridSize),
+					MathHelper.snapToGrid(dest, gridSize));
+
+			int minX = (int) rect.getMinX();
+			int maxX = (int) rect.getMaxX();
+			int minY = (int) rect.getMinY();
+			int maxY = (int) rect.getMaxY();
+
+			List<Vector2f> locations = Lists.newArrayList();
+			for (int x = minX; x <= maxX; x += xSeparation) {
+				for (int y = minY; y <= maxY; y += ySeparation) {
+					locations.add(new Vector2f(x, y));
+				}
+			}
+
+			lastLocations = locations;
+			return locations;
+		}
+	}
+
+	public List<Vector2f> getPaintDrawLocations(int xSeparation, int ySeparation) {
+		Vector2f gridMousePos = MathHelper.snapToGrid(InputManager.getGameMousePos(), gridSize);
+
+		return multiselect == null ? Lists.newArrayList(gridMousePos) : multiselect.getLocations(gridMousePos,
+				xSeparation, ySeparation);
+
+	}
+
+	public void exitMultiselect() {
+		multiselect = null;
+	}
 }
