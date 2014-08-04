@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
@@ -86,6 +87,13 @@ public class MathHelper {
 		return distances;
 	}
 
+	public static int rectangleHash(float x, float y, float w, float h) {
+		HashCodeBuilder hcb = new HashCodeBuilder(277, 2797);
+		hcb.append(x).append(y).append(w).append(h);
+		
+		return hcb.toHashCode();
+	}
+	
 	public static double wrapValue(double value, double min, double max) {
 		if (value > max)
 			return (value - max) + min;

@@ -2,15 +2,20 @@ package unnamed_platformer.structures;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+import java.util.HashMap;
+import java.util.List;
 
 import org.newdawn.slick.geom.Rectangle;
+
+import unnamed_platformer.app.MathHelper;
+
+import com.google.common.collect.ImmutableList;
 
 public class BinaryPixelGrid {
 	boolean[][] data;
 	Rectangle croppedRectangle, originalRectangle;
 
-	private static final int COLOR_TRANSPARENT = (new Color(0.0f, 0.0f, 0.0f,
-			0.0f)).getRGB();
+	private static final int COLOR_TRANSPARENT = (new Color(0.0f, 0.0f, 0.0f, 0.0f)).getRGB();
 
 	public BinaryPixelGrid(BufferedImage img) {
 		readData(img);
@@ -79,11 +84,12 @@ public class BinaryPixelGrid {
 				}
 			}
 		}
-		croppedRectangle = new Rectangle(leftEdge, topEdge, rightEdge
-				- leftEdge + 1, bottomEdge - topEdge + 1);
+		croppedRectangle = new Rectangle(leftEdge, topEdge, rightEdge - leftEdge + 1, bottomEdge - topEdge + 1);
 	}
 
-	public Rectangle getCroppedRectangle(org.newdawn.slick.geom.Rectangle box) {
+	private static HashMap<Integer, Rectangle> croppedRectangleCache = new HashMap<Integer, Rectangle>();
+
+	public Rectangle getCroppedRectangle(Rectangle box) {
 		float wRatio = box.getWidth() / originalRectangle.getWidth();
 		float hRatio = box.getHeight() / originalRectangle.getHeight();
 
@@ -92,7 +98,16 @@ public class BinaryPixelGrid {
 		float w = (croppedRectangle.getWidth() * wRatio);
 		float h = (croppedRectangle.getHeight() * hRatio);
 
-		return new Rectangle(x, y, w, h);
+		int cacheKey = MathHelper.rectangleHash(x,y,w,h);
+
+		if (croppedRectangleCache.containsKey(cacheKey)) {
+			return croppedRectangleCache.get(cacheKey);
+		}
+		
+		Rectangle croppedRectangle = new Rectangle(x, y, w, h);
+		
+		croppedRectangleCache.put(cacheKey, croppedRectangle);
+		return croppedRectangle;
 	}
 
 }
