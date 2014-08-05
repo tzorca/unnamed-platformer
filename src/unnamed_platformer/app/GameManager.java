@@ -4,16 +4,14 @@ import java.util.List;
 
 import org.newdawn.slick.geom.Rectangle;
 
-import unnamed_platformer.app.Main.State;
-import unnamed_platformer.game.World;
+import unnamed_platformer.app.GameStateManager.State;
 import unnamed_platformer.game.Level;
+import unnamed_platformer.game.World;
 import unnamed_platformer.game.entities.Entity;
 import unnamed_platformer.game.lvl_gen.BaseLevelGenerator;
 import unnamed_platformer.game.lvl_gen.ProceduralGenerator;
 
 public class GameManager {
-
-
 
 	public static void draw() {
 		World.draw();
@@ -32,7 +30,7 @@ public class GameManager {
 		}
 
 		World.setCurrentLevel(0);
-		Main.state = State.Play;
+		GameStateManager.set(State.Play);
 	}
 
 	public static void addBlankLevel() {

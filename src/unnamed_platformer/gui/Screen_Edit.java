@@ -26,11 +26,12 @@ import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.opengl.Texture;
 
 import unnamed_platformer.app.GameManager;
+import unnamed_platformer.app.GameStateManager;
+import unnamed_platformer.app.GameStateManager.State;
 import unnamed_platformer.app.ImageHelper;
 import unnamed_platformer.app.InputManager;
 import unnamed_platformer.app.InputManager.InputEventType;
 import unnamed_platformer.app.Main;
-import unnamed_platformer.app.Main.State;
 import unnamed_platformer.app.ViewManager;
 import unnamed_platformer.game.Editor;
 import unnamed_platformer.game.EntityCreator;
@@ -150,7 +151,7 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 	}
 
 	public void update() {
-		boolean isEditMode = Main.state == State.Edit;
+		boolean isEditMode = GameStateManager.current() == State.Edit;
 
 		if (isEditMode) {
 			editor.update();
@@ -212,7 +213,7 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 
 	public void draw() {
 
-		if (Main.state != State.Edit) {
+		if (GameStateManager.current() != State.Edit) {
 			return;
 		}
 
@@ -285,7 +286,7 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 
 	private class btnModeSwitch_Click implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			if (Main.state == State.Edit) {
+			if (GameStateManager.current() == State.Edit) {
 				editor.switchToPlayMode();
 				btnModeSwitch.setIcon(imgEditMode);
 				setToolbarSize(Side.left, 0);

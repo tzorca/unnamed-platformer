@@ -1,7 +1,6 @@
 package unnamed_platformer.gui;
 
-import unnamed_platformer.app.Main;
-import unnamed_platformer.app.Main.State;
+import unnamed_platformer.app.GameStateManager;
 import unnamed_platformer.app.ViewManager;
 import unnamed_platformer.globals.GUIRef;
 import unnamed_platformer.res_mgt.ClassLookup;
@@ -17,28 +16,16 @@ public class GUIManager {
 		screenChange();
 	}
 
-	private static State lastState = State.Start;
-	private static boolean stateHeld = false;
-
-	public static boolean isStateHeld() {
-		return stateHeld;
-	}
-
-	public static void setStateHeld(boolean holdState) {
-		GUIManager.stateHeld = holdState;
-	}
-
 	public static void update() {
-		if (Main.state != lastState && !stateHeld) {
+		if (GameStateManager.wasChanged()) {
 			screenChange();
-			lastState = Main.state;
 		}
 
 		screen.update();
 	}
 
 	private static void screenChange() {
-		String className = "Screen_" + Main.state.toString();
+		String className = "Screen_" + GameStateManager.stateAsString();
 
 		if (screen != null) {
 			screen.finish();
@@ -58,9 +45,6 @@ public class GUIManager {
 		return screen;
 	}
 
-	public static void changeState(State state) {
-		Main.state = state;
-		screenChange();
-	}
+
 
 }

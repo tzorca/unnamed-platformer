@@ -23,7 +23,7 @@ import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.opengl.Texture;
 
-import unnamed_platformer.app.Main.State;
+import unnamed_platformer.app.GameStateManager.State;
 import unnamed_platformer.game.entities.Entity;
 import unnamed_platformer.globals.GameRef.Flag;
 import unnamed_platformer.globals.Ref;
@@ -79,7 +79,7 @@ public class ViewManager {
 	}
 
 	public static void update() {
-		if (Main.state == State.Play || Main.state == State.Edit) {
+		if (GameStateManager.at(State.Play) || GameStateManager.at(State.Edit)) {
 			Display.setTitle(GameManager.getGameName());
 
 			GameManager.draw();

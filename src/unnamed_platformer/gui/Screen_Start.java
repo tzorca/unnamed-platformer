@@ -8,9 +8,9 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.border.EmptyBorder;
 
-import unnamed_platformer.app.Main;
-import unnamed_platformer.app.Main.State;
 import unnamed_platformer.app.GameManager;
+import unnamed_platformer.app.GameStateManager;
+import unnamed_platformer.app.GameStateManager.State;
 import unnamed_platformer.globals.GUIRef;
 import unnamed_platformer.globals.Ref;
 
@@ -37,7 +37,7 @@ public class Screen_Start extends BaseScreen_GUI {
 		btnCustomWorlds.setBorder(new EmptyBorder(15, 20, 15, 20));
 		btnCustomWorlds.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Main.state = State.SelectWorld;
+				GameStateManager.set(State.SelectWorld);
 			}
 		});
 

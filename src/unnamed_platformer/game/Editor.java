@@ -6,12 +6,11 @@ import org.lwjgl.opengl.Display;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 
-import com.google.common.collect.Lists;
-
 import unnamed_platformer.app.GameManager;
+import unnamed_platformer.app.GameStateManager.State;
+import unnamed_platformer.app.GameStateManager;
 import unnamed_platformer.app.InputManager;
 import unnamed_platformer.app.Main;
-import unnamed_platformer.app.Main.State;
 import unnamed_platformer.app.MathHelper;
 import unnamed_platformer.app.ViewManager;
 import unnamed_platformer.game.entities.Entity;
@@ -19,6 +18,8 @@ import unnamed_platformer.globals.GameRef.Flag;
 import unnamed_platformer.globals.Ref;
 import unnamed_platformer.gui.GUIManager;
 import unnamed_platformer.gui.objects.ImageListEntry;
+
+import com.google.common.collect.Lists;
 
 public class Editor {
 
@@ -60,7 +61,7 @@ public class Editor {
 	}
 
 	public void placeObject(Vector2f location, ImageListEntry imageListEntry) {
-		if (Main.state != State.Edit) {
+		if (!GameStateManager.at(State.Edit)) {
 			return;
 		}
 
@@ -103,7 +104,7 @@ public class Editor {
 	}
 
 	public void removeObject(Vector2f location) {
-		if (Main.state != State.Edit) {
+		if (!GameStateManager.at(State.Edit)) {
 			return;
 		}
 
@@ -121,15 +122,15 @@ public class Editor {
 	public void switchToEditMode() {
 		currentLevel.resetToOriginal();
 
-		GUIManager.setStateHeld(false);
-		Main.state = State.Edit;
+		GameStateManager.hold(false);
+		GameStateManager.set(State.Edit);
 	}
 
 	public void switchToPlayMode() {
 		currentLevel.resetToCurrent();
 
-		GUIManager.setStateHeld(true);
-		Main.state = State.Play;
+		GameStateManager.hold(true);
+		GameStateManager.set(State.Play);
 
 	}
 
