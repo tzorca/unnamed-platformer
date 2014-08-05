@@ -3,6 +3,7 @@ package unnamed_platformer.game.entities;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 
 import unnamed_platformer.game.EntitySetup;
@@ -54,4 +55,5 @@ public abstract class ActiveEntity extends Entity {
 	public boolean hasPhysics() {
 		return this.physics != null;
 	}
+
 }

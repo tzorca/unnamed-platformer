@@ -6,6 +6,7 @@ import java.util.EnumSet;
 
 import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Vector2f;
 
 import unnamed_platformer.game.EntitySetup;
@@ -102,7 +103,14 @@ public abstract class Entity implements Serializable {
 	public void update() {
 	}
 
-	public Rectangle getCollisionBox() {
+	public Shape getCollisionShape() {
+		Rectangle cropRect = graphic.getCroppedRectangle(box);
+
+		return cropRect;
+	}
+	
+
+	public Rectangle getCollisionRect() {
 		Rectangle cropRect = graphic.getCroppedRectangle(box);
 
 		return cropRect;

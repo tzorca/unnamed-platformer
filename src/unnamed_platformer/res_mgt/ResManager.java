@@ -7,7 +7,7 @@ import java.util.HashMap;
 import org.newdawn.slick.opengl.Texture;
 
 import unnamed_platformer.game.World;
-import unnamed_platformer.structures.BinaryPixelGrid;
+import unnamed_platformer.structures.CollisionData;
 
 @SuppressWarnings("unchecked")
 public class ResManager {
@@ -45,7 +45,7 @@ public class ResManager {
 	public static void init() {
 		addResLoader(Texture.class, new TextureResLoader());
 		addResLoader(BufferedImage.class, new ImageResLoader());
-		addResLoader(BinaryPixelGrid.class, new BinaryPixelGridResLoader());
+		addResLoader(CollisionData.class, new CollisionDataResLoader());
 		addResLoader(World.class, new GameResDummyLoader());
 	}
 

@@ -112,7 +112,7 @@ public abstract class BaseLevelGenerator {
 
 	protected boolean entityIntersectsDistinct(Entity entity) {
 		for (Entity dEntity : distinctEntityMap.values()) {
-			if (dEntity.getCollisionBox().intersects(entity.getCollisionBox())) {
+			if (dEntity.getCollisionShape().intersects(entity.getCollisionShape())) {
 				return true;
 			}
 		}

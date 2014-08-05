@@ -22,79 +22,63 @@ import com.google.common.collect.Maps;
 public class EntityCreator {
 
 	// Setup texture entity subclass mappings
-	// and load textures and binarypixelgrid
+	// and load textures and collisiondata
 	public static void init() {
-//		setupTextureMappings();
+		// setupTextureMappings();
 		cacheEntityConstructors();
 	}
 
 	private static void cacheEntityConstructors() {
-		Collection<Class<?>> classes = ClassLookup.getClassesInPackage(EntityRef.PACKAGE_NAME);
+		Collection<Class<?>> classes = ClassLookup
+				.getClassesInPackage(EntityRef.PACKAGE_NAME);
 
 		for (Class<?> clazz : classes) {
 			try {
-				entityConstructorCache.put(clazz, clazz.getConstructor(EntitySetup.class));
+				entityConstructorCache.put(clazz,
+						clazz.getConstructor(EntitySetup.class));
 			} catch (Exception e) {
-				System.out
-						.println("Warning: Entity class '" + clazz.getName() + "' has not implemented its constructor.");
+				System.out.println("Warning: Entity class '" + clazz.getName()
+						+ "' has not implemented its constructor.");
 			}
 		}
 	}
 
-//	private static void setupTextureMappings() {
-//		Collection<String> textureNames = ResManager.list(Texture.class, true);
-//
-//		for (String internalTextureName : textureNames) {
-//
-//			// get possibleclassname
-//			String possibleClassName = ResManager.getClassNameFromContentName(internalTextureName);
-//
-//			if (possibleClassName == null) {
-//				continue;
-//			}
-//
-//			// check if possibleClassName was a valid entity subclass
-//			if (!ClassLookup.classExists(EntityRef.PACKAGE_NAME, possibleClassName)) {
-//				continue;
-//			}
-//
-//			Class<?> entityClass = ClassLookup.getClass(EntityRef.PACKAGE_NAME, possibleClassName);
-//
-//			// If the possibleClassName was correct, we can
-//			// add the entity as a creatable entity
-//			EntityRef.addTextureNameToEntityClassMapping(internalTextureName, entityClass);
-//		
-////			ContentManager.get(ContentType.texture,internalTextureName);
-//		}
-//	}
-
-	public static Entity create(Class<?> entityClass, Vector2f vector2f, float sizeInput, boolean relativeSize) {
+	public static Entity create(Class<?> entityClass, Vector2f vector2f,
+			float sizeInput, boolean relativeSize) {
 		if (entityClass == null) {
-			System.out.println("Can't create an entity with an empty entityClass.");
+			System.out
+					.println("Can't create an entity with an empty entityClass.");
 			return null;
 		}
-		String textureName = (String) MathHelper.randInList(EntityRef.getTexturesFromEntityClass(entityClass));
+		String textureName = (String) MathHelper.randInList(EntityRef
+				.getTexturesFromEntityClass(entityClass));
 
-		return create(textureName, entityClass, vector2f, sizeInput, relativeSize);
+		return create(textureName, entityClass, vector2f, sizeInput,
+				relativeSize);
 	}
 
-	public static Entity create(String textureName, Vector2f location, float sizeInput, boolean relativeSize) {
-		Class<?> entityClass = EntityRef.getEntityClassFromTextureName(textureName);
+	public static Entity create(String textureName, Vector2f location,
+			float sizeInput, boolean relativeSize) {
+		Class<?> entityClass = EntityRef
+				.getEntityClassFromTextureName(textureName);
 		if (entityClass == null) {
 
-			System.out.println("Texture '" + textureName + "' is missing a entity class mapping.");
+			System.out.println("Texture '" + textureName
+					+ "' is missing a entity class mapping.");
 			return null;
 		}
-		return create(textureName, entityClass, location, sizeInput, relativeSize);
+		return create(textureName, entityClass, location, sizeInput,
+				relativeSize);
 	}
 
-	public static Entity create(String textureName, Class<?> entityClass, Vector2f location, float sizeInput,
-			boolean relativeSize) {
+	public static Entity create(String textureName, Class<?> entityClass,
+			Vector2f location, float sizeInput, boolean relativeSize) {
 
 		EntitySetup setup = new EntitySetup();
 
-		setup.set(EntityParam.sizeStrategy, new SizeStrategy(relativeSize ? SizeStrategy.Strategy.textureScale
-				: SizeStrategy.Strategy.absoluteWidth, sizeInput));
+		setup.set(EntityParam.sizeStrategy, new SizeStrategy(
+				relativeSize ? SizeStrategy.Strategy.textureScale
+						: SizeStrategy.Strategy.absoluteWidth, sizeInput));
 		setup.set(EntityParam.graphic, new Graphic(textureName));
 		setup.set(EntityParam.location, location);
 		setup.setEntityClassName(entityClass.getSimpleName());
@@ -105,17 +89,20 @@ public class EntityCreator {
 
 	private static Entity buildFromSetup(EntitySetup setup) {
 		Entity newEntity = null;
-		Class<?> entityClass = ClassLookup.getClass(EntityRef.PACKAGE_NAME, setup.getEntityClassName());
+		Class<?> entityClass = ClassLookup.getClass(EntityRef.PACKAGE_NAME,
+				setup.getEntityClassName());
 		try {
 			newEntity = (Entity) getConstructor(entityClass).newInstance(setup);
 		} catch (Exception e) {
-			System.out.println("Warning: Class '" + entityClass.toString() + "' has an implementation error: " + e.toString());
+			System.out.println("Warning: Class '" + entityClass.toString()
+					+ "' has an implementation error: " + e.toString());
 			e.printStackTrace();
 			return null;
 		}
 
 		if (newEntity == null) {
-			System.out.println("Warning: '" + entityClass.toString() + "' was created null.");
+			System.out.println("Warning: '" + entityClass.toString()
+					+ "' was created null.");
 		}
 
 		return newEntity;
@@ -142,10 +129,12 @@ public class EntityCreator {
 			return null;
 		}
 
-		return (String) MathHelper.randInList(EntityRef.getTexturesFromEntityClass(entityClass));
+		return (String) MathHelper.randInList(EntityRef
+				.getTexturesFromEntityClass(entityClass));
 	}
 
-	public static LinkedList<Entity> buildFromSetupCollection(LinkedList<EntitySetup> setups) {
+	public static LinkedList<Entity> buildFromSetupCollection(
+			LinkedList<EntitySetup> setups) {
 		LinkedList<Entity> entities = new LinkedList<Entity>();
 
 		for (EntitySetup setup : setups) {
@@ -157,7 +146,8 @@ public class EntityCreator {
 		return entities;
 	}
 
-	public static LinkedList<EntitySetup> getSetupCollection(LinkedList<Entity> entities) {
+	public static LinkedList<EntitySetup> getSetupCollection(
+			LinkedList<Entity> entities) {
 		LinkedList<EntitySetup> entitySetups = new LinkedList<EntitySetup>();
 
 		for (Entity entity : entities) {
@@ -166,7 +156,8 @@ public class EntityCreator {
 		return entitySetups;
 	}
 
-	private static HashMap<Class<?>, Constructor<?>> entityConstructorCache = Maps.newHashMap();
+	private static HashMap<Class<?>, Constructor<?>> entityConstructorCache = Maps
+			.newHashMap();
 
 	private static Constructor<?> getConstructor(Class<?> clazz) {
 		return entityConstructorCache.get(clazz);

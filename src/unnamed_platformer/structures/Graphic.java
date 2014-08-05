@@ -36,12 +36,12 @@ public class Graphic implements Serializable {
 		return ResManager.get(Texture.class, textureName);
 	}
 
-	public BinaryPixelGrid getBinaryPixelGrid() {
-		return ResManager.get(BinaryPixelGrid.class, textureName);
+	public CollisionData getCollisionData() {
+		return ResManager.get(CollisionData.class, textureName);
 	}
 
 	public Rectangle getCroppedRectangle(Rectangle box) {
-		return getBinaryPixelGrid().getCroppedRectangle(box);
+		return getCollisionData().getCroppedRectangle(box);
 	}
 
 	public BufferedImage getTextureImage() {

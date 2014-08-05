@@ -1,6 +1,7 @@
 package unnamed_platformer.app;
 
 import java.io.File;
+import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -8,8 +9,10 @@ import org.newdawn.slick.opengl.Texture;
 
 import unnamed_platformer.globals.EntityRef;
 import unnamed_platformer.globals.Ref;
+import unnamed_platformer.globals.TextureRef;
 import unnamed_platformer.res_mgt.ClassLookup;
 import unnamed_platformer.res_mgt.ResManager;
+import unnamed_platformer.structures.TextureSetup;
 
 import com.almworks.sqlite4java.SQLiteConnection;
 import com.almworks.sqlite4java.SQLiteException;
@@ -25,6 +28,7 @@ public class SQLiteStuff {
 		public static final class Col {
 			static final String textureName = "textureName";
 			static final String entityName = "entityName";
+			static final String collisionShape = "collisionShape";
 		}
 	}
 
@@ -44,12 +48,13 @@ public class SQLiteStuff {
 
 			while (st.step()) {
 				String entityClassName = st.columnString(1);
-				if (entityClassName.equals("none")) {
-					continue;
-				}
 				String textureName = st.columnString(0);
-				Class<?> entityClass = ClassLookup.getClass(EntityRef.PACKAGE_NAME, entityClassName);
-				EntityRef.addTextureNameToEntityClassMapping(textureName, entityClass);
+				if (!entityClassName.equals("none")) {
+					Class<?> entityClass = ClassLookup.getClass(EntityRef.PACKAGE_NAME, entityClassName);
+					EntityRef.addTextureNameToEntityClassMapping(textureName, entityClass);
+				}
+				String collisionShape = st.columnString(2);
+				TextureRef.addSetup(textureName, new TextureSetup(collisionShape));
 			}
 
 			st.dispose();
@@ -62,12 +67,18 @@ public class SQLiteStuff {
 	}
 
 	private static void insertNewTextureNames() {
+		Collection<String> textureNames = ResManager.list(Texture.class, true);
+		if (textureNames.size() == 0) {
+			return;
+		}
+		
 		try {
-			SQLiteStatement st = db.prepare("insert or ignore into " + Names.Tbl.textureMappings + " values (?, ?);");
+			SQLiteStatement st = db.prepare("insert or ignore into " + Names.Tbl.textureMappings + " values (?, ?, ?);");
 
-			for (String textureName : ResManager.list(Texture.class, true)) {
+			for (String textureName : textureNames) {
 				st.bind(1, textureName);
 				st.bind(2, "entity");
+				st.bind(3, "square");
 				exec(st);
 				st.reset();
 			}

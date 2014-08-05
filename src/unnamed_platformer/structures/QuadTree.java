@@ -121,7 +121,7 @@ public class QuadTree {
 
 			int i = 0;
 			while (i < entities.size()) {
-				int index = getIndex(increaseRect(entities.get(i).getCollisionBox()));
+				int index = getIndex(increaseRect(entities.get(i).getCollisionRect()));
 				if (index != -1) {
 					nodes[index].insert(entities.remove(i), box);
 				} else {

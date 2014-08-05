@@ -139,7 +139,7 @@ public class Level {
 
 		while (rI.hasPrevious()) {
 			Entity e = rI.previous();
-			if (e.getCollisionBox().contains(point.x, point.y)) {
+			if (e.getCollisionShape().contains(point.x, point.y)) {
 				return e;
 			}
 		}
@@ -157,7 +157,7 @@ public class Level {
 		while (entityIterator.hasNext()) {
 			Entity entity = entityIterator.next();
 
-			if (!ViewManager.rectInView(entity.getCollisionBox())) {
+			if (!ViewManager.rectInView(entity.getOriginalBox())) {
 				continue;
 			}
 
@@ -184,7 +184,7 @@ public class Level {
 
 			// add existing entities to quadtree
 			if (Main.state == State.Play) {
-				quadTree.insert(entity, QuadTree.increaseRect(entity.getCollisionBox()));
+				quadTree.insert(entity, QuadTree.increaseRect(entity.getCollisionRect()));
 			}
 		}
 

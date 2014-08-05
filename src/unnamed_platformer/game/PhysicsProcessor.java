@@ -5,7 +5,7 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
 
-import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Vector2f;
 
 import unnamed_platformer.app.GameManager;
@@ -47,7 +47,7 @@ public class PhysicsProcessor {
 
 			// only check entities in nearby regions
 			List<Entity> entitiesToCheck = new ArrayList<Entity>();
-			GameManager.retrieveFromQuadTree(entitiesToCheck, a.getCollisionBox());
+			GameManager.retrieveFromQuadTree(entitiesToCheck, a.getCollisionRect());
 			processMove(a, entitiesToCheck);
 			entitiesToCheck.clear();
 		}
@@ -61,20 +61,20 @@ public class PhysicsProcessor {
 
 		// setup checking rectangle to include either x or y velocity,
 		// depending on axis
-		Rectangle checkRect = CloneManager.deepClone(a.getCollisionBox());
+		Shape checkShape = CloneManager.deepClone(a.getCollisionShape());
 		switch (direction) {
 		case HORIZONTAL:
-			checkRect.setX(checkRect.getX() + velocity.x);
+			checkShape.setX(checkShape.getX() + velocity.x);
 			break;
 		case VERTICAL:
-			checkRect.setY(checkRect.getY() + velocity.y);
+			checkShape.setY(checkShape.getY() + velocity.y);
 			break;
 		case NONE:
 			return interactionResults;
 		}
 
 		for (Entity b : entitiesToCheck) {
-			if (a != b && checkRect.intersects(b.getCollisionBox())) {
+			if (a != b && checkShape.intersects(b.getCollisionShape())) {
 				interactionResults.addAll(processInteraction(a, b, direction));
 			}
 		}
