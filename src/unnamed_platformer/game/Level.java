@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 
+import org.lwjgl.opengl.Display;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
@@ -145,18 +146,27 @@ public class Level {
 		return null;
 	}
 
+	// perform entity logic and update quadtree
 	public void update() {
 
 		// clear previous update's quad tree
 		quadTree.clear();
 
-		// perform entity logic and update quadtree
-		// only for entities in the player's current view
 		Iterator<Entity> entityIterator = entities.iterator();
+
+		// get bounds for view outside of loop
+		int view_minX = (int) ViewManager.getViewportX() - 32;
+		int view_maxX = (int) view_minX + Display.getWidth() + 32;
+		int view_minY = (int) ViewManager.getViewportY() - 32;
+		int view_maxY = (int) view_minY + Display.getHeight() + 32;
+
 		while (entityIterator.hasNext()) {
 			Entity entity = entityIterator.next();
 
-			if (!ViewManager.rectInView(entity.getOriginalBox())) {
+			// don't display or do logic on entities outside the view
+			float entityX = entity.getX();
+			float entityY = entity.getY();
+			if (entityX > view_maxX || entityX < view_minX || entityY > view_maxY || entityY < view_minY) {
 				continue;
 			}
 

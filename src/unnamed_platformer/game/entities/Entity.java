@@ -35,11 +35,7 @@ public abstract class Entity implements Serializable {
 	public float getY() {
 		return box.getY();
 	}
-
-	private Rectangle getBox() {
-		return box;
-	}
-
+	
 	public void setRect(Rectangle box) {
 		this.box = box;
 	}
@@ -170,7 +166,7 @@ public abstract class Entity implements Serializable {
 	}
 
 	public Rectangle getOriginalBox() {
-		return getBox();
+		return box;
 	}
 
 }

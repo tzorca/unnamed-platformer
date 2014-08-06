@@ -3,7 +3,6 @@
 //public class _Ideas {
 	// TODO: Simple walk-on-floor AI
 	// TODO: crusher
-	// TODO: flame/fish jumper
 	// TODO: speed launcher
 	// TODO: ice (friction decrease)
 	// TODO: quicksand (sink; multsiple jump to escape)

@@ -84,7 +84,7 @@ public class CollisionData {
 		croppedRectangle = new Rectangle(leftEdge, topEdge, rightEdge - leftEdge + 1, bottomEdge - topEdge + 1);
 	}
 
-	private static HashMap<Integer, Rectangle> croppedRectangleCache = new HashMap<Integer, Rectangle>();
+	private static HashMap<Float, Rectangle> croppedRectangleCache = new HashMap<Float, Rectangle>();
 
 	public Rectangle getCroppedRectangle(Rectangle box) {
 		float wRatio = box.getWidth() / originalRectangle.getWidth();
@@ -95,7 +95,7 @@ public class CollisionData {
 		float w = (croppedRectangle.getWidth() * wRatio);
 		float h = (croppedRectangle.getHeight() * hRatio);
 
-		int cacheKey = MathHelper.rectangleHash(x,y,w,h);
+		float cacheKey = MathHelper.rectangleHash(x,y,w,h);
 
 		if (croppedRectangleCache.containsKey(cacheKey)) {
 			return croppedRectangleCache.get(cacheKey);
