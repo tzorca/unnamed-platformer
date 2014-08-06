@@ -2,16 +2,15 @@ package unnamed_platformer.app;
 
 import org.lwjgl.opengl.Display;
 
-import unnamed_platformer.app.GameStateManager.State;
 import unnamed_platformer.game.EntityCreator;
 import unnamed_platformer.game.World;
 import unnamed_platformer.globals.InputRef.GameKey;
 import unnamed_platformer.globals.Ref;
 import unnamed_platformer.gui.GUIManager;
+import unnamed_platformer.gui.GUIManager.ScreenType;
 import unnamed_platformer.res_mgt.ResManager;
 
 public class Main {
-
 
 	static long accumulator = 0;
 
@@ -50,7 +49,6 @@ public class Main {
 		}
 
 		if (InputManager.getGameKeyState(GameKey.startRandomGame, 1)) {
-			GameStateManager.hold(false);
 			GameManager.playRandomGame();
 		}
 
@@ -87,9 +85,7 @@ public class Main {
 	}
 
 	public static void restart() {
-		GameStateManager.hold(false);
-		GameStateManager.set(State.Start);
+		GUIManager.changeScreen(ScreenType.Start);
 	}
-
 
 }

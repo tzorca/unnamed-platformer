@@ -14,11 +14,10 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 
 import unnamed_platformer.app.GameManager;
-import unnamed_platformer.app.GameStateManager;
-import unnamed_platformer.app.GameStateManager.State;
-import unnamed_platformer.app.Main;
 import unnamed_platformer.game.World;
 import unnamed_platformer.gui.GUIHelper;
+import unnamed_platformer.gui.GUIManager;
+import unnamed_platformer.gui.GUIManager.ScreenType;
 import unnamed_platformer.res_mgt.FileHelper;
 import unnamed_platformer.res_mgt.ResManager;
 
@@ -90,10 +89,10 @@ public class WorldCell extends ReadOnlyInteractiveCell implements ActionListener
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals(Actions.PLAY.name())) {
 			GameManager.loadGame(getGameName());
-			GameStateManager.set(State.Play);
+			GUIManager.changeScreen(ScreenType.Play);
 		} else if (e.getActionCommand().equals(Actions.EDIT.name())) {
 			GameManager.loadGame(getGameName());
-			GameStateManager.set(State.Edit);
+			GUIManager.changeScreen(ScreenType.Edit);
 		}
 
 		else {

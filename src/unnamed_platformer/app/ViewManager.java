@@ -23,12 +23,12 @@ import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.opengl.Texture;
 
-import unnamed_platformer.app.GameStateManager.State;
 import unnamed_platformer.game.entities.Entity;
 import unnamed_platformer.globals.GameRef.Flag;
 import unnamed_platformer.globals.Ref;
 import unnamed_platformer.globals.ViewRef;
 import unnamed_platformer.gui.GUIManager;
+import unnamed_platformer.gui.GUIManager.ScreenType;
 import unnamed_platformer.res_mgt.ResManager;
 import unnamed_platformer.structures.Graphic;
 
@@ -79,7 +79,8 @@ public class ViewManager {
 	}
 
 	public static void update() {
-		if (GameStateManager.at(State.Play) || GameStateManager.at(State.Edit)) {
+		// TODO: Improve state logic here
+		if (GUIManager.atScreen(ScreenType.Play) || GUIManager.atScreen(ScreenType.Edit)) {
 			Display.setTitle(GameManager.getGameName());
 
 			GameManager.draw();

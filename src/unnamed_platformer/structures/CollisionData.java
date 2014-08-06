@@ -3,13 +3,10 @@ package unnamed_platformer.structures;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
-import java.util.List;
 
 import org.newdawn.slick.geom.Rectangle;
 
 import unnamed_platformer.app.MathHelper;
-
-import com.google.common.collect.ImmutableList;
 
 public class CollisionData {
 	boolean[][] data;

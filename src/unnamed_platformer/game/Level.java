@@ -9,8 +9,7 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 
-import unnamed_platformer.app.GameStateManager;
-import unnamed_platformer.app.GameStateManager.State;
+import unnamed_platformer.app.GameManager;
 import unnamed_platformer.app.ViewManager;
 import unnamed_platformer.game.entities.Entity;
 import unnamed_platformer.globals.GameRef.Flag;
@@ -161,7 +160,7 @@ public class Level {
 				continue;
 			}
 
-			if (GameStateManager.at(State.Play)) {
+			if (GameManager.playing()) {
 				// perform entity logic
 				entity.update();
 
@@ -172,23 +171,18 @@ public class Level {
 			}
 
 			// remove entities that have been flagged to be removed
-			// unless they are the player entity
 			if (entity.isFlagSet(Flag.outOfPlay)) {
-
-				if (entity.isFlagSet(Flag.player) && !GameStateManager.at( State.Edit)) {
-					continue;
-				}
 				entityIterator.remove();
 				continue;
 			}
 
 			// add existing entities to quadtree
-			if (GameStateManager.at(State.Play)) {
+			if (GameManager.playing()) {
 				quadTree.insert(entity, QuadTree.increaseRect(entity.getCollisionRect()));
 			}
 		}
 
-		if (GameStateManager.at(State.Play)) {
+		if (GameManager.playing()) {
 			PhysicsProcessor.processMoves();
 
 			if (playerEntity != null) {

@@ -8,12 +8,10 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Vector2f;
 
-import unnamed_platformer.game.Editor;
 import unnamed_platformer.globals.PhysicsRef;
 import unnamed_platformer.globals.PhysicsRef.Orientation;
 import unnamed_platformer.globals.PhysicsRef.Side;

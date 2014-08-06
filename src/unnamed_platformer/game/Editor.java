@@ -7,16 +7,12 @@ import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 
 import unnamed_platformer.app.GameManager;
-import unnamed_platformer.app.GameStateManager.State;
-import unnamed_platformer.app.GameStateManager;
 import unnamed_platformer.app.InputManager;
-import unnamed_platformer.app.Main;
 import unnamed_platformer.app.MathHelper;
 import unnamed_platformer.app.ViewManager;
 import unnamed_platformer.game.entities.Entity;
 import unnamed_platformer.globals.GameRef.Flag;
 import unnamed_platformer.globals.Ref;
-import unnamed_platformer.gui.GUIManager;
 import unnamed_platformer.gui.objects.ImageListEntry;
 
 import com.google.common.collect.Lists;
@@ -26,7 +22,7 @@ public class Editor {
 	// TODO: Fix random generation broken bug
 	// TODO: Fix collision bug with complicated object size/shape
 
-	public static int gridSize = 32;
+	public int gridSize = 32;
 	Level currentLevel;
 	int currentLevelIndex = 0;
 	boolean playerAdded = false;
@@ -61,7 +57,7 @@ public class Editor {
 	}
 
 	public void placeObject(Vector2f location, ImageListEntry imageListEntry) {
-		if (!GameStateManager.at(State.Edit)) {
+		if (GameManager.playing()) {
 			return;
 		}
 
@@ -104,7 +100,7 @@ public class Editor {
 	}
 
 	public void removeObject(Vector2f location) {
-		if (!GameStateManager.at(State.Edit)) {
+		if (GameManager.playing()) {
 			return;
 		}
 
@@ -121,17 +117,12 @@ public class Editor {
 
 	public void switchToEditMode() {
 		currentLevel.resetToOriginal();
-
-		GameStateManager.hold(false);
-		GameStateManager.set(State.Edit);
+		GameManager.setPlaying(false);
 	}
 
 	public void switchToPlayMode() {
 		currentLevel.resetToCurrent();
-
-		GameStateManager.hold(true);
-		GameStateManager.set(State.Play);
-
+		GameManager.setPlaying(true);
 	}
 
 	public void resetToEditPlacement() {
@@ -211,20 +202,30 @@ public class Editor {
 
 		public List<Vector2f> getLocations(Vector2f dest, int xSeparation,
 				int ySeparation) {
-			Rectangle rect = MathHelper.getEnclosingRect(
-					MathHelper.snapToGrid(origin, gridSize),
-					MathHelper.snapToGrid(dest, gridSize));
+			Vector2f snapDest = MathHelper.snapToGrid(dest, gridSize);
+			Vector2f snapOrigin = MathHelper.snapToGrid(origin, gridSize);
 
-			int minX = (int) rect.getMinX();
-			int maxX = (int) rect.getMaxX();
-			int minY = (int) rect.getMinY();
-			int maxY = (int) rect.getMaxY();
+			int startX = (int) snapOrigin.x;
+			int startY = (int) snapOrigin.y;
+			int endX = (int) snapDest.x;
+			int endY = (int) snapDest.y;
+
+			boolean xCountUp = startX < endX ? true : false;
+			boolean yCountUp = startY < endY ? true : false;
+
+			int xIterator = (int) xSeparation * (xCountUp ? 1 : -1);
+			int yIterator = (int) ySeparation * (yCountUp ? 1 : -1);
 
 			List<Vector2f> locations = Lists.newArrayList();
-			for (int x = minX; x <= maxX; x += xSeparation) {
-				for (int y = minY; y <= maxY; y += ySeparation) {
+			int x = startX;
+			while ((xCountUp && x <= endX) || (!xCountUp && x >= endX)) {
+
+				int y = startY;
+				while ((yCountUp && y <= endY) || (!yCountUp && y >= endY)) {
 					locations.add(new Vector2f(x, y));
+					y += yIterator;
 				}
+				x += xIterator;
 			}
 
 			lastLocations = locations;

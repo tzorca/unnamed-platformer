@@ -9,14 +9,10 @@ import javax.swing.ImageIcon;
 
 import org.newdawn.slick.geom.Rectangle;
 
-import unnamed_platformer.app.GameStateManager;
-import unnamed_platformer.app.GameStateManager.State;
 import unnamed_platformer.app.ViewManager;
 import unnamed_platformer.game.entities.Entity;
 import unnamed_platformer.globals.Ref.BlueprintField;
 import unnamed_platformer.gui.GUIManager;
-import unnamed_platformer.gui.Screen;
-import unnamed_platformer.gui.Screen_Edit;
 import unnamed_platformer.res_mgt.ResManager;
 import unnamed_platformer.structures.Blueprint;
 import unnamed_platformer.structures.Graphic;
@@ -126,19 +122,10 @@ public class World {
 		if (levelBG.hasTextureName()) {
 			ViewManager.drawBG(levelBG.getTexture());
 		}
-
-		if (GameStateManager.at( State.Edit)) {
-			ViewManager.drawEditorGrid(Editor.gridSize);
-		}
-
+		GUIManager.drawBackground();
 		ViewManager.drawEntities(level.getEntities());
-
-		if (GameStateManager.at(State.Edit)) {
-			Screen currentScreen = GUIManager.getScreen();
-			if (currentScreen instanceof Screen_Edit) {
-				((Screen_Edit) currentScreen).draw();
-			}
-		}
+		GUIManager.drawForeground();
+		
 	}
 
 	public static void addEntity(Entity e) {

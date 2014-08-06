@@ -26,12 +26,9 @@ import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.opengl.Texture;
 
 import unnamed_platformer.app.GameManager;
-import unnamed_platformer.app.GameStateManager;
-import unnamed_platformer.app.GameStateManager.State;
 import unnamed_platformer.app.ImageHelper;
 import unnamed_platformer.app.InputManager;
 import unnamed_platformer.app.InputManager.InputEventType;
-import unnamed_platformer.app.Main;
 import unnamed_platformer.app.ViewManager;
 import unnamed_platformer.game.Editor;
 import unnamed_platformer.game.EntityCreator;
@@ -151,16 +148,16 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 	}
 
 	public void update() {
-		boolean isEditMode = GameStateManager.current() == State.Edit;
+		boolean editing = !GameManager.playing();
 
-		if (isEditMode) {
+		if (editing) {
 			editor.update();
 			processControls();
 		}
 
 		for (Component editModeComponent : ctlList_EditMode) {
-			if (editModeComponent.isVisible() != isEditMode) {
-				editModeComponent.setVisible(isEditMode);
+			if (editModeComponent.isVisible() != editing) {
+				editModeComponent.setVisible(editing);
 			}
 		}
 	}
@@ -185,7 +182,7 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 
 	private void processGridControls() {
 
-		int newGridSize = Editor.gridSize;
+		int newGridSize = editor.gridSize;
 		if (InputManager.getGameKeyState(GameKey.scrollIn, 1)) {
 			newGridSize /= 2;
 			InputManager.resetGameKey(GameKey.scrollIn, 1);
@@ -196,7 +193,7 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 		}
 
 		if (newGridSize >= 8 && newGridSize <= 128) {
-			Editor.gridSize = newGridSize;
+			editor.gridSize = newGridSize;
 		}
 	}
 
@@ -211,9 +208,15 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 		editor.tryMoveCamera(cameraDelta);
 	}
 
-	public void draw() {
+	public void drawBackground() {
+		if (GameManager.playing()) {
+			return;
+		}
+		ViewManager.drawEditorGrid(editor.gridSize);
+	}
 
-		if (GameStateManager.current() != State.Edit) {
+	public void drawForeground() {
+		if (GameManager.playing()) {
 			return;
 		}
 
@@ -286,7 +289,7 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 
 	private class btnModeSwitch_Click implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			if (GameStateManager.current() == State.Edit) {
+			if (!GameManager.playing()) {
 				editor.switchToPlayMode();
 				btnModeSwitch.setIcon(imgEditMode);
 				setToolbarSize(Side.left, 0);

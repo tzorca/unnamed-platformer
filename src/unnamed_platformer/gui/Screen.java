@@ -25,4 +25,10 @@ public abstract class Screen {
 		pnlSurface.setVisible(false);
 		pnlSurface = null;
 	}
+
+	public void drawBackground() {
+	}
+	
+	public void drawForeground() {
+	}
 }
