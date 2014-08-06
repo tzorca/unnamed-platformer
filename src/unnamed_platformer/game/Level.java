@@ -5,7 +5,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 
-import org.lwjgl.opengl.Display;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
@@ -26,11 +25,13 @@ public class Level {
 
 	public int gridSize = Ref.DEFAULT_LEVEL_GRIDSIZE;
 
-	private LinkedList<Entity> entities = new LinkedList<Entity>(), newEntities = new LinkedList<Entity>();
+	private LinkedList<Entity> entities = new LinkedList<Entity>(),
+			newEntities = new LinkedList<Entity>();
 	private LinkedList<EntitySetup> entitySetups = new LinkedList<EntitySetup>();
 
 	private Rectangle rect = Ref.DEFAULT_LEVEL_RECTANGLE;
-	private transient QuadTree quadTree = new QuadTree(0, Ref.DEFAULT_LEVEL_RECTANGLE);
+	private transient QuadTree quadTree = new QuadTree(0,
+			Ref.DEFAULT_LEVEL_RECTANGLE);
 
 	private void setRect(Rectangle rect) {
 		quadTree = new QuadTree(0, rect);
@@ -38,7 +39,8 @@ public class Level {
 	}
 
 	public Rectangle getRect() {
-		return new Rectangle(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
+		return new Rectangle(rect.getX(), rect.getY(), rect.getWidth(),
+				rect.getHeight());
 	}
 
 	public Level(LinkedList<Entity> origEntities, Rectangle levelRect) {
@@ -91,13 +93,16 @@ public class Level {
 	@SuppressWarnings("unchecked")
 	static Level fromBlueprint(Blueprint lBP) {
 		if (lBP == null) {
-			System.out.println("Error: Can't create a level from a null blueprint.");
+			System.out
+					.println("Error: Can't create a level from a null blueprint.");
 			return null;
 		}
 
-		LinkedList<EntitySetup> entitySetups = (LinkedList<EntitySetup>) lBP.get(BlueprintField.levelEntities);
+		LinkedList<EntitySetup> entitySetups = (LinkedList<EntitySetup>) lBP
+				.get(BlueprintField.levelEntities);
 
-		Level newLevel = new Level(EntityCreator.buildFromSetupCollection(entitySetups));
+		Level newLevel = new Level(
+				EntityCreator.buildFromSetupCollection(entitySetups));
 		newLevel.bgGraphic = (Graphic) lBP.get(BlueprintField.levelBG);
 		newLevel.setRect((Rectangle) lBP.get(BlueprintField.levelRect));
 
@@ -154,19 +159,11 @@ public class Level {
 
 		Iterator<Entity> entityIterator = entities.iterator();
 
-		// get bounds for view outside of loop
-		int view_minX = (int) ViewManager.getViewportX() - 32;
-		int view_maxX = (int) view_minX + Display.getWidth() + 32;
-		int view_minY = (int) ViewManager.getViewportY() - 32;
-		int view_maxY = (int) view_minY + Display.getHeight() + 32;
-
 		while (entityIterator.hasNext()) {
 			Entity entity = entityIterator.next();
 
-			// don't display or do logic on entities outside the view
-			float entityX = entity.getX();
-			float entityY = entity.getY();
-			if (entityX > view_maxX || entityX < view_minX || entityY > view_maxY || entityY < view_minY) {
+			// don't do logic on entities outside the view
+			if (!ViewManager.rectInView(entity.getOriginalBox())) {
 				continue;
 			}
 
@@ -188,7 +185,8 @@ public class Level {
 
 			// add existing entities to quadtree
 			if (GameManager.playing()) {
-				quadTree.insert(entity, QuadTree.increaseRect(entity.getCollisionRect()));
+				quadTree.insert(entity,
+						QuadTree.increaseRect(entity.getCollisionRect()));
 			}
 		}
 
@@ -223,7 +221,8 @@ public class Level {
 		resetTo(EntityCreator.getSetupCollection(entities));
 	}
 
-	public List<Entity> retrieveFromQuadTree(List<Entity> entities, Rectangle box) {
+	public List<Entity> retrieveFromQuadTree(List<Entity> entities,
+			Rectangle box) {
 		return quadTree.retrieve(entities, box);
 	}
 

@@ -1,5 +1,7 @@
 package unnamed_platformer.gui;
 
+import java.util.LinkedList;
+
 import unnamed_platformer.app.ViewManager;
 import unnamed_platformer.globals.GUIRef;
 import unnamed_platformer.res_mgt.ClassLookup;
@@ -13,34 +15,38 @@ public class GUIManager {
 		Start, SelectWorld, Play, Edit
 	}
 
-	public final static ScreenType initialState = ScreenType.Start;
-	private static ScreenType lastState = ScreenType.Start;
-	public static ScreenType state = initialState;
+	private static LinkedList<ScreenType> screenStateStack = new LinkedList<ScreenType>();
+	static {
+		screenStateStack.add(ScreenType.Start);
+	}
+
+	private static boolean menuChanged = false;
 
 	// Note: this event is only captured once
 	public static boolean menuWasChanged() {
-		if (state == lastState) {
+		if (!menuChanged) {
 			return false;
 		}
 
-		lastState = state;
+		menuChanged = false;
 		return true;
 	}
 
 	public static String stateAsString() {
-		return state.toString();
+		return top().toString();
 	}
 
 	public static void changeScreen(ScreenType newState) {
-		state = newState;
+		screenStateStack.add(newState);
+		menuChanged = true;
 	}
 
 	public static ScreenType current() {
-		return state;
+		return top();
 	}
 
 	public static boolean atScreen(ScreenType testState) {
-		return state == testState;
+		return top() == testState;
 	}
 
 	private static Screen screen;
@@ -58,18 +64,16 @@ public class GUIManager {
 	}
 
 	private static void screenChange() {
-		String className = "Screen_" + state.toString();
+		String className = "Screen_" + stateAsString();
 
 		if (screen != null) {
 			screen.finish();
 		}
 
 		if (ClassLookup.classExists(GUIRef.PACKAGE_NAME, className)) {
-			screen = (Screen) ClassLookup.instantiate(GUIRef.PACKAGE_NAME,
-					className);
+			screen = (Screen) ClassLookup.instantiate(GUIRef.PACKAGE_NAME, className);
 		} else {
-			screen = (Screen) ClassLookup.instantiate(GUIRef.PACKAGE_NAME,
-					"BaseScreen_Render");
+			screen = (Screen) ClassLookup.instantiate(GUIRef.PACKAGE_NAME, "BaseScreen_Render");
 		}
 		ViewManager.setGUIPanel(screen.getPanel());
 	}
@@ -81,7 +85,17 @@ public class GUIManager {
 	public static void drawBackground() {
 		screen.drawBackground();
 	}
+
 	public static void drawForeground() {
 		screen.drawForeground();
+	}
+
+	private static ScreenType top() {
+		return screenStateStack.get(screenStateStack.size() - 1);
+	}
+
+	public static void back() {
+		// TODO Auto-generated method stub
+		
 	}
 }

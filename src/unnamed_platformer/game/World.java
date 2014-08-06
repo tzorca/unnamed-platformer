@@ -19,7 +19,7 @@ import unnamed_platformer.structures.Graphic;
 
 public class World {
 	private static List<Level> levels = new LinkedList<Level>();
-	private static Level level; // current Level
+	private static Level level; // current level
 	private static int levelIndex = 0;
 	private static String _name;
 	private static ImageIcon previewImage = null;
@@ -63,12 +63,14 @@ public class World {
 	@SuppressWarnings("unchecked")
 	private static void fromBlueprint(Blueprint bp, String name) {
 		if (bp == null) {
-			System.out.println("Currently existing blueprint is invalid. Creating new game...");
+			System.out
+					.println("Currently existing blueprint is invalid. Creating new game...");
 			reset(name, true);
 			return;
 		}
 
-		List<Blueprint> lBPs = (LinkedList<Blueprint>) bp.get(BlueprintField.levels);
+		List<Blueprint> lBPs = (LinkedList<Blueprint>) bp
+				.get(BlueprintField.levels);
 
 		reset(name, false);
 
@@ -125,7 +127,7 @@ public class World {
 		GUIManager.drawBackground();
 		ViewManager.drawEntities(level.getEntities());
 		GUIManager.drawForeground();
-		
+
 	}
 
 	public static void addEntity(Entity e) {
@@ -160,7 +162,8 @@ public class World {
 		if (hasLevel(index)) {
 			levels.remove(index);
 		} else {
-			System.out.println("Can't delete level #" + index + " -- it doesn't exist");
+			System.out.println("Can't delete level #" + index
+					+ " -- it doesn't exist");
 		}
 	}
 

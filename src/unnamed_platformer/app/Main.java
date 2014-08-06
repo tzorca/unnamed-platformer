@@ -48,15 +48,19 @@ public class Main {
 			Main.restart();
 		}
 
-		if (InputManager.getGameKeyState(GameKey.startRandomGame, 1)) {
+		else if (InputManager.getGameKeyState(GameKey.menuBack, 1)) {
+			GUIManager.back();
+		}
+
+		else if (InputManager.getGameKeyState(GameKey.startRandomGame, 1)) {
 			GameManager.playRandomGame();
 		}
 
-		if (InputManager.getGameKeyState(GameKey.saveTempGame, 1)) {
+		else if (InputManager.getGameKeyState(GameKey.saveTempGame, 1)) {
 			GameManager.saveCurrentGame("Temp");
 		}
 
-		if (InputManager.getGameKeyState(GameKey.saveScreenshot, 1)) {
+		else if (InputManager.getGameKeyState(GameKey.saveScreenshot, 1)) {
 			ImageHelper.saveScreenshot();
 		}
 

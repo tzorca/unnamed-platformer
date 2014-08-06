@@ -12,7 +12,8 @@ public class CollisionData {
 	boolean[][] data;
 	Rectangle croppedRectangle, originalRectangle;
 
-	private static final int COLOR_TRANSPARENT = (new Color(0.0f, 0.0f, 0.0f, 0.0f)).getRGB();
+	private static final int COLOR_TRANSPARENT = (new Color(0.0f, 0.0f, 0.0f,
+			0.0f)).getRGB();
 
 	public CollisionData(BufferedImage img) {
 		readData(img);
@@ -81,10 +82,11 @@ public class CollisionData {
 				}
 			}
 		}
-		croppedRectangle = new Rectangle(leftEdge, topEdge, rightEdge - leftEdge + 1, bottomEdge - topEdge + 1);
+		croppedRectangle = new Rectangle(leftEdge, topEdge, rightEdge
+				- leftEdge + 1, bottomEdge - topEdge + 1);
 	}
 
-	private static HashMap<Float, Rectangle> croppedRectangleCache = new HashMap<Float, Rectangle>();
+	private static HashMap<Number, Rectangle> croppedRectangleCache = new HashMap<Number, Rectangle>();
 
 	public Rectangle getCroppedRectangle(Rectangle box) {
 		float wRatio = box.getWidth() / originalRectangle.getWidth();
@@ -95,14 +97,14 @@ public class CollisionData {
 		float w = (croppedRectangle.getWidth() * wRatio);
 		float h = (croppedRectangle.getHeight() * hRatio);
 
-		float cacheKey = MathHelper.rectangleHash(x,y,w,h);
+		double cacheKey = MathHelper.rectangleHash(x, y, w, h);
 
 		if (croppedRectangleCache.containsKey(cacheKey)) {
 			return croppedRectangleCache.get(cacheKey);
 		}
-		
+
 		Rectangle croppedRectangle = new Rectangle(x, y, w, h);
-		
+
 		croppedRectangleCache.put(cacheKey, croppedRectangle);
 		return croppedRectangle;
 	}

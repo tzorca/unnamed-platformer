@@ -152,13 +152,6 @@ public class ViewManager {
 		GL11.glEnd();
 	}
 
-	public static void drawEntity(Entity entity) {
-		if (entity.isFlagSet(Flag.invisible)) {
-			return;
-		}
-
-		drawGraphic(entity.graphic, entity.getOriginalBox());
-	}
 
 	@SuppressWarnings("unused")
 	private static void printRect(Rectangle rect) {
@@ -330,7 +323,11 @@ public class ViewManager {
 
 		for (int zIndex : zIndexBuckets.keySet()) {
 			for (Entity e : zIndexBuckets.get(zIndex)) {
-				drawEntity(e);
+				if (e.isFlagSet(Flag.invisible)) {
+					return;
+				}
+
+				drawGraphic(e.graphic, e.getOriginalBox());
 			}
 		}
 	}
