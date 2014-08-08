@@ -17,10 +17,13 @@ import org.newdawn.slick.geom.Vector2f;
 import unnamed_platformer.globals.InputRef;
 import unnamed_platformer.globals.InputRef.GameKey;
 
+import com.google.common.collect.Maps;
+
 public class InputManager {
-	private static HashMap<Integer, Boolean> rawKeyStates = new HashMap<Integer, Boolean>();
-	private static HashMap<PlayerGameKey, Boolean> playerGameKeyStates = new HashMap<PlayerGameKey, Boolean>();
-	private static HashMap<Integer, PlayerGameKey> rawKeyToPlayerGameKeyMapping = new HashMap<Integer, PlayerGameKey>();
+	private static HashMap<Integer, Boolean> rawKeyStates = Maps.newHashMap();
+	private static HashMap<PlayerGameKey, Boolean> playerGameKeyStates = Maps.newHashMap(),
+			lastPlayerGameKeyStates = Maps.newHashMap(), playerGameKeyPressEvents = Maps.newHashMap();
+	private static HashMap<Integer, PlayerGameKey> rawKeyToPlayerGameKeyMapping = Maps.newHashMap();
 
 	public static void init() {
 		// add default key mapping
@@ -37,8 +40,7 @@ public class InputManager {
 
 	private static Point getMousePosInWindow() {
 		Point mousePos = MouseInfo.getPointerInfo().getLocation();
-		Point contentLocation = ViewManager.getFrame().getContentPane()
-				.getLocation();
+		Point contentLocation = ViewManager.getFrame().getContentPane().getLocation();
 		Point windowLocation = ViewManager.getFrame().getLocation();
 		mousePos.x -= contentLocation.x + windowLocation.x;
 		mousePos.y -= contentLocation.y + windowLocation.y;
@@ -52,10 +54,8 @@ public class InputManager {
 
 		Vector2f gameMousePos = new Vector2f();
 
-		gameMousePos.x = ViewManager.getViewportX() - Display.getX()
-				+ awtMouseVector.x;
-		gameMousePos.y = ViewManager.getViewportY() - Display.getY()
-				+ awtMouseVector.y;
+		gameMousePos.x = ViewManager.getViewportX() - Display.getX() + awtMouseVector.x;
+		gameMousePos.y = ViewManager.getViewportY() - Display.getY() + awtMouseVector.y;
 
 		return gameMousePos;
 	}
@@ -73,7 +73,7 @@ public class InputManager {
 	public static void update() {
 		detectMouseButtons();
 		detectMousePos();
-		getKeys();
+		readKeys();
 	}
 
 	private static EnumMap<MouseButton, Boolean> nowMouseButtonStates = new EnumMap<MouseButton, Boolean>(
@@ -153,24 +153,33 @@ public class InputManager {
 		}
 	}
 
-	public static void setEventHandler(InputEventType inputEventType,
-			Runnable runnable) {
+	public static void setEventHandler(InputEventType inputEventType, Runnable runnable) {
 		eventHandlers.put(inputEventType, runnable);
 	}
 
-	private static void getKeys() {
+	private static void readKeys() {
 		while (Keyboard.next()) {
 			int keycode = Keyboard.getEventKey();
 			boolean state = Keyboard.getEventKeyState();
-			setKey(keycode, state);
+			assignKeyState(keycode, state);
 		}
 	}
 
-	private static void setKey(int keycode, boolean state) {
+	private static void assignKeyState(int keycode, boolean state) {
+
 		rawKeyStates.put(keycode, state);
 		if (rawKeyToPlayerGameKeyMapping.containsKey(keycode)) {
-			playerGameKeyStates.put(rawKeyToPlayerGameKeyMapping.get(keycode),
-					state);
+			PlayerGameKey mapping = rawKeyToPlayerGameKeyMapping.get(keycode);
+
+			playerGameKeyStates.put(mapping, state);
+			if (!lastPlayerGameKeyStates.containsKey(mapping)) {
+				lastPlayerGameKeyStates.put(mapping, false);
+			}
+
+			if (state && !lastPlayerGameKeyStates.get(mapping)) {
+				playerGameKeyPressEvents.put(mapping, true);
+			}
+			lastPlayerGameKeyStates.put(mapping, state);
 		}
 	}
 
@@ -184,12 +193,23 @@ public class InputManager {
 
 	public static boolean getGameKeyState(GameKey gk, int playerNo) {
 		PlayerGameKey pgk = new PlayerGameKey(playerNo, gk);
-
 		if (!playerGameKeyStates.containsKey(pgk)) {
+			playerGameKeyStates.put(pgk, false);
 			return false;
 		}
 
 		return playerGameKeyStates.get(pgk);
+	}
+
+	public static boolean gameKeyPressed(GameKey gk, int playerNo) {
+		PlayerGameKey pgk = new PlayerGameKey(playerNo, gk);
+		if (playerGameKeyPressEvents.containsKey(pgk)) {
+			boolean returnValue = playerGameKeyPressEvents.get(pgk);
+			playerGameKeyPressEvents.put(pgk, false);
+			
+			return returnValue;
+		}
+		return false;
 	}
 
 	public static void resetGameKey(GameKey gk, int playerNo) {
@@ -212,9 +232,8 @@ public class InputManager {
 		}
 
 		public int hashCode() {
-			return new HashCodeBuilder(23, 11). // two randomly chosen prime
-												// numbers
-					append(playerNo).append(gameKey).toHashCode();
+			// two randomly chosen prime numbers
+			return new HashCodeBuilder(23, 11).append(playerNo).append(gameKey).toHashCode();
 		}
 
 		public boolean equals(Object obj) {
@@ -226,8 +245,7 @@ public class InputManager {
 				return false;
 
 			PlayerGameKey rhs = (PlayerGameKey) obj;
-			return new EqualsBuilder().append(playerNo, rhs.playerNo)
-					.append(gameKey, rhs.gameKey).isEquals();
+			return new EqualsBuilder().append(playerNo, rhs.playerNo).append(gameKey, rhs.gameKey).isEquals();
 		}
 
 	}
@@ -248,8 +266,7 @@ public class InputManager {
 	}
 
 	public static boolean isShiftHeld() {
-		return getKeyState(Keyboard.KEY_LSHIFT)
-				|| getKeyState(Keyboard.KEY_RSHIFT);
+		return getKeyState(Keyboard.KEY_LSHIFT) || getKeyState(Keyboard.KEY_RSHIFT);
 	}
 
 }

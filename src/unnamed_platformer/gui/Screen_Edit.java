@@ -35,10 +35,12 @@ import unnamed_platformer.game.EntityCreator;
 import unnamed_platformer.game.Level;
 import unnamed_platformer.globals.InputRef.GameKey;
 import unnamed_platformer.globals.Ref;
+import unnamed_platformer.gui.GUIManager.ScreenType;
 import unnamed_platformer.gui.objects.ImageListEntry;
 import unnamed_platformer.gui.objects.ImageListEntryRenderer;
 import unnamed_platformer.res_mgt.ResManager;
 import unnamed_platformer.structures.Graphic;
+import unnamed_platformer.structures.ParamRunnable;
 
 public class Screen_Edit extends BaseScreen_Hybrid {
 	Editor editor = new Editor(0);
@@ -254,6 +256,24 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 	// ===============================================================================
 	// Event Handlers
 	// ===============================================================================
+
+	public boolean onFinish(final ScreenType plannedNextScreen) {
+		if (editor.unsavedChangesExist()) {
+			// this has to be done with a callback
+			// (a deadlock occurs if not invoked with SwingUtils.invokeLater)
+			GUIHelper.confirmDangerousWithCallback("Are you sure you want to exit? Your game has unsaved changes.",
+					new ParamRunnable() {
+						public void run(Object param) {
+							if ((boolean) param) {
+								editor.overrideSavedChanges();
+								GUIManager.changeScreen(plannedNextScreen);
+							}
+						}
+					});
+			return false;
+		}
+		return true;
+	}
 
 	private class RenderCanvas_LeftClick implements Runnable {
 		public void run() {

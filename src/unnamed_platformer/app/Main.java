@@ -44,23 +44,23 @@ public class Main {
 	// }
 
 	private static void processSpecialInput() {
-		if (InputManager.getGameKeyState(GameKey.restartApp, 1)) {
+		if (InputManager.gameKeyPressed(GameKey.restartApp, 1)) {
 			Main.restart();
 		}
 
-		else if (InputManager.getGameKeyState(GameKey.menuBack, 1)) {
+		else if (InputManager.gameKeyPressed(GameKey.menuBack, 1)) {
 			GUIManager.back();
 		}
 
-		else if (InputManager.getGameKeyState(GameKey.startRandomGame, 1)) {
+		else if (InputManager.gameKeyPressed(GameKey.startRandomGame, 1)) {
 			GameManager.playRandomGame();
 		}
 
-		else if (InputManager.getGameKeyState(GameKey.saveTempGame, 1)) {
+		else if (InputManager.gameKeyPressed(GameKey.saveTempGame, 1)) {
 			GameManager.saveCurrentGame("Temp");
 		}
 
-		else if (InputManager.getGameKeyState(GameKey.saveScreenshot, 1)) {
+		else if (InputManager.gameKeyPressed(GameKey.saveScreenshot, 1)) {
 			ImageHelper.saveScreenshot();
 		}
 

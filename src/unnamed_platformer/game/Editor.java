@@ -19,13 +19,14 @@ import com.google.common.collect.Lists;
 
 public class Editor {
 
-	// TODO: Fix random generation broken bug
 	// TODO: Fix collision bug with complicated object size/shape
 
 	public int gridSize = 32;
 	Level currentLevel;
 	int currentLevelIndex = 0;
 	boolean playerAdded = false;
+	
+	boolean unsavedChanges = false;
 
 	Vector2f cameraPos = new Vector2f(Ref.DEFAULT_LEVEL_GRIDSIZE * 4,
 			Ref.DEFAULT_LEVEL_GRIDSIZE * 4);
@@ -97,6 +98,7 @@ public class Editor {
 		}
 
 		currentLevel.addEntity(newEntity);
+		unsavedChanges = true;
 	}
 
 	public void removeObject(Vector2f location) {
@@ -108,6 +110,7 @@ public class Editor {
 
 		if (atMouse != null) {
 			currentLevel.removeEntity(atMouse);
+			unsavedChanges = true;
 
 			if (atMouse.isFlagSet(Flag.player)) {
 				playerAdded = false;
@@ -245,5 +248,13 @@ public class Editor {
 
 	public void exitMultiselect() {
 		multiselect = null;
+	}
+
+	public boolean unsavedChangesExist() {
+		return unsavedChanges;
+	}
+
+	public void overrideSavedChanges() {
+		unsavedChanges = false;
 	}
 }

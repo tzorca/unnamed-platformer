@@ -16,29 +16,23 @@ public class GUIManager {
 	}
 
 	private static LinkedList<ScreenType> screenStateStack = new LinkedList<ScreenType>();
-	static {
-		screenStateStack.add(ScreenType.Start);
-	}
-
-	private static boolean menuChanged = false;
-
-	// Note: this event is only captured once
-	public static boolean menuWasChanged() {
-		if (!menuChanged) {
-			return false;
-		}
-
-		menuChanged = false;
-		return true;
-	}
 
 	public static String stateAsString() {
 		return top().toString();
 	}
 
 	public static void changeScreen(ScreenType newState) {
-		screenStateStack.add(newState);
-		menuChanged = true;
+		if (screen == null || screen.finish(newState)) {
+			screenStateStack.add(newState);
+			String className = "Screen_" + stateAsString();
+
+			if (ClassLookup.classExists(GUIRef.PACKAGE_NAME, className)) {
+				screen = (Screen) ClassLookup.instantiate(GUIRef.PACKAGE_NAME, className);
+			} else {
+				screen = (Screen) ClassLookup.instantiate(GUIRef.PACKAGE_NAME, "BaseScreen_Render");
+			}
+			ViewManager.setGUIPanel(screen.getPanel());
+		}
 	}
 
 	public static ScreenType current() {
@@ -52,30 +46,11 @@ public class GUIManager {
 	private static Screen screen;
 
 	public static void init() {
-		screenChange();
+		changeScreen(ScreenType.Start);
 	}
 
 	public static void update() {
-		if (menuWasChanged()) {
-			screenChange();
-		}
-
 		screen.update();
-	}
-
-	private static void screenChange() {
-		String className = "Screen_" + stateAsString();
-
-		if (screen != null) {
-			screen.finish();
-		}
-
-		if (ClassLookup.classExists(GUIRef.PACKAGE_NAME, className)) {
-			screen = (Screen) ClassLookup.instantiate(GUIRef.PACKAGE_NAME, className);
-		} else {
-			screen = (Screen) ClassLookup.instantiate(GUIRef.PACKAGE_NAME, "BaseScreen_Render");
-		}
-		ViewManager.setGUIPanel(screen.getPanel());
 	}
 
 	public static Screen getScreen() {
@@ -96,6 +71,6 @@ public class GUIManager {
 
 	public static void back() {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
