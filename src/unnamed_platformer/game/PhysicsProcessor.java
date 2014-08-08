@@ -107,8 +107,8 @@ public class PhysicsProcessor {
 		}
 
 		return interactionResults;
-		// return false;
 	}
+
 
 	private static void processMove(ActiveEntity actor, List<Entity> entitiesToCheck) {
 
@@ -130,33 +130,40 @@ public class PhysicsProcessor {
 		for (Axis axis : axisCheckingOrder) {
 			interactionResults.addAll(findAndProcessInteractions(actor, axis, velocity, entitiesToCheck));
 
-		}
+			if (!interactionResults.contains(InteractionResult.SKIP_PHYSICS)) {
+				switch (axis) {
+				case HORIZONTAL:
+					if (interactionResults.contains(InteractionResult.X_COLLISION)) {
+						actor.getPhysics().setXVelocity(0);
+						xCollision = true;
+					} else {
+						actor.setX(original.x + velocity.x);
+					}
+					break;
+				case VERTICAL:
+					if (interactionResults.contains(InteractionResult.Y_COLLISION)) {
+						PhysicsInstance physics = actor.getPhysics();
+						physics.inAir = false;
+						if (velocity.y < 0) {
+							physics.upCancel = true;
+						}
 
-		if (!interactionResults.contains(InteractionResult.SKIP_PHYSICS)) {
-			if (interactionResults.contains(InteractionResult.X_COLLISION)) {
-				actor.getPhysics().setXVelocity(0);
-				xCollision = true;
-			} else {
-				actor.setX(original.x + velocity.x);
+						physics.setYVelocity(0);
+
+						yCollision = true;
+					} else {
+						actor.setY(original.y + velocity.y);
+
+						if (Math.abs(velocity.y) > 2) {
+							actor.getPhysics().inAir = true;
+						}
+					}
+					break;
+				default:
+					break;
+				}
 			}
 
-			if (interactionResults.contains(InteractionResult.Y_COLLISION)) {
-				PhysicsInstance physics = actor.getPhysics();
-				physics.inAir = false;
-				if (velocity.y < 0) {
-					physics.upCancel = true;
-				}
-
-				physics.setYVelocity(0);
-
-				yCollision = true;
-			} else {
-				actor.setY(original.y + velocity.y);
-
-				if (Math.abs(velocity.y) > 2) {
-					actor.getPhysics().inAir = true;
-				}
-			}
 		}
 
 		actor.getPhysics().lastMoveResult = new MoveResult(xCollision, yCollision, originalVelocity.x,
