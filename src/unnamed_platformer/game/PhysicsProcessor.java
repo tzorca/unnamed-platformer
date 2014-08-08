@@ -166,7 +166,9 @@ public class PhysicsProcessor {
 
 	private static void applyGlobalSpeedLimit(Vector2f velocity) {
 		velocity.x = velocity.x > PhysicsRef.GLOBAL_SPEED_LIMIT ? PhysicsRef.GLOBAL_SPEED_LIMIT : velocity.x;
+		velocity.x = velocity.x < -PhysicsRef.GLOBAL_SPEED_LIMIT ? -PhysicsRef.GLOBAL_SPEED_LIMIT : velocity.x;
 		velocity.y = velocity.y > PhysicsRef.GLOBAL_SPEED_LIMIT ? PhysicsRef.GLOBAL_SPEED_LIMIT : velocity.y;
+		velocity.y = velocity.y < -PhysicsRef.GLOBAL_SPEED_LIMIT ? -PhysicsRef.GLOBAL_SPEED_LIMIT : velocity.y;
 
 	}
 
