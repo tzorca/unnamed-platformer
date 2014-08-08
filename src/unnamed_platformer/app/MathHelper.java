@@ -84,8 +84,8 @@ public class MathHelper {
 		return distances;
 	}
 
-	public static double rectangleHash(float x, float y, float w, float h) {
-		double result = (int)x;
+	public static long rectangleHash(float x, float y, float w, float h) {
+		long result = (int)x;
 		result += 1000 * result + (int)y;
 		result += 1000 * result + (int)w;
 		result += 1000 * result + (int)h;
