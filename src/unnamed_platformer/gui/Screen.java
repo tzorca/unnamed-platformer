@@ -19,6 +19,10 @@ public abstract class Screen {
 	{
 		InputManager.resetEventHandlers();
 	}
+	
+	final public boolean canExit() {
+		return onFinish(null);
+	}
 
 	final public boolean finish(ScreenType plannedNextScreen) {
 		if (!onFinish(plannedNextScreen)) {

@@ -69,7 +69,6 @@ public class Main {
 	public static void main(String[] args) {
 		init();
 		gameLoop();
-		end();
 	}
 
 	private static void init() {
@@ -81,11 +80,6 @@ public class Main {
 		InputManager.init();
 		EntityCreator.init();
 		GUIManager.init();
-	}
-
-	private static void end() {
-		Display.destroy();
-		SQLiteStuff.finish();
 	}
 
 	public static void restart() {

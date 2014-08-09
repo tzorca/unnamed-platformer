@@ -22,6 +22,10 @@ public class GUIManager {
 	}
 
 	public static void changeScreen(ScreenType newState) {
+		if (newState == null) {
+			System.out.println("Note: Exited by changing screen.");
+			System.exit(0);
+		}
 		if (screen == null || screen.finish(newState)) {
 			screenStateStack.add(newState);
 			String className = "Screen_" + stateAsString();
@@ -55,6 +59,13 @@ public class GUIManager {
 
 	public static Screen getScreen() {
 		return screen;
+	}
+	
+	public static boolean canExit() {
+		if (screen == null) {
+			return true;
+		}
+		return screen.canExit();
 	}
 
 	public static void drawBackground() {

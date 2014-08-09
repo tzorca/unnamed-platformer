@@ -34,12 +34,18 @@ public class SQLiteStuff {
 
 	private static SQLiteConnection db;
 
+	private static boolean initialized = false;
 	public static void init() {
 		turnOffLogging();
 		connect(new File(Ref.RESOURCE_DIR + "data.sqlite"));
+		initialized = true;
 		initTables();
 		insertNewTextureNames();
 		addTextureMappings();
+	}
+	
+	public static boolean isInitialized() {
+		return initialized;
 	}
 
 	private static void addTextureMappings() {

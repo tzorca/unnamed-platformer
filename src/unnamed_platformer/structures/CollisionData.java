@@ -2,11 +2,8 @@ package unnamed_platformer.structures;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
-import java.util.HashMap;
 
 import org.newdawn.slick.geom.Rectangle;
-
-import unnamed_platformer.app.MathHelper;
 
 public class CollisionData {
 	boolean[][] data;
