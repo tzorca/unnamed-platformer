@@ -6,7 +6,7 @@ import java.awt.GraphicsEnvironment;
 
 public class ViewRef {
 
-	public static final Dimension DEFAULT_RESOLUTION = new Dimension(900, 600);
+	public static final Dimension DEFAULT_RESOLUTION = new Dimension(960, 600);
 
 	public static final float SCALE = 1f;
 

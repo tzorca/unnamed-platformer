@@ -112,7 +112,7 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 	}
 
 	private void setToolbarSizes() {
-		setToolbarSize(Side.left, 144);
+		setToolbarSize(Side.left, 160);
 		setToolbarSize(Side.right, 0);
 		setToolbarSize(Side.top, 36);
 		setToolbarSize(Side.bottom, 0);
