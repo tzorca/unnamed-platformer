@@ -1,5 +1,6 @@
 package unnamed_platformer.game;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.lwjgl.opengl.Display;
@@ -201,7 +202,7 @@ public class Editor {
 			return lastLocations;
 		}
 
-		private List<Vector2f> lastLocations;
+		private List<Vector2f> lastLocations = new ArrayList<Vector2f>();
 
 		public List<Vector2f> getLocations(Vector2f dest, int xSeparation,
 				int ySeparation) {
