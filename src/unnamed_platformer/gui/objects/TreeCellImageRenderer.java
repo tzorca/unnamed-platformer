@@ -9,12 +9,18 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 
 public class TreeCellImageRenderer extends DefaultTreeCellRenderer {
 	private static final long serialVersionUID = 3121464047823108249L;
+	private int heightValue;
 
 	@Override
 	public Color getBackgroundNonSelectionColor() {
 		return null;
 	}
-
+	
+	@Override
+	public int getHeight() {
+		return heightValue;
+	}
+	
 	public Component getTreeCellRendererComponent(JTree tree, Object value, boolean sel, boolean expanded,
 			boolean leaf, int row, boolean hasFocus) {
 
@@ -28,9 +34,9 @@ public class TreeCellImageRenderer extends DefaultTreeCellRenderer {
 			ImageListEntry imageListEntry = (ImageListEntry) userObject;
 			setIcon(imageListEntry.getImage());
 			setText(imageListEntry.getDisplayName());
-			int height = imageListEntry.getImage().getIconHeight();
+			this.heightValue = imageListEntry.getImage().getIconHeight();
 
-			tree.setRowHeight(height > tree.getRowHeight() ? height : tree.getRowHeight());
+			tree.setRowHeight(0);
 		}
 
 		return this;
