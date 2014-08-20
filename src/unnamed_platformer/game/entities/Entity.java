@@ -100,14 +100,14 @@ public abstract class Entity implements Serializable {
 	}
 
 	public Shape getCollisionShape() {
-		Rectangle cropRect = graphic.getCroppedRectangle(box);
+		Shape collisionShape = graphic.getCollisionShape(box);
 
-		return cropRect;
+		return collisionShape;
 	}
 	
 
 	public Rectangle getCollisionRect() {
-		Rectangle cropRect = graphic.getCroppedRectangle(box);
+		Rectangle cropRect = graphic.getCollisionRectangle(box);
 
 		return cropRect;
 	}

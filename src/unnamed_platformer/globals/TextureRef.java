@@ -14,4 +14,7 @@ public class TextureRef {
 		textureSetups.put(name,  setup);
 	}
 
+	public static TextureSetup getSetup(String textureName) {
+		return textureSetups.get(textureName);
+	}
 }

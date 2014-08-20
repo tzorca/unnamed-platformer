@@ -85,13 +85,13 @@ public class MathHelper {
 	}
 
 	public static long rectangleHash(float x, float y, float w, float h) {
-		long result = (int)x;
-		result += 1000 * result + (int)y;
-		result += 1000 * result + (int)w;
-		result += 1000 * result + (int)h;
+		long result = (int) x;
+		result += 1000 * result + (int) y;
+		result += 1000 * result + (int) w;
+		result += 1000 * result + (int) h;
 		return result;
 	}
-	
+
 	public static double wrapValue(double value, double min, double max) {
 		if (value > max)
 			return (value - max) + min;
@@ -199,8 +199,12 @@ public class MathHelper {
 		}
 		int width = (int) (dest.x - origin.x);
 		int height = (int) (dest.y - origin.y);
-		
-		return new Rectangle(origin.x, origin.y,  width, height);
+
+		return new Rectangle(origin.x, origin.y, width, height);
+	}
+
+	public static float getRectInnerRadius(float width, float height) {
+		return (width < height ? width : height) / 2;
 	}
 
 }

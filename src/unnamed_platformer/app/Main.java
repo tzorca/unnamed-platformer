@@ -37,12 +37,6 @@ public class Main {
 		}
 	}
 
-	// public static void catchCloseEvent() {
-	// if (state = State.Edit && changes) {
-	// TODO: Prompt to save edited level on exit
-	// }
-	// }
-
 	private static void processSpecialInput() {
 		if (InputManager.gameKeyPressed(GameKey.restartApp, 1)) {
 			Main.restart();

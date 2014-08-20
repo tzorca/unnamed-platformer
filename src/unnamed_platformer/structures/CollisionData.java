@@ -3,7 +3,12 @@ package unnamed_platformer.structures;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 
+import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Shape;
+
+import unnamed_platformer.app.MathHelper;
+import unnamed_platformer.structures.TextureSetup.CollisionShapeOption;
 
 public class CollisionData {
 	boolean[][] data;
@@ -83,18 +88,42 @@ public class CollisionData {
 				- leftEdge + 1, bottomEdge - topEdge + 1);
 	}
 
-	public Rectangle getCroppedRectangle(Rectangle box) {
-		float wRatio = box.getWidth() / originalRectangle.getWidth();
-		float hRatio = box.getHeight() / originalRectangle.getHeight();
+	private Rectangle getCroppedRectangle(Rectangle entityBox) {
+		float wRatio = entityBox.getWidth() / originalRectangle.getWidth();
+		float hRatio = entityBox.getHeight() / originalRectangle.getHeight();
 
-		float x = (croppedRectangle.getX() * wRatio + box.getX());
-		float y = (croppedRectangle.getY() * hRatio + box.getY());
+		float x = (croppedRectangle.getX() * wRatio + entityBox.getX());
+		float y = (croppedRectangle.getY() * hRatio + entityBox.getY());
 		float w = (croppedRectangle.getWidth() * wRatio);
 		float h = (croppedRectangle.getHeight() * hRatio);
 
-		Rectangle croppedRectangle = new Rectangle(x, y, w, h);
+		return new Rectangle(x, y, w, h);
+	}
 
-		return croppedRectangle;
+	public Shape getCollisionShape(Rectangle entityBox,
+			CollisionShapeOption collisionShape) {
+
+		Rectangle croppedRectangle = getCroppedRectangle(entityBox);
+
+		switch (collisionShape) {
+		case circle:
+			float radius = MathHelper.getRectInnerRadius(
+					croppedRectangle.getWidth(), croppedRectangle.getHeight());
+			float centerX = croppedRectangle.getCenterX();
+			float centerY = croppedRectangle.getCenterY();
+			return new Circle(centerX, centerY, radius);
+		case none:
+			return new Rectangle(0, 0, 0, 0);
+		case polygon:
+			System.err
+					.println("Error: Polygon collision shape not yet implemented.");
+			return croppedRectangle;
+		case rectangle:
+			return croppedRectangle;
+		default:
+			System.err.println("Error: Collision shape should not be null.");
+			return croppedRectangle;
+		}
 	}
 
 }

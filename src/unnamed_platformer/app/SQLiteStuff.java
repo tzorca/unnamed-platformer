@@ -35,6 +35,7 @@ public class SQLiteStuff {
 	private static SQLiteConnection db;
 
 	private static boolean initialized = false;
+
 	public static void init() {
 		turnOffLogging();
 		connect(new File(Ref.RESOURCE_DIR + "data.sqlite"));
@@ -43,29 +44,34 @@ public class SQLiteStuff {
 		insertNewTextureNames();
 		addTextureMappings();
 	}
-	
+
 	public static boolean isInitialized() {
 		return initialized;
 	}
 
 	private static void addTextureMappings() {
 		try {
-			SQLiteStatement st = db.prepare("select * FROM " + Names.Tbl.textureMappings + ";");
+			SQLiteStatement st = db.prepare("select * FROM "
+					+ Names.Tbl.textureMappings + ";");
 
 			while (st.step()) {
 				String entityClassName = st.columnString(1);
 				String textureName = st.columnString(0);
 				if (!entityClassName.equals("none")) {
-					Class<?> entityClass = ClassLookup.getClass(EntityRef.PACKAGE_NAME, entityClassName);
-					EntityRef.addTextureNameToEntityClassMapping(textureName, entityClass);
+					Class<?> entityClass = ClassLookup.getClass(
+							EntityRef.PACKAGE_NAME, entityClassName);
+					EntityRef.addTextureNameToEntityClassMapping(textureName,
+							entityClass);
 				}
 				String collisionShape = st.columnString(2);
-				TextureRef.addSetup(textureName, new TextureSetup(collisionShape));
+				TextureRef.addSetup(textureName, new TextureSetup(
+						collisionShape));
 			}
 
 			st.dispose();
 		} catch (SQLiteException e) {
-			System.out.println("Could not add texture mappings: " + e.toString());
+			System.out.println("Could not add texture mappings: "
+					+ e.toString());
 			e.printStackTrace();
 			System.exit(0);
 		}
@@ -77,9 +83,10 @@ public class SQLiteStuff {
 		if (textureNames.size() == 0) {
 			return;
 		}
-		
+
 		try {
-			SQLiteStatement st = db.prepare("insert or ignore into " + Names.Tbl.textureMappings + " values (?, ?, ?);");
+			SQLiteStatement st = db.prepare("insert or ignore into "
+					+ Names.Tbl.textureMappings + " values (?, ?, ?);");
 
 			for (String textureName : textureNames) {
 				st.bind(1, textureName);
@@ -91,7 +98,8 @@ public class SQLiteStuff {
 
 			st.dispose();
 		} catch (Exception e) {
-			System.out.println("Could not insert new texture names: " + e.toString());
+			System.out.println("Could not insert new texture names: "
+					+ e.toString());
 			e.printStackTrace();
 			System.exit(0);
 		}
@@ -99,8 +107,17 @@ public class SQLiteStuff {
 
 	private static void initTables() {
 		try {
-			db.exec("create table if not exists " + Names.Tbl.textureMappings + " (" + Names.Col.textureName
-					+ " text, " + Names.Col.entityName + " text, PRIMARY KEY(" + Names.Col.textureName + "));");
+			String creationSQL = "";
+			creationSQL += "create table if not exists "
+					+ Names.Tbl.textureMappings;
+			creationSQL += " (";
+			creationSQL += Names.Col.textureName + " text, ";
+			creationSQL += Names.Col.entityName + " text, ";
+			creationSQL += Names.Col.collisionShape + " text, ";
+			creationSQL += "PRIMARY KEY(" + Names.Col.textureName + ")";
+			creationSQL += ")";
+
+			db.exec(creationSQL);
 
 		} catch (SQLiteException e) {
 			System.out.println("Could not create tables: " + e.toString());
@@ -113,7 +130,8 @@ public class SQLiteStuff {
 		try {
 			db.open(true);
 		} catch (SQLiteException e) {
-			System.out.println("Could not connect to datatbase: " + e.toString());
+			System.out.println("Could not connect to datatbase: "
+					+ e.toString());
 			System.exit(0);
 		}
 	}
@@ -130,4 +148,5 @@ public class SQLiteStuff {
 		while (st.step()) {
 		}
 	}
+
 }

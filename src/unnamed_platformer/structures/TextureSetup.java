@@ -1,19 +1,22 @@
 package unnamed_platformer.structures;
 
-public class TextureSetup {
+import java.io.Serializable;
 
-	private CollisionShapeType collisionShapeType;
+public class TextureSetup implements Serializable {
+	private static final long serialVersionUID = -5456602392209992861L;
 	
-	public enum CollisionShapeType {
+	private CollisionShapeOption collisionShapeOption;
+	
+	public enum CollisionShapeOption {
 		none, rectangle, circle, polygon
 	}
 
 	public TextureSetup(String collisionShape) {
-		this.collisionShapeType = CollisionShapeType.valueOf(collisionShape);
+		this.collisionShapeOption = CollisionShapeOption.valueOf(collisionShape);
 	}
 	
-	public CollisionShapeType getCollisionShapeType() {
-		return this.collisionShapeType;
+	public CollisionShapeOption getCollisionShape() {
+		return collisionShapeOption;
 	}
 
 }
