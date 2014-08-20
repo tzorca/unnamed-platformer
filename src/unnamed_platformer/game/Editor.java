@@ -19,25 +19,20 @@ import unnamed_platformer.gui.objects.ImageListEntry;
 import com.google.common.collect.Lists;
 
 public class Editor {
-
-	// TODO: Fix collision bug with complicated object size/shape
-
 	public int gridSize = 32;
 	Level currentLevel;
 	int currentLevelIndex = 0;
 	boolean playerAdded = false;
-	
+
 	boolean unsavedChanges = false;
 
-	Vector2f cameraPos = new Vector2f(Ref.DEFAULT_LEVEL_GRIDSIZE * 4,
-			Ref.DEFAULT_LEVEL_GRIDSIZE * 4);
+	Vector2f cameraPos = new Vector2f(Ref.DEFAULT_LEVEL_GRIDSIZE * 4, Ref.DEFAULT_LEVEL_GRIDSIZE * 4);
 
 	public Editor(int levelIndex) {
 		changeLevel(levelIndex);
 		currentLevel.setSize(Ref.DEFAULT_LEVEL_RECTANGLE);
 	}
 
-	// returns the level index after the change
 	public boolean changeLevel(int index) {
 		if (!GameManager.levelExists(index)) {
 			return false;
@@ -76,8 +71,7 @@ public class Editor {
 
 	public void _placeObject(Vector2f v, ImageListEntry imageListEntry) {
 
-		if (!currentLevel.getRect().includes(v.x, v.y)
-				&& !currentLevel.getRect().contains(v.x, v.y)) {
+		if (!currentLevel.getRect().includes(v.x, v.y) && !currentLevel.getRect().contains(v.x, v.y)) {
 			return;
 		}
 
@@ -90,8 +84,6 @@ public class Editor {
 		}
 
 		if (newEntity.isFlagSet(Flag.player)) {
-			// TODO: Allow changing player spawn position by
-			// simply removing the old one first
 			if (playerAdded) {
 				return;
 			}
@@ -138,11 +130,9 @@ public class Editor {
 
 		Rectangle cameraBounds = currentLevel.getRect();
 		cameraBounds.setX(cameraBounds.getX() - Display.getWidth() / 4f);
-		cameraBounds
-				.setWidth(cameraBounds.getWidth() + Display.getWidth() / 2f);
+		cameraBounds.setWidth(cameraBounds.getWidth() + Display.getWidth() / 2f);
 		cameraBounds.setY(cameraBounds.getY() - Display.getHeight() / 4f);
-		cameraBounds.setHeight(cameraBounds.getHeight() + Display.getHeight()
-				/ 2f);
+		cameraBounds.setHeight(cameraBounds.getHeight() + Display.getHeight() / 2f);
 
 		float origX = cameraPos.x;
 		cameraPos.x += cameraDelta.x;
@@ -204,8 +194,7 @@ public class Editor {
 
 		private List<Vector2f> lastLocations = new ArrayList<Vector2f>();
 
-		public List<Vector2f> getLocations(Vector2f dest, int xSeparation,
-				int ySeparation) {
+		public List<Vector2f> getLocations(Vector2f dest, int xSeparation, int ySeparation) {
 			Vector2f snapDest = MathHelper.snapToGrid(dest, gridSize);
 			Vector2f snapOrigin = MathHelper.snapToGrid(origin, gridSize);
 
@@ -238,12 +227,10 @@ public class Editor {
 	}
 
 	public List<Vector2f> getPaintDrawLocations(int xSeparation, int ySeparation) {
-		Vector2f gridMousePos = MathHelper.snapToGrid(
-				InputManager.getGameMousePos(), gridSize);
+		Vector2f gridMousePos = MathHelper.snapToGrid(InputManager.getGameMousePos(), gridSize);
 
-		return multiselect == null ? Lists.newArrayList(gridMousePos)
-				: multiselect.getLocations(gridMousePos, xSeparation,
-						ySeparation);
+		return multiselect == null ? Lists.newArrayList(gridMousePos) : multiselect.getLocations(gridMousePos,
+				xSeparation, ySeparation);
 
 	}
 
