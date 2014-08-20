@@ -47,6 +47,8 @@ import unnamed_platformer.structures.Graphic;
 import unnamed_platformer.structures.ParamRunnable;
 
 public class Screen_Edit extends BaseScreen_Hybrid {
+	public static final int LEFT_TOOLBAR_SIZE = 160;
+
 	Editor editor = new Editor(0);
 
 	Map<ImageListEntry, Graphic> entityPlaceholderGraphics = new HashMap<ImageListEntry, Graphic>();
@@ -112,7 +114,7 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 	}
 
 	private void setToolbarSizes() {
-		setToolbarSize(Side.left, 160);
+		setToolbarSize(Side.left, LEFT_TOOLBAR_SIZE);
 		setToolbarSize(Side.right, 0);
 		setToolbarSize(Side.top, 36);
 		setToolbarSize(Side.bottom, 0);
@@ -371,9 +373,9 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 			} else {
 				editor.switchToEditMode();
 				btnModeSwitch.setIcon(imgPlayMode);
-				setToolbarSize(Side.left, 96);
+				setToolbarSize(Side.left, LEFT_TOOLBAR_SIZE);
 			}
-
+			
 			ViewManager.focusRenderCanvas();
 		}
 	}
