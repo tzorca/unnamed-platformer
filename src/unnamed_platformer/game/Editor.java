@@ -258,4 +258,8 @@ public class Editor {
 	public void overrideSavedChanges() {
 		unsavedChanges = false;
 	}
+
+	public void setCameraPos(Vector2f pos) {
+		cameraPos = pos;
+	}
 }

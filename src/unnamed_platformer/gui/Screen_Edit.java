@@ -37,6 +37,7 @@ import unnamed_platformer.game.Editor;
 import unnamed_platformer.game.EntityCreator;
 import unnamed_platformer.game.Level;
 import unnamed_platformer.globals.EntityRef;
+import unnamed_platformer.globals.GameRef.Flag;
 import unnamed_platformer.globals.InputRef.GameKey;
 import unnamed_platformer.globals.Ref;
 import unnamed_platformer.gui.GUIManager.ScreenType;
@@ -368,9 +369,10 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 		public void actionPerformed(ActionEvent e) {
 			if (!GameManager.playing()) {
 				editor.switchToPlayMode();
+				editor.setCameraPos(GameManager.getCurrentLevel().findEntityByFlag(Flag.player).getPos());
 				btnModeSwitch.setIcon(imgEditMode);
 				setToolbarSize(Side.left, 0);
-			} else {
+			} else {;
 				editor.switchToEditMode();
 				btnModeSwitch.setIcon(imgPlayMode);
 				setToolbarSize(Side.left, LEFT_TOOLBAR_SIZE);
