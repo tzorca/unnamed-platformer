@@ -6,13 +6,13 @@ import unnamed_platformer.game.EntitySetup;
 import unnamed_platformer.game.ctrl_methods.Control_PathMovement;
 import unnamed_platformer.globals.GameRef;
 
-public class JumpingFlame extends Hazard {
+public class JumpingHazard extends Hazard {
 	private static final long serialVersionUID = -4355060532556741847L;
 	private static final int FLAME_PERIOD_ID = 1;
 
 	private Control_PathMovement pathMovement;
 
-	public JumpingFlame(EntitySetup entitySetup) {
+	public JumpingHazard(EntitySetup entitySetup) {
 		super(entitySetup);
 		addPathMovement();
 	}
