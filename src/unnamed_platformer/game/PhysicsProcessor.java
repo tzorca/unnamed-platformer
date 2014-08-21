@@ -18,9 +18,7 @@ import unnamed_platformer.globals.PhysicsRef;
 import unnamed_platformer.globals.PhysicsRef.Axis;
 import unnamed_platformer.res_mgt.CloneManager;
 import unnamed_platformer.structures.MoveResult;
-
-// TODO: Implement choice of collision polygon shape (circle/square)
-// TODO: Slope physics (see below)
+// TODO: Implement slope physics (see below)
 // Implement image mask -> polygon
 // 1 - create polygon from coordinates of edge pixels
 // 2 - remove points from polygon and see how much area is reduced

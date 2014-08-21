@@ -1,21 +1,17 @@
-//package unnamed_platformer.game.entities;
-//
-//public class _Ideas {
-	// TODO: Simple walk-on-floor AI
-	// TODO: crusher
-	// TODO: speed launcher
-	// TODO: ice (friction decrease)
-	// TODO: quicksand (sink; multsiple jump to escape)
-	// TODO: rotating chainsaw
-	// TODO: fire flower
-	// TODO: invincibility powerup
-	// TODO: bumper
-	// TODO: moving platform
-	// TODO: climbable (vine/ladder/fencing)
-	// TODO: collapseable bridge (reappear after offscreen)
-	// TODO: pipe warp
-	// TODO: arrow/bullet bill launchers / fire-breathing statues
-	// TODO: slippery liquid diagonal slides
-	// TODO: conveyer belts
-
-//}
+// TODO: New entity types:
+// Simple walk-on-floor AI
+// crusher
+// speed launcher
+// ice (friction decrease)
+// quicksand (sink; multsiple jump to escape)
+// rotating chainsaw
+// fire flower
+// invincibility powerup
+// bumper
+// moving platform
+// climbable (vine/ladder/fencing)
+// collapseable bridge (reappear after offscreen)
+// pipe warp
+// arrow/bullet bill launchers / fire-breathing statues
+// slippery liquid diagonal slides
+// conveyer belts

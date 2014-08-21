@@ -115,8 +115,8 @@ public class CollisionData {
 		case none:
 			return new Rectangle(0, 0, 0, 0);
 		case polygon:
-			System.err
-					.println("Error: Polygon collision shape not yet implemented.");
+//			System.err
+//					.println("Error: Polygon collision shape not yet implemented.");
 			return croppedRectangle;
 		case rectangle:
 			return croppedRectangle;

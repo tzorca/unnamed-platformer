@@ -81,7 +81,5 @@ public class GUIManager {
 	}
 
 	public static void back() {
-		// TODO Auto-generated method stub
-
 	}
 }
