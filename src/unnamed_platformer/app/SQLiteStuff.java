@@ -91,7 +91,7 @@ public class SQLiteStuff {
 			for (String textureName : textureNames) {
 				st.bind(1, textureName);
 				st.bind(2, "entity");
-				st.bind(3, "square");
+				st.bind(3, "rectangle");
 				exec(st);
 				st.reset();
 			}
