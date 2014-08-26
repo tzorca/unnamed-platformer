@@ -417,8 +417,7 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 
 	private class btnSaveLevel_Click implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			editor.resetToEditPlacement();
-			GameManager.saveCurrentGame();
+			editor.save();
 			ViewManager.focusRenderCanvas();
 		}
 	}

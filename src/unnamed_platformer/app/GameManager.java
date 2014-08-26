@@ -53,8 +53,8 @@ public class GameManager {
 		World.save(name);
 	}
 
-	public static void saveCurrentGame() {
-		World.save(World.getName());
+	public static boolean saveCurrentGame() {
+		return World.save(World.getName());
 	}
 
 	public static String getGameName() {
