@@ -156,7 +156,7 @@ public class ViewManager {
 		float tW = background.getWidth(), tH = background.getHeight();
 
 		x = (float) (int) viewport.getX();
-		y = (float) (int) viewport.getY();
+		y = (float) (int) viewport.getY()- (background.getTextureHeight()-viewport.getHeight());
 		w = (float) background.getTextureWidth();
 		h = (float) background.getTextureHeight();
 

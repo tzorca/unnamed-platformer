@@ -372,12 +372,12 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 				editor.setCameraPos(GameManager.getCurrentLevel().findEntityByFlag(Flag.player).getPos());
 				btnModeSwitch.setIcon(imgEditMode);
 				setToolbarSize(Side.left, 0);
-			} else {;
+			} else {
 				editor.switchToEditMode();
 				btnModeSwitch.setIcon(imgPlayMode);
 				setToolbarSize(Side.left, LEFT_TOOLBAR_SIZE);
 			}
-			
+
 			ViewManager.focusRenderCanvas();
 		}
 	}

@@ -21,7 +21,7 @@ import unnamed_platformer.structures.QuadTree;
 
 public class Level {
 	// private boolean bgStretch = false;
-	private Graphic bgGraphic = new Graphic(new Color(0x27, 0x27, 0x41, 1));
+	private Graphic bgGraphic = new Graphic("bg", new Color(0x27, 0x27, 0x41, 1));
 
 	public int gridSize = Ref.DEFAULT_LEVEL_GRIDSIZE;
 
