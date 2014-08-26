@@ -141,7 +141,7 @@ public class PhysicsProcessor {
 				case VERTICAL:
 					if (interactionResults.contains(InteractionResult.Y_COLLISION)) {
 						PhysicsInstance physics = actor.getPhysics();
-						physics.inAir = false;
+						physics.setInAir(false);
 						if (velocity.y < 0) {
 							physics.upCancel = true;
 						}
@@ -153,7 +153,7 @@ public class PhysicsProcessor {
 						actor.setY(original.y + velocity.y);
 
 						if (Math.abs(velocity.y) > 2) {
-							actor.getPhysics().inAir = true;
+							actor.getPhysics().setInAir(true);
 						}
 					}
 					break;

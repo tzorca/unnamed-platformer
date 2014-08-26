@@ -17,7 +17,7 @@ public class PhysicsInstance implements Serializable {
 
 	private List<ControlMechanism> mechanisms = new LinkedList<ControlMechanism>();
 
-	public boolean inAir = true;
+	private boolean inAir = true;
 	private Vector2f lastMove = new Vector2f(0, 0),
 			lastHorizontalDirection = new Vector2f(0, 0);
 	public boolean upCancel = false;
@@ -150,6 +150,14 @@ public class PhysicsInstance implements Serializable {
 	public void setForceMultiplier(float factor) {
 		forceMultiplier = factor;
 
+	}
+
+	public boolean isOnGround() {
+		return !inAir;
+	}
+
+	public void setInAir(boolean value) {
+		inAir = value;
 	}
 
 }

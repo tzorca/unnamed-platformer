@@ -14,6 +14,7 @@ public class GameRef {
 	public static final float DEFAULT_SHOOT_DELAY = 100;
 
 	public final static float DEFAULT_WATER_SPEED_FACTOR = 0.5f;
+	public final static float DEFAULT_FAST_REGION_SPEED_FACTOR = 2f;
 
 	public static final float DEFAULT_FLAME_JUMP_INTERVAL = 3;
 	public static final float DEFAULT_FLAME_SPEED = 4.5f;
