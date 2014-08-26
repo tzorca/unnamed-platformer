@@ -4,11 +4,11 @@ public class GameRef {
 
 	public static final float DEFAULT_SPRING_STRENGTH = 2f;
 
-	public static final float DEFAULT_PLR_ACCELERATION = 2.5f;
-	public static final float DEFAULT_PLR_DECELERATION = 4f;
-	public static final float DEFAULT_PLR_MAX_SPEED = 5.5f;
+	public static final float DEFAULT_PLR_ACCELERATION = 1f;
+	public static final float DEFAULT_PLR_DECELERATION = 3f;
+	public static final float DEFAULT_PLR_MAX_SPEED = 5f;
 
-	public static final float DEFAULT_PLR_JUMP_STRENGTH = 11f;
+	public static final float DEFAULT_PLR_JUMP_STRENGTH = 8f;
 
 	public static final float DEFAULT_SHOOT_SPEED = 0.9f;
 	public static final float DEFAULT_SHOOT_DELAY = 100;

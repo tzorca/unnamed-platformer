@@ -4,7 +4,7 @@ import org.newdawn.slick.geom.Vector2f;
 
 public class PhysicsRef {
 
-	public static Vector2f gravity = new Vector2f(0, 0.23f);
+	public static Vector2f gravity = new Vector2f(0, 0.2f);
 
 	public enum Orientation {
 		UP, DOWN, LEFT, RIGHT, UP_RIGHT, UP_LEFT, DOWN_RIGHT, DOWN_LEFT
