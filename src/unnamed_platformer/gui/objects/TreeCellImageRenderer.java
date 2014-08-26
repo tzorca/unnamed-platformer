@@ -7,6 +7,8 @@ import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 
+import unnamed_platformer.globals.ViewRef;
+
 public class TreeCellImageRenderer extends DefaultTreeCellRenderer {
 	private static final long serialVersionUID = 3121464047823108249L;
 	private int heightValue;
@@ -15,12 +17,22 @@ public class TreeCellImageRenderer extends DefaultTreeCellRenderer {
 	public Color getBackgroundNonSelectionColor() {
 		return null;
 	}
-	
+
+	@Override
+	public Color getTextSelectionColor() {
+		return ViewRef.GUI_FG_COLOR;
+	}
+
+	@Override
+	public Color getTextNonSelectionColor() {
+		return ViewRef.GUI_FG_COLOR;
+	}
+
 	@Override
 	public int getHeight() {
 		return heightValue;
 	}
-	
+
 	public Component getTreeCellRendererComponent(JTree tree, Object value, boolean sel, boolean expanded,
 			boolean leaf, int row, boolean hasFocus) {
 

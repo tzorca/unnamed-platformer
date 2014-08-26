@@ -40,6 +40,7 @@ import unnamed_platformer.globals.EntityRef;
 import unnamed_platformer.globals.GameRef.Flag;
 import unnamed_platformer.globals.InputRef.GameKey;
 import unnamed_platformer.globals.Ref;
+import unnamed_platformer.globals.ViewRef;
 import unnamed_platformer.gui.GUIManager.ScreenType;
 import unnamed_platformer.gui.objects.ImageListEntry;
 import unnamed_platformer.gui.objects.TreeCellImageRenderer;
@@ -93,23 +94,31 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 		topToolbar.setLayout(flowLayout);
 		GUIHelper.removeButtonPadding(btnPrevLevel);
 		btnPrevLevel.addActionListener(new btnPrevLevel_Click());
+		btnPrevLevel.setBackground(ViewRef.GUI_BG_COLOR);
+		
 		topToolbar.add(btnPrevLevel);
 		lblCurrentLevel.setText("0");
+		lblCurrentLevel.setForeground(ViewRef.GUI_FG_COLOR);
 		lblCurrentLevel.setBorder(new EmptyBorder(8, 8, 8, 8));
 		topToolbar.add(lblCurrentLevel);
 		GUIHelper.removeButtonPadding(btnNextLevel);
+		btnNextLevel.setBackground(ViewRef.GUI_BG_COLOR);
 		btnNextLevel.addActionListener(new btnNextLevel_Click());
 		topToolbar.add(btnNextLevel);
 		GUIHelper.removeButtonPadding(btnAddLevel);
+		btnAddLevel.setBackground(ViewRef.GUI_BG_COLOR);
 		btnAddLevel.addActionListener(new btnAddLevel_Click());
 		topToolbar.add(btnAddLevel);
 		GUIHelper.removeButtonPadding(btnRemoveLevel);
+		btnRemoveLevel.setBackground(ViewRef.GUI_BG_COLOR);
 		btnRemoveLevel.addActionListener(new btnRemoveLevel_Click());
 		topToolbar.add(btnRemoveLevel);
 		GUIHelper.removeButtonPadding(btnSaveLevel);
+		btnSaveLevel.setBackground(ViewRef.GUI_BG_COLOR);
 		btnSaveLevel.addActionListener(new btnSaveLevel_Click());
 		topToolbar.add(btnSaveLevel);
 		GUIHelper.removeButtonPadding(btnModeSwitch);
+		btnModeSwitch.setBackground(ViewRef.GUI_BG_COLOR);
 		btnModeSwitch.addActionListener(new btnModeSwitch_Click());
 		topToolbar.add(btnModeSwitch);
 	}
@@ -163,7 +172,7 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 			treeEntities.expandPath(new TreePath(root.getPath()));
 			treeEntities.setRootVisible(false);
 
-			JScrollPane treeScroller = new JScrollPane(treeEntities, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+			JScrollPane treeScroller = new JScrollPane(treeEntities, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 					JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
 			toolbar.add(treeScroller, BorderLayout.CENTER);
