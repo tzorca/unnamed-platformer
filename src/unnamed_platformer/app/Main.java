@@ -43,7 +43,7 @@ public class Main {
 
 	private static void handleHotkeys() {
 		if (InputManager.gameKeyPressed(GameKey.restartApp, 1)) {
-			Main.restart();
+			GUIManager.changeScreen(ScreenType.SelectWorld);
 		}
 
 		else if (InputManager.gameKeyPressed(GameKey.menuBack, 1)) {
@@ -75,15 +75,11 @@ public class Main {
 
 		ViewManager.init();
 		ResManager.init();
+		GUIManager.changeScreen(ScreenType.SelectWorld);
 		SQLiteStuff.init();
 		TimeManager.init();
 		InputManager.init();
 		EntityCreator.init();
-		GUIManager.init();
-	}
-
-	public static void restart() {
-		GUIManager.changeScreen(ScreenType.Start);
 	}
 	
 	private static Cloner cloner = new Cloner();

@@ -25,11 +25,13 @@ public class ImageHelper {
 		return ImageIO.read(input);
 	}
 
-	public static BufferedImage blurImage(BufferedImage originalImage, int repetitions) {
+	public static BufferedImage blurImage(BufferedImage originalImage,
+			int repetitions) {
 		BufferedImage modImage = cloneBufferedImage(originalImage);
 
 		for (int i = 0; i < repetitions; i++) {
-			BufferedImage filteredImage = new BufferedImage(modImage.getWidth(null), modImage.getHeight(null),
+			BufferedImage filteredImage = new BufferedImage(
+					modImage.getWidth(null), modImage.getHeight(null),
 					BufferedImage.TYPE_BYTE_GRAY);
 
 			Dimension size = new Dimension();
@@ -39,11 +41,13 @@ public class ImageHelper {
 			Graphics g = filteredImage.getGraphics();
 			g.drawImage(modImage, 455, 255, null);
 
-			float[] blurKernel = { 1 / 9f, 1 / 9f, 1 / 9f, 1 / 9f, 1 / 9f, 1 / 9f, 1 / 9f, 1 / 9f, 1 / 9f };
+			float[] blurKernel = { 1 / 9f, 1 / 9f, 1 / 9f, 1 / 9f, 1 / 9f,
+					1 / 9f, 1 / 9f, 1 / 9f, 1 / 9f };
 
 			BufferedImageOp blur = new ConvolveOp(new Kernel(3, 3, blurKernel));
 			modImage = blur.filter(modImage,
-					new BufferedImage(modImage.getWidth(), modImage.getHeight(), modImage.getType()));
+					new BufferedImage(modImage.getWidth(),
+							modImage.getHeight(), modImage.getType()));
 
 			g.dispose();
 		}
@@ -58,24 +62,28 @@ public class ImageHelper {
 		return new BufferedImage(cm, raster, isAlphaPremultiplied, null);
 	}
 
-	public static BufferedImage resizeImageWithinCanvas(BufferedImage img, double percent) {
+	public static BufferedImage resizeImageWithinCanvas(BufferedImage img,
+			double percent) {
 		int scaleX = (int) (img.getWidth() * percent);
 		int scaleY = (int) (img.getHeight() * percent);
 		int startX = (int) (img.getWidth() * (1 - percent) / 2);
 		int startY = (int) (img.getHeight() * (1 - percent) / 2);
 
-		Image scaled = img.getScaledInstance(scaleX, scaleY, Image.SCALE_SMOOTH);
-		BufferedImage buffered = new BufferedImage(img.getWidth(), img.getHeight(), img.getType());
+		Image scaled = img
+				.getScaledInstance(scaleX, scaleY, Image.SCALE_SMOOTH);
+		BufferedImage buffered = new BufferedImage(img.getWidth(),
+				img.getHeight(), img.getType());
 
 		buffered.getGraphics().drawImage(scaled, startX, startY, null);
 		return buffered;
 	}
-	
+
 	public static final Pattern PATTERN_SCREENSHOT_FILENAME = Pattern
 			.compile("scr\\d{4}\\.png");
-	
+
 	public static void saveScreenshot() {
-		String newFilename = FileHelper.getScreenshotFilename(PATTERN_SCREENSHOT_FILENAME);
+		String newFilename = FileHelper
+				.getScreenshotFilename(PATTERN_SCREENSHOT_FILENAME);
 		if (newFilename == null) {
 			return;
 		}
@@ -84,13 +92,13 @@ public class ImageHelper {
 
 		File screenshotFile = new File(newFilename);
 		try {
-			ImageIO.write(image, "PNG",screenshotFile);
+			ImageIO.write(image, "PNG", screenshotFile);
 		} catch (IOException e) {
 			System.out.println("Screenshot failed: " + e.getMessage());
 			e.printStackTrace();
 			return;
 		}
-		
+
 		System.out.println("Saved screenshot to " + screenshotFile.getName());
 	}
 
@@ -105,8 +113,9 @@ public class ImageHelper {
 			return new ImageIcon(img);
 		}
 
-		float ratio = (float)img.getWidth() / img.getHeight();
+		float ratio = (float) img.getWidth() / img.getHeight();
 
-		return new ImageIcon(img.getScaledInstance(size, (int) (size / ratio), java.awt.Image.SCALE_SMOOTH));
+		return new ImageIcon(img.getScaledInstance(size, (int) (size / ratio),
+				java.awt.Image.SCALE_SMOOTH));
 	}
 }

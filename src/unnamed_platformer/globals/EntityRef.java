@@ -18,10 +18,6 @@ public class EntityRef {
 		GRAPHIC, LOCATION, ORIENTATION, POWER, SUBCLASS, SIZE_STRATEGY
 	}
 
-	public enum PotentialEntityParams {
-		LEVEL_WARP, LOCATION_WARP, SOLID
-	}
-
 	private static Map<String, Class<?>> textureName_EntityClass_Map = Maps
 			.newHashMap();
 

@@ -97,10 +97,6 @@ public class GUIManager {
 		return screen;
 	}
 
-	public static void init() {
-		changeScreen(ScreenType.Start);
-	}
-
 	public static String stateAsString() {
 		return top().toString();
 	}
