@@ -97,7 +97,7 @@ public abstract class BaseLevelGenerator {
 	private Entity add(Entity newEntity, boolean distinct) {
 		updateLevelRect(newEntity.getX(), newEntity.getY());
 
-		String texture = newEntity.graphic.textureName;
+		String texture = newEntity.graphic.getTextureName();
 		if (distinct) {
 			if (distinctEntityMap.containsKey(texture)) {
 				entities.remove(distinctEntityMap.get(texture));

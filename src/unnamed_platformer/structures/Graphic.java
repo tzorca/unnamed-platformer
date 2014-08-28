@@ -16,7 +16,7 @@ public class Graphic implements Serializable {
 	private static final long serialVersionUID = 3743979572361086098L;
 
 	public Color color;
-	public String textureName;
+	private String textureName;
 	public TextureSetup cachedTextureSetup;
 
 	public Graphic(Color color) {
@@ -60,12 +60,16 @@ public class Graphic implements Serializable {
 	}
 
 	public Rectangle getCollisionRectangle(Rectangle entityBox) {
-		return (Rectangle) getCollisionData().getCollisionShape(entityBox,
+		return (Rectangle) getCollisionData().getScaledShape(entityBox,
 				CollisionShapeOption.rectangle);
 	}
 
 	public Shape getCollisionShape(Rectangle entityBox) {
-		return getCollisionData().getCollisionShape(entityBox,
+		return getCollisionData().getScaledShape(entityBox,
 				cachedTextureSetup.getCollisionShape());
+	}
+
+	public String getTextureName() {
+		return textureName;
 	}
 }

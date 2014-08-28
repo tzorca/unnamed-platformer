@@ -37,15 +37,19 @@ public class PhysicsProcessor {
 			return;
 		}
 
-		actor.getPhysics().addForce(new Vector2f(PhysicsRef.gravity.x * multiplier, PhysicsRef.gravity.y * multiplier));
+		actor.getPhysics().addForce(
+				new Vector2f(PhysicsRef.gravity.x * multiplier,
+						PhysicsRef.gravity.y * multiplier));
 	}
-
+	
 	public static void processMoves() {
 		for (ActiveEntity a : movedEntities) {
 
 			// only check entities in nearby regions
 			List<Entity> entitiesToCheck = new ArrayList<Entity>();
-			GameManager.retrieveFromQuadTree(entitiesToCheck, a.getCollisionRect());
+			GameManager.retrieveFromQuadTree(entitiesToCheck,
+					a.getCollisionRect());
+
 			processMove(a, entitiesToCheck);
 			entitiesToCheck.clear();
 		}
@@ -53,9 +57,11 @@ public class PhysicsProcessor {
 
 	}
 
-	private static Set<InteractionResult> findAndProcessInteractions(ActiveEntity a, Axis direction, Vector2f velocity,
+	private static Set<InteractionResult> findAndProcessInteractions(
+			ActiveEntity a, Axis direction, Vector2f velocity,
 			List<Entity> entitiesToCheck) {
-		Set<InteractionResult> interactionResults = EnumSet.noneOf(InteractionResult.class);
+		Set<InteractionResult> interactionResults = EnumSet
+				.noneOf(InteractionResult.class);
 
 		// setup checking rectangle to include either x or y velocity,
 		// depending on axis
@@ -80,8 +86,10 @@ public class PhysicsProcessor {
 		return interactionResults;
 	}
 
-	private static Set<InteractionResult> processInteraction(ActiveEntity a, Entity b, Axis direction) {
-		EnumSet<InteractionResult> interactionResults = EnumSet.noneOf(InteractionResult.class);
+	private static Set<InteractionResult> processInteraction(ActiveEntity a,
+			Entity b, Axis direction) {
+		EnumSet<InteractionResult> interactionResults = EnumSet
+				.noneOf(InteractionResult.class);
 
 		// the ordering of b and a is important
 		if (b instanceof ActiveEntity) {
@@ -100,15 +108,16 @@ public class PhysicsProcessor {
 
 		// if a solid collision occurred
 		if (a.isFlagSet(Flag.tangible) && b.isFlagSet(Flag.solid)) {
-			interactionResults.add(direction == Axis.HORIZONTAL ? InteractionResult.X_COLLISION
-					: InteractionResult.Y_COLLISION);
+			interactionResults
+					.add(direction == Axis.HORIZONTAL ? InteractionResult.X_COLLISION
+							: InteractionResult.Y_COLLISION);
 		}
 
 		return interactionResults;
 	}
 
-
-	private static void processMove(ActiveEntity actor, List<Entity> entitiesToCheck) {
+	private static void processMove(ActiveEntity actor,
+			List<Entity> entitiesToCheck) {
 
 		Vector2f original = actor.getPos();
 		Vector2f velocity = actor.getPhysics().getVelocity();
@@ -119,19 +128,20 @@ public class PhysicsProcessor {
 		boolean xCollision = false, yCollision = false;
 
 		Axis[] axisCheckingOrder = velocity.x > velocity.y ? new Axis[] {
-				Axis.HORIZONTAL, Axis.VERTICAL
-		} : new Axis[] {
-				Axis.VERTICAL, Axis.HORIZONTAL
-		};
+				Axis.HORIZONTAL, Axis.VERTICAL } : new Axis[] { Axis.VERTICAL,
+				Axis.HORIZONTAL };
 
-		Set<InteractionResult> interactionResults = EnumSet.noneOf(InteractionResult.class);
+		Set<InteractionResult> interactionResults = EnumSet
+				.noneOf(InteractionResult.class);
 		for (Axis axis : axisCheckingOrder) {
-			interactionResults.addAll(findAndProcessInteractions(actor, axis, velocity, entitiesToCheck));
+			interactionResults.addAll(findAndProcessInteractions(actor, axis,
+					velocity, entitiesToCheck));
 
 			if (!interactionResults.contains(InteractionResult.SKIP_PHYSICS)) {
 				switch (axis) {
 				case HORIZONTAL:
-					if (interactionResults.contains(InteractionResult.X_COLLISION)) {
+					if (interactionResults
+							.contains(InteractionResult.X_COLLISION)) {
 						actor.getPhysics().setXVelocity(0);
 						xCollision = true;
 					} else {
@@ -139,7 +149,8 @@ public class PhysicsProcessor {
 					}
 					break;
 				case VERTICAL:
-					if (interactionResults.contains(InteractionResult.Y_COLLISION)) {
+					if (interactionResults
+							.contains(InteractionResult.Y_COLLISION)) {
 						PhysicsInstance physics = actor.getPhysics();
 						physics.setInAir(false);
 						if (velocity.y < 0) {
@@ -164,16 +175,20 @@ public class PhysicsProcessor {
 
 		}
 
-		actor.getPhysics().lastMoveResult = new MoveResult(xCollision, yCollision, originalVelocity.x,
-				originalVelocity.y);
+		actor.getPhysics().lastMoveResult = new MoveResult(xCollision,
+				yCollision, originalVelocity.x, originalVelocity.y);
 		actor.getPhysics().recalculateDirection(original);
 	}
 
 	private static void applyGlobalSpeedLimit(Vector2f velocity) {
-		velocity.x = velocity.x > PhysicsRef.GLOBAL_SPEED_LIMIT ? PhysicsRef.GLOBAL_SPEED_LIMIT : velocity.x;
-		velocity.x = velocity.x < -PhysicsRef.GLOBAL_SPEED_LIMIT ? -PhysicsRef.GLOBAL_SPEED_LIMIT : velocity.x;
-		velocity.y = velocity.y > PhysicsRef.GLOBAL_SPEED_LIMIT ? PhysicsRef.GLOBAL_SPEED_LIMIT : velocity.y;
-		velocity.y = velocity.y < -PhysicsRef.GLOBAL_SPEED_LIMIT ? -PhysicsRef.GLOBAL_SPEED_LIMIT : velocity.y;
+		velocity.x = velocity.x > PhysicsRef.GLOBAL_SPEED_LIMIT ? PhysicsRef.GLOBAL_SPEED_LIMIT
+				: velocity.x;
+		velocity.x = velocity.x < -PhysicsRef.GLOBAL_SPEED_LIMIT ? -PhysicsRef.GLOBAL_SPEED_LIMIT
+				: velocity.x;
+		velocity.y = velocity.y > PhysicsRef.GLOBAL_SPEED_LIMIT ? PhysicsRef.GLOBAL_SPEED_LIMIT
+				: velocity.y;
+		velocity.y = velocity.y < -PhysicsRef.GLOBAL_SPEED_LIMIT ? -PhysicsRef.GLOBAL_SPEED_LIMIT
+				: velocity.y;
 
 	}
 
