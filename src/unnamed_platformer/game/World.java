@@ -48,14 +48,14 @@ public class World {
 	public static Blueprint toBlueprint() {
 		Blueprint gBP = new Blueprint();
 
-		gBP.put(BlueprintField.previewImage, previewImage);
+		gBP.put(BlueprintField.PREVIEW_IMAGE, previewImage);
 
 		List<Blueprint> lBPs = new LinkedList<Blueprint>();
 		for (Level lvl : levels) {
 			lBPs.add(lvl.toBlueprint());
 		}
 
-		gBP.put(BlueprintField.levels, lBPs);
+		gBP.put(BlueprintField.LEVEL_DATA, lBPs);
 
 		return gBP;
 	}
@@ -70,7 +70,7 @@ public class World {
 		}
 
 		List<Blueprint> lBPs = (LinkedList<Blueprint>) bp
-				.get(BlueprintField.levels);
+				.get(BlueprintField.LEVEL_DATA);
 
 		reset(name, false);
 
@@ -83,11 +83,11 @@ public class World {
 
 	public static Image getPreviewImage(Blueprint bp) {
 
-		if (bp == null || !bp.containsKey(BlueprintField.previewImage)) {
+		if (bp == null || !bp.containsKey(BlueprintField.PREVIEW_IMAGE)) {
 
 			return new BufferedImage(32, 32, BufferedImage.TYPE_INT_RGB);
 		}
-		return ((ImageIcon) bp.get(BlueprintField.previewImage)).getImage();
+		return ((ImageIcon) bp.get(BlueprintField.PREVIEW_IMAGE)).getImage();
 	}
 
 	public static boolean hasLevel(int destination) {

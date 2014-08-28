@@ -15,6 +15,6 @@ public class Spikes extends ActiveEntity implements Serializable {
 
 		this.interactions
 				.add(new Interaction_Damaging(this, new Side[] { Side.TOP }));
-		setFlag(Flag.solid, true);
+		setFlag(Flag.SOLID, true);
 	}
 }

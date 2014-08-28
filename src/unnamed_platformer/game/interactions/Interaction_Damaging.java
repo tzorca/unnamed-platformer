@@ -29,7 +29,7 @@ public class Interaction_Damaging extends Interaction {
 
 	@Override
 	protected boolean isValidTarget(Entity target) {
-		return target.isFlagSet(Flag.player);
+		return target.isFlagSet(Flag.PLAYER);
 	}
 
 }

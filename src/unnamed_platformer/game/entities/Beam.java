@@ -10,7 +10,7 @@ public class Beam extends ActiveEntity {
 	public Beam(EntitySetup entitySetup) {
 		super(entitySetup);
 
-		setFlag(Flag.hurtsOthers, true);
-		setFlag(Flag.dissolvesOnContact, true);
+		setFlag(Flag.HURTS_OTHERS, true);
+		setFlag(Flag.DISSOLVES_ON_CONTACT, true);
 	}
 }

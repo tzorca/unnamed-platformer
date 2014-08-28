@@ -1,7 +1,6 @@
 package unnamed_platformer.globals;
 
 import java.io.File;
-import java.util.List;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.geom.Rectangle;
@@ -13,13 +12,7 @@ public class Ref {
 	}
 
 	public enum BlueprintField {
-		levelBG, levelRect, levelEntities, levels, previewImage
-	}
-
-	public static <T> void multiadd(List<T> list, T[] elements) {
-		for (T element : elements) {
-			list.add(element);
-		}
+		LEVEL_BG, LEVEL_RECT, LEVEL_ENTITIES, LEVEL_DATA, PREVIEW_IMAGE
 	}
 
 	public static final Color DEFAULT_COLOR = new Color(1, 1, 1, 1);

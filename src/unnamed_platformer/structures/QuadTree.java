@@ -20,7 +20,7 @@ public class QuadTree {
 	private List<Entity> entities;
 	private Rectangle bounds;
 	private QuadTree[] nodes;
- 
+
 	public QuadTree(int pLevel, Rectangle rect) {
 		level = pLevel;
 		entities = new ArrayList<Entity>();
@@ -33,8 +33,11 @@ public class QuadTree {
 
 		for (int i = 0; i < nodes.length; i++) {
 			if (nodes[i] != null) {
+				if (nodes[i].entities != null) {
+					nodes[i].entities.clear();
+				}
 				nodes[i].clear();
-				nodes[i] = null;
+				// nodes[i] = null;
 			}
 		}
 	}
@@ -69,6 +72,7 @@ public class QuadTree {
 		// Object can completely fit within the top quadrants
 		boolean topQuadrant = (pRect.getY() < horizontalMidpoint && pRect
 				.getY() + pRect.getHeight() < horizontalMidpoint);
+
 		// Object can completely fit within the bottom quadrants
 		boolean bottomQuadrant = (pRect.getY() > horizontalMidpoint);
 
@@ -93,9 +97,11 @@ public class QuadTree {
 		return index;
 	}
 
-	// prevent stupid "just barely out of range so fall through ground" bugs
+	// prevent stupid bugs
 	public static Rectangle increaseRect(Rectangle pRect) {
-		return new Rectangle(pRect.getX() - pRect.getWidth(), pRect.getY()-pRect.getHeight(), pRect.getWidth()*2, pRect.getHeight()*2);
+		return new Rectangle(pRect.getX() - pRect.getWidth(), pRect.getY()
+				- pRect.getHeight(), pRect.getWidth() * 2,
+				pRect.getHeight() * 2);
 	}
 
 	/*
@@ -121,7 +127,8 @@ public class QuadTree {
 
 			int i = 0;
 			while (i < entities.size()) {
-				int index = getIndex(increaseRect(entities.get(i).getCollisionRect()));
+				int index = getIndex(increaseRect(entities.get(i)
+						.getCollisionRect()));
 				if (index != -1) {
 					nodes[index].insert(entities.remove(i), box);
 				} else {

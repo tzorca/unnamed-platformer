@@ -29,7 +29,7 @@ public class Control_Jump extends ControlMechanism {
 		}
 
 		if (!jumping && physics.isOnGround() && InputManager.getGameKeyState(GameKey.up, 1)
-				&& actor.isFlagSet(Flag.obeysGravity)) {
+				&& actor.isFlagSet(Flag.OBEYS_GRAVITY)) {
 
 			actor.getPhysics().setInAir(true);
 			jumping = true;

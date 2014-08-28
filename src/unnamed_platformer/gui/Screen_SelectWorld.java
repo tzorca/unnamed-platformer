@@ -7,7 +7,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 
-import unnamed_platformer.globals.GUIRef;
 import unnamed_platformer.gui.objects.WorldCell;
 import unnamed_platformer.gui.objects.WorldTableModel;
 
@@ -17,7 +16,7 @@ public class Screen_SelectWorld extends BaseScreen_GUI {
 	// instance initializer
 	{
 		JLabel lblGameTitle = new JLabel("Custom Worlds");
-		lblGameTitle.setFont(GUIRef.SUB_HEADING_FONT);
+		lblGameTitle.setFont(GUIManager.SUB_HEADING_FONT);
 		lblGameTitle.setForeground(Color.darkGray);
 
 		WorldTableModel mdlWorlds = new WorldTableModel();
@@ -28,7 +27,7 @@ public class Screen_SelectWorld extends BaseScreen_GUI {
 		tblWorlds.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tblWorlds.setRowHeight(64);
 
-		pnlSurface.add(lblGameTitle, GUIRef.CENTER_LAYOUT + ", gapBottom 5%");
+		pnlSurface.add(lblGameTitle, GUIManager.CENTER_LAYOUT + ", gapBottom 5%");
 		pnlSurface.add(new JScrollPane(tblWorlds), "growx");
 	}
 

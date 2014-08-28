@@ -26,7 +26,6 @@ public class Interaction_Spring extends Interaction implements Serializable {
 		if (!plr.hasPhysics()) {
 			return InteractionResult.NO_RESULT;
 		}
-		plr.getPhysics().upCancel = true;
 		plr.getPhysics().addForce(v);
 
 		return InteractionResult.NO_RESULT;
@@ -34,7 +33,7 @@ public class Interaction_Spring extends Interaction implements Serializable {
 
 	@Override
 	protected boolean isValidTarget(Entity target) {
-		return target.isFlagSet(Flag.player);
+		return target.isFlagSet(Flag.PLAYER);
 	}
 
 }

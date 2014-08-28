@@ -13,14 +13,14 @@ public class Interaction_Breakable extends Interaction {
 
 	@Override
 	protected boolean isValidTarget(Entity target) {
-		return target.isFlagSet(Flag.hurtsOthers);
+		return target.isFlagSet(Flag.HURTS_OTHERS);
 	}
 
 	@Override
 	protected InteractionResult performInteraction(Entity target) {
-		source.setFlag(Flag.outOfPlay, true);
-		if (target.isFlagSet(Flag.dissolvesOnContact))
-			target.setFlag(Flag.outOfPlay,  true);
+		source.setFlag(Flag.OUT_OF_PLAY, true);
+		if (target.isFlagSet(Flag.DISSOLVES_ON_CONTACT))
+			target.setFlag(Flag.OUT_OF_PLAY,  true);
 		return InteractionResult.NO_RESULT;
 	}
 

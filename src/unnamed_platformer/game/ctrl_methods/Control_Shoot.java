@@ -64,7 +64,7 @@ public class Control_Shoot extends ControlMechanism {
 
 	public void setProjectile(ActiveEntity projectile) {
 		this.projectile = projectile;
-		this.projectile.setFlag(Flag.solid, false);
+		this.projectile.setFlag(Flag.SOLID, false);
 		this.projectile.getPhysics().clearControlMechanisms();
 	}
 

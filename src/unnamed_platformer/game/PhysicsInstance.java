@@ -20,8 +20,7 @@ public class PhysicsInstance implements Serializable {
 	private boolean inAir = true;
 	private Vector2f lastMove = new Vector2f(0, 0),
 			lastHorizontalDirection = new Vector2f(0, 0);
-	public boolean upCancel = false;
-
+	
 	Vector2f velocity = new Vector2f(0, 0);
 	Vector2f currentForces = new Vector2f();
 
@@ -29,66 +28,69 @@ public class PhysicsInstance implements Serializable {
 
 	public MoveResult lastMoveResult = new MoveResult(false, false, 0, 0);
 
-	private ActiveEntity actor;
+	private ActiveEntity associatedActor;
 
-	public void addForce(org.newdawn.slick.geom.Vector2f v) {
-		currentForces = currentForces.add(v);
-	}
-
-	public Vector2f getCurrentForce() {
-		return currentForces;
-	}
+	private boolean isZero = false;
 
 	public PhysicsInstance(ActiveEntity actor) {
-		this.actor = actor;
+		this.associatedActor = actor;
 	}
 
 	public void addControlMechanism(ControlMechanism mechanism) {
 		mechanisms.add(mechanism);
 	}
 
-	public void removeControlMechanism(ControlMechanism mechanism) {
-		mechanisms.remove(mechanism);
+	public void addForce(org.newdawn.slick.geom.Vector2f v) {
+		currentForces = currentForces.add(v);
 	}
 
 	public void clearControlMechanisms() {
 		mechanisms.clear();
 	}
 
-	public void update() {
-		isZero = false;
+	public Vector2f getCurrentForce() {
+		return currentForces;
+	}
 
-		runControlMechanisms();
+	public Vector2f getDirection() {
+		return lastHorizontalDirection;
+	}
 
-		if (actor.isFlagSet(Flag.obeysGravity)) {
-			PhysicsProcessor.applyGravity(actor, forceMultiplier);
-		}
+	public Vector2f getLastMove() {
+		return lastMove;
+	}
 
-		if (currentForces.equals(PhysicsRef.EMPTY_VECTOR)
-				|| currentForces.length() == 0) {
-			// do NOT add to collision processing queue (or do anything else)
-			return;
-		}
+	public Vector2f getVelocity() {
+		return this.velocity;
+	}
 
-		velocity = velocity.add(currentForces);
+	public boolean isOnGround() {
+		return !inAir;
+	}
 
-		// clear out current force (no longer current next tic)
-		currentForces = new Vector2f(0, 0);
-
-		inAir = false;
-		PhysicsProcessor.queueMove(actor);
-		forceMultiplier = PhysicsRef.DEFAULT_FORCE_MULTIPLIER;
+	public boolean isZero() {
+		return isZero;
 	}
 
 	public void recalculateDirection(Vector2f oldPos) {
 
-		Vector2f newPos = actor.getPos();
+		Vector2f newPos = associatedActor.getPos();
 
 		if (newPos.x - oldPos.x != 0 || newPos.y - oldPos.y != 0) {
 			lastMove = new Vector2f(newPos.x - oldPos.x, newPos.y - oldPos.y);
 			if (newPos.x - oldPos.x != 0) {
 				lastHorizontalDirection = new Vector2f(lastMove.x, 0);
 			}
+		}
+	}
+
+	public void removeControlMechanism(ControlMechanism mechanism) {
+		mechanisms.remove(mechanism);
+	}
+
+	private void resetControlMechanisms() {
+		for (ControlMechanism mechanism : mechanisms) {
+			mechanism.reset();
 		}
 	}
 
@@ -104,12 +106,47 @@ public class PhysicsInstance implements Serializable {
 		mechanisms.removeAll(toRemoveList);
 	}
 
-	public Vector2f getLastMove() {
-		return lastMove;
+	public void setForceMultiplier(float factor) {
+		forceMultiplier = factor;
+
 	}
 
-	public Vector2f getDirection() {
-		return lastHorizontalDirection;
+	public void setInAir(boolean value) {
+		inAir = value;
+	}
+
+	public void setXVelocity(float x) {
+		velocity.x = x;
+
+	}
+
+	public void setYVelocity(float y) {
+		velocity.y = y;
+	}
+
+	public void update() {
+		isZero = false;
+
+		runControlMechanisms();
+
+		if (associatedActor.isFlagSet(Flag.OBEYS_GRAVITY)) {
+			PhysicsProcessor.applyGravity(associatedActor, forceMultiplier);
+		}
+
+		if (currentForces.equals(PhysicsRef.EMPTY_VECTOR)
+				|| currentForces.length() == 0) {
+			// do NOT add to collision processing queue (or do anything else)
+			return;
+		}
+
+		velocity = velocity.add(currentForces);
+
+		// clear out current force (no longer current next tic)
+		currentForces = new Vector2f(0, 0);
+
+		inAir = false;
+		PhysicsProcessor.registerEntityForInteractionChecking(associatedActor);
+		forceMultiplier = PhysicsRef.DEFAULT_FORCE_MULTIPLIER;
 	}
 
 	public void zero() {
@@ -120,44 +157,6 @@ public class PhysicsInstance implements Serializable {
 
 		resetControlMechanisms();
 		isZero = true;
-	}
-
-	private void resetControlMechanisms() {
-		for (ControlMechanism mechanism : mechanisms) {
-			mechanism.reset();
-		}
-	}
-
-	private boolean isZero = false;
-
-	public boolean isZero() {
-		return isZero;
-	}
-
-	public Vector2f getVelocity() {
-		return this.velocity;
-	}
-
-	public void setYVelocity(float y) {
-		velocity.y = y;
-	}
-
-	public void setXVelocity(float x) {
-		velocity.x = x;
-
-	}
-
-	public void setForceMultiplier(float factor) {
-		forceMultiplier = factor;
-
-	}
-
-	public boolean isOnGround() {
-		return !inAir;
-	}
-
-	public void setInAir(boolean value) {
-		inAir = value;
 	}
 
 }

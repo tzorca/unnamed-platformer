@@ -7,7 +7,6 @@ import javax.swing.SwingUtilities;
 
 import net.miginfocom.swing.MigLayout;
 import unnamed_platformer.app.ViewManager;
-import unnamed_platformer.globals.ViewRef;
 
 public class BaseScreen_Hybrid extends Screen {
 
@@ -28,8 +27,8 @@ public class BaseScreen_Hybrid extends Screen {
 
 		for (Side side : Side.values()) {
 			Panel panel = new Panel(new MigLayout());
-			panel.setBackground(ViewRef.GUI_BG_COLOR);
-			panel.setForeground(ViewRef.GUI_FG_COLOR);
+			panel.setBackground(GUIManager.GUI_BG_COLOR);
+			panel.setForeground(GUIManager.GUI_FG_COLOR);
 			toolbars.put(side, panel);
 
 			setToolbarSize(side, INITIAL_TOOLBAR_SIZE);
@@ -44,8 +43,8 @@ public class BaseScreen_Hybrid extends Screen {
 	protected void setToolbarSize(Side side, int newSize) {
 		Panel toolbar = toolbars.get(side);
 
-		int viewWidth = (int) ViewRef.DEFAULT_RESOLUTION.getWidth();
-		int viewHeight = (int) ViewRef.DEFAULT_RESOLUTION.getHeight();
+		int viewWidth = (int) ViewManager.DEFAULT_RESOLUTION.getWidth();
+		int viewHeight = (int) ViewManager.DEFAULT_RESOLUTION.getHeight();
 		
 
 		switch (side) {

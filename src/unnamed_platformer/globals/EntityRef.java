@@ -15,11 +15,11 @@ import com.google.common.collect.Maps;
 public class EntityRef {
 
 	public enum EntityParam {
-		graphic, location, orientation, power, subclass, sizeStrategy
+		GRAPHIC, LOCATION, ORIENTATION, POWER, SUBCLASS, SIZE_STRATEGY
 	}
 
 	public enum PotentialEntityParams {
-		levelWarp, locationWarp, solid
+		LEVEL_WARP, LOCATION_WARP, SOLID
 	}
 
 	private static Map<String, Class<?>> textureName_EntityClass_Map = Maps

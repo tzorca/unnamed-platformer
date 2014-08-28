@@ -45,12 +45,12 @@ public abstract class Entity implements Serializable {
 	}
 
 	public Entity(EntitySetup setup) {
-		Graphic graphic = (Graphic) setup.get(EntityParam.graphic);
-		Vector2f pos = (Vector2f) setup.get(EntityParam.location);
+		Graphic graphic = (Graphic) setup.get(EntityParam.GRAPHIC);
+		Vector2f pos = (Vector2f) setup.get(EntityParam.LOCATION);
 		setup.setEntityClassName(this.getClass().getSimpleName());
 		originalSetup = setup;
 
-		SizeStrategy sizeStrategy = (SizeStrategy) setup.get(EntityParam.sizeStrategy);
+		SizeStrategy sizeStrategy = (SizeStrategy) setup.get(EntityParam.SIZE_STRATEGY);
 
 		setupEntity(graphic, pos, sizeStrategy, flags);
 	}
@@ -107,7 +107,7 @@ public abstract class Entity implements Serializable {
 	
 
 	public Rectangle getCollisionRect() {
-		Rectangle cropRect = graphic.getCollisionRectangle(box);
+		Rectangle cropRect = graphic.getCollisionRect(box);
 
 		return cropRect;
 	}

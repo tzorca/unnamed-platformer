@@ -24,7 +24,7 @@ public abstract class ActiveEntity extends Entity {
 
 	public void returnToStart() {
 		// return to starting position
-		setPos((Vector2f) originalSetup.get(EntityParam.location));
+		setPos((Vector2f) originalSetup.get(EntityParam.LOCATION));
 
 		if (physics != null) {
 			this.getPhysics().zero();

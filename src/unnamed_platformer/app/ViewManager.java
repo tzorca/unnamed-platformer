@@ -2,6 +2,9 @@ package unnamed_platformer.app;
 
 import java.awt.BorderLayout;
 import java.awt.Canvas;
+import java.awt.Dimension;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.awt.Panel;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -28,80 +31,12 @@ import org.newdawn.slick.opengl.Texture;
 import unnamed_platformer.game.entities.Entity;
 import unnamed_platformer.globals.GameRef.Flag;
 import unnamed_platformer.globals.Ref;
-import unnamed_platformer.globals.ViewRef;
 import unnamed_platformer.gui.GUIManager;
 import unnamed_platformer.gui.GUIManager.ScreenType;
 import unnamed_platformer.res_mgt.ResManager;
 import unnamed_platformer.structures.Graphic;
 
 public class ViewManager {
-
-	private static JFrame parentFrame;
-	private static Canvas renderCanvas;
-	private static Panel guiPanel;
-
-	public static void init() {
-		parentFrame = new JFrame(Ref.APP_TITLE);
-		parentFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		
-		// want to be able to handle close events as early as possible
-		parentFrame.addWindowListener(new ViewManager.WindowEventHandler());
-		
-		parentFrame.setLayout(null);
-		renderCanvas = new Canvas();
-		renderCanvas.setSize(ViewRef.DEFAULT_RESOLUTION);
-		parentFrame.setLayout(new BorderLayout());
-		guiPanel = new Panel();
-		parentFrame.add(guiPanel);
-		parentFrame.add(renderCanvas);
-		parentFrame.pack();
-		parentFrame.setLocationRelativeTo(null);
-		parentFrame.setVisible(true);
-
-		if (Display.isCreated()) {
-			Display.destroy();
-		}
-		try {
-			Display.setParent(renderCanvas);
-			Display.setDisplayMode(new DisplayMode(
-					ViewRef.DEFAULT_RESOLUTION.width,
-					ViewRef.DEFAULT_RESOLUTION.height));
-			Display.setFullscreen(fullscreen);
-			Display.create();
-		} catch (LWJGLException e) {
-			// This exception typically occurs because pixel acceleration
-			// is not supported. Software mode works as a (slow) workaround.
-			System.setProperty("org.lwjgl.opengl.Display.allowSoftwareOpenGL",
-					"true");
-			try {
-				System.out.println("Warning: Defaulting to software mode. Performance may be suboptimal.");
-				Display.create();
-			} catch (LWJGLException e2) {
-				e2.printStackTrace();
-				System.exit(0);
-			}
-		}
-
-		setup();
-
-	}
-
-	public static void update() {
-		// TODO: Improve state logic here
-		if (GUIManager.atScreen(ScreenType.Play)
-				|| GUIManager.atScreen(ScreenType.Edit)) {
-			Display.setTitle(GameManager.getGameName());
-
-			GameManager.draw();
-		}
-		GUIManager.update();
-
-		Display.sync(ViewRef.FPS);
-		Display.update();
-	}
-
-	static Texture background = null;
-
 
 	public static class WindowEventHandler extends WindowAdapter {
 		public void windowClosing(WindowEvent e) {
@@ -118,22 +53,40 @@ public class ViewManager {
 
 	}
 
-	
-	private static Rectangle viewport = new Rectangle(0, 0,
-			ViewRef.DEFAULT_RESOLUTION.width, ViewRef.DEFAULT_RESOLUTION.height);
+	static Texture background = null;
 
+	public static final Dimension DEFAULT_RESOLUTION = new Dimension(960, 600);
+
+	public static final int FPS = 60;
+	
+	static boolean fullscreen = false;
+
+	private static Panel guiPanel;
+	private static JFrame parentFrame;
+
+	private static Canvas renderCanvas;
+
+	public static final float SCALE = 1f;
+
+	private static Rectangle viewport = new Rectangle(0, 0,
+			ViewManager.DEFAULT_RESOLUTION.width, ViewManager.DEFAULT_RESOLUTION.height);
+
+
+	private static TreeMap<Integer, List<Entity>> zIndexBuckets = new TreeMap<Integer, List<Entity>>();
+
+	
 	public static void centerCamera(Vector2f vector2f) {
 
 		float x = vector2f.x;
 		float y = vector2f.y;
 
-		int left = (int) (x - ViewRef.DEFAULT_RESOLUTION.width / ViewRef.SCALE
+		int left = (int) (x - ViewManager.DEFAULT_RESOLUTION.width / ViewManager.SCALE
 				/ 2);
-		int top = (int) (y - ViewRef.DEFAULT_RESOLUTION.height / ViewRef.SCALE
+		int top = (int) (y - ViewManager.DEFAULT_RESOLUTION.height / ViewManager.SCALE
 				/ 2);
 
-		int right = (int) (ViewRef.DEFAULT_RESOLUTION.width / ViewRef.SCALE / 2 + x);
-		int bottom = (int) (ViewRef.DEFAULT_RESOLUTION.height / ViewRef.SCALE
+		int right = (int) (ViewManager.DEFAULT_RESOLUTION.width / ViewManager.SCALE / 2 + x);
+		int bottom = (int) (ViewManager.DEFAULT_RESOLUTION.height / ViewManager.SCALE
 				/ 2 + y);
 
 		viewport.setBounds(left, top, right - left, bottom - top);
@@ -143,6 +96,11 @@ public class ViewManager {
 			GL11.glLoadIdentity();
 			GL11.glOrtho(left, right, bottom, top, 1, -1);
 		}
+	}
+
+	public static void clear(Color c) {
+		GL11.glClearColor(c.r, c.g, c.b, c.a);
+		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 	}
 
 	// TODO: Fix background tiling mechanism
@@ -178,10 +136,55 @@ public class ViewManager {
 		GL11.glEnd();
 	}
 
-	@SuppressWarnings("unused")
-	private static void printRect(Rectangle rect) {
-		System.out.println(rect.getX() + "," + rect.getY() + ","
-				+ rect.getWidth() + "," + rect.getHeight());
+	// TODO: Fix bug in grid transparency when no objects displayed
+	public static void drawEditorGrid(int gridSize) {
+		if (gridSize < 1) {
+			return;
+		}
+
+		saveState();
+		ArrayList<int[]> pointBuffer = new ArrayList<int[]>();
+		Rectangle levelRect = GameManager.getRect();
+
+		int minX = (int) viewport.getMinX(), maxX = (int) viewport.getMaxX(), minY = (int) viewport
+				.getMinY(), maxY = (int) viewport.getMaxY();
+
+		for (int x = 0; x <= levelRect.getWidth(); x += gridSize) {
+			if (x < minX || x > maxX) {
+				continue;
+			}
+			for (int y = 0; y <= levelRect.getHeight(); y += gridSize) {
+				if (y < minY || y > maxY) {
+					continue;
+				}
+				pointBuffer.add(new int[] { x - 2, y - 2 });
+			}
+		}
+
+		Texture t = ResManager.get(Texture.class, "gui_dot");
+		drawTexturesInBatch(t, pointBuffer);
+		loadState();
+	}
+
+	public static void drawEntities(LinkedList<Entity> entities) {
+		zIndexBuckets.clear();
+
+		for (Entity e : entities) {
+			if (!zIndexBuckets.containsKey(e.zIndex)) {
+				zIndexBuckets.put(e.zIndex, new LinkedList<Entity>());
+			}
+			zIndexBuckets.get(e.zIndex).add(e);
+		}
+
+		for (int zIndex : zIndexBuckets.keySet()) {
+			for (Entity e : zIndexBuckets.get(zIndex)) {
+				if (e.isFlagSet(Flag.INVISIBLE)) {
+					return;
+				}
+
+				drawGraphic(e.graphic, e.getOriginalBox());
+			}
+		}
 	}
 
 	public static void drawGraphic(Graphic graphic, Rectangle rectangle) {
@@ -220,8 +223,11 @@ public class ViewManager {
 
 	}
 
-	public static void setColor(Color color) {
-		GL11.glColor4f(color.r, color.g, color.b, color.a);
+	public static void drawGraphic(Graphic graphic, Rectangle2D rect2D) {
+		drawGraphic(graphic, new Rectangle((float) rect2D.getX(),
+				(float) rect2D.getY(), (float) rect2D.getWidth(),
+				(float) rect2D.getHeight()));
+
 	}
 
 	private static void drawTex(Texture t, float x, float y, float w, float h,
@@ -254,129 +260,41 @@ public class ViewManager {
 		GL11.glEnd();
 	}
 
-	// TODO: Fix bug in grid transparency when no objects displayed
-	public static void drawEditorGrid(int gridSize) {
-		if (gridSize < 1) {
-			return;
-		}
-
-		saveState();
-		ArrayList<int[]> pointBuffer = new ArrayList<int[]>();
-		Rectangle levelRect = GameManager.getRect();
-
-		int minX = (int) viewport.getMinX(), maxX = (int) viewport.getMaxX(), minY = (int) viewport
-				.getMinY(), maxY = (int) viewport.getMaxY();
-
-		for (int x = 0; x <= levelRect.getWidth(); x += gridSize) {
-			if (x < minX || x > maxX) {
-				continue;
-			}
-			for (int y = 0; y <= levelRect.getHeight(); y += gridSize) {
-				if (y < minY || y > maxY) {
-					continue;
-				}
-				pointBuffer.add(new int[] { x - 2, y - 2 });
-			}
-		}
-
-		Texture t = ResManager.get(Texture.class, "gui_dot");
-		drawTexturesInBatch(t, pointBuffer);
-		loadState();
-	}
-
-	private static void setup() {
-		Display.setVSyncEnabled(true);
-		GL11.glEnable(GL11.GL_TEXTURE_2D);
-
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-
-		GL11.glViewport(0, 0, ViewRef.DEFAULT_RESOLUTION.width,
-				ViewRef.DEFAULT_RESOLUTION.height);
-
-		GL11.glMatrixMode(GL11.GL_PROJECTION);
-		GL11.glLoadIdentity();
-		GL11.glOrtho(0, ViewRef.DEFAULT_RESOLUTION.width,
-				ViewRef.DEFAULT_RESOLUTION.height, 0, 1, -1);
-		GL11.glMatrixMode(GL11.GL_MODELVIEW);
-	}
-
-	public static void loadState() {
-		GL11.glPopAttrib();
-	}
-
-	public static void saveState() {
-		GL11.glPushAttrib(GL11.GL_ALL_ATTRIB_BITS);
-	}
-
-	public static void clear(Color c) {
-		GL11.glClearColor(c.r, c.g, c.b, c.a);
-		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
-	}
-
-	// TODO: Remove references to ViewRef.DEFAULT_RESOLUTION...
-	// Keep in mind that the internal render resolution should stay the same
-	// But it will not be equivalent to the renderCanvas resolution
-
-	static boolean fullscreen = false;
-
-	// TODO: Implement working fullscreen/different window size functionality
-
-	public static void resetColor() {
-
-		GL11.glColor4f(1, 1, 1, 1);
-	}
-
-	public static void drawGraphic(Graphic graphic, Rectangle2D rect2D) {
-		drawGraphic(graphic, new Rectangle((float) rect2D.getX(),
-				(float) rect2D.getY(), (float) rect2D.getWidth(),
-				(float) rect2D.getHeight()));
-
-	}
-
-	private static TreeMap<Integer, List<Entity>> zIndexBuckets = new TreeMap<Integer, List<Entity>>();
-
-	public static void drawEntities(LinkedList<Entity> entities) {
-		zIndexBuckets.clear();
-
-		for (Entity e : entities) {
-			if (!zIndexBuckets.containsKey(e.zIndex)) {
-				zIndexBuckets.put(e.zIndex, new LinkedList<Entity>());
-			}
-			zIndexBuckets.get(e.zIndex).add(e);
-		}
-
-		for (int zIndex : zIndexBuckets.keySet()) {
-			for (Entity e : zIndexBuckets.get(zIndex)) {
-				if (e.isFlagSet(Flag.invisible)) {
-					return;
-				}
-
-				drawGraphic(e.graphic, e.getOriginalBox());
-			}
+	public static void focusRenderCanvas() {
+		if (!renderCanvas.hasFocus()) {
+			renderCanvas.requestFocusInWindow();
 		}
 	}
 
-	public static void setRenderCanvasVisibility(boolean b) {
-		renderCanvas.setVisible(b);
-		if (b) {
-			renderCanvas.requestFocus();
-		}
-	}
-
-	public static void setGUIPanel(Panel panel) {
-		parentFrame.remove(guiPanel);
-		guiPanel = panel;
-		parentFrame.add(guiPanel);
-		parentFrame.validate();
+	public static JFrame getFrame() {
+		return parentFrame;
 	}
 
 	public static Panel getGUIPanel() {
 		return guiPanel;
 	}
 
-	public static JFrame getFrame() {
-		return parentFrame;
+	public static Object getRenderCanvas() {
+		return renderCanvas;
+	}
+
+	// TODO: Remove references to ViewManager.DEFAULT_RESOLUTION...
+	// Keep in mind that the internal render resolution should stay the same
+	// But it will not be equivalent to the renderCanvas resolution
+
+	public static float getRenderCanvasX() {
+		return renderCanvas.getX();
+	}
+
+	// TODO: Implement working fullscreen/different window size functionality
+
+	public static int getRenderCanvasY() {
+		return renderCanvas.getY();
+	}
+
+	public static Dimension getScreenResolution() {
+		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+		return new Dimension(gd.getDisplayMode().getWidth(), gd.getDisplayMode().getHeight());
 	}
 
 	public static BufferedImage getScreenshot() {
@@ -405,19 +323,6 @@ public class ViewManager {
 		return image;
 	}
 
-	public static void resetRenderCanvasBounds() {
-		renderCanvas.setSize(ViewRef.DEFAULT_RESOLUTION);
-		renderCanvas.setLocation(0, 0);
-	}
-
-	public static void setRenderCanvasBounds(int x, int y, int width, int height) {
-		renderCanvas.setBounds(x, y, width, height);
-	}
-
-	public static boolean rectInView(Rectangle r) {
-		return r.intersects(viewport);
-	}
-
 	public static float getViewportX() {
 		return viewport.getX();
 	}
@@ -426,22 +331,131 @@ public class ViewManager {
 		return viewport.getY();
 	}
 
-	public static int getRenderCanvasY() {
-		return renderCanvas.getY();
+	public static void init() {
+		parentFrame = new JFrame(Ref.APP_TITLE);
+		parentFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		
+		// want to be able to handle close events as early as possible
+		parentFrame.addWindowListener(new ViewManager.WindowEventHandler());
+		
+		parentFrame.setLayout(null);
+		renderCanvas = new Canvas();
+		renderCanvas.setSize(ViewManager.DEFAULT_RESOLUTION);
+		parentFrame.setLayout(new BorderLayout());
+		guiPanel = new Panel();
+		parentFrame.add(guiPanel);
+		parentFrame.add(renderCanvas);
+		parentFrame.pack();
+		parentFrame.setLocationRelativeTo(null);
+		parentFrame.setVisible(true);
+
+		if (Display.isCreated()) {
+			Display.destroy();
+		}
+		try {
+			Display.setParent(renderCanvas);
+			Display.setDisplayMode(new DisplayMode(
+					ViewManager.DEFAULT_RESOLUTION.width,
+					ViewManager.DEFAULT_RESOLUTION.height));
+			Display.setFullscreen(fullscreen);
+			Display.create();
+		} catch (LWJGLException e) {
+			// This exception typically occurs because pixel acceleration
+			// is not supported. Software mode works as a (slow) workaround.
+			System.setProperty("org.lwjgl.opengl.Display.allowSoftwareOpenGL",
+					"true");
+			try {
+				System.out.println("Warning: Defaulting to software mode. Performance may be suboptimal.");
+				Display.create();
+			} catch (LWJGLException e2) {
+				e2.printStackTrace();
+				System.exit(0);
+			}
+		}
+
+		setup();
+
 	}
 
-	public static float getRenderCanvasX() {
-		return renderCanvas.getX();
+	public static void loadState() {
+		GL11.glPopAttrib();
 	}
 
-	public static void focusRenderCanvas() {
-		if (!renderCanvas.hasFocus()) {
-			renderCanvas.requestFocusInWindow();
+	@SuppressWarnings("unused")
+	private static void printRect(Rectangle rect) {
+		System.out.println(rect.getX() + "," + rect.getY() + ","
+				+ rect.getWidth() + "," + rect.getHeight());
+	}
+
+	public static boolean rectInView(Rectangle r) {
+		return r.intersects(viewport);
+	}
+
+	public static void resetColor() {
+
+		GL11.glColor4f(1, 1, 1, 1);
+	}
+
+	public static void resetRenderCanvasBounds() {
+		renderCanvas.setSize(ViewManager.DEFAULT_RESOLUTION);
+		renderCanvas.setLocation(0, 0);
+	}
+
+	public static void saveState() {
+		GL11.glPushAttrib(GL11.GL_ALL_ATTRIB_BITS);
+	}
+
+	public static void setColor(Color color) {
+		GL11.glColor4f(color.r, color.g, color.b, color.a);
+	}
+
+	public static void setGUIPanel(Panel panel) {
+		parentFrame.remove(guiPanel);
+		guiPanel = panel;
+		parentFrame.add(guiPanel);
+		parentFrame.validate();
+	}
+
+	public static void setRenderCanvasBounds(int x, int y, int width, int height) {
+		renderCanvas.setBounds(x, y, width, height);
+	}
+
+	public static void setRenderCanvasVisibility(boolean b) {
+		renderCanvas.setVisible(b);
+		if (b) {
+			renderCanvas.requestFocus();
 		}
 	}
 
-	public static Object getRenderCanvas() {
-		return renderCanvas;
+	private static void setup() {
+		Display.setVSyncEnabled(true);
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
+
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+
+		GL11.glViewport(0, 0, ViewManager.DEFAULT_RESOLUTION.width,
+				ViewManager.DEFAULT_RESOLUTION.height);
+
+		GL11.glMatrixMode(GL11.GL_PROJECTION);
+		GL11.glLoadIdentity();
+		GL11.glOrtho(0, ViewManager.DEFAULT_RESOLUTION.width,
+				ViewManager.DEFAULT_RESOLUTION.height, 0, 1, -1);
+		GL11.glMatrixMode(GL11.GL_MODELVIEW);
+	}
+
+	public static void update() {
+		// TODO: Improve state logic here
+		if (GUIManager.atScreen(ScreenType.Play)
+				|| GUIManager.atScreen(ScreenType.Edit)) {
+			Display.setTitle(GameManager.getGameName());
+
+			GameManager.draw();
+		}
+		GUIManager.update();
+
+		Display.sync(ViewManager.FPS);
+		Display.update();
 	}
 
 }

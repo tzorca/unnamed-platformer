@@ -10,7 +10,7 @@ public class BreakableBlock extends ActiveEntity {
 	public BreakableBlock(EntitySetup entitySetup) {
 		super(entitySetup);
 
-		setFlag(Flag.solid, true);
+		setFlag(Flag.SOLID, true);
 		this.interactions.add(new Interaction_Breakable(this));
 	}
 }

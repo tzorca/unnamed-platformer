@@ -31,8 +31,8 @@ public class PlatformPlayer extends ActiveEntity {
 				GameRef.DEFAULT_PLR_JUMP_STRENGTH);
 
 		EntitySetup setup = new EntitySetup();
-		setup.set(EntityParam.graphic, new Graphic("laser"));
-		setup.set(EntityParam.location, new Vector2f(0, 0));
+		setup.set(EntityParam.GRAPHIC, new Graphic("laser"));
+		setup.set(EntityParam.LOCATION, new Vector2f(0, 0));
 
 		shootBehaviour = new Control_Shoot(this, new Beam(setup),
 				GameRef.DEFAULT_SHOOT_SPEED, GameRef.DEFAULT_SHOOT_DELAY);
@@ -40,9 +40,9 @@ public class PlatformPlayer extends ActiveEntity {
 		this.getPhysics().addControlMechanism(hzMoveBehaviour);
 		this.getPhysics().addControlMechanism(jumpBehaviour);
 		this.getPhysics().addControlMechanism(shootBehaviour);
-		this.setFlag(Flag.obeysGravity, true);
-		this.setFlag(Flag.tangible, true);
-		this.setFlag(Flag.player, true);
+		this.setFlag(Flag.OBEYS_GRAVITY, true);
+		this.setFlag(Flag.TANGIBLE, true);
+		this.setFlag(Flag.PLAYER, true);
 
 		zIndex = 2;
 	}

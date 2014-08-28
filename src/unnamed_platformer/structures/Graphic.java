@@ -59,7 +59,7 @@ public class Graphic implements Serializable {
 		return textureName != null;
 	}
 
-	public Rectangle getCollisionRectangle(Rectangle entityBox) {
+	public Rectangle getCollisionRect(Rectangle entityBox) {
 		return (Rectangle) getCollisionData().getScaledShape(entityBox,
 				CollisionShapeOption.rectangle);
 	}

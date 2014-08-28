@@ -23,7 +23,7 @@ public class GameRef {
 	
 	
 	public enum Flag {
-		solid, hurtsOthers, obeysGravity, outOfPlay, tangible, levelGoal, player, invisible, editLogic, dissolvesOnContact
+		SOLID, HURTS_OTHERS, OBEYS_GRAVITY, OUT_OF_PLAY, TANGIBLE, PLAYER, INVISIBLE, DISSOLVES_ON_CONTACT, FOLLOWS_SLOPES
 	}
 
 	public enum InteractionResult {

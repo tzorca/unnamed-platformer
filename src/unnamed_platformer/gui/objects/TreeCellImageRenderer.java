@@ -7,7 +7,7 @@ import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 
-import unnamed_platformer.globals.ViewRef;
+import unnamed_platformer.gui.GUIManager;
 
 public class TreeCellImageRenderer extends DefaultTreeCellRenderer {
 	private static final long serialVersionUID = 3121464047823108249L;
@@ -20,12 +20,12 @@ public class TreeCellImageRenderer extends DefaultTreeCellRenderer {
 
 	@Override
 	public Color getTextSelectionColor() {
-		return ViewRef.GUI_FG_COLOR;
+		return GUIManager.GUI_FG_COLOR;
 	}
 
 	@Override
 	public Color getTextNonSelectionColor() {
-		return ViewRef.GUI_FG_COLOR;
+		return GUIManager.GUI_FG_COLOR;
 	}
 
 	@Override

@@ -43,7 +43,7 @@ public class Editor {
 		currentLevel = GameManager.getCurrentLevel();
 		currentLevelIndex = index;
 
-		Entity player = currentLevel.findEntityByFlag(Flag.player);
+		Entity player = currentLevel.findEntityByFlag(Flag.PLAYER);
 		if (player != null) {
 			cameraPos = player.getCenter();
 			playerAdded = true;
@@ -85,7 +85,7 @@ public class Editor {
 			return;
 		}
 
-		if (newEntity.isFlagSet(Flag.player)) {
+		if (newEntity.isFlagSet(Flag.PLAYER)) {
 			if (playerAdded) {
 				return;
 			}
@@ -107,7 +107,7 @@ public class Editor {
 			currentLevel.removeEntity(atMouse);
 			unsavedChanges = true;
 
-			if (atMouse.isFlagSet(Flag.player)) {
+			if (atMouse.isFlagSet(Flag.PLAYER)) {
 				playerAdded = false;
 			}
 		}

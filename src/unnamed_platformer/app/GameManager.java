@@ -101,7 +101,7 @@ public class GameManager {
 		World.replaceCurrentLevel(lvl);
 	}
 
-	public static void retrieveFromQuadTree(List<Entity> entities, Rectangle box) {
+	public static void populateFromQuadTree(List<Entity> entities, Rectangle box) {
 		getCurrentLevel().retrieveFromQuadTree(entities, box);
 
 	}

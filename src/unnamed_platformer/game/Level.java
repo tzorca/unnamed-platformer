@@ -61,7 +61,7 @@ public class Level {
 
 	private void setupPlayer() {
 		for (Entity e : entities) {
-			if (e.isFlagSet(Flag.player)) {
+			if (e.isFlagSet(Flag.PLAYER)) {
 				playerEntity = e;
 
 				ViewManager.centerCamera(playerEntity.getCenter());
@@ -83,9 +83,9 @@ public class Level {
 	public Blueprint toBlueprint() {
 		Blueprint lBP = new Blueprint();
 
-		lBP.put(BlueprintField.levelBG, bgGraphic);
-		lBP.put(BlueprintField.levelRect, getRect());
-		lBP.put(BlueprintField.levelEntities, entitySetups);
+		lBP.put(BlueprintField.LEVEL_BG, bgGraphic);
+		lBP.put(BlueprintField.LEVEL_RECT, getRect());
+		lBP.put(BlueprintField.LEVEL_ENTITIES, entitySetups);
 
 		return lBP;
 	}
@@ -99,12 +99,12 @@ public class Level {
 		}
 
 		LinkedList<EntitySetup> entitySetups = (LinkedList<EntitySetup>) lBP
-				.get(BlueprintField.levelEntities);
+				.get(BlueprintField.LEVEL_ENTITIES);
 
 		Level newLevel = new Level(
 				EntityCreator.buildFromSetupCollection(entitySetups));
-		newLevel.bgGraphic = (Graphic) lBP.get(BlueprintField.levelBG);
-		newLevel.setRect((Rectangle) lBP.get(BlueprintField.levelRect));
+		newLevel.bgGraphic = (Graphic) lBP.get(BlueprintField.LEVEL_BG);
+		newLevel.setRect((Rectangle) lBP.get(BlueprintField.LEVEL_RECT));
 
 		return newLevel;
 	}
@@ -171,14 +171,14 @@ public class Level {
 				// perform entity logic
 				entity.update();
 
-				if (entity.isFlagSet(Flag.player)) {
+				if (entity.isFlagSet(Flag.PLAYER)) {
 					playerEntity = entity;
 
 				}
 			}
 
 			// remove entities that have been flagged to be removed
-			if (entity.isFlagSet(Flag.outOfPlay)) {
+			if (entity.isFlagSet(Flag.OUT_OF_PLAY)) {
 				entityIterator.remove();
 				continue;
 			}
@@ -191,7 +191,7 @@ public class Level {
 		}
 
 		if (GameManager.playing()) {
-			PhysicsProcessor.processMoves();
+			PhysicsProcessor.checkForInteractionsWithRegisteredEntities();
 
 			if (playerEntity != null) {
 				ViewManager.centerCamera(playerEntity.getCenter());
@@ -214,7 +214,7 @@ public class Level {
 	}
 
 	public void removeEntity(Entity e) {
-		e.setFlag(Flag.outOfPlay, true);
+		e.setFlag(Flag.OUT_OF_PLAY, true);
 	}
 
 	public void resetToCurrent() {

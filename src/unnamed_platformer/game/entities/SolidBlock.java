@@ -9,6 +9,6 @@ public class SolidBlock extends Entity {
 	public SolidBlock(EntitySetup entitySetup) {
 		super(entitySetup);
 
-		setFlag(Flag.solid, true);
+		setFlag(Flag.SOLID, true);
 	}
 }

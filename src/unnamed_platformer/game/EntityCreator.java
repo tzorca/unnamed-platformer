@@ -76,11 +76,11 @@ public class EntityCreator {
 
 		EntitySetup setup = new EntitySetup();
 
-		setup.set(EntityParam.sizeStrategy, new SizeStrategy(
+		setup.set(EntityParam.SIZE_STRATEGY, new SizeStrategy(
 				relativeSize ? SizeStrategy.Strategy.textureScale
 						: SizeStrategy.Strategy.absoluteWidth, sizeInput));
-		setup.set(EntityParam.graphic, new Graphic(textureName));
-		setup.set(EntityParam.location, location);
+		setup.set(EntityParam.GRAPHIC, new Graphic(textureName));
+		setup.set(EntityParam.LOCATION, location);
 		setup.setEntityClassName(entityClass.getSimpleName());
 
 		return buildFromSetup(setup);
