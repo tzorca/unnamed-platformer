@@ -66,7 +66,9 @@ public class Main {
 	}
 
 	private static void init() {
-		LibraryLoader.init();
+		// used to load lwjgl libraries without relying on project configuration
+		System.setProperty("org.lwjgl.librarypath", Ref.LWJGL_NATIVE_DIR);
+
 		ViewManager.init();
 		ResManager.init();
 		SQLiteStuff.init();

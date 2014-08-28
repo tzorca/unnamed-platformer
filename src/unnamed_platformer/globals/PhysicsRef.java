@@ -4,11 +4,12 @@ import org.newdawn.slick.geom.Vector2f;
 
 public class PhysicsRef {
 
-	public static Vector2f gravity = new Vector2f(0, 0.2f);
 
 	public enum Orientation {
 		UP, DOWN, LEFT, RIGHT, UP_RIGHT, UP_LEFT, DOWN_RIGHT, DOWN_LEFT
 	}
+	
+
 
 	public enum Axis {
 		HORIZONTAL, VERTICAL, NONE
@@ -36,8 +37,5 @@ public class PhysicsRef {
 
 	public static final Vector2f EMPTY_VECTOR = new Vector2f(0, 0);
 
-	public static final float GLOBAL_SPEED_LIMIT = 32;
-
-	public static final float DEFAULT_FORCE_MULTIPLIER = 0.9f;
 
 }

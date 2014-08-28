@@ -15,7 +15,6 @@ import unnamed_platformer.game.entities.Entity;
 import unnamed_platformer.game.interactions.Interaction;
 import unnamed_platformer.globals.GameRef.Flag;
 import unnamed_platformer.globals.GameRef.InteractionResult;
-import unnamed_platformer.globals.PhysicsRef;
 import unnamed_platformer.globals.PhysicsRef.Axis;
 import unnamed_platformer.res_mgt.CloneManager;
 import unnamed_platformer.structures.MoveResult;
@@ -29,16 +28,21 @@ import unnamed_platformer.structures.MoveResult;
 
 public class PhysicsProcessor {
 
+
+	public static final Vector2f GRAVITY = new Vector2f(0, 0.2f);
+	public static final float SPEED_LIMIT = 32;
+	public static final float FORCE_MULTIPLIER = 0.9f;
+	
 	private static Set<ActiveEntity> registeredEntities = new HashSet<ActiveEntity>();
 
 	private static void applyGlobalSpeedLimit(Vector2f velocity) {
-		velocity.x = velocity.x > PhysicsRef.GLOBAL_SPEED_LIMIT ? PhysicsRef.GLOBAL_SPEED_LIMIT
+		velocity.x = velocity.x > SPEED_LIMIT ? SPEED_LIMIT
 				: velocity.x;
-		velocity.x = velocity.x < -PhysicsRef.GLOBAL_SPEED_LIMIT ? -PhysicsRef.GLOBAL_SPEED_LIMIT
+		velocity.x = velocity.x < -SPEED_LIMIT ? -SPEED_LIMIT
 				: velocity.x;
-		velocity.y = velocity.y > PhysicsRef.GLOBAL_SPEED_LIMIT ? PhysicsRef.GLOBAL_SPEED_LIMIT
+		velocity.y = velocity.y > SPEED_LIMIT ? SPEED_LIMIT
 				: velocity.y;
-		velocity.y = velocity.y < -PhysicsRef.GLOBAL_SPEED_LIMIT ? -PhysicsRef.GLOBAL_SPEED_LIMIT
+		velocity.y = velocity.y < -SPEED_LIMIT ? -SPEED_LIMIT
 				: velocity.y;
 	}
 
@@ -48,8 +52,8 @@ public class PhysicsProcessor {
 		}
 
 		actor.getPhysics().addForce(
-				new Vector2f(PhysicsRef.gravity.x * multiplier,
-						PhysicsRef.gravity.y * multiplier));
+				new Vector2f(GRAVITY.x * multiplier,
+						GRAVITY.y * multiplier));
 	}
 
 	public static void checkForInteractionsWithRegisteredEntities() {

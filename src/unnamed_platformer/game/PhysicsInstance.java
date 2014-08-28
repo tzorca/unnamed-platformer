@@ -24,7 +24,7 @@ public class PhysicsInstance implements Serializable {
 	Vector2f velocity = new Vector2f(0, 0);
 	Vector2f currentForces = new Vector2f();
 
-	private float forceMultiplier = PhysicsRef.DEFAULT_FORCE_MULTIPLIER;
+	private float forceMultiplier = PhysicsProcessor.FORCE_MULTIPLIER;
 
 	public MoveResult lastMoveResult = new MoveResult(false, false, 0, 0);
 
@@ -146,7 +146,7 @@ public class PhysicsInstance implements Serializable {
 
 		inAir = false;
 		PhysicsProcessor.registerEntityForInteractionChecking(associatedActor);
-		forceMultiplier = PhysicsRef.DEFAULT_FORCE_MULTIPLIER;
+		forceMultiplier = PhysicsProcessor.FORCE_MULTIPLIER;
 	}
 
 	public void zero() {

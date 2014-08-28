@@ -18,14 +18,21 @@ public class Ref {
 	public static final Color DEFAULT_COLOR = new Color(1, 1, 1, 1);
 	public static final Color COLOR_75_PERCENT_TRANS = new Color(1, 1, 1, 0.75f);
 
-	public static final Rectangle DEFAULT_LEVEL_RECTANGLE = new Rectangle(0, 0, 16000, 4000);
+	public static final Rectangle DEFAULT_LEVEL_RECTANGLE = new Rectangle(0, 0,
+			16000, 4000);
 	public static final int DEFAULT_LEVEL_GRIDSIZE = 32;
 
 	public static final String APP_PATH = new File("").getAbsolutePath();
 
-	public static final String RESOURCE_DIR = APP_PATH + File.separator + "res" + File.separator;
+	public static final String LWJGL_NATIVE_DIR = APP_PATH + File.separator
+			+ "lwjgl-native-lib" + File.separator;
 
-	public static final String SCREENSHOT_DIR = APP_PATH + File.separator + "scr" + File.separator;
+	public static final String RESOURCE_DIR = APP_PATH + File.separator + "res"
+			+ File.separator;
+
+	public static final String SCREENSHOT_DIR = APP_PATH + File.separator
+			+ "scr" + File.separator;
+
 
 	public static final int FPS = 60;
 

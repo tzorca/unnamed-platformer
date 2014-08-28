@@ -18,3 +18,4 @@ public class TextureRef {
 		return textureSetups.get(textureName);
 	}
 }
+
