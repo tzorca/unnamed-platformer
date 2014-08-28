@@ -1,4 +1,4 @@
-package unnamed_platformer.game.interactions;
+package unnamed_platformer.game.behaviours;
 
 import java.io.Serializable;
 
@@ -10,11 +10,11 @@ import unnamed_platformer.globals.GameRef.Flag;
 import unnamed_platformer.globals.GameRef.InteractionResult;
 
 
-public class Interaction_Spring extends Interaction implements Serializable {
+public class Inter_Spring extends Interaction implements Serializable {
 	private static final long serialVersionUID = -990698732640331516L;
 	Vector2f v;
 
-	public Interaction_Spring(Entity source, Vector2f vector2f) {
+	public Inter_Spring(Entity source, Vector2f vector2f) {
 		super(source);
 		this.v = vector2f;
 	}

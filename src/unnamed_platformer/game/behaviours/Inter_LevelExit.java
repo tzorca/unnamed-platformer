@@ -1,15 +1,15 @@
-package unnamed_platformer.game.interactions;
+package unnamed_platformer.game.behaviours;
 
 import unnamed_platformer.app.GameManager;
 import unnamed_platformer.game.entities.Entity;
 import unnamed_platformer.globals.GameRef.Flag;
 import unnamed_platformer.globals.GameRef.InteractionResult;
 
-public class Interaction_LevelExit extends Interaction {
+public class Inter_LevelExit extends Interaction {
 	private static final long serialVersionUID = -4245200837591120807L;
 	int relativeDestination;
 
-	public Interaction_LevelExit(Entity source, int relativeDestination) {
+	public Inter_LevelExit(Entity source, int relativeDestination) {
 		super(source);
 		this.relativeDestination = relativeDestination;
 	}

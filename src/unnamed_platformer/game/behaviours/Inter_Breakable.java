@@ -1,13 +1,13 @@
-package unnamed_platformer.game.interactions;
+package unnamed_platformer.game.behaviours;
 
 import unnamed_platformer.game.entities.Entity;
 import unnamed_platformer.globals.GameRef.Flag;
 import unnamed_platformer.globals.GameRef.InteractionResult;
 
-public class Interaction_Breakable extends Interaction {
+public class Inter_Breakable extends Interaction {
 	private static final long serialVersionUID = 3545111742560282316L;
 
-	public Interaction_Breakable(Entity source) {
+	public Inter_Breakable(Entity source) {
 		super(source);
 	}
 

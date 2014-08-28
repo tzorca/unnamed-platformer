@@ -11,13 +11,15 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import javassist.NotFoundException;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 
 import unnamed_platformer.globals.Ref;
-import unnamed_platformer.globals.RegexRef;
 
 public class FileHelper {
 
@@ -150,19 +152,41 @@ public class FileHelper {
 		}
 	}
 
-	public static String determineScreenshotFilename() {
+	//
+	public static String findMatch(String text, Pattern pattern)
+			throws NotFoundException {
+		Matcher matcher = pattern.matcher(text);
+
+		if (matcher.find()) {
+			return matcher.group();
+		} else {
+			throw new NotFoundException("No match found for "
+					+ pattern.toString() + " in " + text);
+		}
+	}
+
+	public static final Pattern PATTERN_NUMERIC_SUFFIX = Pattern
+			.compile("\\d+$");
+
+	public static String getScreenshotFilename(Pattern screenshotNamePattern) {
 		mkDir(Ref.SCREENSHOT_DIR);
 
 		Integer number = 0;
 		File lastFile = getLastMatchingFileInDir(Ref.SCREENSHOT_DIR,
-				RegexRef.SCREENSHOT_NAME);
+				screenshotNamePattern);
 		if (lastFile != null) {
 			String lastFilename = FilenameUtils.removeExtension(lastFile
 					.getName());
 			try {
-				String numericSuffix = RegexRef.findMatch(lastFilename,
-						RegexRef.NUMERIC_SUFFIX);
-				number = Integer.valueOf(numericSuffix) + 1;
+				Matcher numericSuffixMatcher = PATTERN_NUMERIC_SUFFIX
+						.matcher(lastFilename);
+				if (!numericSuffixMatcher.find()) {
+					System.out
+							.println("Screenshot failed: (Invalid filename + "
+									+ lastFilename + ")");
+					return null;
+				}
+				number = Integer.valueOf(numericSuffixMatcher.group()) + 1;
 			} catch (Exception e) {
 				System.out.println("Screenshot failed: " + e.getMessage());
 				return null;

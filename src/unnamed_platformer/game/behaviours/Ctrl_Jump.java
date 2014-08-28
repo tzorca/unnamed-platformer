@@ -1,4 +1,4 @@
-package unnamed_platformer.game.ctrl_methods;
+package unnamed_platformer.game.behaviours;
 
 import org.newdawn.slick.geom.Vector2f;
 
@@ -8,13 +8,13 @@ import unnamed_platformer.game.entities.ActiveEntity;
 import unnamed_platformer.globals.GameRef.Flag;
 import unnamed_platformer.globals.InputRef.GameKey;
 
-public class Control_Jump extends ControlMechanism {
+public class Ctrl_Jump extends ControlMechanism {
 	private static final long serialVersionUID = 6634477314813175782L;
 
 	float jumpStrength = 0;
 	boolean jumping = false;
 
-	public Control_Jump(ActiveEntity actor, float jumpStrength) {
+	public Ctrl_Jump(ActiveEntity actor, float jumpStrength) {
 		super(actor);
 		this.jumpStrength = jumpStrength;
 	}

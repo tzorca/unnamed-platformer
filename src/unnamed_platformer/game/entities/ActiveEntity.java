@@ -7,7 +7,7 @@ import org.newdawn.slick.geom.Vector2f;
 
 import unnamed_platformer.game.EntitySetup;
 import unnamed_platformer.game.PhysicsInstance;
-import unnamed_platformer.game.interactions.Interaction;
+import unnamed_platformer.game.behaviours.Interaction;
 import unnamed_platformer.globals.EntityRef.EntityParam;
 
 public abstract class ActiveEntity extends Entity {

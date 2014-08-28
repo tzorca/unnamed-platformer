@@ -1,6 +1,9 @@
 package unnamed_platformer.app;
 
 import org.lwjgl.opengl.Display;
+import org.newdawn.slick.opengl.Texture;
+
+import com.rits.cloning.Cloner;
 
 import unnamed_platformer.game.EntityCreator;
 import unnamed_platformer.game.World;
@@ -9,6 +12,7 @@ import unnamed_platformer.globals.Ref;
 import unnamed_platformer.gui.GUIManager;
 import unnamed_platformer.gui.GUIManager.ScreenType;
 import unnamed_platformer.res_mgt.ResManager;
+import unnamed_platformer.structures.QuadTree;
 
 public class Main {
 
@@ -80,6 +84,16 @@ public class Main {
 
 	public static void restart() {
 		GUIManager.changeScreen(ScreenType.Start);
+	}
+	
+	private static Cloner cloner = new Cloner();
+	static {
+		cloner.dontClone(QuadTree.class);
+		cloner.dontClone(Texture.class);
+	}
+
+	public static <T> T deepClone(T o) {
+		return cloner.deepClone(o);
 	}
 
 }

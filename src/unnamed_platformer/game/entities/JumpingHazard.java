@@ -3,14 +3,14 @@ package unnamed_platformer.game.entities;
 import unnamed_platformer.app.MathHelper;
 import unnamed_platformer.app.TimeManager;
 import unnamed_platformer.game.EntitySetup;
-import unnamed_platformer.game.ctrl_methods.Control_PathMovement;
+import unnamed_platformer.game.behaviours.Ctrl_PathMovement;
 import unnamed_platformer.globals.GameRef;
 
 public class JumpingHazard extends Hazard {
 	private static final long serialVersionUID = -4355060532556741847L;
 	private static final int FLAME_PERIOD_ID = 1;
 
-	private Control_PathMovement pathMovement;
+	private Ctrl_PathMovement pathMovement;
 
 	public JumpingHazard(EntitySetup entitySetup) {
 		super(entitySetup);
@@ -18,7 +18,7 @@ public class JumpingHazard extends Hazard {
 	}
 
 	private void addPathMovement() {
-		pathMovement = new Control_PathMovement(this, this.startPos,
+		pathMovement = new Ctrl_PathMovement(this, this.startPos,
 				MathHelper.createUpDownPath(GameRef.DEFAULT_FLAME_JUMP_HEIGHT), GameRef.DEFAULT_FLAME_SPEED);
 		pathMovement.setLoop(false);
 		// pathMovement.disable();

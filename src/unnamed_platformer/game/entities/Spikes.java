@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import unnamed_platformer.app.MathHelper.Side;
 import unnamed_platformer.game.EntitySetup;
-import unnamed_platformer.game.interactions.Interaction_Damaging;
+import unnamed_platformer.game.behaviours.Inter_Damaging;
 import unnamed_platformer.globals.GameRef.Flag;
 
 public class Spikes extends ActiveEntity implements Serializable {
@@ -14,7 +14,7 @@ public class Spikes extends ActiveEntity implements Serializable {
 		super(entitySetup);
 
 		this.interactions
-				.add(new Interaction_Damaging(this, new Side[] { Side.TOP }));
+				.add(new Inter_Damaging(this, new Side[] { Side.TOP }));
 		setFlag(Flag.SOLID, true);
 	}
 }

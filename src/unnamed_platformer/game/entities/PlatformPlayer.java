@@ -3,9 +3,9 @@ package unnamed_platformer.game.entities;
 import org.newdawn.slick.geom.Vector2f;
 
 import unnamed_platformer.game.EntitySetup;
-import unnamed_platformer.game.ctrl_methods.Control_HorizontalMove;
-import unnamed_platformer.game.ctrl_methods.Control_Jump;
-import unnamed_platformer.game.ctrl_methods.Control_Shoot;
+import unnamed_platformer.game.behaviours.Ctrl_HorizontalMove;
+import unnamed_platformer.game.behaviours.Ctrl_Jump;
+import unnamed_platformer.game.behaviours.Ctrl_Shoot;
 import unnamed_platformer.globals.EntityRef.EntityParam;
 import unnamed_platformer.globals.GameRef;
 import unnamed_platformer.globals.GameRef.Flag;
@@ -15,26 +15,26 @@ import unnamed_platformer.structures.Graphic;
 public class PlatformPlayer extends ActiveEntity {
 	private static final long serialVersionUID = 8624310770832698957L;
 
-	Control_HorizontalMove hzMoveBehaviour;
-	Control_Jump jumpBehaviour;
-	Control_Shoot shootBehaviour;
+	Ctrl_HorizontalMove hzMoveBehaviour;
+	Ctrl_Jump jumpBehaviour;
+	Ctrl_Shoot shootBehaviour;
 
 	public PlatformPlayer(EntitySetup entitySetup) {
 		super(entitySetup);
 
-		hzMoveBehaviour = new Control_HorizontalMove(this,
+		hzMoveBehaviour = new Ctrl_HorizontalMove(this,
 				GameRef.DEFAULT_PLR_ACCELERATION,
 				GameRef.DEFAULT_PLR_DECELERATION,
 				GameRef.DEFAULT_PLR_MAX_SPEED);
 
-		jumpBehaviour = new Control_Jump(this,
+		jumpBehaviour = new Ctrl_Jump(this,
 				GameRef.DEFAULT_PLR_JUMP_STRENGTH);
 
 		EntitySetup setup = new EntitySetup();
 		setup.set(EntityParam.GRAPHIC, new Graphic("laser"));
 		setup.set(EntityParam.LOCATION, new Vector2f(0, 0));
 
-		shootBehaviour = new Control_Shoot(this, new Beam(setup),
+		shootBehaviour = new Ctrl_Shoot(this, new Beam(setup),
 				GameRef.DEFAULT_SHOOT_SPEED, GameRef.DEFAULT_SHOOT_DELAY);
 
 		this.getPhysics().addControlMechanism(hzMoveBehaviour);

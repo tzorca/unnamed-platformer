@@ -1,4 +1,4 @@
-package unnamed_platformer.game.interactions;
+package unnamed_platformer.game.behaviours;
 
 import unnamed_platformer.game.PhysicsInstance;
 import unnamed_platformer.game.entities.ActiveEntity;
@@ -6,12 +6,12 @@ import unnamed_platformer.game.entities.Entity;
 import unnamed_platformer.globals.GameRef.Flag;
 import unnamed_platformer.globals.GameRef.InteractionResult;
 
-public class Interaction_VelocityMultiplier extends Interaction {
+public class Inter_VelocityMultiplier extends Interaction {
 	private static final long serialVersionUID = 5830114835277305660L;
 
 	private float factor; 
 	
-	public Interaction_VelocityMultiplier(Entity source, float factor) {
+	public Inter_VelocityMultiplier(Entity source, float factor) {
 		super(source);
 		this.factor = factor;
 	}

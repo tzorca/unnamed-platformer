@@ -1,7 +1,7 @@
 package unnamed_platformer.game.entities;
 
 import unnamed_platformer.game.EntitySetup;
-import unnamed_platformer.game.interactions.Interaction_Breakable;
+import unnamed_platformer.game.behaviours.Inter_Breakable;
 import unnamed_platformer.globals.GameRef.Flag;
 
 public class BreakableBlock extends ActiveEntity {
@@ -11,6 +11,6 @@ public class BreakableBlock extends ActiveEntity {
 		super(entitySetup);
 
 		setFlag(Flag.SOLID, true);
-		this.interactions.add(new Interaction_Breakable(this));
+		this.interactions.add(new Inter_Breakable(this));
 	}
 }

@@ -1,4 +1,4 @@
-package unnamed_platformer.game.interactions;
+package unnamed_platformer.game.behaviours;
 
 import java.io.Serializable;
 import java.util.EnumMap;

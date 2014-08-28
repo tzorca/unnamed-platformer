@@ -1,4 +1,4 @@
-package unnamed_platformer.game.ctrl_methods;
+package unnamed_platformer.game.behaviours;
 
 import org.apache.commons.lang3.SerializationUtils;
 import org.newdawn.slick.geom.Vector2f;
@@ -11,14 +11,14 @@ import unnamed_platformer.game.entities.ActiveEntity;
 import unnamed_platformer.globals.GameRef.Flag;
 import unnamed_platformer.globals.InputRef.GameKey;
 
-public class Control_Shoot extends ControlMechanism {
+public class Ctrl_Shoot extends ControlMechanism {
 	private static final long serialVersionUID = 2964710767437924198L;
 
 	private ActiveEntity projectile = null;
 	private double projectileSpeed = 0;
 	private float fireDelay = 0;
 
-	public Control_Shoot(ActiveEntity actor, ActiveEntity projectile,
+	public Ctrl_Shoot(ActiveEntity actor, ActiveEntity projectile,
 			double speed, float fireDelay) {
 		super(actor);
 		this.setProjectile(projectile);
@@ -42,7 +42,7 @@ public class Control_Shoot extends ControlMechanism {
 		Vector2f v = actor.getPhysics().getDirection();
 		v.y -= 0.1;
 		movingProjectile.getPhysics().addControlMechanism(
-				new Control_PersistentVectorMovement(movingProjectile,
+				new Ctrl_PersistentVectorMovement(movingProjectile,
 						projectileSpeed, MathHelper.angleFromVector(v)));
 
 		movingProjectile.setCenter(actor.getCenter());

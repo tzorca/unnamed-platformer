@@ -7,7 +7,7 @@ import java.util.List;
 import org.newdawn.slick.geom.Vector2f;
 
 import unnamed_platformer.app.MathHelper;
-import unnamed_platformer.game.ctrl_methods.ControlMechanism;
+import unnamed_platformer.game.behaviours.ControlMechanism;
 import unnamed_platformer.game.entities.ActiveEntity;
 import unnamed_platformer.globals.GameRef.Flag;
 import unnamed_platformer.structures.MoveResult;

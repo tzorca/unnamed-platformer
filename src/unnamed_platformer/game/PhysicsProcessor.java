@@ -10,13 +10,13 @@ import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Vector2f;
 
 import unnamed_platformer.app.GameManager;
+import unnamed_platformer.app.Main;
 import unnamed_platformer.app.MathHelper.Axis;
+import unnamed_platformer.game.behaviours.Interaction;
 import unnamed_platformer.game.entities.ActiveEntity;
 import unnamed_platformer.game.entities.Entity;
-import unnamed_platformer.game.interactions.Interaction;
 import unnamed_platformer.globals.GameRef.Flag;
 import unnamed_platformer.globals.GameRef.InteractionResult;
-import unnamed_platformer.res_mgt.CloneManager;
 import unnamed_platformer.structures.MoveResult;
 // TODO: Implement slope physics (see below)
 // Implement image mask -> polygon
@@ -78,7 +78,7 @@ public class PhysicsProcessor {
 
 		// setup checking rectangle to include either x or y velocity,
 		// depending on axis
-		Shape checkShape = CloneManager.deepClone(sourceEntity.getCollisionShape());
+		Shape checkShape = Main.deepClone(sourceEntity.getCollisionShape());
 		switch (direction) {
 		case HORIZONTAL:
 			checkShape.setX(checkShape.getX() + velocity.x);
