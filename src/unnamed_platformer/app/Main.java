@@ -23,7 +23,7 @@ public class Main {
 			}
 
 			InputManager.update();
-			processSpecialInput();
+			handleHotkeys();
 
 			accumulator += millisecDelta;
 
@@ -37,7 +37,7 @@ public class Main {
 		}
 	}
 
-	private static void processSpecialInput() {
+	private static void handleHotkeys() {
 		if (InputManager.gameKeyPressed(GameKey.restartApp, 1)) {
 			Main.restart();
 		}

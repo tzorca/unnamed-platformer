@@ -7,7 +7,8 @@ import javassist.NotFoundException;
 
 public class RegexRef {
 	public static final Pattern NUMERIC_SUFFIX = Pattern.compile("\\d+$");
-	public static final Pattern SCREENSHOT_NAME = Pattern.compile("scr\\d{4}\\.png");
+	public static final Pattern SCREENSHOT_NAME = Pattern
+			.compile("scr\\d{4}\\.png");
 
 	public static String findMatch(String text, Pattern pattern)
 			throws NotFoundException {

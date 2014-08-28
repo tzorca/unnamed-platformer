@@ -4,13 +4,15 @@ import java.io.Serializable;
 import java.util.EnumMap;
 
 import unnamed_platformer.app.MathHelper;
+import unnamed_platformer.app.MathHelper.Side;
 import unnamed_platformer.game.entities.Entity;
 import unnamed_platformer.globals.GameRef.InteractionResult;
-import unnamed_platformer.globals.PhysicsRef;
-import unnamed_platformer.globals.PhysicsRef.Side;
 
 public abstract class Interaction implements Serializable {
 	private static final long serialVersionUID = -2402822368545376501L;
+
+	public static final double LOOSE_SIDE_MATCH_DISTANCE = Math.PI / 2;
+	public static final double STRICT_SIDE_MATCH_DISTANCE = Math.PI / 6;
 
 	private Side[] activeSides;
 	private double maxSideMatchDistance = 0;
@@ -22,15 +24,16 @@ public abstract class Interaction implements Serializable {
 		activeSides = Side.values();
 	}
 
-	public Interaction(Entity source, Side[] activeSides, boolean strictSideMatching) {
+	public Interaction(Entity source, Side[] activeSides,
+			boolean strictSideMatching) {
 		this.source = source;
 
 		this.activeSides = activeSides;
 
 		if (strictSideMatching) {
-			maxSideMatchDistance = PhysicsRef.STRICT_SIDE_MATCH_DISTANCE;
+			maxSideMatchDistance = STRICT_SIDE_MATCH_DISTANCE;
 		} else {
-			maxSideMatchDistance = PhysicsRef.LOOSE_SIDE_MATCH_DISTANCE;
+			maxSideMatchDistance = LOOSE_SIDE_MATCH_DISTANCE;
 		}
 
 	}
@@ -53,9 +56,11 @@ public abstract class Interaction implements Serializable {
 			return true;
 		}
 
-		Double intersectionAngle = MathHelper.getIntersectionAngle(source.getOriginalBox(), target.getOriginalBox());
+		Double intersectionAngle = MathHelper.getIntersectionAngle(
+				source.getOriginalBox(), target.getOriginalBox());
 
-		EnumMap<Side, Double> sideDistances = MathHelper.getSideDistances(intersectionAngle, activeSides);
+		EnumMap<Side, Double> sideDistances = MathHelper.getSideDistances(
+				intersectionAngle, activeSides);
 
 		for (Side side : activeSides) {
 			if (sideDistances.get(side) <= maxSideMatchDistance) {

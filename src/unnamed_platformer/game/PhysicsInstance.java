@@ -6,10 +6,10 @@ import java.util.List;
 
 import org.newdawn.slick.geom.Vector2f;
 
+import unnamed_platformer.app.MathHelper;
 import unnamed_platformer.game.ctrl_methods.ControlMechanism;
 import unnamed_platformer.game.entities.ActiveEntity;
 import unnamed_platformer.globals.GameRef.Flag;
-import unnamed_platformer.globals.PhysicsRef;
 import unnamed_platformer.structures.MoveResult;
 
 public class PhysicsInstance implements Serializable {
@@ -133,7 +133,7 @@ public class PhysicsInstance implements Serializable {
 			PhysicsProcessor.applyGravity(associatedActor, forceMultiplier);
 		}
 
-		if (currentForces.equals(PhysicsRef.EMPTY_VECTOR)
+		if (currentForces.equals(MathHelper.EMPTY_VECTOR)
 				|| currentForces.length() == 0) {
 			// do NOT add to collision processing queue (or do anything else)
 			return;
