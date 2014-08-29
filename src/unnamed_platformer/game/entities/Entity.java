@@ -3,7 +3,6 @@ package unnamed_platformer.game.entities;
 import java.awt.image.BufferedImage;
 import java.util.EnumSet;
 
-import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Vector2f;
@@ -15,7 +14,8 @@ import unnamed_platformer.structures.Graphic;
 import unnamed_platformer.structures.SizeStrategy;
 import unnamed_platformer.structures.SizeStrategy.Strategy;
 
-public abstract class Entity {
+public abstract class Entity
+{
 
 	protected EntitySetup originalSetup;
 	protected EnumSet<Flag> flags = EnumSet.noneOf(Flag.class);
@@ -25,18 +25,6 @@ public abstract class Entity {
 	public int zIndex = 0; // higher indices are brought to front
 
 	protected Vector2f startPos;
-
-	public float getX() {
-		return box.getX();
-	}
-
-	public float getY() {
-		return box.getY();
-	}
-	
-	public void setRect(Rectangle box) {
-		this.box = box;
-	}
 
 	public EntitySetup getOriginalSetup() {
 		return originalSetup;
@@ -102,16 +90,11 @@ public abstract class Entity {
 
 		return collisionShape;
 	}
-	
 
 	public Rectangle getCollisionRect() {
 		Rectangle cropRect = graphic.getCollisionRect(box);
 
 		return cropRect;
-	}
-
-	public boolean pointInside(Point p) {
-		return box.contains(p);
 	}
 
 	public Vector2f getPos() {
@@ -143,14 +126,6 @@ public abstract class Entity {
 		}
 	}
 
-	public void toggleFlag(Flag flag) {
-		if (flags.contains(flag)) {
-			flags.remove(flag);
-		} else {
-			flags.add(flag);
-		}
-	}
-
 	public void setY(float y) {
 		box.setY(y);
 	}
@@ -166,7 +141,7 @@ public abstract class Entity {
 	public Rectangle getOriginalBox() {
 		return box;
 	}
-	
+
 	public boolean isActive() {
 		return false;
 	}

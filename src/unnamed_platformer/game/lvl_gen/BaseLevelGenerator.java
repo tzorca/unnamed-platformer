@@ -95,7 +95,7 @@ public abstract class BaseLevelGenerator {
 	}
 
 	private Entity add(Entity newEntity, boolean distinct) {
-		updateLevelRect(newEntity.getX(), newEntity.getY());
+		updateLevelRect(newEntity.getPos().x, newEntity.getPos().y);
 
 		String texture = newEntity.graphic.getTextureName();
 		if (distinct) {
