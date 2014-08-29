@@ -22,7 +22,7 @@ import unnamed_platformer.res_mgt.ResManager;
 
 // TODO: Show screenshots of levels
 // TODO: Move file and screen operation logic to a controller
-public class WorldCell extends ReadOnlyInteractiveCell implements ActionListener {
+public class TableCell_World extends TableCell_ReadOnlyInteractive implements ActionListener {
 	private static final long serialVersionUID = 4749665181832067296L;
 
 	// Instantiate GUI components
@@ -36,13 +36,13 @@ public class WorldCell extends ReadOnlyInteractiveCell implements ActionListener
 	JButton btnDelete = new JButton("Delete");
 
 	private String gameName;
-	WorldTableModel model;
+	TableModel_World model;
 
 	private int thisRow;
 
 	private int thisColumn;
 
-	public WorldCell(WorldTableModel mdlWorlds) {
+	public TableCell_World(TableModel_World mdlWorlds) {
 		this.model = mdlWorlds;
 	}
 

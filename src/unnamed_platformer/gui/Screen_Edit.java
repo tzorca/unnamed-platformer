@@ -42,7 +42,7 @@ import unnamed_platformer.globals.InputRef.GameKey;
 import unnamed_platformer.globals.Ref;
 import unnamed_platformer.gui.GUIManager.ScreenType;
 import unnamed_platformer.gui.objects.ImageListEntry;
-import unnamed_platformer.gui.objects.TreeCellImageRenderer;
+import unnamed_platformer.gui.objects.TreeCell_ImageRenderer;
 import unnamed_platformer.res_mgt.ResManager;
 import unnamed_platformer.structures.Graphic;
 import unnamed_platformer.structures.ParamRunnable;
@@ -151,7 +151,7 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 			DefaultMutableTreeNode root = (DefaultMutableTreeNode) treeEntities
 					.getModel().getRoot();
 
-			treeEntities.setCellRenderer(new TreeCellImageRenderer());
+			treeEntities.setCellRenderer(new TreeCell_ImageRenderer());
 			treeEntities.setBackground(toolbar.getBackground());
 
 			Map<String, DefaultMutableTreeNode> createdCategories = new HashMap<String, DefaultMutableTreeNode>();

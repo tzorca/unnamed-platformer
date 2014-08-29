@@ -9,7 +9,7 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 
 import unnamed_platformer.gui.GUIManager;
 
-public class TreeCellImageRenderer extends DefaultTreeCellRenderer {
+public class TreeCell_ImageRenderer extends DefaultTreeCellRenderer {
 	private static final long serialVersionUID = 3121464047823108249L;
 	private int heightValue;
 

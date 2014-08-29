@@ -7,8 +7,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 
-import unnamed_platformer.gui.objects.WorldCell;
-import unnamed_platformer.gui.objects.WorldTableModel;
+import unnamed_platformer.gui.objects.TableCell_World;
+import unnamed_platformer.gui.objects.TableModel_World;
 
 // TODO: Implement support for double-clicking in listing
 public class Screen_SelectWorld extends BaseScreen_GUI {
@@ -19,10 +19,10 @@ public class Screen_SelectWorld extends BaseScreen_GUI {
 		lblGameTitle.setFont(GUIManager.SUB_HEADING_FONT);
 		lblGameTitle.setForeground(Color.darkGray);
 
-		WorldTableModel mdlWorlds = new WorldTableModel();
+		TableModel_World mdlWorlds = new TableModel_World();
 		JTable tblWorlds = new JTable(mdlWorlds);
-		tblWorlds.setDefaultRenderer(String.class, new WorldCell(mdlWorlds));
-		tblWorlds.setDefaultEditor(String.class, new WorldCell(mdlWorlds));
+		tblWorlds.setDefaultRenderer(String.class, new TableCell_World(mdlWorlds));
+		tblWorlds.setDefaultEditor(String.class, new TableCell_World(mdlWorlds));
 		tblWorlds.setTableHeader(null);
 		tblWorlds.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tblWorlds.setRowHeight(64);
