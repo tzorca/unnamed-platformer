@@ -13,11 +13,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 
+import unnamed_platformer.app.FileHelper;
 import unnamed_platformer.game.other.World;
 import unnamed_platformer.gui.GUIHelper;
 import unnamed_platformer.gui.GUIManager;
 import unnamed_platformer.gui.GUIManager.ScreenType;
-import unnamed_platformer.res_mgt.FileHelper;
 import unnamed_platformer.res_mgt.ResManager;
 
 // TODO: Show screenshots of levels

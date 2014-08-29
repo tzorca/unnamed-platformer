@@ -20,7 +20,7 @@ import unnamed_platformer.res_mgt.ResManager;
 import unnamed_platformer.structures.Blueprint;
 import unnamed_platformer.structures.Graphic;
 
-public class World {
+public final class World {
 	private static List<Level> levels = new LinkedList<Level>();
 	private static Level level; // current level
 	private static int levelIndex = 0;
@@ -156,7 +156,7 @@ public class World {
 
 	public static void draw() {
 		Graphic levelBG = level.getBackgroundGraphic();
-		ViewManager.clear(levelBG.color);
+		ViewManager.clearToColor(levelBG.color);
 		if (levelBG.hasTextureName()) {
 			ViewManager.drawBG(levelBG.getTexture());
 		}

@@ -17,10 +17,9 @@ import java.util.regex.Pattern;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
-import unnamed_platformer.res_mgt.FileHelper;
 import unnamed_platformer.res_mgt.ResManager;
 
-public class ImageHelper {
+public final class ImageHelper {
 	public static BufferedImage loadImage(InputStream input) throws IOException {
 		return ImageIO.read(input);
 	}

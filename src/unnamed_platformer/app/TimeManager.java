@@ -8,7 +8,7 @@ import org.lwjgl.Sys;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
 
-public class TimeManager {
+public final class TimeManager {
 
 	private static long lastTime;
 

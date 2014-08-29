@@ -19,7 +19,7 @@ import unnamed_platformer.structures.SizeStrategy;
 import com.google.common.collect.Maps;
 
 // TODO: Add customizable entity orientation
-public class EntityCreator {
+public final class EntityCreator {
 
 	// Setup texture entity subclass mappings
 	// and load textures and collisiondata

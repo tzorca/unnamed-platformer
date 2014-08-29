@@ -11,11 +11,11 @@ import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Vector2f;
 
-public class MathHelper
+public final class MathHelper
 {
 
 	public enum Axis {
-		HORIZONTAL, NONE, VERTICAL
+		BOTH, HORIZONTAL, VERTICAL, NONE
 	}
 
 	public enum Orientation {

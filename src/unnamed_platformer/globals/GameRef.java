@@ -1,6 +1,6 @@
 package unnamed_platformer.globals;
 
-public class GameRef {
+public final class GameRef {
 
 	public static final float DEFAULT_SPRING_STRENGTH = 2f;
 

@@ -5,7 +5,7 @@ import java.io.File;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.geom.Rectangle;
 
-public class Ref {
+public final class Ref {
 
 	public enum SizeMethod {
 		ABSOLUTE, TEXTURE, TEXTURE_SCALE

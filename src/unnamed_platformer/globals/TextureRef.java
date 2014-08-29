@@ -6,7 +6,7 @@ import unnamed_platformer.structures.TextureSetup;
 
 import com.google.common.collect.Maps;
 
-public class TextureRef {
+public final class TextureRef {
 
 	private static Map<String, TextureSetup> textureSetups = Maps.newHashMap();
 

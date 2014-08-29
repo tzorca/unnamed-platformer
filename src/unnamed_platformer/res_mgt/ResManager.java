@@ -6,11 +6,12 @@ import java.util.HashMap;
 
 import org.newdawn.slick.opengl.Texture;
 
+import unnamed_platformer.app.FileHelper;
 import unnamed_platformer.game.other.World;
 import unnamed_platformer.structures.CollisionData;
 
 @SuppressWarnings("unchecked")
-public class ResManager {
+public final class ResManager {
 
 	public static String getFilename(Class<?> clazz, String name) {
 		return getResloader(clazz).getFilename(name);

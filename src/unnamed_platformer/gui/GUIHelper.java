@@ -10,7 +10,7 @@ import javax.swing.SwingUtilities;
 
 import unnamed_platformer.globals.Ref;
 
-public class GUIHelper {
+public final class GUIHelper {
 
 	public interface ParamRunnable {
 		public void run(Object param);

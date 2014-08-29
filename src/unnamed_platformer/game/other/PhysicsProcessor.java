@@ -25,7 +25,7 @@ import unnamed_platformer.structures.MoveResult;
 
 // TODO: Fix (separate x/y checking -related) pixel collision bug
 
-public class PhysicsProcessor
+public final class PhysicsProcessor
 {
 	public static final Vector2f GRAVITY = new Vector2f(0, 0.2f);
 	public static final float SPEED_LIMIT = 32;
@@ -69,8 +69,8 @@ public class PhysicsProcessor
 
 	}
 
-	private static Set<InteractionResult> collectInteractions(ActiveEntity sourceEntity, Axis direction,
-			Vector2f velocity, List<Entity> entitiesToCheck) {
+	private static Set<InteractionResult> collectInteractions(final ActiveEntity sourceEntity, final Axis direction,
+			final Vector2f velocity, final List<Entity> entitiesToCheck) {
 		Set<InteractionResult> interactionResults = EnumSet.noneOf(InteractionResult.class);
 
 		// setup checking rectangle to include either x or y velocity,

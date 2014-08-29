@@ -11,7 +11,7 @@ import com.google.common.collect.Multimap;
 import com.google.common.collect.Table;
 import com.google.common.reflect.ClassPath;
 
-public class ClassLookup {
+public final class ClassLookup {
 
 	// Data structures for quick lookup
 	private static Multimap<String, Class<?>> classesInPackages = HashMultimap

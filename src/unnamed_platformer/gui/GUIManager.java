@@ -14,7 +14,7 @@ import unnamed_platformer.res_mgt.ClassLookup;
 // TODO: Add button/key to return to previous menu
 // TODO: Implement pause key functionality (return to ...)
 // TODO: Add options screen
-public class GUIManager {
+public final class GUIManager {
 
 	public static enum ScreenType {
 		Edit, Play, SelectWorld, Start

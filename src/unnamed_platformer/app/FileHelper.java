@@ -1,4 +1,4 @@
-package unnamed_platformer.res_mgt;
+package unnamed_platformer.app;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,7 +21,7 @@ import org.apache.commons.io.FilenameUtils;
 
 import unnamed_platformer.globals.Ref;
 
-public class FileHelper {
+public final class FileHelper {
 
 	public static class RenameFailedException extends Exception {
 		private static final long serialVersionUID = 2628470090472936861L;

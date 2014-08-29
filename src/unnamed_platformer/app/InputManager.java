@@ -19,7 +19,7 @@ import unnamed_platformer.globals.InputRef.GameKey;
 
 import com.google.common.collect.Maps;
 
-public class InputManager {
+public final class InputManager {
 	private static HashMap<Integer, Boolean> rawKeyStates = Maps.newHashMap();
 	private static HashMap<PlayerGameKey, Boolean> playerGameKeyStates = Maps.newHashMap(),
 			lastPlayerGameKeyStates = Maps.newHashMap(), playerGameKeyPressEvents = Maps.newHashMap();

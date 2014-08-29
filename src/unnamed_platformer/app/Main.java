@@ -14,9 +14,9 @@ import unnamed_platformer.gui.GUIManager.ScreenType;
 import unnamed_platformer.res_mgt.ResManager;
 import unnamed_platformer.structures.QuadTree;
 
-public class Main {
+public final class Main {
 
-	static long accumulator = 0;
+	private static long accumulator = 0;
 
 	private static void gameLoop() {
 		while (!Display.isCloseRequested()) {
@@ -49,11 +49,7 @@ public class Main {
 		else if (InputManager.gameKeyPressed(GameKey.menuBack, 1)) {
 			GUIManager.back();
 		}
-
-		else if (InputManager.gameKeyPressed(GameKey.startRandomGame, 1)) {
-			World.playRandomGame();
-		}
-
+		
 		else if (InputManager.gameKeyPressed(GameKey.saveTempGame, 1)) {
 			World.save("Temp");
 		}
