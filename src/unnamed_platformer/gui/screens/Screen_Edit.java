@@ -52,42 +52,46 @@ import unnamed_platformer.structures.Graphic;
 import com.google.common.collect.Lists;
 
 @SuppressWarnings("unchecked")
-public class Screen_Edit extends BaseScreen_Hybrid {
+public class Screen_Edit extends BaseScreen_Hybrid
+{
 	public static final int LEFT_TOOLBAR_SIZE = 160;
 
-	Editor editor = new Editor(0);
+	private final Editor editor = new Editor(0);
 
-	Map<ImageListEntry, Graphic> entityPlaceholderGraphics = new HashMap<ImageListEntry, Graphic>();
-	ImageIcon imgEditMode = ImageHelper.getImageIconContent("gui_modeEdit"),
-			imgPlayMode = ImageHelper.getImageIconContent("gui_modePlay"),
-			imgAdd = ImageHelper.getImageIconContent("gui_add"),
-			imgNext = ImageHelper.getImageIconContent("gui_next"),
-			imgPrev = ImageHelper.getImageIconContent("gui_prev"),
-			imgRemove = ImageHelper.getImageIconContent("gui_remove"),
-			imgSave = ImageHelper.getImageIconContent("gui_save");
+	private final Map<ImageListEntry, Graphic> entityGraphics = new HashMap<ImageListEntry, Graphic>();
 
-	List<ImageListEntry> imageListEntries = new ArrayList<ImageListEntry>();
-	JTree treeEntities = new JTree(new DefaultMutableTreeNode());
+	private static final ImageIcon IMG_EDIT_MODE = ImageHelper.getImageIconContent("gui_modeEdit");
+	private static final ImageIcon IMG_PLAY_MODE = ImageHelper.getImageIconContent("gui_modePlay");
+	private static final ImageIcon IMG_ADD = ImageHelper.getImageIconContent("gui_add");
+	private static final ImageIcon IMG_NEXT = ImageHelper.getImageIconContent("gui_next");
+	private static final ImageIcon IMG_PREV = ImageHelper.getImageIconContent("gui_prev");
+	private static final ImageIcon IMG_REMOVE = ImageHelper.getImageIconContent("gui_remove");
+	private static final ImageIcon IMG_SAVE = ImageHelper.getImageIconContent("gui_save");
 
-	JLabel lblCurrentLevel = new JLabel();
-	JButton btnModeSwitch = new JButton(imgPlayMode),
-			btnPrevLevel = new JButton(imgPrev), btnAddLevel = new JButton(
-					imgAdd), btnNextLevel = new JButton(imgNext),
-			btnRemoveLevel = new JButton(imgRemove),
-			btnSaveLevel = new JButton(imgSave);
-	List<Component> editModeControls = new ArrayList<Component>();
+	private final List<ImageListEntry> imageListEntries = new ArrayList<ImageListEntry>();
+	private final JTree treeEntities = new JTree(new DefaultMutableTreeNode());
 
-	// Instance Initializer
-	{
-		// Misc
-		editModeControls.addAll(Lists.newArrayList(treeEntities,
-				lblCurrentLevel, btnPrevLevel, btnAddLevel, btnNextLevel,
-				btnRemoveLevel, btnSaveLevel));
+	private final JLabel lblCurrentLevel = new JLabel();
+	private final JButton btnModeSwitch = new JButton(IMG_PLAY_MODE);
+	private final JButton btnPrevLevel = new JButton(IMG_PREV);
+	private final JButton btnAddLevel = new JButton(IMG_ADD);
+	private final JButton btnNextLevel = new JButton(IMG_NEXT);
+	private final JButton btnRemoveLevel = new JButton(IMG_REMOVE);
+	private final JButton btnSaveLevel = new JButton(IMG_SAVE);
+
+	private final List<Component> editModeControls = new ArrayList<Component>();
+
+	private transient boolean lastShiftState;
+
+	public Screen_Edit() {
+		super();
+
+		editModeControls.addAll(Lists.newArrayList(treeEntities, lblCurrentLevel, btnPrevLevel, btnAddLevel,
+				btnNextLevel, btnRemoveLevel, btnSaveLevel));
 		loadEntityPlaceholderGraphics();
 
 		setToolbarSizes();
 
-		// Left Toolbar : Setup
 		setupLeftToolbar();
 
 		addCanvasListeners();
@@ -95,8 +99,8 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 	}
 
 	private void setupTopToolbar() {
-		Panel topToolbar = toolbars.get(Side.top);
-		FlowLayout flowLayout = new FlowLayout(FlowLayout.RIGHT);
+		final Panel topToolbar = toolbars.get(Side.top);
+		final FlowLayout flowLayout = new FlowLayout(FlowLayout.RIGHT);
 		flowLayout.setVgap(0);
 		flowLayout.setHgap(0);
 		topToolbar.setLayout(flowLayout);
@@ -140,42 +144,37 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 
 	private void setupLeftToolbar() {
 
-		Panel leftToolbar = toolbars.get(Side.left);
+		final Panel leftToolbar = toolbars.get(Side.left);
 		leftToolbar.setLayout(new BorderLayout());
 		setupEntityJTree(leftToolbar);
 
-		treeEntities
-				.addTreeSelectionListener(new TreeEntities_SelectionChanged());
+		treeEntities.addTreeSelectionListener(new TreeEntities_SelectionChanged());
 	}
 
-	private void setupEntityJTree(Panel toolbar) {
+	private void setupEntityJTree(final Panel toolbar) {
 		try {
-			DefaultMutableTreeNode root = (DefaultMutableTreeNode) treeEntities
-					.getModel().getRoot();
+			final DefaultMutableTreeNode root = (DefaultMutableTreeNode) treeEntities.getModel().getRoot();
 
 			treeEntities.setCellRenderer(new TreeCell_ImageRenderer());
 			treeEntities.setBackground(toolbar.getBackground());
 
-			Map<String, DefaultMutableTreeNode> createdCategories = new HashMap<String, DefaultMutableTreeNode>();
+			final Map<String, DefaultMutableTreeNode> createdCategories = new HashMap<String, DefaultMutableTreeNode>();
 
-			for (ImageListEntry entry : imageListEntries) {
-				String internalName = entry.getInternalName();
+			for (final ImageListEntry entry : imageListEntries) {
+				final String internalName = entry.getInternalName();
 
 				// get class name for top-level category
-				Class<?> clazz = EntityRef
-						.getEntityClassFromTextureName(internalName);
-				String categoryName = clazz != null ? clazz.getSimpleName()
-						: "misc";
+				final Class<?> clazz = EntityRef.getEntityClassFromTextureName(internalName);
+				final String categoryName = clazz == null ? "misc" : clazz.getSimpleName();
 
 				// add category node to top-level (if not already there)
-				DefaultMutableTreeNode categoryNode;
-				if (!createdCategories.containsKey(categoryName)) {
-					categoryNode = new DefaultMutableTreeNode(
-							new ImageListEntry(imgAdd, categoryName));
+				final DefaultMutableTreeNode categoryNode;
+				if (createdCategories.containsKey(categoryName)) {
+					categoryNode = createdCategories.get(categoryName);
+				} else {
+					categoryNode = new DefaultMutableTreeNode(new ImageListEntry(IMG_ADD, categoryName));
 					root.add(categoryNode);
 					createdCategories.put(categoryName, categoryNode);
-				} else {
-					categoryNode = createdCategories.get(categoryName);
 				}
 
 				// add entry to categoryNode
@@ -185,8 +184,7 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 			treeEntities.expandPath(new TreePath(root.getPath()));
 			treeEntities.setRootVisible(false);
 
-			JScrollPane treeScroller = new JScrollPane(treeEntities,
-					JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+			final JScrollPane treeScroller = new JScrollPane(treeEntities, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 					JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
 			toolbar.add(treeScroller, BorderLayout.CENTER);
@@ -196,47 +194,41 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 	}
 
 	private void addCanvasListeners() {
-		InputManager.setEventHandler(InputEventType.leftClick,
-				new RenderCanvas_LeftClick());
-		InputManager.setEventHandler(InputEventType.rightClick,
-				new RenderCanvas_RightClick());
+		InputManager.setEventHandler(InputEventType.leftClick, new RenderCanvas_LeftClick());
+		InputManager.setEventHandler(InputEventType.rightClick, new RenderCanvas_RightClick());
 	}
 
 	public Graphic getCurrentGraphic() {
-		return entityPlaceholderGraphics.get(getSelectedEntry());
+		return entityGraphics.get(getSelectedEntry());
 	}
 
 	private void loadEntityPlaceholderGraphics() {
 
-		List<String> internalTextureNames = new ArrayList<String>(
-				EntityCreator.listTextureNames());
-		Collections.sort(internalTextureNames);
-		for (String internalTextureName : internalTextureNames) {
+		final List<String> textureNames = new ArrayList<String>(EntityCreator.listTextureNames());
+		Collections.sort(textureNames);
+		for (final String textureName : textureNames) {
 
-			String displayName = ResManager.humanizeName(internalTextureName);
-			ImageIcon imageIcon = ImageHelper.getImageIconContentScaleDown(
-					internalTextureName, 48);
+			final String displayName = ResManager.humanizeName(textureName);
+			final ImageIcon imageIcon = ImageHelper.getImageIconContentScaleDown(textureName, 48);
 
-			ImageListEntry entry = new ImageListEntry(imageIcon, displayName,
-					internalTextureName);
+			final ImageListEntry entry = new ImageListEntry(imageIcon, displayName, textureName);
 			imageListEntries.add(entry);
-			entityPlaceholderGraphics.put(entry, new Graphic(
-					internalTextureName, Ref.COLOR_75_PERCENT_TRANS));
+			entityGraphics.put(entry, new Graphic(textureName, Ref.COLOR_75_PERCENT_TRANS));
 		}
 	}
 
 	public void update() {
-		boolean editing = !World.playing();
+		final boolean currentlyEditing = !World.playing();
 
-		if (editing) {
+		if (currentlyEditing) {
 			editor.update();
 			processControls();
 		}
 
-		for (Component editModeComponent : editModeControls) {
+		for (final Component editModeComponent : editModeControls) {
 			try {
-				if (editModeComponent.isVisible() != editing) {
-					editModeComponent.setVisible(editing);
+				if (editModeComponent.isVisible() != currentlyEditing) {
+					editModeComponent.setVisible(currentlyEditing);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -251,10 +243,8 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 		processMultipaintControls();
 	}
 
-	private boolean lastShiftState = false;
-
 	private void processMultipaintControls() {
-		boolean shiftState = InputManager.isShiftHeld();
+		final boolean shiftState = InputManager.isShiftHeld();
 		if (shiftState && !lastShiftState) {
 			editor.startMultiselect(InputManager.getGameMousePos());
 		} else if (!shiftState && lastShiftState) {
@@ -264,7 +254,6 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 	}
 
 	private void processGridControls() {
-
 		int newGridSize = editor.gridSize;
 		if (InputManager.getGameKeyState(GameKey.scrollIn, 1)) {
 			newGridSize /= 2;
@@ -303,26 +292,25 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 			return;
 		}
 
-		Graphic entityPlaceholderGraphic = getCurrentGraphic();
+		final Graphic entityPlaceholderGraphic = getCurrentGraphic();
 
 		if (entityPlaceholderGraphic == null) {
 			return;
 		}
 
-		Texture t = entityPlaceholderGraphic.getTexture();
-		Level currentLevel = World.getCurrentLevel();
+		final Texture texture = entityPlaceholderGraphic.getTexture();
+		final Level currentLevel = World.getCurrentLevel();
 
-		Rectangle2D levelRect = new Rectangle2D.Float(currentLevel.getRect()
-				.getX(), currentLevel.getRect().getY(), currentLevel.getRect()
-				.getWidth(), currentLevel.getRect().getHeight());
+		final Rectangle2D levelRect = new Rectangle2D.Float(currentLevel.getRect().getX(), currentLevel.getRect()
+				.getY(), currentLevel.getRect().getWidth(), currentLevel.getRect().getHeight());
 
-		List<Vector2f> drawLocations = editor.getPaintDrawLocations(
-				t.getImageWidth(), t.getImageHeight());
+		final List<Vector2f> drawLocations = editor.getPaintDrawLocations(texture.getImageWidth(),
+				texture.getImageHeight());
 
-		for (Vector2f drawLocation : drawLocations) {
+		for (final Vector2f drawLocation : drawLocations) {
 
-			Rectangle2D drawRect = new Rectangle2D.Float(drawLocation.x,
-					drawLocation.y, t.getImageWidth(), t.getImageHeight());
+			final Rectangle2D drawRect = new Rectangle2D.Float(drawLocation.x, drawLocation.y, texture.getImageWidth(),
+					texture.getImageHeight());
 
 			if (levelRect.contains(drawRect)) {
 				ViewManager.drawGraphic(entityPlaceholderGraphic, drawRect);
@@ -333,7 +321,7 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 	}
 
 	private void updateCurrentLevelLabel() {
-		lblCurrentLevel.setText(World.getCurrentLevelIndex() + "");
+		lblCurrentLevel.setText(String.valueOf(World.getCurrentLevelIndex()));
 	}
 
 	// ===============================================================================
@@ -344,75 +332,76 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 		if (editor.unsavedChangesExist()) {
 			// this has to be done with a callback
 			// (a deadlock occurs if not invoked with SwingUtils.invokeLater)
-			GUIHelper
-					.confirmDangerousWithCallback(
-							"Are you sure you want to exit? Your game has unsaved changes.",
-							new ParamRunnable() {
-								public void run(Object param) {
-									if ((boolean) param) {
-										editor.overrideSavedChanges();
-										GUIManager
-												.changeScreen(plannedNextScreen);
-									}
-								}
-							});
+			GUIHelper.confirmDangerousWithCallback("Are you sure you want to exit? Your game has unsaved changes.",
+					new ParamRunnable() {
+						public void run(final Object param) {
+							if (!(boolean) param) {
+								return;
+							}
+							editor.overrideSavedChanges();
+							GUIManager.changeScreen(plannedNextScreen);
+						}
+					});
 			return false;
 		}
 		return true;
 	}
 
 	private ImageListEntry getSelectedEntry() {
-		if (treeEntities.isSelectionEmpty())
+		if (treeEntities.isSelectionEmpty()) {
 			return null;
+		}
 
-		DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) treeEntities
-				.getSelectionPath().getLastPathComponent();
-		ImageListEntry entry = (ImageListEntry) selectedNode.getUserObject();
+		final DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) treeEntities.getSelectionPath()
+				.getLastPathComponent();
+		final ImageListEntry entry = (ImageListEntry) selectedNode.getUserObject();
 
 		return entry;
 	}
-	
-	private class RenderCanvas_LeftClick implements Runnable {
+
+	private class RenderCanvas_LeftClick implements Runnable
+	{
 		public void run() {
-			editor.placeObject(InputManager.getGameMousePos(),
-					getSelectedEntry());
+			editor.placeObject(InputManager.getGameMousePos(), getSelectedEntry());
 		}
 	}
 
-	private class RenderCanvas_RightClick implements Runnable {
+	private class RenderCanvas_RightClick implements Runnable
+	{
 		public void run() {
 			editor.removeObject(InputManager.getGameMousePos());
 		}
 	}
 
-	private class TreeEntities_SelectionChanged implements
-			TreeSelectionListener {
+	private class TreeEntities_SelectionChanged implements TreeSelectionListener
+	{
 		@Override
-		public void valueChanged(TreeSelectionEvent e) {
+		public void valueChanged(final TreeSelectionEvent event) {
 			ViewManager.focusRenderCanvas();
 		}
 	}
 
-	private class btnModeSwitch_Click implements ActionListener {
-		public void actionPerformed(ActionEvent e) {
-			if (!World.playing()) {
-				editor.switchToPlayMode();
-				editor.setCameraPos(World.getCurrentLevel()
-						.findEntityByFlag(Flag.PLAYER).getPos());
-				btnModeSwitch.setIcon(imgEditMode);
-				setToolbarSize(Side.left, 0);
-			} else {
+	private class btnModeSwitch_Click implements ActionListener
+	{
+		public void actionPerformed(final ActionEvent event) {
+			if (World.playing()) {
 				editor.switchToEditMode();
-				btnModeSwitch.setIcon(imgPlayMode);
+				btnModeSwitch.setIcon(IMG_PLAY_MODE);
 				setToolbarSize(Side.left, LEFT_TOOLBAR_SIZE);
+			} else {
+				editor.switchToPlayMode();
+				editor.setCameraPos(World.getCurrentLevel().findEntityByFlag(Flag.PLAYER).getPos());
+				btnModeSwitch.setIcon(IMG_EDIT_MODE);
+				setToolbarSize(Side.left, 0);
 			}
 
 			ViewManager.focusRenderCanvas();
 		}
 	}
 
-	private class btnAddLevel_Click implements ActionListener {
-		public void actionPerformed(ActionEvent e) {
+	private class btnAddLevel_Click implements ActionListener
+	{
+		public void actionPerformed(final ActionEvent event) {
 			World.addBlankLevel();
 			editor.changeLevel(World.getLevelCount() - 1);
 			updateCurrentLevelLabel();
@@ -420,32 +409,36 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 		}
 	}
 
-	private class btnNextLevel_Click implements ActionListener {
-		public void actionPerformed(ActionEvent e) {
+	private class btnNextLevel_Click implements ActionListener
+	{
+		public void actionPerformed(final ActionEvent event) {
 			editor.levelInc(1);
 			updateCurrentLevelLabel();
 			ViewManager.focusRenderCanvas();
 		}
 	}
 
-	private class btnPrevLevel_Click implements ActionListener {
-		public void actionPerformed(ActionEvent e) {
+	private class btnPrevLevel_Click implements ActionListener
+	{
+		public void actionPerformed(final ActionEvent event) {
 			editor.levelInc(-1);
 			updateCurrentLevelLabel();
 			ViewManager.focusRenderCanvas();
 		}
 	}
 
-	private class btnRemoveLevel_Click implements ActionListener {
-		public void actionPerformed(ActionEvent e) {
+	private class btnRemoveLevel_Click implements ActionListener
+	{
+		public void actionPerformed(final ActionEvent event) {
 			editor.removeLevel();
 			updateCurrentLevelLabel();
 			ViewManager.focusRenderCanvas();
 		}
 	}
 
-	private class btnSaveLevel_Click implements ActionListener {
-		public void actionPerformed(ActionEvent e) {
+	private class btnSaveLevel_Click implements ActionListener
+	{
+		public void actionPerformed(final ActionEvent event) {
 			editor.save();
 			ViewManager.focusRenderCanvas();
 		}
