@@ -93,24 +93,18 @@ public class InputManager {
 
 				// TODO: Check if this is CPU-intensive or not
 				if (nowState) {
-					switch (button) {
-					case left:
+					if (button == MouseButton.left) {
 						eventHandlers.get(InputEventType.leftMouseDown).run();
-						break;
-					case right:
+					} else if (button == MouseButton.right) {
 						eventHandlers.get(InputEventType.rightMouseDown).run();
-						break;
 					}
 				}
 
 				if (!nowState && prevState) {
-					switch (button) {
-					case left:
+					if (button == MouseButton.left) {
 						eventHandlers.get(InputEventType.leftClick).run();
-						break;
-					case right:
+					} else if (button == MouseButton.right) {
 						eventHandlers.get(InputEventType.rightClick).run();
-						break;
 					}
 				}
 			}

@@ -60,16 +60,16 @@ public class Editor {
 
 		if (multiselect == null) {
 			Vector2f v = MathHelper.snapToGrid(location, gridSize);
-			_placeObject(v, imageListEntry);
+			placeObjectAfterChecks(v, imageListEntry);
 		} else {
 			for (Vector2f v : multiselect.getLastLocations()) {
-				_placeObject(v, imageListEntry);
+				placeObjectAfterChecks(v, imageListEntry);
 			}
 		}
 
 	}
 
-	public void _placeObject(Vector2f v, ImageListEntry imageListEntry) {
+	private void placeObjectAfterChecks(Vector2f v, ImageListEntry imageListEntry) {
 
 		if (!currentLevel.getRect().includes(v.x, v.y)
 				&& !currentLevel.getRect().contains(v.x, v.y)) {

@@ -18,17 +18,17 @@ public class EntityRef {
 		GRAPHIC, LOCATION, ORIENTATION, POWER, SUBCLASS, SIZE_STRATEGY
 	}
 
-	private static Map<String, Class<?>> textureName_EntityClass_Map = Maps
+	private static Map<String, Class<?>> textureNameToEntityClass = Maps
 			.newHashMap();
 
-	private static ListMultimap<Class<?>, String> entityClass_TextureName_Map = ArrayListMultimap
+	private static ListMultimap<Class<?>, String> entityClassToTextureName = ArrayListMultimap
 			.create();
 
 	public static final String PACKAGE_NAME = Ref.BASE_PACKAGE_NAME
 			+ ".game.entities";
 
 	public static List<String> getTexturesFromEntityClass(Class<?> entityClass) {
-		return entityClass_TextureName_Map.get(entityClass);
+		return entityClassToTextureName.get(entityClass);
 	}
 
 	public static void addTextureNameToEntityClassMapping(String textureName,
@@ -37,25 +37,25 @@ public class EntityRef {
 		if (!ResManager.contentExists(Texture.class, textureName)) {
 			return;
 		}
-		EntityRef.textureName_EntityClass_Map.put(textureName, entityClass);
-		EntityRef.entityClass_TextureName_Map.put(entityClass, textureName);
+		EntityRef.textureNameToEntityClass.put(textureName, entityClass);
+		EntityRef.entityClassToTextureName.put(entityClass, textureName);
 
 	}
 
 	public static Class<?> getEntityClassFromTextureName(String textureName) {
-		return textureName_EntityClass_Map.get(textureName);
+		return textureNameToEntityClass.get(textureName);
 	}
 
 	public static Set<String> getTextureNamesFromMap() {
-		return textureName_EntityClass_Map.keySet();
+		return textureNameToEntityClass.keySet();
 	}
 
 	public static boolean entityClassHasMapping(Class<?> entityClass) {
-		return entityClass_TextureName_Map.containsKey(entityClass);
+		return entityClassToTextureName.containsKey(entityClass);
 	}
 
 	public static boolean textureMapped(String texName) {
-		return textureName_EntityClass_Map.containsKey(texName);
+		return textureNameToEntityClass.containsKey(texName);
 	}
 
 

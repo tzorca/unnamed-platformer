@@ -75,12 +75,12 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 					imgAdd), btnNextLevel = new JButton(imgNext),
 			btnRemoveLevel = new JButton(imgRemove),
 			btnSaveLevel = new JButton(imgSave);
-	List<Component> ctlList_EditMode = new ArrayList<Component>();
+	List<Component> editModeControls = new ArrayList<Component>();
 
 	// Instance Initializer
 	{
 		// Misc
-		ctlList_EditMode.addAll(Lists.newArrayList(treeEntities,
+		editModeControls.addAll(Lists.newArrayList(treeEntities,
 				lblCurrentLevel, btnPrevLevel, btnAddLevel, btnNextLevel,
 				btnRemoveLevel, btnSaveLevel));
 		loadEntityPlaceholderGraphics();
@@ -233,7 +233,7 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 			processControls();
 		}
 
-		for (Component editModeComponent : ctlList_EditMode) {
+		for (Component editModeComponent : editModeControls) {
 			try {
 				if (editModeComponent.isVisible() != editing) {
 					editModeComponent.setVisible(editing);
