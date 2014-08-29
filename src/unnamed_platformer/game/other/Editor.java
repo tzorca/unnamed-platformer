@@ -17,23 +17,25 @@ import unnamed_platformer.gui.objects.ImageListEntry;
 
 import com.google.common.collect.Lists;
 
-public class Editor {
+public class Editor
+{
 	public int gridSize = 32;
-	Level currentLevel;
-	int currentLevelIndex = 0;
-	boolean playerAdded = false;
+	private Level currentLevel;
+	private int currentLevelIndex = 0;
+	private boolean playerAdded;
 
-	boolean unsavedChanges = false;
+	private boolean unsavedChanges;
 
-	Vector2f cameraPos = new Vector2f(Ref.DEFAULT_LEVEL_GRIDSIZE * 4,
-			Ref.DEFAULT_LEVEL_GRIDSIZE * 4);
+	private Multiselect multiselect;
 
-	public Editor(int levelIndex) {
+	private Vector2f cameraPos = new Vector2f(Ref.DEFAULT_LEVEL_GRIDSIZE * 4, Ref.DEFAULT_LEVEL_GRIDSIZE * 4);
+
+	public Editor(final int levelIndex) {
 		changeLevel(levelIndex);
 		currentLevel.setSize(Ref.DEFAULT_LEVEL_RECTANGLE);
 	}
 
-	public boolean changeLevel(int index) {
+	public boolean changeLevel(final int index) {
 		if (!World.hasLevelIndex(index)) {
 			return false;
 		}
@@ -42,47 +44,47 @@ public class Editor {
 		currentLevel = World.getCurrentLevel();
 		currentLevelIndex = index;
 
-		Entity player = currentLevel.findEntityByFlag(Flag.PLAYER);
-		if (player != null) {
+		final Entity player = currentLevel.findEntityByFlag(Flag.PLAYER);
+
+		if (player == null) {
+			playerAdded = false;
+		} else {
 			cameraPos = player.getCenter();
 			playerAdded = true;
-		} else {
-			playerAdded = false;
 		}
 
 		return true;
 	}
 
-	public void placeObject(Vector2f location, ImageListEntry imageListEntry) {
+	public void placeObject(final Vector2f location, final ImageListEntry imageListEntry) {
 		if (World.playing()) {
 			return;
 		}
 
 		if (multiselect == null) {
-			Vector2f v = MathHelper.snapToGrid(location, gridSize);
-			placeObjectAfterChecks(v, imageListEntry);
+			final Vector2f snappedLocation = MathHelper.snapToGrid(location, gridSize);
+			placeObjectAfterChecks(snappedLocation, imageListEntry);
 		} else {
-			for (Vector2f v : multiselect.getLastLocations()) {
-				placeObjectAfterChecks(v, imageListEntry);
+			for (final Vector2f multiselectLocation : multiselect.getLastLocations()) {
+				placeObjectAfterChecks(multiselectLocation, imageListEntry);
 			}
 		}
 
 	}
 
-	private void placeObjectAfterChecks(Vector2f v, ImageListEntry imageListEntry) {
+	private void placeObjectAfterChecks(final Vector2f location, final ImageListEntry imageListEntry) {
 
-		if (!currentLevel.getRect().includes(v.x, v.y)
-				&& !currentLevel.getRect().contains(v.x, v.y)) {
+		if (!currentLevel.getRect().includes(location.x, location.y)
+				&& !currentLevel.getRect().contains(location.x, location.y)) {
 			return;
 		}
-		
+
 		if (imageListEntry == null) {
 			return;
 		}
 
-		String currentTextureName = imageListEntry.getInternalName();
-
-		Entity newEntity = EntityCreator.create(currentTextureName, v);
+		final String textureName = imageListEntry.getInternalName();
+		final Entity newEntity = EntityCreator.create(textureName, location);
 
 		if (newEntity == null) {
 			return;
@@ -99,18 +101,18 @@ public class Editor {
 		unsavedChanges = true;
 	}
 
-	public void removeObject(Vector2f location) {
+	public void removeObject(final Vector2f location) {
 		if (World.playing()) {
 			return;
 		}
 
-		Entity atMouse = currentLevel.getTopmostEntity(location);
+		final Entity entityAtMouse = currentLevel.getTopmostEntity(location);
 
-		if (atMouse != null) {
-			currentLevel.removeEntity(atMouse);
+		if (entityAtMouse != null) {
+			currentLevel.removeEntity(entityAtMouse);
 			unsavedChanges = true;
 
-			if (atMouse.isFlagSet(Flag.PLAYER)) {
+			if (entityAtMouse.isFlagSet(Flag.PLAYER)) {
 				playerAdded = false;
 			}
 		}
@@ -131,23 +133,21 @@ public class Editor {
 
 	}
 
-	public void tryMoveCamera(Vector2f cameraDelta) {
+	public void tryMoveCamera(final Vector2f cameraDelta) {
 
-		Rectangle cameraBounds = currentLevel.getRect();
+		final Rectangle cameraBounds = currentLevel.getRect();
 		cameraBounds.setX(cameraBounds.getX() - Display.getWidth() / 4f);
-		cameraBounds
-				.setWidth(cameraBounds.getWidth() + Display.getWidth() / 2f);
+		cameraBounds.setWidth(cameraBounds.getWidth() + Display.getWidth() / 2f);
 		cameraBounds.setY(cameraBounds.getY() - Display.getHeight() / 4f);
-		cameraBounds.setHeight(cameraBounds.getHeight() + Display.getHeight()
-				/ 2f);
+		cameraBounds.setHeight(cameraBounds.getHeight() + Display.getHeight() / 2f);
 
-		float origX = cameraPos.x;
+		final float origX = cameraPos.x;
 		cameraPos.x += cameraDelta.x;
 		if (!cameraBounds.contains(cameraPos.x, cameraPos.y)) {
 			cameraPos.x = origX;
 		}
 
-		float origY = cameraPos.y;
+		final float origY = cameraPos.y;
 		cameraPos.y += cameraDelta.y;
 		if (!cameraBounds.contains(cameraPos.x, cameraPos.y)) {
 			cameraPos.y = origY;
@@ -158,36 +158,35 @@ public class Editor {
 		ViewManager.centerCamera(cameraPos);
 	}
 
-	public boolean levelInc(int i) {
-		return changeLevel(currentLevelIndex + i);
+	public boolean levelInc(final int increment) {
+		return changeLevel(currentLevelIndex + increment);
 	}
 
 	public boolean removeLevel() {
-		int levelIndexToRemove = currentLevelIndex;
-		int prevLevelIndex = currentLevelIndex - 1;
-		if (changeLevel(prevLevelIndex)) {
-			World.removeLevelByIndex(levelIndexToRemove);
+		final int indexToRemove = currentLevelIndex;
+		final int prevIndex = currentLevelIndex - 1;
+		if (changeLevel(prevIndex)) {
+			World.removeLevelByIndex(indexToRemove);
 			return true;
 		} else {
-			int nextLevelIndex = currentLevelIndex + 1;
+			final int nextLevelIndex = currentLevelIndex + 1;
 			if (changeLevel(nextLevelIndex)) {
-				World.removeLevelByIndex(levelIndexToRemove);
+				World.removeLevelByIndex(indexToRemove);
 				return true;
 			}
 		}
 		return false;
 	}
 
-	private Multiselect multiselect = null;
-
-	public void startMultiselect(Vector2f origin) {
+	public void startMultiselect(final Vector2f origin) {
 		multiselect = new Multiselect(origin);
 	}
 
-	protected class Multiselect {
-		private Vector2f origin;
+	protected class Multiselect
+	{
+		final private Vector2f origin;
 
-		public Multiselect(Vector2f origin) {
+		public Multiselect(final Vector2f origin) {
 			this.origin = origin;
 		}
 
@@ -201,32 +200,38 @@ public class Editor {
 
 		private List<Vector2f> lastLocations = new ArrayList<Vector2f>();
 
-		public List<Vector2f> getLocations(Vector2f dest, int xSeparation,
-				int ySeparation) {
-			Vector2f snapDest = MathHelper.snapToGrid(dest, gridSize);
-			Vector2f snapOrigin = MathHelper.snapToGrid(origin, gridSize);
+		public List<Vector2f> getLocations(final Vector2f dest, final int xSeparation, final int ySeparation) {
+			final Vector2f snapDest = MathHelper.snapToGrid(dest, gridSize);
+			final Vector2f snapOrigin = MathHelper.snapToGrid(origin, gridSize);
 
-			int startX = (int) snapOrigin.x;
-			int startY = (int) snapOrigin.y;
-			int endX = (int) snapDest.x;
-			int endY = (int) snapDest.y;
+			final int startX = (int) snapOrigin.x;
+			final int startY = (int) snapOrigin.y;
+			final int endX = (int) snapDest.x;
+			final int endY = (int) snapDest.y;
 
-			boolean xCountUp = startX < endX ? true : false;
-			boolean yCountUp = startY < endY ? true : false;
+			boolean xCountUp = false;
+			if (startX < endX) {
+				xCountUp = true;
+			}
 
-			int xIterator = (int) xSeparation * (xCountUp ? 1 : -1);
-			int yIterator = (int) ySeparation * (yCountUp ? 1 : -1);
+			boolean yCountUp = false;
+			if (startY < endY) {
+				yCountUp = true;
+			}
+
+			final int xIterator = (int) xSeparation * (xCountUp ? 1 : -1);
+			final int yIterator = (int) ySeparation * (yCountUp ? 1 : -1);
 
 			List<Vector2f> locations = Lists.newArrayList();
-			int x = startX;
-			while ((xCountUp && x <= endX) || (!xCountUp && x >= endX)) {
+			int xPos = startX;
+			while (xCountUp && xPos <= endX || !xCountUp && xPos >= endX) {
 
-				int y = startY;
-				while ((yCountUp && y <= endY) || (!yCountUp && y >= endY)) {
-					locations.add(new Vector2f(x, y));
-					y += yIterator;
+				int yPos = startY;
+				while (yCountUp && yPos <= endY || !yCountUp && yPos >= endY) {
+					locations.add(new Vector2f(xPos, yPos));
+					yPos += yIterator;
 				}
-				x += xIterator;
+				xPos += xIterator;
 			}
 
 			lastLocations = locations;
@@ -234,13 +239,11 @@ public class Editor {
 		}
 	}
 
-	public List<Vector2f> getPaintDrawLocations(int xSeparation, int ySeparation) {
-		Vector2f gridMousePos = MathHelper.snapToGrid(
-				InputManager.getGameMousePos(), gridSize);
+	public List<Vector2f> getPaintDrawLocations(final int xSeparation, final int ySeparation) {
+		final Vector2f gridMousePos = MathHelper.snapToGrid(InputManager.getGameMousePos(), gridSize);
 
-		return multiselect == null ? Lists.newArrayList(gridMousePos)
-				: multiselect.getLocations(gridMousePos, xSeparation,
-						ySeparation);
+		return multiselect == null ? Lists.newArrayList(gridMousePos) : multiselect.getLocations(gridMousePos,
+				xSeparation, ySeparation);
 
 	}
 
@@ -256,7 +259,7 @@ public class Editor {
 		unsavedChanges = false;
 	}
 
-	public void setCameraPos(Vector2f pos) {
+	public void setCameraPos(final Vector2f pos) {
 		cameraPos = pos;
 	}
 

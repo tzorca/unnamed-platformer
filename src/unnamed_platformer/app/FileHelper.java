@@ -8,9 +8,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -75,7 +75,7 @@ public final class FileHelper {
 	public static Map<File, String> getFileNameMap(File dir) {
 		File[] files = dir.listFiles();
 
-		Map<File, String> map = new HashMap<File, String>();
+		Map<File, String> map = new ConcurrentHashMap<File, String>();
 
 		for (int i = 0; i < files.length; i++) {
 			if (files[i].isDirectory()) {

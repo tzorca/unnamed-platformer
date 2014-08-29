@@ -41,14 +41,14 @@ public final class MathHelper
 	public static final double MAX_RAD = 2 * Math.PI;
 	public static final double MIN_RAD = -2 * Math.PI;
 
-	public static double angleFromVector(Vector2f vector) {
+	public static double angleFromVector(final Vector2f vector) {
 		return Math.atan2(vector.y, vector.x);
 	}
 
-	public static List<Vector2f> createCirclePath(float radius) {
-		List<Vector2f> path = new ArrayList<Vector2f>();
-		Vector2f shiftVector = new Vector2f(0, -radius);
-		Vector2f initialVector = new Vector2f(shiftVector);
+	public static List<Vector2f> createCirclePath(final float radius) {
+		final List<Vector2f> path = new ArrayList<Vector2f>();
+		final Vector2f shiftVector = new Vector2f(0, -radius);
+		final Vector2f initialVector = new Vector2f(shiftVector);
 		for (int i = 0; i <= 360; i++) {
 			initialVector.setTheta(i);
 			path.add(new Vector2f(initialVector));
@@ -57,8 +57,8 @@ public final class MathHelper
 		return path;
 	}
 
-	public static List<Vector2f> createUpDownPath(float dist) {
-		List<Vector2f> path = new ArrayList<Vector2f>();
+	public static List<Vector2f> createUpDownPath(final float dist) {
+		final List<Vector2f> path = new ArrayList<Vector2f>();
 		path.add(new Vector2f(0, 0));
 		path.add(new Vector2f(0, -dist));
 		path.add(new Vector2f(0, 0));
@@ -66,30 +66,30 @@ public final class MathHelper
 		return path;
 	}
 
-	public static double getArea(Rectangle rect) {
+	public static double getArea(final Rectangle rect) {
 		return rect.getWidth() * rect.getHeight();
 	}
 
-	public static Double getIntersectionAngle(Rectangle a, Rectangle b) {
-		Shape[] unionResult = a.union(b);
+	public static Double getIntersectionAngle(final Rectangle rectA, final Rectangle rectB) {
+		final Shape[] unionResult = rectA.union(rectB);
 		Shape c = new Rectangle(0, 0, 0, 0);
 		if (unionResult.length > 0) {
 			c = unionResult[0];
 		}
 
-		float intersectionX = (float) (c.getCenterX() - a.getCenterX());
-		float intersectionY = (float) (c.getCenterY() - a.getCenterY());
-		Vector2f intersectionVector = new Vector2f(intersectionX, intersectionY);
+		final float intersectionX = (float) (c.getCenterX() - rectA.getCenterX());
+		final float intersectionY = (float) (c.getCenterY() - rectA.getCenterY());
+		final Vector2f intersectionVector = new Vector2f(intersectionX, intersectionY);
 
 		return angleFromVector(intersectionVector);
 	}
 
-	public static float getRectInnerRadius(float width, float height) {
+	public static float getRectInnerRadius(final float width, final float height) {
 		return (width < height ? width : height) / 2;
 	}
 
-	public static EnumMap<Side, Double> getSideDistances(Double radians, Side[] sidesToCheck) {
-		EnumMap<Side, Double> distances = new EnumMap<Side, Double>(Side.class);
+	public static EnumMap<Side, Double> getSideDistances(final Double radians, final Side[] sidesToCheck) {
+		final EnumMap<Side, Double> distances = new EnumMap<Side, Double>(Side.class);
 
 		for (Side side : sidesToCheck) {
 			Double dist = Math.abs(side.getRadians() - radians);
@@ -102,16 +102,16 @@ public final class MathHelper
 	}
 
 	// Move in a direction towards a point (but not past it)
-	public static Vector2f moveTowards(Vector2f startPoint, Vector2f targetPoint, double speed) {
+	public static Vector2f moveTowards(final Vector2f startPoint, final Vector2f targetPoint, final double speed) {
 
-		float initialDist = startPoint.distance(targetPoint);
-		double theta = Math.atan2(targetPoint.y - startPoint.y, targetPoint.x - startPoint.x);
-		float movX = (float) (speed * Math.cos(theta));
-		float movY = (float) (speed * Math.sin(theta));
+		final float initialDist = startPoint.distance(targetPoint);
+		final double theta = Math.atan2(targetPoint.y - startPoint.y, targetPoint.x - startPoint.x);
+		final float movX = (float) (speed * Math.cos(theta));
+		final float movY = (float) (speed * Math.sin(theta));
 
 		Vector2f newPoint = new Vector2f(startPoint.getX() + movX, startPoint.getY() + movY);
 
-		double newDist = newPoint.distance(targetPoint);
+		final double newDist = newPoint.distance(targetPoint);
 
 		// don't move past the point
 		if (newDist >= initialDist) {
@@ -121,56 +121,56 @@ public final class MathHelper
 		return newPoint;
 	}
 
-	public static Object randInArray(Object[] array) {
+	public static Object randInArray(final Object[] array) {
 		return array[randRange(0, array.length - 1)];
 	}
 
-	public static Object randInCollection(Collection<?> collection) {
+	public static Object randInCollection(final Collection<?> collection) {
 		return new ArrayList<>(collection).get(randRange(0, collection.size() - 1));
 	}
 
-	public static Object randInList(List<?> list) {
+	public static Object randInList(final List<?> list) {
 		return list.get(randRange(0, list.size() - 1));
 	}
 
-	public static Object randInSet(Set<?> set) {
+	public static Object randInSet(final Set<?> set) {
 		return new ArrayList<Object>(set).get(randRange(0, set.size() - 1));
 	}
 
-	public static Object randKeyInMap(Map<?, ?> map) {
+	public static Object randKeyInMap(final Map<?, ?> map) {
 		return randInSet(map.keySet());
 	}
 
 	// Return a random number inside the range [low, high]
-	public static int randRange(int low, int high) {
+	public static int randRange(final int low, final int high) {
 		return low + (int) (Math.random() * (high - low + 1));
 	}
 
-	public static double randSet(double values[]) {
+	public static double randSet(final double values[]) {
 		return values[(int) (Math.random() * (values.length - 1 + 1))];
 	}
 
-	public static String randSet(String values[]) {
+	public static String randSet(final String values[]) {
 		return values[(int) (Math.random() * (values.length - 1 + 1))];
 	}
 
-	public static Object randValueInMap(Map<?, ?> map) {
+	public static Object randValueInMap(final Map<?, ?> map) {
 		return randInCollection(map.values());
 	}
 
-	public static Vector2f snapToGrid(Vector2f vector2f, int gridSize) {
-		int x = (int) ((int) vector2f.x / gridSize) * gridSize;
-		int y = (int) ((int) vector2f.y / gridSize) * gridSize;
+	public static Vector2f snapToGrid(final Vector2f vector2f, final int gridSize) {
+		final int xPos = (int) ((int) vector2f.x / gridSize) * gridSize;
+		final int yPos = (int) ((int) vector2f.y / gridSize) * gridSize;
 
-		return new Vector2f(x, y);
+		return new Vector2f(xPos, yPos);
 	}
 
-	public static Vector2f vectorFromAngleAndSpeed(double speed, double angle) {
+	public static Vector2f vectorFromAngleAndSpeed(final double speed, final double angle) {
 		return new Vector2f((float) (speed * Math.cos(angle)), (float) (speed * Math.sin(angle)));
 	}
 
-	public static Vector2f vectorFromOrientationAndLength(Orientation o, float length) {
-		switch (o) {
+	public static Vector2f vectorFromOrientationAndLength(final Orientation orientation, final float length) {
+		switch (orientation) {
 		case DOWN:
 			return new Vector2f(0, length);
 		case DOWN_LEFT:
@@ -187,19 +187,21 @@ public final class MathHelper
 			return new Vector2f(-length / 2, -length / 2);
 		case UP_RIGHT:
 			return new Vector2f(length / 2, -length / 2);
+		default:
+			return null;
 		}
-		return null;
 	}
 
-	public static java.awt.Point vectorToPoint(Vector2f vector) {
+	public static java.awt.Point vectorToPoint(final Vector2f vector) {
 		return new java.awt.Point((int) vector.x, (int) vector.y);
 	}
 
-	public static double wrapValue(double value, double min, double max) {
-		if (value > max)
+	public static double wrapValue(final double value, final double min, final double max) {
+		if (value > max) {
 			return value - max + min;
-		if (value < min)
+		} else if (value < min) {
 			return max - (min - value);
+		}
 		return value;
 	}
 
