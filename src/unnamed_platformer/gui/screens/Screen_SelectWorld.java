@@ -1,4 +1,4 @@
-package unnamed_platformer.gui;
+package unnamed_platformer.gui.screens;
 
 import java.awt.Color;
 
@@ -7,6 +7,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 
+import unnamed_platformer.gui.GUIManager;
 import unnamed_platformer.gui.objects.TableCell_World;
 import unnamed_platformer.gui.objects.TableModel_World;
 

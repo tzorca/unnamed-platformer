@@ -1,4 +1,4 @@
-package unnamed_platformer.gui;
+package unnamed_platformer.gui.screens;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -40,6 +40,8 @@ import unnamed_platformer.globals.EntityRef;
 import unnamed_platformer.globals.GameRef.Flag;
 import unnamed_platformer.globals.InputRef.GameKey;
 import unnamed_platformer.globals.Ref;
+import unnamed_platformer.gui.GUIHelper;
+import unnamed_platformer.gui.GUIManager;
 import unnamed_platformer.gui.GUIHelper.ParamRunnable;
 import unnamed_platformer.gui.GUIManager.ScreenType;
 import unnamed_platformer.gui.objects.ImageListEntry;

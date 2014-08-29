@@ -1,4 +1,4 @@
-package unnamed_platformer.gui;
+package unnamed_platformer.gui.screens;
 
 import java.awt.Color;
 import java.awt.Label;
@@ -10,6 +10,7 @@ import javax.swing.border.EmptyBorder;
 
 import unnamed_platformer.game.other.World;
 import unnamed_platformer.globals.Ref;
+import unnamed_platformer.gui.GUIManager;
 import unnamed_platformer.gui.GUIManager.ScreenType;
 
 public class Screen_Start extends BaseScreen_GUI {

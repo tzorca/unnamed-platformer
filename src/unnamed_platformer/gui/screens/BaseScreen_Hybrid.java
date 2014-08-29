@@ -1,4 +1,4 @@
-package unnamed_platformer.gui;
+package unnamed_platformer.gui.screens;
 
 import java.awt.Panel;
 import java.util.EnumMap;
@@ -7,13 +7,9 @@ import javax.swing.SwingUtilities;
 
 import net.miginfocom.swing.MigLayout;
 import unnamed_platformer.app.ViewManager;
+import unnamed_platformer.gui.GUIManager;
 
 public class BaseScreen_Hybrid extends Screen {
-
-	@Override
-	protected void update() {
-	}
-
 	private static final int INITIAL_TOOLBAR_SIZE = 48;
 
 	EnumMap<Side, Panel> toolbars = new EnumMap<Side, Panel>(Side.class);
