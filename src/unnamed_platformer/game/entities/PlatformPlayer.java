@@ -2,10 +2,10 @@ package unnamed_platformer.game.entities;
 
 import org.newdawn.slick.geom.Vector2f;
 
-import unnamed_platformer.game.EntitySetup;
 import unnamed_platformer.game.behaviours.Ctrl_HorizontalMove;
 import unnamed_platformer.game.behaviours.Ctrl_Jump;
 import unnamed_platformer.game.behaviours.Ctrl_Shoot;
+import unnamed_platformer.game.other.EntitySetup;
 import unnamed_platformer.globals.EntityRef.EntityParam;
 import unnamed_platformer.globals.GameRef;
 import unnamed_platformer.globals.GameRef.Flag;

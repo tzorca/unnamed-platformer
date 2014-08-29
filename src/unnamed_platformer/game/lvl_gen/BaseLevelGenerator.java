@@ -9,9 +9,9 @@ import org.lwjgl.opengl.Display;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 
-import unnamed_platformer.game.EntityCreator;
-import unnamed_platformer.game.Level;
 import unnamed_platformer.game.entities.Entity;
+import unnamed_platformer.game.other.EntityCreator;
+import unnamed_platformer.game.other.Level;
 import unnamed_platformer.globals.Ref;
 
 public abstract class BaseLevelGenerator {

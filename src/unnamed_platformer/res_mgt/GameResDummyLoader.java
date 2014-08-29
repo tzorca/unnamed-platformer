@@ -1,6 +1,6 @@
 package unnamed_platformer.res_mgt;
 
-import unnamed_platformer.game.World;
+import unnamed_platformer.game.other.World;
 
 public class GameResDummyLoader extends ResLoader<World> {
 

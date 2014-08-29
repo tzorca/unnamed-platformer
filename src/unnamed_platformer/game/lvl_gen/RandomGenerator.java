@@ -6,8 +6,8 @@ import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 
 import unnamed_platformer.app.MathHelper;
-import unnamed_platformer.game.EntityCreator;
 import unnamed_platformer.game.entities.Entity;
+import unnamed_platformer.game.other.EntityCreator;
 
 public class RandomGenerator extends BaseLevelGenerator {
 

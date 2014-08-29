@@ -5,8 +5,8 @@ import org.newdawn.slick.opengl.Texture;
 
 import com.rits.cloning.Cloner;
 
-import unnamed_platformer.game.EntityCreator;
-import unnamed_platformer.game.World;
+import unnamed_platformer.game.other.EntityCreator;
+import unnamed_platformer.game.other.World;
 import unnamed_platformer.globals.InputRef.GameKey;
 import unnamed_platformer.globals.Ref;
 import unnamed_platformer.gui.GUIManager;

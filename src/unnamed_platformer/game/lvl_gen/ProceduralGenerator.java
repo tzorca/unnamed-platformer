@@ -7,10 +7,10 @@ import java.util.HashMap;
 import org.lwjgl.opengl.Display;
 
 import unnamed_platformer.app.MathHelper;
-import unnamed_platformer.game.EntityCreator;
 import unnamed_platformer.game.entities.Hazard;
 import unnamed_platformer.game.entities.SolidBlock;
 import unnamed_platformer.game.entities.Spikes;
+import unnamed_platformer.game.other.EntityCreator;
 import unnamed_platformer.globals.EntityRef;
 import unnamed_platformer.res_mgt.ClassLookup;
 

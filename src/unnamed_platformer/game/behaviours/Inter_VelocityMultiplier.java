@@ -1,8 +1,8 @@
 package unnamed_platformer.game.behaviours;
 
-import unnamed_platformer.game.PhysicsInstance;
 import unnamed_platformer.game.entities.ActiveEntity;
 import unnamed_platformer.game.entities.Entity;
+import unnamed_platformer.game.other.PhysicsInstance;
 import unnamed_platformer.globals.GameRef.Flag;
 import unnamed_platformer.globals.GameRef.InteractionResult;
 

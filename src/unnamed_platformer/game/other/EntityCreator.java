@@ -1,4 +1,4 @@
-package unnamed_platformer.game;
+package unnamed_platformer.game.other;
 
 import java.lang.reflect.Constructor;
 import java.util.Collection;

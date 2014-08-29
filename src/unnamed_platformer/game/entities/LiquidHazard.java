@@ -2,7 +2,7 @@ package unnamed_platformer.game.entities;
 
 import org.newdawn.slick.Color;
 
-import unnamed_platformer.game.EntitySetup;
+import unnamed_platformer.game.other.EntitySetup;
 
 public class LiquidHazard extends Hazard {
 

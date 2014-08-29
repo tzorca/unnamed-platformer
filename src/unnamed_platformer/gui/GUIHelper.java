@@ -9,9 +9,13 @@ import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 
 import unnamed_platformer.globals.Ref;
-import unnamed_platformer.structures.ParamRunnable;
 
 public class GUIHelper {
+
+	public interface ParamRunnable {
+		public void run(Object param);
+	}
+
 	public static void autofitRowHeight(JTable table) {
 		int maxRowHeight = 0;
 		try {
@@ -19,8 +23,10 @@ public class GUIHelper {
 				int rowHeight = table.getRowHeight();
 
 				for (int column = 0; column < table.getColumnCount(); column++) {
-					Component comp = table.prepareRenderer(table.getCellRenderer(row, column), row, column);
-					rowHeight = Math.max(rowHeight, comp.getPreferredSize().height);
+					Component comp = table.prepareRenderer(
+							table.getCellRenderer(row, column), row, column);
+					rowHeight = Math.max(rowHeight,
+							comp.getPreferredSize().height);
 					maxRowHeight = Math.max(rowHeight, maxRowHeight);
 				}
 
@@ -30,11 +36,13 @@ public class GUIHelper {
 		}
 	}
 
-	public static boolean confirmDangerousWithCallback(final String msg, final ParamRunnable paramRunnable) {
+	public static boolean confirmDangerousWithCallback(final String msg,
+			final ParamRunnable paramRunnable) {
 		Runnable dialogRunnable = new Runnable() {
 			public void run() {
-				boolean returnValue = JOptionPane.showConfirmDialog(null, msg, Ref.APP_TITLE,
-						JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION;
+				boolean returnValue = JOptionPane.showConfirmDialog(null, msg,
+						Ref.APP_TITLE, JOptionPane.YES_NO_OPTION,
+						JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION;
 				paramRunnable.run(returnValue);
 			}
 		};
@@ -44,7 +52,8 @@ public class GUIHelper {
 	}
 
 	public static boolean confirmDangerous(final String msg) {
-		boolean returnValue = JOptionPane.showConfirmDialog(null, msg, Ref.APP_TITLE, JOptionPane.YES_NO_OPTION,
+		boolean returnValue = JOptionPane.showConfirmDialog(null, msg,
+				Ref.APP_TITLE, JOptionPane.YES_NO_OPTION,
 				JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION;
 		return returnValue;
 	}

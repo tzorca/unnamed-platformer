@@ -2,8 +2,8 @@ package unnamed_platformer.game.entities;
 
 import org.newdawn.slick.Color;
 
-import unnamed_platformer.game.EntitySetup;
 import unnamed_platformer.game.behaviours.Inter_SlowRegion;
+import unnamed_platformer.game.other.EntitySetup;
 
 public class Water extends ActiveEntity {
 

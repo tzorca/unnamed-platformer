@@ -28,8 +28,8 @@ import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.opengl.Texture;
 
-import unnamed_platformer.game.World;
 import unnamed_platformer.game.entities.Entity;
+import unnamed_platformer.game.other.World;
 import unnamed_platformer.globals.GameRef.Flag;
 import unnamed_platformer.globals.Ref;
 import unnamed_platformer.gui.GUIManager;

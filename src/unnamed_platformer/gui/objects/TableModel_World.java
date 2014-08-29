@@ -5,7 +5,7 @@ import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
-import unnamed_platformer.game.World;
+import unnamed_platformer.game.other.World;
 import unnamed_platformer.res_mgt.ResManager;
 
 public class TableModel_World extends AbstractTableModel {

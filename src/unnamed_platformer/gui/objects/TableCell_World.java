@@ -13,7 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 
-import unnamed_platformer.game.World;
+import unnamed_platformer.game.other.World;
 import unnamed_platformer.gui.GUIHelper;
 import unnamed_platformer.gui.GUIManager;
 import unnamed_platformer.gui.GUIManager.ScreenType;

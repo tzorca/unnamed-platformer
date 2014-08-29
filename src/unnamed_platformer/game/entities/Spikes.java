@@ -3,8 +3,8 @@ package unnamed_platformer.game.entities;
 import java.io.Serializable;
 
 import unnamed_platformer.app.MathHelper.Side;
-import unnamed_platformer.game.EntitySetup;
 import unnamed_platformer.game.behaviours.Inter_Damaging;
+import unnamed_platformer.game.other.EntitySetup;
 import unnamed_platformer.globals.GameRef.Flag;
 
 public class Spikes extends ActiveEntity implements Serializable {

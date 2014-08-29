@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.border.EmptyBorder;
 
-import unnamed_platformer.game.World;
+import unnamed_platformer.game.other.World;
 import unnamed_platformer.globals.Ref;
 import unnamed_platformer.gui.GUIManager.ScreenType;
 

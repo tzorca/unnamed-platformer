@@ -9,7 +9,7 @@ import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Vector2f;
 
-import unnamed_platformer.game.EntitySetup;
+import unnamed_platformer.game.other.EntitySetup;
 import unnamed_platformer.globals.EntityRef.EntityParam;
 import unnamed_platformer.globals.GameRef.Flag;
 import unnamed_platformer.structures.Graphic;
