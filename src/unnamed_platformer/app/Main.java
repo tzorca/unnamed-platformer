@@ -72,13 +72,14 @@ public class Main {
 	private static void init() {
 		// used to load lwjgl libraries without relying on project configuration
 		System.setProperty("org.lwjgl.librarypath", Ref.LWJGL_NATIVE_DIR);
-
+		
+		SQLiteStuff.turnOffLogging();
+		TimeManager.init();
+		InputManager.init();
 		ViewManager.init();
 		ResManager.init();
 		GUIManager.changeScreen(ScreenType.SelectWorld);
 		SQLiteStuff.init();
-		TimeManager.init();
-		InputManager.init();
 		EntityCreator.init();
 	}
 	
