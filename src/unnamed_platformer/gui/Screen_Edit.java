@@ -28,7 +28,6 @@ import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.opengl.Texture;
 
-import unnamed_platformer.app.GameManager;
 import unnamed_platformer.app.ImageHelper;
 import unnamed_platformer.app.InputManager;
 import unnamed_platformer.app.InputManager.InputEventType;
@@ -36,6 +35,7 @@ import unnamed_platformer.app.ViewManager;
 import unnamed_platformer.game.Editor;
 import unnamed_platformer.game.EntityCreator;
 import unnamed_platformer.game.Level;
+import unnamed_platformer.game.World;
 import unnamed_platformer.globals.EntityRef;
 import unnamed_platformer.globals.GameRef.Flag;
 import unnamed_platformer.globals.InputRef.GameKey;
@@ -224,7 +224,7 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 	}
 
 	public void update() {
-		boolean editing = !GameManager.playing();
+		boolean editing = !World.playing();
 
 		if (editing) {
 			editor.update();
@@ -290,14 +290,14 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 	}
 
 	public void drawBackground() {
-		if (GameManager.playing()) {
+		if (World.playing()) {
 			return;
 		}
 		ViewManager.drawEditorGrid(editor.gridSize);
 	}
 
 	public void drawForeground() {
-		if (GameManager.playing()) {
+		if (World.playing()) {
 			return;
 		}
 
@@ -308,7 +308,7 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 		}
 
 		Texture t = entityPlaceholderGraphic.getTexture();
-		Level currentLevel = GameManager.getCurrentLevel();
+		Level currentLevel = World.getCurrentLevel();
 
 		Rectangle2D levelRect = new Rectangle2D.Float(currentLevel.getRect()
 				.getX(), currentLevel.getRect().getY(), currentLevel.getRect()
@@ -331,7 +331,7 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 	}
 
 	private void updateCurrentLevelLabel() {
-		lblCurrentLevel.setText(GameManager.getCurrentLevelNumber() + "");
+		lblCurrentLevel.setText(World.getCurrentLevelIndex() + "");
 	}
 
 	// ===============================================================================
@@ -393,9 +393,9 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 
 	private class btnModeSwitch_Click implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			if (!GameManager.playing()) {
+			if (!World.playing()) {
 				editor.switchToPlayMode();
-				editor.setCameraPos(GameManager.getCurrentLevel()
+				editor.setCameraPos(World.getCurrentLevel()
 						.findEntityByFlag(Flag.PLAYER).getPos());
 				btnModeSwitch.setIcon(imgEditMode);
 				setToolbarSize(Side.left, 0);
@@ -411,8 +411,8 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 
 	private class btnAddLevel_Click implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			GameManager.addBlankLevel();
-			editor.changeLevel(GameManager.getLevelCount() - 1);
+			World.addBlankLevel();
+			editor.changeLevel(World.getLevelCount() - 1);
 			updateCurrentLevelLabel();
 			ViewManager.focusRenderCanvas();
 		}

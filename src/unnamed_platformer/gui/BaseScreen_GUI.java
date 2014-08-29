@@ -1,7 +1,7 @@
 package unnamed_platformer.gui;
 
-import unnamed_platformer.app.GameManager;
 import unnamed_platformer.app.ViewManager;
+import unnamed_platformer.game.World;
 
 public class BaseScreen_GUI extends Screen {
 
@@ -10,7 +10,7 @@ public class BaseScreen_GUI extends Screen {
 	}
 
 	public BaseScreen_GUI() {
-		GameManager.setPlaying(false);
+		World.setPlaying(false);
 		ViewManager.setRenderCanvasVisibility(false);
 		pnlSurface.setVisible(true);
 		ViewManager.resetRenderCanvasBounds();

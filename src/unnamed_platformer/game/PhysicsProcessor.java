@@ -9,7 +9,6 @@ import java.util.Set;
 import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Vector2f;
 
-import unnamed_platformer.app.GameManager;
 import unnamed_platformer.app.Main;
 import unnamed_platformer.app.MathHelper.Axis;
 import unnamed_platformer.game.behaviours.Interaction;
@@ -61,7 +60,7 @@ public class PhysicsProcessor {
 
 			// only check entities in nearby regions
 			List<Entity> possibleInteractors = new ArrayList<Entity>();
-			GameManager.populateFromQuadTree(possibleInteractors,
+			World.populateFromQuadTree(possibleInteractors,
 					registeredEntity.getCollisionRect());
 
 			processInteractions(registeredEntity, possibleInteractors);

@@ -28,6 +28,7 @@ import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.opengl.Texture;
 
+import unnamed_platformer.game.World;
 import unnamed_platformer.game.entities.Entity;
 import unnamed_platformer.globals.GameRef.Flag;
 import unnamed_platformer.globals.Ref;
@@ -144,7 +145,7 @@ public class ViewManager {
 
 		saveState();
 		ArrayList<int[]> pointBuffer = new ArrayList<int[]>();
-		Rectangle levelRect = GameManager.getRect();
+		Rectangle levelRect = World.getLevelRect();
 
 		int minX = (int) viewport.getMinX(), maxX = (int) viewport.getMaxX(), minY = (int) viewport
 				.getMinY(), maxY = (int) viewport.getMaxY();
@@ -448,9 +449,9 @@ public class ViewManager {
 		// TODO: Improve state logic here
 		if (GUIManager.atScreen(ScreenType.Play)
 				|| GUIManager.atScreen(ScreenType.Edit)) {
-			Display.setTitle(GameManager.getGameName());
+			Display.setTitle(World.getName());
 
-			GameManager.draw();
+			World.draw();
 		}
 		GUIManager.update();
 

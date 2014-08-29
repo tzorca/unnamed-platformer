@@ -9,7 +9,6 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 
-import unnamed_platformer.app.GameManager;
 import unnamed_platformer.app.ViewManager;
 import unnamed_platformer.game.entities.Entity;
 import unnamed_platformer.globals.GameRef.Flag;
@@ -167,7 +166,7 @@ public class Level {
 				continue;
 			}
 
-			if (GameManager.playing()) {
+			if (World.playing()) {
 				// perform entity logic
 				entity.update();
 
@@ -184,13 +183,13 @@ public class Level {
 			}
 
 			// add existing entities to quadtree
-			if (GameManager.playing()) {
+			if (World.playing()) {
 				quadTree.insert(entity,
 						QuadTree.increaseRect(entity.getCollisionRect()));
 			}
 		}
 
-		if (GameManager.playing()) {
+		if (World.playing()) {
 			PhysicsProcessor.checkForInteractionsWithRegisteredEntities();
 
 			if (playerEntity != null) {
@@ -228,8 +227,8 @@ public class Level {
 
 	private void onStart() {
 		// // take screenshot on start of level 1
-		// if (GameManager.currentGame == null ||
-		// GameManager.currentGame.getLevelIndex() != 0
+		// if (World.currentGame == null ||
+		// World.currentGame.getLevelIndex() != 0
 		// || App.state != State.Play) {
 		// return;
 		// }
@@ -242,7 +241,7 @@ public class Level {
 		// BufferedImage screenshot = ViewManager.getScreenshot();
 		// ImageIcon serializablePreviewImage = new ImageIcon(screenshot);
 		// if (screenshot != null) {
-		// GameManager.currentGame.setPreviewImage(serializablePreviewImage);
+		// World.currentGame.setPreviewImage(serializablePreviewImage);
 		// }
 		//
 		// }});

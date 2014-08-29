@@ -51,11 +51,11 @@ public class Main {
 		}
 
 		else if (InputManager.gameKeyPressed(GameKey.startRandomGame, 1)) {
-			GameManager.playRandomGame();
+			World.playRandomGame();
 		}
 
 		else if (InputManager.gameKeyPressed(GameKey.saveTempGame, 1)) {
-			GameManager.saveCurrentGame("Temp");
+			World.save("Temp");
 		}
 
 		else if (InputManager.gameKeyPressed(GameKey.saveScreenshot, 1)) {

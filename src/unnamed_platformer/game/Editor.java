@@ -7,7 +7,6 @@ import org.lwjgl.opengl.Display;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 
-import unnamed_platformer.app.GameManager;
 import unnamed_platformer.app.InputManager;
 import unnamed_platformer.app.MathHelper;
 import unnamed_platformer.app.ViewManager;
@@ -35,12 +34,12 @@ public class Editor {
 	}
 
 	public boolean changeLevel(int index) {
-		if (!GameManager.levelExists(index)) {
+		if (!World.hasLevelIndex(index)) {
 			return false;
 		}
 
-		GameManager.changeLevelToIndex(index);
-		currentLevel = GameManager.getCurrentLevel();
+		World.setLevelByIndex(index);
+		currentLevel = World.getCurrentLevel();
 		currentLevelIndex = index;
 
 		Entity player = currentLevel.findEntityByFlag(Flag.PLAYER);
@@ -55,7 +54,7 @@ public class Editor {
 	}
 
 	public void placeObject(Vector2f location, ImageListEntry imageListEntry) {
-		if (GameManager.playing()) {
+		if (World.playing()) {
 			return;
 		}
 
@@ -97,7 +96,7 @@ public class Editor {
 	}
 
 	public void removeObject(Vector2f location) {
-		if (GameManager.playing()) {
+		if (World.playing()) {
 			return;
 		}
 
@@ -115,12 +114,12 @@ public class Editor {
 
 	public void switchToEditMode() {
 		currentLevel.resetToOriginal();
-		GameManager.setPlaying(false);
+		World.setPlaying(false);
 	}
 
 	public void switchToPlayMode() {
 		currentLevel.resetToCurrent();
-		GameManager.setPlaying(true);
+		World.setPlaying(true);
 	}
 
 	public void resetToEditPlacement() {
@@ -163,12 +162,12 @@ public class Editor {
 		int levelIndexToRemove = currentLevelIndex;
 		int prevLevelIndex = currentLevelIndex - 1;
 		if (changeLevel(prevLevelIndex)) {
-			GameManager.removeLevelByIndex(levelIndexToRemove);
+			World.removeLevelByIndex(levelIndexToRemove);
 			return true;
 		} else {
 			int nextLevelIndex = currentLevelIndex + 1;
 			if (changeLevel(nextLevelIndex)) {
-				GameManager.removeLevelByIndex(levelIndexToRemove);
+				World.removeLevelByIndex(levelIndexToRemove);
 				return true;
 			}
 		}
@@ -259,7 +258,7 @@ public class Editor {
 
 	public void save() {
 		resetToEditPlacement();
-		if (GameManager.saveCurrentGame()) {
+		if (World.saveCurrentGame()) {
 			unsavedChanges = false;
 		}
 	}

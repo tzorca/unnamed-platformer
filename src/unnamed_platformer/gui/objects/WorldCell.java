@@ -13,7 +13,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 
-import unnamed_platformer.app.GameManager;
 import unnamed_platformer.game.World;
 import unnamed_platformer.gui.GUIHelper;
 import unnamed_platformer.gui.GUIManager;
@@ -88,10 +87,10 @@ public class WorldCell extends ReadOnlyInteractiveCell implements ActionListener
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals(Actions.PLAY.name())) {
-			GameManager.loadGame(getGameName());
+			World.load(getGameName());
 			GUIManager.changeScreen(ScreenType.Play);
 		} else if (e.getActionCommand().equals(Actions.EDIT.name())) {
-			GameManager.loadGame(getGameName());
+			World.load(getGameName());
 			GUIManager.changeScreen(ScreenType.Edit);
 		}
 

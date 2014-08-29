@@ -11,8 +11,11 @@ import org.newdawn.slick.geom.Rectangle;
 
 import unnamed_platformer.app.ViewManager;
 import unnamed_platformer.game.entities.Entity;
+import unnamed_platformer.game.lvl_gen.BaseLevelGenerator;
+import unnamed_platformer.game.lvl_gen.ProceduralGenerator;
 import unnamed_platformer.globals.Ref.BlueprintField;
 import unnamed_platformer.gui.GUIManager;
+import unnamed_platformer.gui.GUIManager.ScreenType;
 import unnamed_platformer.res_mgt.ResManager;
 import unnamed_platformer.structures.Blueprint;
 import unnamed_platformer.structures.Graphic;
@@ -23,14 +26,47 @@ public class World {
 	private static int levelIndex = 0;
 	private static String _name;
 	private static ImageIcon previewImage = null;
+	private static boolean playing;
 
+	
+	public static boolean playing() {
+		return playing;
+	}
+	
+	public static void setPlaying(boolean value) {
+		playing = value;
+	}
+	
+	public static void playRandomGame() {
+		reset("Randomly Generated Game", false);
+
+		BaseLevelGenerator generator = new ProceduralGenerator();
+		for (int i = 0; i < 10; i++) {
+			World.addPremadeLevel(generator.generate());
+		}
+
+		setLevelByIndex(0);
+		setPlaying(true);
+		GUIManager.changeScreen(ScreenType.Play);
+	}
+
+
+	public static void populateFromQuadTree(List<Entity> entities, Rectangle box) {
+		getCurrentLevel().retrieveFromQuadTree(entities, box);
+	}
+	
+	public static boolean saveCurrentGame() {
+		return save(getName());
+	}
+
+	
 	public static void reset(String name, boolean addBlank) {
 		_name = name;
 		levels.clear();
 		if (addBlank) {
 			addBlankLevel();
 		}
-		setCurrentLevel(0);
+		setLevelByIndex(0);
 	}
 
 	public static boolean save(String name) {
@@ -38,7 +74,7 @@ public class World {
 		String filename = ResManager.getFilename(World.class, name);
 		return toBlueprint().save(filename);
 	}
-
+	
 	public static void load(String name) {
 		reset(name, false);
 		String filename = ResManager.getFilename(World.class, name);
@@ -78,7 +114,7 @@ public class World {
 			levels.add(Level.fromBlueprint(lvlBlueprint));
 		}
 
-		setCurrentLevel(0);
+		setLevelByIndex(0);
 	}
 
 	public static Image getPreviewImage(Blueprint bp) {
@@ -90,12 +126,12 @@ public class World {
 		return ((ImageIcon) bp.get(BlueprintField.PREVIEW_IMAGE)).getImage();
 	}
 
-	public static boolean hasLevel(int destination) {
+	public static boolean hasLevelIndex(int destination) {
 		return levels.size() > destination && destination >= 0;
 	}
 
-	public static void setCurrentLevel(int destination) {
-		if (hasLevel(destination)) {
+	public static void setLevelByIndex(int destination) {
+		if (hasLevelIndex(destination)) {
 			level = levels.get(destination);
 			levelIndex = destination;
 		} else {
@@ -134,10 +170,6 @@ public class World {
 		level.addEntity(e);
 	}
 
-	public static int getLevelIndex() {
-		return levelIndex;
-	}
-
 	public static Rectangle getLevelRect() {
 		return level.getRect();
 	}
@@ -146,7 +178,7 @@ public class World {
 		levels.add(lvl);
 	}
 
-	public static Level getLevel() {
+	public static Level getCurrentLevel() {
 		return level;
 	}
 
@@ -158,8 +190,8 @@ public class World {
 		return levels.size();
 	}
 
-	public static void removeLevel(int index) {
-		if (hasLevel(index)) {
+	public static void removeLevelByIndex(int index) {
+		if (hasLevelIndex(index)) {
 			levels.remove(index);
 		} else {
 			System.out.println("Can't delete level #" + index
@@ -178,6 +210,10 @@ public class World {
 
 	public static void setPreviewImage(ImageIcon previewImage) {
 		World.previewImage = previewImage;
+	}
+
+	public static int getCurrentLevelIndex() {
+		return levelIndex;
 	}
 
 }

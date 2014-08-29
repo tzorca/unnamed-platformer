@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.border.EmptyBorder;
 
-import unnamed_platformer.app.GameManager;
+import unnamed_platformer.game.World;
 import unnamed_platformer.globals.Ref;
 import unnamed_platformer.gui.GUIManager.ScreenType;
 
@@ -25,7 +25,7 @@ public class Screen_Start extends BaseScreen_GUI {
 		btnDynamicWorld.setBorder(new EmptyBorder(15, 20, 15, 20));
 		btnDynamicWorld.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				GameManager.playRandomGame();
+				World.playRandomGame();
 			}
 		});
 		

@@ -1,6 +1,6 @@
 package unnamed_platformer.game.behaviours;
 
-import unnamed_platformer.app.GameManager;
+import unnamed_platformer.game.World;
 import unnamed_platformer.game.entities.Entity;
 import unnamed_platformer.globals.GameRef.Flag;
 import unnamed_platformer.globals.GameRef.InteractionResult;
@@ -19,7 +19,7 @@ public class Inter_LevelExit extends Interaction {
 		// TODO: Show level end animation (probably as a Screen)
 		// TODO: Show current level in HUD
 		// TODO: Create GameFinished screen and ask if user wants to restart
-		GameManager.changeLevelToIndex(GameManager.getCurrentLevelNumber()
+		World.setLevelByIndex(World.getCurrentLevelIndex()
 				+ relativeDestination);
 
 		return InteractionResult.SKIP_PHYSICS;
