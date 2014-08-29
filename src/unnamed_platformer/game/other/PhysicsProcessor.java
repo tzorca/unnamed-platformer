@@ -139,7 +139,7 @@ public final class PhysicsProcessor
 			Set<InteractionResult> interactionResults = collectInteractions(actor, axis, velocity, entitiesToCheck);
 
 			if (interactionResults.contains(InteractionResult.SKIP_PHYSICS)) {
-				continue;
+				break;
 			}
 
 			switch (axis) {
