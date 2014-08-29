@@ -34,7 +34,7 @@ public final class PhysicsProcessor
 
 	private static Set<ActiveEntity> registeredEntities = new HashSet<ActiveEntity>();
 
-	private static void applyGlobalSpeedLimit(Vector2f velocity) {
+	private static void applyGlobalSpeedLimit(final Vector2f velocity) {
 		if (velocity.x > SPEED_LIMIT) {
 			velocity.x = SPEED_LIMIT;
 		} else if (velocity.x < -SPEED_LIMIT) {
@@ -48,7 +48,7 @@ public final class PhysicsProcessor
 		}
 	}
 
-	public static void applyGravity(ActiveEntity actor, float multiplier) {
+	public static void applyGravity(final ActiveEntity actor, final float multiplier) {
 		if (!actor.isFlagSet(Flag.OBEYS_GRAVITY)) {
 			return;
 		}
@@ -57,8 +57,8 @@ public final class PhysicsProcessor
 	}
 
 	public static void checkForInteractionsWithRegisteredEntities() {
-		List<Entity> possibleInteractors = new ArrayList<Entity>();
-		for (ActiveEntity registeredEntity : registeredEntities) {
+		final List<Entity> possibleInteractors = new ArrayList<Entity>();
+		for (final ActiveEntity registeredEntity : registeredEntities) {
 			// only check entities in nearby regions
 			World.populateFromQuadTree(possibleInteractors, registeredEntity.getCollisionRect());
 
@@ -71,8 +71,8 @@ public final class PhysicsProcessor
 
 	private static Set<InteractionResult> collectInteractions(final ActiveEntity sourceEntity, final Axis direction,
 			final Vector2f velocity, final List<Entity> entitiesToCheck) {
-		Set<InteractionResult> interactionResults = EnumSet.noneOf(InteractionResult.class);
-		Shape checkShape = Main.deepClone(sourceEntity.getCollisionShape());
+		final Set<InteractionResult> interactionResults = EnumSet.noneOf(InteractionResult.class);
+		final Shape checkShape = Main.deepClone(sourceEntity.getCollisionShape());
 
 		// setup checking rectangle to include either x or y velocity,
 		// depending on axis
@@ -84,7 +84,7 @@ public final class PhysicsProcessor
 			return interactionResults;
 		}
 
-		PhysicsInstance srcEntityPhysics = sourceEntity.getPhysics();
+		final PhysicsInstance srcEntityPhysics = sourceEntity.getPhysics();
 
 		for (final Entity otherEntity : entitiesToCheck) {
 			// don't process interactions if the entities are the same
@@ -95,8 +95,8 @@ public final class PhysicsProcessor
 
 			// the ordering of otherEntity and sourceEntity is important
 			if (otherEntity.isActive()) {
-				ActiveEntity activeOtherEntity = (ActiveEntity) otherEntity;
-				for (Interaction interaction : activeOtherEntity.interactions) {
+				final ActiveEntity activeOtherEntity = (ActiveEntity) otherEntity;
+				for (final Interaction interaction : activeOtherEntity.interactions) {
 					interactionResults.add(interaction.interactWith(sourceEntity));
 				}
 			}
@@ -118,27 +118,26 @@ public final class PhysicsProcessor
 		return interactionResults;
 	}
 
-	private static void processInteractions(ActiveEntity actor, List<Entity> entitiesToCheck) {
+	private static void processInteractions(final ActiveEntity actor, final List<Entity> entitiesToCheck) {
+		final PhysicsInstance actorPhysics = actor.getPhysics();
 
-		PhysicsInstance actorPhysics = actor.getPhysics();
-
-		Vector2f original = actor.getPos();
-		Vector2f velocity = actorPhysics.getVelocity();
-		Vector2f originalVelocity = new Vector2f(velocity);
+		final Vector2f originalPos = actor.getPos();
+		final Vector2f velocity = actorPhysics.getVelocity();
+		final Vector2f originalVelocity = new Vector2f(velocity);
 
 		applyGlobalSpeedLimit(velocity);
 
 		boolean xCollision = false;
 		boolean yCollision = false;
 
-		Axis[] axisCheckingOrder = velocity.x > velocity.y ? new Axis[] {
+		final Axis[] axisCheckingOrder = velocity.x > velocity.y ? new Axis[] {
 				Axis.HORIZONTAL, Axis.VERTICAL
 		} : new Axis[] {
 				Axis.VERTICAL, Axis.HORIZONTAL
 		};
 
-		Set<InteractionResult> interactionResults = EnumSet.noneOf(InteractionResult.class);
-		for (Axis axis : axisCheckingOrder) {
+		final Set<InteractionResult> interactionResults = EnumSet.noneOf(InteractionResult.class);
+		for (final Axis axis : axisCheckingOrder) {
 			interactionResults.addAll(collectInteractions(actor, axis, velocity, entitiesToCheck));
 
 			if (interactionResults.contains(InteractionResult.SKIP_PHYSICS)) {
@@ -151,7 +150,7 @@ public final class PhysicsProcessor
 					actorPhysics.setXVelocity(0);
 					xCollision = true;
 				} else {
-					actor.setX(original.x + velocity.x);
+					actor.setX(originalPos.x + velocity.x);
 				}
 				break;
 			case VERTICAL:
@@ -161,7 +160,7 @@ public final class PhysicsProcessor
 
 					yCollision = true;
 				} else {
-					actor.setY(original.y + velocity.y);
+					actor.setY(originalPos.y + velocity.y);
 
 					if (Math.abs(velocity.y) > MIN_AIR_VELOCITY) {
 						actorPhysics.setInAir(true);
@@ -176,10 +175,10 @@ public final class PhysicsProcessor
 
 		actorPhysics.lastMoveResult = new MoveResult(xCollision, yCollision, originalVelocity.x, originalVelocity.y);
 
-		actorPhysics.recalculateDirection(original);
+		actorPhysics.recalculateDirection(originalPos);
 	}
 
-	public static void registerEntityForInteractionChecking(ActiveEntity actor) {
+	public static void registerEntityForInteractionChecking(final ActiveEntity actor) {
 		registeredEntities.add(actor);
 	}
 }
