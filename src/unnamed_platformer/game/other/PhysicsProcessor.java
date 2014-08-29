@@ -83,7 +83,7 @@ public final class PhysicsProcessor
 		} else {
 			return interactionResults;
 		}
-
+		
 		final PhysicsInstance srcEntityPhysics = sourceEntity.getPhysics();
 
 		for (final Entity otherEntity : entitiesToCheck) {
@@ -135,9 +135,8 @@ public final class PhysicsProcessor
 				Axis.VERTICAL, Axis.HORIZONTAL
 		};
 
-		Set<InteractionResult> interactionResults = EnumSet.noneOf(InteractionResult.class);
 		for (final Axis axis : axisCheckingOrder) {
-			interactionResults = collectInteractions(actor, axis, velocity, entitiesToCheck);
+			Set<InteractionResult> interactionResults = collectInteractions(actor, axis, velocity, entitiesToCheck);
 
 			if (interactionResults.contains(InteractionResult.SKIP_PHYSICS)) {
 				continue;

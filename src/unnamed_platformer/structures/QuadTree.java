@@ -95,8 +95,8 @@ public class QuadTree
 
 	// prevent stupid bugs
 	public static Rectangle increaseRect(final Rectangle pRect) {
-		return new Rectangle(pRect.getX() - pRect.getWidth(), pRect.getY() - pRect.getHeight(), pRect.getWidth() * 2,
-				pRect.getHeight() * 2);
+		return new Rectangle(pRect.getX() - pRect.getWidth()*2, pRect.getY() - pRect.getHeight()*2, pRect.getWidth() * 4,
+				pRect.getHeight() * 4);
 	}
 
 	/*
