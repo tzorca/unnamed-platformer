@@ -75,6 +75,10 @@ public class Editor {
 				&& !currentLevel.getRect().contains(v.x, v.y)) {
 			return;
 		}
+		
+		if (imageListEntry == null) {
+			return;
+		}
 
 		String currentTextureName = imageListEntry.getInternalName();
 
