@@ -10,15 +10,16 @@ import org.newdawn.slick.geom.Shape;
 import unnamed_platformer.app.MathHelper;
 import unnamed_platformer.structures.TextureSetup.CollisionShapeOption;
 
-public class CollisionData {
-	boolean[][] opacityGrid;
-	Rectangle autoCropRect;
-	int canvasWidth, canvasHeight;
+public class CollisionData
+{
+	private boolean[][] opacityGrid;
+	private Rectangle autoCropRect;
+	private final int canvasWidth;
+	private final int canvasHeight;
 
-	private static final int COLOR_TRANSPARENT = (new Color(0.0f, 0.0f, 0.0f,
-			0.0f)).getRGB();
+	private static final int COLOR_TRANSPARENT = (new Color(0.0f, 0.0f, 0.0f, 0.0f)).getRGB();
 
-	public CollisionData(BufferedImage img) {
+	public CollisionData(final BufferedImage img) {
 		readData(img);
 		canvasWidth = img.getWidth();
 		canvasHeight = img.getHeight();
@@ -85,33 +86,30 @@ public class CollisionData {
 				}
 			}
 		}
-		autoCropRect = new Rectangle(leftEdge, topEdge, rightEdge - leftEdge
-				+ 1, bottomEdge - topEdge + 1);
+		autoCropRect = new Rectangle(leftEdge, topEdge, rightEdge - leftEdge + 1, bottomEdge - topEdge + 1);
 	}
 
-	private Rectangle getScaledRect(Rectangle entityBox) {
-		float wRatio = entityBox.getWidth() / canvasWidth;
-		float hRatio = entityBox.getHeight() / canvasHeight;
+	private Rectangle getScaledRect(final Rectangle entityBox) {
+		final float wRatio = entityBox.getWidth() / canvasWidth;
+		final float hRatio = entityBox.getHeight() / canvasHeight;
 
-		float x = autoCropRect.getX() * wRatio + entityBox.getX();
-		float y = autoCropRect.getY() * hRatio + entityBox.getY();
-		float w = autoCropRect.getWidth() * wRatio;
-		float h = autoCropRect.getHeight() * hRatio;
-		
-		return new Rectangle(x, y, w, h);
+		final float xPos = autoCropRect.getX() * wRatio + entityBox.getX();
+		final float yPos = autoCropRect.getY() * hRatio + entityBox.getY();
+		final float width = autoCropRect.getWidth() * wRatio;
+		final float height = autoCropRect.getHeight() * hRatio;
+
+		return new Rectangle(xPos, yPos, width, height);
 	}
 
-	public Shape getScaledShape(Rectangle entityBox,
-			CollisionShapeOption collisionShape) {
+	public Shape getScaledShape(final Rectangle entityBox, final CollisionShapeOption collisionShape) {
 
-		Rectangle scaledRect = getScaledRect(entityBox);
+		final Rectangle scaledRect = getScaledRect(entityBox);
 
 		switch (collisionShape) {
 		case circle:
-			float radius = MathHelper.getRectInnerRadius(
-					scaledRect.getWidth(), scaledRect.getHeight());
-			float centerX = scaledRect.getCenterX();
-			float centerY = scaledRect.getCenterY();
+			final float radius = MathHelper.getRectInnerRadius(scaledRect.getWidth(), scaledRect.getHeight());
+			final float centerX = scaledRect.getCenterX();
+			final float centerY = scaledRect.getCenterY();
 			return new Circle(centerX, centerY, radius);
 		case none:
 			return new Rectangle(0, 0, 0, 0);

@@ -19,22 +19,22 @@ public class Graphic implements Serializable {
 	private String textureName;
 	public TextureSetup cachedTextureSetup;
 
-	public Graphic(Color color) {
+	public Graphic(final Color color) {
 		this.color = color;
 	}
 
-	public Graphic(String textureName, Color color) {
+	public Graphic(final String textureName, final Color color) {
 		setTexture(textureName);
 
 		this.color = color;
 	}
 
-	public void setTexture(String textureName) {
+	public void setTexture(final String textureName) {
 		this.textureName = textureName;
 		this.cachedTextureSetup = TextureRef.getSetup(textureName);
 	}
 
-	public Graphic(String textureName) {
+	public Graphic(final String textureName) {
 		setTexture(textureName);
 	}
 
