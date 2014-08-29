@@ -37,10 +37,30 @@ import unnamed_platformer.gui.GUIManager.ScreenType;
 import unnamed_platformer.res_mgt.ResManager;
 import unnamed_platformer.structures.Graphic;
 
-public class ViewManager {
+public class ViewManager
+{
 
-	public static class WindowEventHandler extends WindowAdapter {
-		public void windowClosing(WindowEvent e) {
+	public static final Dimension DEFAULT_RESOLUTION = new Dimension(960, 600);
+
+	public static final int FPS = 60;
+
+	private static boolean fullscreen;
+
+	private static Panel guiPanel;
+	private static JFrame parentFrame;
+
+	private static Canvas renderCanvas;
+
+	public static final float SCALE = 1f;
+
+	private static Rectangle viewport = new Rectangle(0, 0, ViewManager.DEFAULT_RESOLUTION.width,
+			ViewManager.DEFAULT_RESOLUTION.height);
+
+	private static TreeMap<Integer, List<Entity>> zIndexBuckets = new TreeMap<Integer, List<Entity>>();
+
+	public static class WindowEventHandler extends WindowAdapter
+	{
+		public void windowClosing(WindowEvent event) {
 			if (GUIManager.canExit()) {
 				if (SQLiteStuff.isInitialized()) {
 					SQLiteStuff.finish();
@@ -54,41 +74,16 @@ public class ViewManager {
 
 	}
 
-	static Texture background = null;
-
-	public static final Dimension DEFAULT_RESOLUTION = new Dimension(960, 600);
-
-	public static final int FPS = 60;
-	
-	static boolean fullscreen = false;
-
-	private static Panel guiPanel;
-	private static JFrame parentFrame;
-
-	private static Canvas renderCanvas;
-
-	public static final float SCALE = 1f;
-
-	private static Rectangle viewport = new Rectangle(0, 0,
-			ViewManager.DEFAULT_RESOLUTION.width, ViewManager.DEFAULT_RESOLUTION.height);
-
-
-	private static TreeMap<Integer, List<Entity>> zIndexBuckets = new TreeMap<Integer, List<Entity>>();
-
-	
 	public static void centerCamera(Vector2f vector2f) {
 
 		float x = vector2f.x;
 		float y = vector2f.y;
 
-		int left = (int) (x - ViewManager.DEFAULT_RESOLUTION.width / ViewManager.SCALE
-				/ 2);
-		int top = (int) (y - ViewManager.DEFAULT_RESOLUTION.height / ViewManager.SCALE
-				/ 2);
+		int left = (int) (x - ViewManager.DEFAULT_RESOLUTION.width / ViewManager.SCALE / 2);
+		int top = (int) (y - ViewManager.DEFAULT_RESOLUTION.height / ViewManager.SCALE / 2);
 
 		int right = (int) (ViewManager.DEFAULT_RESOLUTION.width / ViewManager.SCALE / 2 + x);
-		int bottom = (int) (ViewManager.DEFAULT_RESOLUTION.height / ViewManager.SCALE
-				/ 2 + y);
+		int bottom = (int) (ViewManager.DEFAULT_RESOLUTION.height / ViewManager.SCALE / 2 + y);
 
 		viewport.setBounds(left, top, right - left, bottom - top);
 
@@ -115,14 +110,12 @@ public class ViewManager {
 		float tW = background.getWidth(), tH = background.getHeight();
 
 		x = (float) (int) viewport.getX();
-		y = (float) (int) viewport.getY()- (background.getTextureHeight()-viewport.getHeight());
+		y = (float) (int) viewport.getY() - (background.getTextureHeight() - viewport.getHeight());
 		w = (float) background.getTextureWidth();
 		h = (float) background.getTextureHeight();
 
-		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S,
-				GL11.GL_REPEAT);
-		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T,
-				GL11.GL_REPEAT);
+		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL11.GL_REPEAT);
+		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL11.GL_REPEAT);
 
 		background.bind();
 		GL11.glBegin(GL11.GL_QUADS);
@@ -147,8 +140,8 @@ public class ViewManager {
 		ArrayList<int[]> pointBuffer = new ArrayList<int[]>();
 		Rectangle levelRect = World.getLevelRect();
 
-		int minX = (int) viewport.getMinX(), maxX = (int) viewport.getMaxX(), minY = (int) viewport
-				.getMinY(), maxY = (int) viewport.getMaxY();
+		int minX = (int) viewport.getMinX(), maxX = (int) viewport.getMaxX(), minY = (int) viewport.getMinY(), maxY = (int) viewport
+				.getMaxY();
 
 		for (int x = 0; x <= levelRect.getWidth(); x += gridSize) {
 			if (x < minX || x > maxX) {
@@ -158,7 +151,9 @@ public class ViewManager {
 				if (y < minY || y > maxY) {
 					continue;
 				}
-				pointBuffer.add(new int[] { x - 2, y - 2 });
+				pointBuffer.add(new int[] {
+						x - 2, y - 2
+				});
 			}
 		}
 
@@ -199,40 +194,37 @@ public class ViewManager {
 		float h = (float) (int) rectangle.getHeight();
 
 		Color color = graphic.color;
-		Texture t = graphic.getTexture();
+		Texture texture = graphic.getTexture();
 
-		if (color != null) {
-			GL11.glColor4f(color.r, color.g, color.b, color.a);
-		} else {
+		if (color == null) {
 			resetColor();
+		} else {
+			GL11.glColor4f(color.r, color.g, color.b, color.a);
 		}
 
-		if (t != null) {
-			t.bind();
-
-			GL11.glBegin(GL11.GL_QUADS);
-			drawTex(t, x, y, w, h, t.getWidth(), t.getHeight());
-			GL11.glEnd();
-		} else {
+		if (texture == null) {
 			GL11.glBegin(GL11.GL_QUADS);
 			GL11.glVertex2f(x, y);
 			GL11.glVertex2f(x + w, y);
 			GL11.glVertex2f(x + w, y + h);
 			GL11.glVertex2f(x, y + h);
 			GL11.glEnd();
+		} else {
+			texture.bind();
+			GL11.glBegin(GL11.GL_QUADS);
+			drawQuad(x, y, w, h, texture.getWidth(), texture.getHeight());
+			GL11.glEnd();
 		}
 
 	}
 
 	public static void drawGraphic(Graphic graphic, Rectangle2D rect2D) {
-		drawGraphic(graphic, new Rectangle((float) rect2D.getX(),
-				(float) rect2D.getY(), (float) rect2D.getWidth(),
+		drawGraphic(graphic, new Rectangle((float) rect2D.getX(), (float) rect2D.getY(), (float) rect2D.getWidth(),
 				(float) rect2D.getHeight()));
 
 	}
 
-	private static void drawTex(Texture t, float x, float y, float w, float h,
-			float tW, float tH) {
+	private static void drawQuad(float x, float y, float w, float h, float tW, float tH) {
 		GL11.glTexCoord2f(0, 0);
 		GL11.glVertex2f(x, y);
 		GL11.glTexCoord2f(tW, 0);
@@ -244,8 +236,7 @@ public class ViewManager {
 
 	}
 
-	public static void drawTexturesInBatch(Texture t,
-			ArrayList<int[]> pointBuffer) {
+	public static void drawTexturesInBatch(Texture t, ArrayList<int[]> pointBuffer) {
 		t.bind();
 
 		int w = t.getImageWidth();
@@ -256,7 +247,7 @@ public class ViewManager {
 
 		GL11.glBegin(GL11.GL_QUADS);
 		for (int[] point : pointBuffer) {
-			drawTex(t, point[0], point[1], w, h, tW, tH);
+			drawQuad(point[0], point[1], w, h, tW, tH);
 		}
 		GL11.glEnd();
 	}
@@ -294,30 +285,30 @@ public class ViewManager {
 	}
 
 	public static Dimension getScreenResolution() {
-		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-		return new Dimension(gd.getDisplayMode().getWidth(), gd.getDisplayMode().getHeight());
+		GraphicsDevice graphicsDevice = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+
+		java.awt.DisplayMode displayMode = graphicsDevice.getDisplayMode();
+
+		return new Dimension(displayMode.getWidth(), displayMode.getHeight());
 	}
 
 	public static BufferedImage getScreenshot() {
 		GL11.glReadBuffer(GL11.GL_FRONT);
 		int width = Display.getDisplayMode().getWidth();
 		int height = Display.getDisplayMode().getHeight();
-		int bpp = 4;
+		final int bpp = 4;
 		ByteBuffer buffer = BufferUtils.createByteBuffer(width * height * bpp);
-		GL11.glReadPixels(0, 0, width, height, GL11.GL_RGBA,
-				GL11.GL_UNSIGNED_BYTE, buffer);
+		GL11.glReadPixels(0, 0, width, height, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, buffer);
 
-		BufferedImage image = new BufferedImage(width, height,
-				BufferedImage.TYPE_INT_RGB);
+		BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
 				int i = (x + (width * y)) * bpp;
-				int r = buffer.get(i) & 0xFF;
-				int g = buffer.get(i + 1) & 0xFF;
-				int b = buffer.get(i + 2) & 0xFF;
-				image.setRGB(x, height - (y + 1), (0xFF << 24) | (r << 16)
-						| (g << 8) | b);
+				int red = buffer.get(i) & 0xFF;
+				int green = buffer.get(i + 1) & 0xFF;
+				int blue = buffer.get(i + 2) & 0xFF;
+				image.setRGB(x, height - (y + 1), (0xFF << 24) | (red << 16) | (green << 8) | blue);
 			}
 		}
 
@@ -335,10 +326,10 @@ public class ViewManager {
 	public static void init() {
 		parentFrame = new JFrame(Ref.APP_TITLE);
 		parentFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		
+
 		// want to be able to handle close events as early as possible
 		parentFrame.addWindowListener(new ViewManager.WindowEventHandler());
-		
+
 		parentFrame.setLayout(null);
 		renderCanvas = new Canvas();
 		renderCanvas.setSize(ViewManager.DEFAULT_RESOLUTION);
@@ -355,16 +346,14 @@ public class ViewManager {
 		}
 		try {
 			Display.setParent(renderCanvas);
-			Display.setDisplayMode(new DisplayMode(
-					ViewManager.DEFAULT_RESOLUTION.width,
+			Display.setDisplayMode(new DisplayMode(ViewManager.DEFAULT_RESOLUTION.width,
 					ViewManager.DEFAULT_RESOLUTION.height));
 			Display.setFullscreen(fullscreen);
 			Display.create();
 		} catch (LWJGLException e) {
 			// This exception typically occurs because pixel acceleration
 			// is not supported. Software mode works as a (slow) workaround.
-			System.setProperty("org.lwjgl.opengl.Display.allowSoftwareOpenGL",
-					"true");
+			System.setProperty("org.lwjgl.opengl.Display.allowSoftwareOpenGL", "true");
 			try {
 				System.out.println("Warning: Defaulting to software mode. Performance may be suboptimal.");
 				Display.create();
@@ -384,8 +373,7 @@ public class ViewManager {
 
 	@SuppressWarnings("unused")
 	private static void printRect(Rectangle rect) {
-		System.out.println(rect.getX() + "," + rect.getY() + ","
-				+ rect.getWidth() + "," + rect.getHeight());
+		System.out.println(rect.getX() + "," + rect.getY() + "," + rect.getWidth() + "," + rect.getHeight());
 	}
 
 	public static boolean rectInView(Rectangle r) {
@@ -421,9 +409,9 @@ public class ViewManager {
 		renderCanvas.setBounds(x, y, width, height);
 	}
 
-	public static void setRenderCanvasVisibility(boolean b) {
-		renderCanvas.setVisible(b);
-		if (b) {
+	public static void setRenderCanvasVisibility(boolean visibility) {
+		renderCanvas.setVisible(visibility);
+		if (visibility) {
 			renderCanvas.requestFocus();
 		}
 	}
@@ -435,20 +423,17 @@ public class ViewManager {
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
-		GL11.glViewport(0, 0, ViewManager.DEFAULT_RESOLUTION.width,
-				ViewManager.DEFAULT_RESOLUTION.height);
+		GL11.glViewport(0, 0, ViewManager.DEFAULT_RESOLUTION.width, ViewManager.DEFAULT_RESOLUTION.height);
 
 		GL11.glMatrixMode(GL11.GL_PROJECTION);
 		GL11.glLoadIdentity();
-		GL11.glOrtho(0, ViewManager.DEFAULT_RESOLUTION.width,
-				ViewManager.DEFAULT_RESOLUTION.height, 0, 1, -1);
+		GL11.glOrtho(0, ViewManager.DEFAULT_RESOLUTION.width, ViewManager.DEFAULT_RESOLUTION.height, 0, 1, -1);
 		GL11.glMatrixMode(GL11.GL_MODELVIEW);
 	}
 
 	public static void update() {
 		// TODO: Improve state logic here
-		if (GUIManager.atScreen(ScreenType.Play)
-				|| GUIManager.atScreen(ScreenType.Edit)) {
+		if (GUIManager.atScreen(ScreenType.Play) || GUIManager.atScreen(ScreenType.Edit)) {
 			Display.setTitle(World.getName());
 
 			World.draw();

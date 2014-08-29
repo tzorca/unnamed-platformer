@@ -31,8 +31,9 @@ public class Level {
 	private Rectangle rect = Ref.DEFAULT_LEVEL_RECTANGLE;
 	private transient QuadTree quadTree = new QuadTree(0,
 			Ref.DEFAULT_LEVEL_RECTANGLE);
+	private Entity playerEntity;
 
-	private void setRect(Rectangle rect) {
+	private void setRect(final Rectangle rect) {
 		quadTree = new QuadTree(0, rect);
 		this.rect = rect;
 	}
@@ -56,7 +57,6 @@ public class Level {
 		setupPlayer();
 	}
 
-	Entity playerEntity;
 
 	private void setupPlayer() {
 		for (Entity e : entities) {
@@ -71,11 +71,11 @@ public class Level {
 		}
 	}
 
-	public void save(String filename) {
+	public void save(final String filename) {
 		toBlueprint().save(filename);
 	}
 
-	public static Level load(String filename) {
+	public static Level load(final String filename) {
 		return fromBlueprint(Blueprint.load(filename, false));
 	}
 
@@ -90,20 +90,20 @@ public class Level {
 	}
 
 	@SuppressWarnings("unchecked")
-	static Level fromBlueprint(Blueprint lBP) {
-		if (lBP == null) {
+	static Level fromBlueprint(final Blueprint levelBlueprint) {
+		if (levelBlueprint == null) {
 			System.out
 					.println("Error: Can't create a level from a null blueprint.");
 			return null;
 		}
 
-		LinkedList<EntitySetup> entitySetups = (LinkedList<EntitySetup>) lBP
+		LinkedList<EntitySetup> entitySetups = (LinkedList<EntitySetup>) levelBlueprint
 				.get(BlueprintField.LEVEL_ENTITIES);
 
 		Level newLevel = new Level(
 				EntityCreator.buildFromSetupCollection(entitySetups));
-		newLevel.bgGraphic = (Graphic) lBP.get(BlueprintField.LEVEL_BG);
-		newLevel.setRect((Rectangle) lBP.get(BlueprintField.LEVEL_RECT));
+		newLevel.bgGraphic = (Graphic) levelBlueprint.get(BlueprintField.LEVEL_BG);
+		newLevel.setRect((Rectangle) levelBlueprint.get(BlueprintField.LEVEL_RECT));
 
 		return newLevel;
 	}
@@ -123,8 +123,8 @@ public class Level {
 		newEntities.clear();
 	}
 
-	public void addEntity(Entity e) {
-		newEntities.add(e);
+	public void addEntity(final Entity entity) {
+		newEntities.add(entity);
 	}
 
 	public void clear() {
@@ -139,12 +139,12 @@ public class Level {
 	}
 
 	public Entity getTopmostEntity(Vector2f point) {
-		ListIterator<Entity> rI = entities.listIterator(entities.size());
+		ListIterator<Entity> entityIterator = entities.listIterator(entities.size());
 
-		while (rI.hasPrevious()) {
-			Entity e = rI.previous();
-			if (e.getCollisionShape().contains(point.x, point.y)) {
-				return e;
+		while (entityIterator.hasPrevious()) {
+			Entity entity = entityIterator.previous();
+			if (entity.getCollisionShape().contains(point.x, point.y)) {
+				return entity;
 			}
 		}
 		return null;
@@ -212,8 +212,8 @@ public class Level {
 		return null;
 	}
 
-	public void removeEntity(Entity e) {
-		e.setFlag(Flag.OUT_OF_PLAY, true);
+	public void removeEntity(final Entity entity) {
+		entity.setFlag(Flag.OUT_OF_PLAY, true);
 	}
 
 	public void resetToCurrent() {

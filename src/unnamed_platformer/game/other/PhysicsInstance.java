@@ -13,7 +13,7 @@ import unnamed_platformer.structures.MoveResult;
 
 public class PhysicsInstance {
 
-	private List<ControlMechanism> mechanisms = new LinkedList<ControlMechanism>();
+	private final List<ControlMechanism> mechanisms = new LinkedList<ControlMechanism>();
 
 	private boolean inAir = true;
 	private Vector2f lastMove = new Vector2f(0, 0),
@@ -28,7 +28,7 @@ public class PhysicsInstance {
 
 	private ActiveEntity associatedActor;
 
-	private boolean isZero = false;
+	private boolean isZero;
 
 	public PhysicsInstance(ActiveEntity actor) {
 		this.associatedActor = actor;
@@ -38,7 +38,7 @@ public class PhysicsInstance {
 		mechanisms.add(mechanism);
 	}
 
-	public void addForce(org.newdawn.slick.geom.Vector2f v) {
+	public void addForce(Vector2f v) {
 		currentForces = currentForces.add(v);
 	}
 

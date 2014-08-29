@@ -24,7 +24,7 @@ public class World {
 	private static List<Level> levels = new LinkedList<Level>();
 	private static Level level; // current level
 	private static int levelIndex = 0;
-	private static String _name;
+	private static String localName;
 	private static ImageIcon previewImage = null;
 	private static boolean playing;
 
@@ -60,8 +60,8 @@ public class World {
 	}
 
 	
-	public static void reset(String name, boolean addBlank) {
-		_name = name;
+	public static void reset(final String name, final boolean addBlank) {
+		localName = name;
 		levels.clear();
 		if (addBlank) {
 			addBlankLevel();
@@ -70,7 +70,7 @@ public class World {
 	}
 
 	public static boolean save(String name) {
-		_name = name;
+		localName = name;
 		String filename = ResManager.getFilename(World.class, name);
 		return toBlueprint().save(filename);
 	}
@@ -82,18 +82,18 @@ public class World {
 	}
 
 	public static Blueprint toBlueprint() {
-		Blueprint gBP = new Blueprint();
+		Blueprint worldBlueprint = new Blueprint();
 
-		gBP.put(BlueprintField.PREVIEW_IMAGE, previewImage);
+		worldBlueprint.put(BlueprintField.PREVIEW_IMAGE, previewImage);
 
-		List<Blueprint> lBPs = new LinkedList<Blueprint>();
+		List<Blueprint> levelBlueprints = new LinkedList<Blueprint>();
 		for (Level lvl : levels) {
-			lBPs.add(lvl.toBlueprint());
+			levelBlueprints.add(lvl.toBlueprint());
 		}
 
-		gBP.put(BlueprintField.LEVEL_DATA, lBPs);
+		worldBlueprint.put(BlueprintField.LEVEL_DATA, levelBlueprints);
 
-		return gBP;
+		return worldBlueprint;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -166,15 +166,15 @@ public class World {
 
 	}
 
-	public static void addEntity(Entity e) {
-		level.addEntity(e);
+	public static void addEntity(final Entity entity) {
+		level.addEntity(entity);
 	}
 
 	public static Rectangle getLevelRect() {
 		return level.getRect();
 	}
 
-	public static void addPremadeLevel(Level lvl) {
+	public static void addPremadeLevel(final Level lvl) {
 		levels.add(lvl);
 	}
 
@@ -200,10 +200,10 @@ public class World {
 	}
 
 	public static String getName() {
-		return _name;
+		return localName;
 	}
 
-	public static void replaceCurrentLevel(Level lvl) {
+	public static void replaceCurrentLevel(final Level lvl) {
 		level = lvl;
 		levels.set(levelIndex, lvl);
 	}

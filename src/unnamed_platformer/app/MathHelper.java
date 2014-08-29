@@ -11,7 +11,8 @@ import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Vector2f;
 
-public class MathHelper {
+public class MathHelper
+{
 
 	public enum Axis {
 		HORIZONTAL, NONE, VERTICAL
@@ -69,19 +70,6 @@ public class MathHelper {
 		return rect.getWidth() * rect.getHeight();
 	}
 
-	public static Rectangle getEnclosingRect(Vector2f origin, Vector2f dest) {
-		if (dest.x - origin.x < 0 || dest.y - origin.y < 0) {
-			Vector2f prevOrigin = origin;
-			Vector2f prevDest = dest;
-			dest = prevOrigin;
-			origin = prevDest;
-		}
-		int width = (int) (dest.x - origin.x);
-		int height = (int) (dest.y - origin.y);
-
-		return new Rectangle(origin.x, origin.y, width, height);
-	}
-
 	public static Double getIntersectionAngle(Rectangle a, Rectangle b) {
 		Shape[] unionResult = a.union(b);
 		Shape c = new Rectangle(0, 0, 0, 0);
@@ -100,8 +88,7 @@ public class MathHelper {
 		return (width < height ? width : height) / 2;
 	}
 
-	public static EnumMap<Side, Double> getSideDistances(Double radians,
-			Side[] sidesToCheck) {
+	public static EnumMap<Side, Double> getSideDistances(Double radians, Side[] sidesToCheck) {
 		EnumMap<Side, Double> distances = new EnumMap<Side, Double>(Side.class);
 
 		for (Side side : sidesToCheck) {
@@ -115,17 +102,14 @@ public class MathHelper {
 	}
 
 	// Move in a direction towards a point (but not past it)
-	public static Vector2f moveTowards(Vector2f startPoint,
-			Vector2f targetPoint, double speed) {
+	public static Vector2f moveTowards(Vector2f startPoint, Vector2f targetPoint, double speed) {
 
 		float initialDist = startPoint.distance(targetPoint);
-		double theta = Math.atan2(targetPoint.y - startPoint.y, targetPoint.x
-				- startPoint.x);
+		double theta = Math.atan2(targetPoint.y - startPoint.y, targetPoint.x - startPoint.x);
 		float movX = (float) (speed * Math.cos(theta));
 		float movY = (float) (speed * Math.sin(theta));
 
-		Vector2f newPoint = new Vector2f(startPoint.getX() + movX,
-				startPoint.getY() + movY);
+		Vector2f newPoint = new Vector2f(startPoint.getX() + movX, startPoint.getY() + movY);
 
 		double newDist = newPoint.distance(targetPoint);
 
@@ -142,8 +126,7 @@ public class MathHelper {
 	}
 
 	public static Object randInCollection(Collection<?> collection) {
-		return new ArrayList<>(collection).get(randRange(0,
-				collection.size() - 1));
+		return new ArrayList<>(collection).get(randRange(0, collection.size() - 1));
 	}
 
 	public static Object randInList(List<?> list) {
@@ -160,27 +143,19 @@ public class MathHelper {
 
 	// Return a random number inside the range [low, high]
 	public static int randRange(int low, int high) {
-		return low + (int) (Math.random() * ((high - low) + 1));
+		return low + (int) (Math.random() * (high - low + 1));
 	}
 
 	public static double randSet(double values[]) {
-		return values[(int) (Math.random() * ((values.length - 1) + 1))];
+		return values[(int) (Math.random() * (values.length - 1 + 1))];
 	}
 
 	public static String randSet(String values[]) {
-		return values[(int) (Math.random() * ((values.length - 1) + 1))];
+		return values[(int) (Math.random() * (values.length - 1 + 1))];
 	}
 
 	public static Object randValueInMap(Map<?, ?> map) {
 		return randInCollection(map.values());
-	}
-
-	public static long rectangleHash(float x, float y, float w, float h) {
-		long result = (int) x;
-		result += 1000 * result + (int) y;
-		result += 1000 * result + (int) w;
-		result += 1000 * result + (int) h;
-		return result;
 	}
 
 	public static Vector2f snapToGrid(Vector2f vector2f, int gridSize) {
@@ -191,12 +166,10 @@ public class MathHelper {
 	}
 
 	public static Vector2f vectorFromAngleAndSpeed(double speed, double angle) {
-		return new Vector2f((float) (speed * Math.cos(angle)),
-				(float) (speed * Math.sin(angle)));
+		return new Vector2f((float) (speed * Math.cos(angle)), (float) (speed * Math.sin(angle)));
 	}
 
-	public static Vector2f vectorFromOrientationAndLength(Orientation o,
-			float length) {
+	public static Vector2f vectorFromOrientationAndLength(Orientation o, float length) {
 		switch (o) {
 		case DOWN:
 			return new Vector2f(0, length);
@@ -224,7 +197,7 @@ public class MathHelper {
 
 	public static double wrapValue(double value, double min, double max) {
 		if (value > max)
-			return (value - max) + min;
+			return value - max + min;
 		if (value < min)
 			return max - (min - value);
 		return value;

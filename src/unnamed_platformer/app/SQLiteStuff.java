@@ -22,13 +22,13 @@ public class SQLiteStuff {
 
 	private static final class Names {
 		public static final class Tbl {
-			static final String textureMappings = "textureMappings";
+			static final String TEXTURE_MAPPINGS = "textureMappings";
 		}
 
 		public static final class Col {
-			static final String textureName = "textureName";
-			static final String entityName = "entityName";
-			static final String collisionShape = "collisionShape";
+			static final String TEXTURE_NAME = "textureName";
+			static final String ENTITY_NAME = "entityName";
+			static final String COLLISION_SHAPE = "collisionShape";
 		}
 	}
 
@@ -50,7 +50,7 @@ public class SQLiteStuff {
 
 	private static void addTextureMappings() {
 		try {
-			SQLiteStatement st = db.prepare("select * FROM " + Names.Tbl.textureMappings + ";");
+			SQLiteStatement st = db.prepare("select * FROM " + Names.Tbl.TEXTURE_MAPPINGS + ";");
 
 			while (st.step()) {
 				String entityClassName = st.columnString(1);
@@ -80,7 +80,7 @@ public class SQLiteStuff {
 
 		try {
 			SQLiteStatement st = db
-					.prepare("insert or ignore into " + Names.Tbl.textureMappings + " values (?, ?, ?);");
+					.prepare("insert or ignore into " + Names.Tbl.TEXTURE_MAPPINGS + " values (?, ?, ?);");
 
 			for (String textureName : textureNames) {
 				st.bind(1, textureName);
@@ -101,12 +101,12 @@ public class SQLiteStuff {
 	private static void initTables() {
 		try {
 			String creationSQL = "";
-			creationSQL += "create table if not exists " + Names.Tbl.textureMappings;
+			creationSQL += "create table if not exists " + Names.Tbl.TEXTURE_MAPPINGS;
 			creationSQL += " (";
-			creationSQL += Names.Col.textureName + " text, ";
-			creationSQL += Names.Col.entityName + " text, ";
-			creationSQL += Names.Col.collisionShape + " text, ";
-			creationSQL += "PRIMARY KEY(" + Names.Col.textureName + ")";
+			creationSQL += Names.Col.TEXTURE_NAME + " text, ";
+			creationSQL += Names.Col.ENTITY_NAME + " text, ";
+			creationSQL += Names.Col.COLLISION_SHAPE + " text, ";
+			creationSQL += "PRIMARY KEY(" + Names.Col.TEXTURE_NAME + ")";
 			creationSQL += ")";
 
 			db.exec(creationSQL);
