@@ -27,6 +27,6 @@ public final class GameRef {
 	}
 
 	public enum InteractionResult {
-		NO_RESULT,  X_COLLISION, Y_COLLISION, SKIP_PHYSICS
+		BLANK_RESULT,  X_COLLISION, Y_COLLISION, SKIP_PHYSICS
 	}
 }

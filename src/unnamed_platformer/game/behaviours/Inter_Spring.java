@@ -21,11 +21,11 @@ public class Inter_Spring extends Interaction {
 		ActiveEntity plr = (ActiveEntity) target;
 
 		if (!plr.hasPhysics()) {
-			return InteractionResult.NO_RESULT;
+			return InteractionResult.BLANK_RESULT;
 		}
 		plr.getPhysics().addForce(v);
 
-		return InteractionResult.NO_RESULT;
+		return InteractionResult.BLANK_RESULT;
 	}
 
 	@Override

@@ -38,11 +38,11 @@ public abstract class Interaction {
 
 	public final InteractionResult interactWith(Entity target) {
 		if (!isValidTarget(target)) {
-			return InteractionResult.NO_RESULT;
+			return InteractionResult.BLANK_RESULT;
 		}
 
 		if (!onActiveside(target)) {
-			return InteractionResult.NO_RESULT;
+			return InteractionResult.BLANK_RESULT;
 		}
 
 		return performInteraction(target);

@@ -26,7 +26,7 @@ public class Inter_VelocityMultiplier extends Interaction {
 		PhysicsInstance physics = ((ActiveEntity) target).getPhysics();
 		physics.setForceMultiplier(factor);
 //		
-		return InteractionResult.NO_RESULT;
+		return InteractionResult.BLANK_RESULT;
 //		Vector2f addVector = new Vector2f();
 //		Vector2f currentForce =physics.getCurrentForce();
 //		Vector2f.sub(currentForce, (Vector2f) currentForce.scale(factor), addVector);

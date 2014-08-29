@@ -20,7 +20,7 @@ public class Inter_Breakable extends Interaction {
 		source.setFlag(Flag.OUT_OF_PLAY, true);
 		if (target.isFlagSet(Flag.DISSOLVES_ON_CONTACT))
 			target.setFlag(Flag.OUT_OF_PLAY,  true);
-		return InteractionResult.NO_RESULT;
+		return InteractionResult.BLANK_RESULT;
 	}
 
 }

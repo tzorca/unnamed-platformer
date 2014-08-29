@@ -72,50 +72,42 @@ public final class PhysicsProcessor
 	private static Set<InteractionResult> collectInteractions(final ActiveEntity sourceEntity, final Axis direction,
 			final Vector2f velocity, final List<Entity> entitiesToCheck) {
 		Set<InteractionResult> interactionResults = EnumSet.noneOf(InteractionResult.class);
+		Shape checkShape = Main.deepClone(sourceEntity.getCollisionShape());
 
 		// setup checking rectangle to include either x or y velocity,
 		// depending on axis
-		Shape checkShape = Main.deepClone(sourceEntity.getCollisionShape());
-		switch (direction) {
-		case HORIZONTAL:
+		if (direction == Axis.HORIZONTAL) {
 			checkShape.setX(checkShape.getX() + velocity.x);
-			break;
-		case VERTICAL:
+		} else if (direction == Axis.VERTICAL) {
 			checkShape.setY(checkShape.getY() + velocity.y);
-			break;
-		case NONE:
-		default:
+		} else {
 			return interactionResults;
 		}
 
-		PhysicsInstance sourceEntityPhysics = sourceEntity.getPhysics();
+		PhysicsInstance srcEntityPhysics = sourceEntity.getPhysics();
 
-		for (Entity otherEntity : entitiesToCheck) {
-			if (sourceEntity.equals(otherEntity)) {
+		for (final Entity otherEntity : entitiesToCheck) {
+			// don't process interactions if the entities are the same
+			// or they don't intersect
+			if (sourceEntity.equals(otherEntity) || !checkShape.intersects(otherEntity.getCollisionShape())) {
 				continue;
 			}
 
-			if (!checkShape.intersects(otherEntity.getCollisionShape())) {
-				continue;
-			}
 			// the ordering of otherEntity and sourceEntity is important
 			if (otherEntity.isActive()) {
 				ActiveEntity activeOtherEntity = (ActiveEntity) otherEntity;
 				for (Interaction interaction : activeOtherEntity.interactions) {
-					InteractionResult result = interaction.interactWith(sourceEntity);
-
-					if (result != InteractionResult.NO_RESULT) {
-						interactionResults.add(result);
-					}
+					interactionResults.add(interaction.interactWith(sourceEntity));
 				}
 			}
 
-			// solid collisions not useful without physics in entity a
-			if (sourceEntityPhysics.isZero()) {
+			// don't process collisions if the source entity's physics are
+			// currently disabled
+			if (srcEntityPhysics.isZero()) {
 				continue;
 			}
 
-			// solid collision occurred
+			// if conditions are right for a solid collision
 			if (sourceEntity.isFlagSet(Flag.TANGIBLE) && otherEntity.isFlagSet(Flag.SOLID)) {
 				interactionResults.add(direction == Axis.HORIZONTAL ? InteractionResult.X_COLLISION
 						: InteractionResult.Y_COLLISION);
