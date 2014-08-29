@@ -7,7 +7,6 @@ import unnamed_platformer.game.other.EntitySetup;
 import unnamed_platformer.globals.GameRef;
 
 public class SpringLike extends ActiveEntity {
-	private static final long serialVersionUID = -6977486102061938504L;
 
 	public SpringLike(EntitySetup entitySetup) {
 		super(entitySetup);

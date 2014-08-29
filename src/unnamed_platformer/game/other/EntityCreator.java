@@ -87,7 +87,7 @@ public class EntityCreator {
 
 	}
 
-	private static Entity buildFromSetup(EntitySetup setup) {
+	public static Entity buildFromSetup(EntitySetup setup) {
 		Entity newEntity = null;
 		Class<?> entityClass = ClassLookup.getClass(EntityRef.PACKAGE_NAME,
 				setup.getEntityClassName());

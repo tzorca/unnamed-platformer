@@ -7,8 +7,6 @@ import unnamed_platformer.game.other.EntitySetup;
 
 public class LiquidFast extends ActiveEntity {
 
-	private static final long serialVersionUID = 7134237510304922138L;
-
 	public LiquidFast(EntitySetup entitySetup) {
 		super(entitySetup);
 

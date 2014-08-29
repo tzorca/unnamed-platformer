@@ -11,8 +11,6 @@ import unnamed_platformer.game.other.PhysicsInstance;
 import unnamed_platformer.globals.EntityRef.EntityParam;
 
 public abstract class ActiveEntity extends Entity {
-	private static final long serialVersionUID = 7803333719264801403L;
-
 	private PhysicsInstance physics;
 	public Set<Interaction> interactions = new HashSet<Interaction>();
 

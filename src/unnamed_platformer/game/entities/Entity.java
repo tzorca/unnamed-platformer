@@ -1,7 +1,6 @@
 package unnamed_platformer.game.entities;
 
 import java.awt.image.BufferedImage;
-import java.io.Serializable;
 import java.util.EnumSet;
 
 import org.newdawn.slick.geom.Point;
@@ -16,8 +15,7 @@ import unnamed_platformer.structures.Graphic;
 import unnamed_platformer.structures.SizeStrategy;
 import unnamed_platformer.structures.SizeStrategy.Strategy;
 
-public abstract class Entity implements Serializable {
-	private static final long serialVersionUID = 2898448772127546782L;
+public abstract class Entity {
 
 	protected EntitySetup originalSetup;
 	protected EnumSet<Flag> flags = EnumSet.noneOf(Flag.class);

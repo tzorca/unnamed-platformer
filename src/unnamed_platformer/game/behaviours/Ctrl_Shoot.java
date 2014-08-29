@@ -1,12 +1,12 @@
 package unnamed_platformer.game.behaviours;
 
-import org.apache.commons.lang3.SerializationUtils;
 import org.newdawn.slick.geom.Vector2f;
 
 import unnamed_platformer.app.InputManager;
 import unnamed_platformer.app.MathHelper;
 import unnamed_platformer.app.TimeManager;
 import unnamed_platformer.game.entities.ActiveEntity;
+import unnamed_platformer.game.other.EntityCreator;
 import unnamed_platformer.game.other.World;
 import unnamed_platformer.globals.GameRef.Flag;
 import unnamed_platformer.globals.InputRef.GameKey;
@@ -37,8 +37,8 @@ public class Ctrl_Shoot extends ControlMechanism {
 
 	private void fire() {
 		TimeManager.sample(hashCode());
-		ActiveEntity movingProjectile = SerializationUtils.clone(projectile);
-
+		ActiveEntity movingProjectile = (ActiveEntity) EntityCreator.buildFromSetup(projectile.getOriginalSetup());
+		
 		Vector2f v = actor.getPhysics().getDirection();
 		v.y -= 0.1;
 		movingProjectile.getPhysics().addControlMechanism(

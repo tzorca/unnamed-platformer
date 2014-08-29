@@ -13,8 +13,6 @@ import unnamed_platformer.structures.Graphic;
 
 //TODO: Fix launched projectiles to have constant speed
 public class PlatformPlayer extends ActiveEntity {
-	private static final long serialVersionUID = 8624310770832698957L;
-
 	Ctrl_HorizontalMove hzMoveBehaviour;
 	Ctrl_Jump jumpBehaviour;
 	Ctrl_Shoot shootBehaviour;

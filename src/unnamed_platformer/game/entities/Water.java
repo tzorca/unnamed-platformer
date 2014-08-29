@@ -7,8 +7,6 @@ import unnamed_platformer.game.other.EntitySetup;
 
 public class Water extends ActiveEntity {
 
-	private static final long serialVersionUID = 7134237510304922138L;
-
 	public Water(EntitySetup entitySetup) {
 		super(entitySetup);
 

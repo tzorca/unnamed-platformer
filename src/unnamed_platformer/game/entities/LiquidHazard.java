@@ -6,7 +6,6 @@ import unnamed_platformer.game.other.EntitySetup;
 
 public class LiquidHazard extends Hazard {
 
-	private static final long serialVersionUID = -1762909115189954190L;
 	public LiquidHazard(EntitySetup entitySetup) {
 		super(entitySetup);
 		

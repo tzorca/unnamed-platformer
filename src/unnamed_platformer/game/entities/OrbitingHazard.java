@@ -6,8 +6,6 @@ import unnamed_platformer.game.other.EntitySetup;
 import unnamed_platformer.globals.GameRef;
 
 public class OrbitingHazard extends Hazard {
-	private static final long serialVersionUID = -5577090743934227764L;
-	
 	private Ctrl_PathMovement pathMovement;
 
 	public OrbitingHazard(EntitySetup entitySetup) {
