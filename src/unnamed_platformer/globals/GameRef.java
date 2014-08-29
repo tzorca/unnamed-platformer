@@ -20,7 +20,7 @@ public class GameRef {
 	public static final float DEFAULT_FLAME_SPEED = 4.5f;
 	public static final float DEFAULT_FLAME_JUMP_HEIGHT = 192;
 	public static final float DEFAULT_ORBIT_HAZARD_SPEED = 5f;
-	
+
 	
 	public enum Flag {
 		SOLID, HURTS_OTHERS, OBEYS_GRAVITY, OUT_OF_PLAY, TANGIBLE, PLAYER, INVISIBLE, DISSOLVES_ON_CONTACT, FOLLOWS_SLOPES
