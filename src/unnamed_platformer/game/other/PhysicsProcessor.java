@@ -109,8 +109,7 @@ public final class PhysicsProcessor
 
 			// if conditions are right for a solid collision
 			if (sourceEntity.isFlagSet(Flag.TANGIBLE) && otherEntity.isFlagSet(Flag.SOLID)) {
-				interactionResults.add(direction == Axis.HORIZONTAL ? InteractionResult.X_COLLISION
-						: InteractionResult.Y_COLLISION);
+				interactionResults.add(InteractionResult.COLLISION);
 			}
 
 		}
@@ -136,9 +135,9 @@ public final class PhysicsProcessor
 				Axis.VERTICAL, Axis.HORIZONTAL
 		};
 
-		final Set<InteractionResult> interactionResults = EnumSet.noneOf(InteractionResult.class);
+		Set<InteractionResult> interactionResults = EnumSet.noneOf(InteractionResult.class);
 		for (final Axis axis : axisCheckingOrder) {
-			interactionResults.addAll(collectInteractions(actor, axis, velocity, entitiesToCheck));
+			interactionResults = collectInteractions(actor, axis, velocity, entitiesToCheck);
 
 			if (interactionResults.contains(InteractionResult.SKIP_PHYSICS)) {
 				continue;
@@ -146,7 +145,7 @@ public final class PhysicsProcessor
 
 			switch (axis) {
 			case HORIZONTAL:
-				if (interactionResults.contains(InteractionResult.X_COLLISION)) {
+				if (interactionResults.contains(InteractionResult.COLLISION)) {
 					actorPhysics.setXVelocity(0);
 					xCollision = true;
 				} else {
@@ -154,12 +153,13 @@ public final class PhysicsProcessor
 				}
 				break;
 			case VERTICAL:
-				if (interactionResults.contains(InteractionResult.Y_COLLISION)) {
+				if (interactionResults.contains(InteractionResult.COLLISION)) {
 					actorPhysics.setInAir(false);
 					actorPhysics.setYVelocity(0);
 
 					yCollision = true;
 				} else {
+
 					actor.setY(originalPos.y + velocity.y);
 
 					if (Math.abs(velocity.y) > MIN_AIR_VELOCITY) {
