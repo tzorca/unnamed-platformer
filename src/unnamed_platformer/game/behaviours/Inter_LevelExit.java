@@ -6,7 +6,6 @@ import unnamed_platformer.globals.GameRef.Flag;
 import unnamed_platformer.globals.GameRef.InteractionResult;
 
 public class Inter_LevelExit extends Interaction {
-	private static final long serialVersionUID = -4245200837591120807L;
 	int relativeDestination;
 
 	public Inter_LevelExit(Entity source, int relativeDestination) {

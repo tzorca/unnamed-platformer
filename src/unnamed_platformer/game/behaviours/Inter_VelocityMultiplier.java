@@ -7,7 +7,6 @@ import unnamed_platformer.globals.GameRef.Flag;
 import unnamed_platformer.globals.GameRef.InteractionResult;
 
 public class Inter_VelocityMultiplier extends Interaction {
-	private static final long serialVersionUID = 5830114835277305660L;
 
 	private float factor; 
 	

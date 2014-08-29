@@ -8,7 +8,6 @@ import unnamed_platformer.game.other.PhysicsInstance;
 import unnamed_platformer.globals.InputRef.GameKey;
 
 public class Ctrl_HorizontalMove extends ControlMechanism {
-	private static final long serialVersionUID = -3011521393718606785L;
 
 	private float acceleration, deceleration, maxSpeed;
 

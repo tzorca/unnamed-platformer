@@ -7,7 +7,6 @@ import unnamed_platformer.game.entities.ActiveEntity;
 import unnamed_platformer.globals.InputRef.GameKey;
 
 public class Ctrl_OverheadMove extends ControlMechanism {
-	private static final long serialVersionUID = 8927418630246157688L;
 
 	private float speed;
 

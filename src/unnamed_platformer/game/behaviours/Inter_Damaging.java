@@ -10,7 +10,6 @@ import unnamed_platformer.globals.GameRef.InteractionResult;
 // TODO: Implement temporary invincibility after nonlethal hit
 // TODO: Implement small waiting period after death but before restarting level
 public class Inter_Damaging extends Interaction {
-	private static final long serialVersionUID = 3886834248152875541L;
 
 	public Inter_Damaging(Entity source) {
 		super(source);

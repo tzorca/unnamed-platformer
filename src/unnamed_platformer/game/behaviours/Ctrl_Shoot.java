@@ -12,7 +12,6 @@ import unnamed_platformer.globals.GameRef.Flag;
 import unnamed_platformer.globals.InputRef.GameKey;
 
 public class Ctrl_Shoot extends ControlMechanism {
-	private static final long serialVersionUID = 2964710767437924198L;
 
 	private ActiveEntity projectile = null;
 	private double projectileSpeed = 0;

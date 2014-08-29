@@ -9,7 +9,6 @@ import unnamed_platformer.globals.GameRef.Flag;
 import unnamed_platformer.globals.InputRef.GameKey;
 
 public class Ctrl_Jump extends ControlMechanism {
-	private static final long serialVersionUID = 6634477314813175782L;
 
 	float jumpStrength = 0;
 	boolean jumping = false;

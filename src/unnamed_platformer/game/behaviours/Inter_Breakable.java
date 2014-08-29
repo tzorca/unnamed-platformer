@@ -5,7 +5,6 @@ import unnamed_platformer.globals.GameRef.Flag;
 import unnamed_platformer.globals.GameRef.InteractionResult;
 
 public class Inter_Breakable extends Interaction {
-	private static final long serialVersionUID = 3545111742560282316L;
 
 	public Inter_Breakable(Entity source) {
 		super(source);

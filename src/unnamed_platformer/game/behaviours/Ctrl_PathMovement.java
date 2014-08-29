@@ -9,8 +9,6 @@ import unnamed_platformer.app.MathHelper;
 import unnamed_platformer.game.entities.ActiveEntity;
 
 public class Ctrl_PathMovement extends ControlMechanism {
-	private static final long serialVersionUID = 8775296304473034048L;
-
 	private List<Vector2f> relativePath = new ArrayList<Vector2f>();
 	private double speed = 0;
 	private int pathIndex = 0;

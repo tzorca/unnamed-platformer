@@ -9,7 +9,6 @@ import unnamed_platformer.app.TimeManager;
 import unnamed_platformer.game.entities.ActiveEntity;
 
 public class Ctrl_PersistentVectorMovement extends ControlMechanism {
-	private static final long serialVersionUID = -7737109613423428367L;
 
 	private Vector2f vector;
 	private long endTime = 0;

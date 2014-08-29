@@ -1,6 +1,5 @@
 package unnamed_platformer.game.behaviours;
 
-import java.io.Serializable;
 import java.util.EnumMap;
 
 import unnamed_platformer.app.MathHelper;
@@ -8,8 +7,7 @@ import unnamed_platformer.app.MathHelper.Side;
 import unnamed_platformer.game.entities.Entity;
 import unnamed_platformer.globals.GameRef.InteractionResult;
 
-public abstract class Interaction implements Serializable {
-	private static final long serialVersionUID = -2402822368545376501L;
+public abstract class Interaction {
 
 	public static final double LOOSE_SIDE_MATCH_DISTANCE = Math.PI / 2;
 	public static final double STRICT_SIDE_MATCH_DISTANCE = Math.PI / 6;

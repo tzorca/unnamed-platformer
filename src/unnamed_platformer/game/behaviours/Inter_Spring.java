@@ -1,7 +1,5 @@
 package unnamed_platformer.game.behaviours;
 
-import java.io.Serializable;
-
 import org.newdawn.slick.geom.Vector2f;
 
 import unnamed_platformer.game.entities.ActiveEntity;
@@ -10,8 +8,7 @@ import unnamed_platformer.globals.GameRef.Flag;
 import unnamed_platformer.globals.GameRef.InteractionResult;
 
 
-public class Inter_Spring extends Interaction implements Serializable {
-	private static final long serialVersionUID = -990698732640331516L;
+public class Inter_Spring extends Interaction {
 	Vector2f v;
 
 	public Inter_Spring(Entity source, Vector2f vector2f) {

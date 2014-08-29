@@ -1,11 +1,8 @@
 package unnamed_platformer.game.behaviours;
 
-import java.io.Serializable;
-
 import unnamed_platformer.game.entities.ActiveEntity;
 
-public abstract class ControlMechanism implements Serializable {
-	private static final long serialVersionUID = -7400186683325692152L;
+public abstract class ControlMechanism {
 
 	public boolean toRemove = false;
 	public ActiveEntity actor;
