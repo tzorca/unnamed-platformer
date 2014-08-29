@@ -166,5 +166,9 @@ public abstract class Entity {
 	public Rectangle getOriginalBox() {
 		return box;
 	}
+	
+	public boolean isActive() {
+		return false;
+	}
 
 }

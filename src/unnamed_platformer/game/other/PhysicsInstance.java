@@ -1,6 +1,5 @@
 package unnamed_platformer.game.other;
 
-import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -12,8 +11,7 @@ import unnamed_platformer.game.entities.ActiveEntity;
 import unnamed_platformer.globals.GameRef.Flag;
 import unnamed_platformer.structures.MoveResult;
 
-public class PhysicsInstance implements Serializable {
-	private static final long serialVersionUID = 7637926114689220693L;
+public class PhysicsInstance {
 
 	private List<ControlMechanism> mechanisms = new LinkedList<ControlMechanism>();
 

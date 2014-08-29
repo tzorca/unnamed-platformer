@@ -53,4 +53,9 @@ public abstract class ActiveEntity extends Entity {
 		return this.physics != null;
 	}
 
+	@Override
+	public boolean isActive() {
+		return true;
+	}
+	
 }
