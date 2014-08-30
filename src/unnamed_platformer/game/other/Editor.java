@@ -20,8 +20,6 @@ import com.google.common.collect.Lists;
 public class Editor
 {
 	public int gridSize = 32;
-	private Level currentLevel;
-	private int currentLevelIndex = 0;
 	private boolean playerAdded;
 
 	private boolean unsavedChanges;
@@ -32,7 +30,7 @@ public class Editor
 
 	public Editor(final int levelIndex) {
 		changeLevel(levelIndex);
-		currentLevel.setSize(Ref.DEFAULT_LEVEL_RECTANGLE);
+		World.getCurrentLevel().setSize(Ref.DEFAULT_LEVEL_RECTANGLE);
 	}
 
 	public boolean changeLevel(final int index) {
@@ -41,10 +39,8 @@ public class Editor
 		}
 
 		World.setLevelByIndex(index);
-		currentLevel = World.getCurrentLevel();
-		currentLevelIndex = index;
 
-		final Entity player = currentLevel.findEntityByFlag(Flag.PLAYER);
+		final Entity player = World.getCurrentLevel().findEntityByFlag(Flag.PLAYER);
 
 		if (player == null) {
 			playerAdded = false;
@@ -74,8 +70,8 @@ public class Editor
 
 	private void placeObjectAfterChecks(final Vector2f location, final ImageListEntry imageListEntry) {
 
-		if (!currentLevel.getRect().includes(location.x, location.y)
-				&& !currentLevel.getRect().contains(location.x, location.y)) {
+		if (!World.getCurrentLevel().getRect().includes(location.x, location.y)
+				&& !World.getCurrentLevel().getRect().contains(location.x, location.y)) {
 			return;
 		}
 
@@ -97,7 +93,7 @@ public class Editor
 			playerAdded = true;
 		}
 
-		currentLevel.addEntity(newEntity);
+		World.getCurrentLevel().addEntity(newEntity);
 		unsavedChanges = true;
 	}
 
@@ -106,10 +102,10 @@ public class Editor
 			return;
 		}
 
-		final Entity entityAtMouse = currentLevel.getTopmostEntity(location);
+		final Entity entityAtMouse = World.getCurrentLevel().getTopmostEntity(location);
 
 		if (entityAtMouse != null) {
-			currentLevel.removeEntity(entityAtMouse);
+			World.getCurrentLevel().removeEntity(entityAtMouse);
 			unsavedChanges = true;
 
 			if (entityAtMouse.isFlagSet(Flag.PLAYER)) {
@@ -119,23 +115,23 @@ public class Editor
 	}
 
 	public void switchToEditMode() {
-		currentLevel.resetToOriginal();
+		World.getCurrentLevel().resetToOriginal();
 		World.setPlaying(false);
 	}
 
 	public void switchToPlayMode() {
-		currentLevel.resetToCurrent();
+		World.getCurrentLevel().resetToCurrent();
 		World.setPlaying(true);
 	}
 
 	public void resetToEditPlacement() {
-		currentLevel.resetToCurrent();
+		World.getCurrentLevel().resetToCurrent();
 
 	}
 
 	public void tryMoveCamera(final Vector2f cameraDelta) {
 
-		final Rectangle cameraBounds = currentLevel.getRect();
+		final Rectangle cameraBounds = World.getCurrentLevel().getRect();
 		cameraBounds.setX(cameraBounds.getX() - Display.getWidth() / 4f);
 		cameraBounds.setWidth(cameraBounds.getWidth() + Display.getWidth() / 2f);
 		cameraBounds.setY(cameraBounds.getY() - Display.getHeight() / 4f);
@@ -159,17 +155,17 @@ public class Editor
 	}
 
 	public boolean levelInc(final int increment) {
-		return changeLevel(currentLevelIndex + increment);
+		return changeLevel(World.getCurrentLevelIndex()+ increment);
 	}
 
 	public boolean removeLevel() {
-		final int indexToRemove = currentLevelIndex;
-		final int prevIndex = currentLevelIndex - 1;
+		final int indexToRemove = World.getCurrentLevelIndex();
+		final int prevIndex = indexToRemove - 1;
 		if (changeLevel(prevIndex)) {
 			World.removeLevelByIndex(indexToRemove);
 			return true;
 		} else {
-			final int nextLevelIndex = currentLevelIndex + 1;
+			final int nextLevelIndex = World.getCurrentLevelIndex() + 1;
 			if (changeLevel(nextLevelIndex)) {
 				World.removeLevelByIndex(indexToRemove);
 				return true;

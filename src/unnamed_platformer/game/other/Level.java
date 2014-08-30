@@ -54,7 +54,6 @@ public class Level {
 	private void init(LinkedList<Entity> origEntities, Rectangle levelRect) {
 		resetTo(EntityCreator.getSetupCollection(origEntities));
 		setRect(levelRect);
-		setupPlayer();
 	}
 
 
@@ -153,6 +152,11 @@ public class Level {
 	// perform entity logic and update quadtree
 	public void update() {
 
+		// find player (if not already found)
+		if (playerEntity == null) {
+			setupPlayer();
+		}
+		
 		// clear previous update's quad tree
 		quadTree.clear();
 

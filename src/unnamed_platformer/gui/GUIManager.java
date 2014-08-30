@@ -14,10 +14,11 @@ import unnamed_platformer.res_mgt.ClassLookup;
 // TODO: Add button/key to return to previous menu
 // TODO: Implement pause key functionality (return to ...)
 // TODO: Add options screen
-public final class GUIManager {
+public final class GUIManager
+{
 
 	public static enum ScreenType {
-		Edit, Play, SelectWorld, Start
+		Edit, Play, SelectWorld, Start, Transition
 	}
 
 	public static final Color GUI_BG_COLOR = new Color(0x16, 0x17, 0x26);
@@ -55,6 +56,9 @@ public final class GUIManager {
 	}
 
 	public static void back() {
+		screenStateStack.removeLast();
+		changeScreen(top());
+
 	}
 
 	public static boolean canExit() {
@@ -106,10 +110,18 @@ public final class GUIManager {
 	}
 
 	private static ScreenType top() {
-		return screenStateStack.get(screenStateStack.size() - 1);
+		return screenStateStack.getLast();
 	}
 
 	public static void update() {
 		screen.update();
+	}
+
+	public static ScreenType getLastScreen() {
+		if (screenStateStack.size() > 1) {
+			return screenStateStack.get(screenStateStack.size() - 2);
+		} else {
+			return top();
+		}
 	}
 }
