@@ -2,17 +2,24 @@ package unnamed_platformer.gui;
 
 import java.awt.Component;
 import java.awt.Insets;
+import java.util.ArrayList;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
 
 import unnamed_platformer.globals.Ref;
 
-public final class GUIHelper {
+public final class GUIHelper
+{
 
-	public interface ParamRunnable {
+	public interface ParamRunnable
+	{
 		public void run(Object param);
 	}
 
@@ -64,9 +71,38 @@ public final class GUIHelper {
 		return result != null ? result : "";
 	}
 
-	public static void removeButtonPadding(JButton btn) {
-		btn.setBorder(null);
-		btn.setBorderPainted(false);
-		btn.setMargin(new Insets(0, 0, 0, 0));
+	public static void removeButtonPadding(JButton button) {
+		button.setBorder(null);
+		button.setBorderPainted(false);
+		button.setMargin(new Insets(0, 0, 0, 0));
+	}
+	
+	public static void removeButtonPadding(ArrayList<JButton> buttons) {
+		for (JButton button : buttons) {
+			removeButtonPadding(button);
+		}
+	}
+
+	public static void styleButton(JButton button, int paddingSize) {
+		Border lineBorder = BorderFactory
+				.createLineBorder(GUIManager.GUI_BORDER_COLOR);
+	
+		Border paddingBorder =new EmptyBorder(paddingSize, (int) (paddingSize*2.5), paddingSize, (int) (paddingSize*2.5));
+		
+		Border border = BorderFactory.createCompoundBorder(lineBorder,
+				paddingBorder);
+
+		button.setBorder(border);
+		button.setForeground(GUIManager.GUI_FG_COLOR);
+		button.setBackground(GUIManager.GUI_BG_ALT_COLOR);
+		button.setContentAreaFilled(false);
+		button.setVerticalTextPosition(SwingConstants.CENTER);
+		button.setOpaque(true);
+	}
+
+	public static void styleButtons(ArrayList<JButton> buttons, int paddingSize) {
+		for (JButton button : buttons) {
+			styleButton(button, paddingSize);
+		}
 	}
 }

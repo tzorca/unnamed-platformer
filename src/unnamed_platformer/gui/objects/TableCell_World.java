@@ -2,7 +2,6 @@ package unnamed_platformer.gui.objects;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -19,6 +18,8 @@ import unnamed_platformer.gui.GUIHelper;
 import unnamed_platformer.gui.GUIManager;
 import unnamed_platformer.gui.GUIManager.ScreenType;
 import unnamed_platformer.res_mgt.ResManager;
+
+import com.google.common.collect.Lists;
 
 // TODO: Show screenshots of levels
 // TODO: Move file and screen operation logic to a controller
@@ -50,7 +51,7 @@ public class TableCell_World extends TableCell_ReadOnlyInteractive implements Ac
 	{
 		pnlContainer.setLayout(new BorderLayout());
 		pnlContainer.setOpaque(true);
-		pnlContainer.setBorder(BorderFactory.createEmptyBorder(16, 16, 16, 16));
+		pnlContainer.setBorder(BorderFactory.createEmptyBorder(10, 16, 6, 8));
 
 		btnPlay.setActionCommand(Actions.PLAY.name());
 		btnPlay.addActionListener(this);
@@ -76,6 +77,9 @@ public class TableCell_World extends TableCell_ReadOnlyInteractive implements Ac
 		pnlButtons.add(btnEdit);
 		pnlButtons.add(btnCopy);
 		pnlButtons.add(btnDelete);
+		
+		lblTitle.setForeground(GUIManager.GUI_FG_COLOR);
+		GUIHelper.styleButtons(Lists.newArrayList(btnPlay, btnRename, btnEdit, btnCopy, btnDelete), 8);
 
 		// TODO: Make JButtons into clickable icon buttons
 	}
@@ -164,7 +168,7 @@ public class TableCell_World extends TableCell_ReadOnlyInteractive implements Ac
 		if (isSelected || hasFocus) {
 			pnlContainer.setBackground(table.getSelectionBackground());
 		} else {
-			pnlContainer.setBackground(SystemColor.control);
+			pnlContainer.setBackground(table.getBackground());
 		}
 		thisRow = row;
 		thisColumn = column;

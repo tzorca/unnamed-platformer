@@ -23,6 +23,8 @@ public final class GUIManager
 
 	public static final Color GUI_BG_COLOR = new Color(0x16, 0x17, 0x26);
 	public static final Color GUI_FG_COLOR = Color.white;
+	public static final Color GUI_BG_ALT_COLOR= new Color(0x10, 0x10, 0x20);
+	public static final Color GUI_BORDER_COLOR = new Color(0x26, 0x27, 0x38);
 
 	public static final String CENTER_LAYOUT = "pushx, alignx center, wrap";
 
@@ -117,10 +119,11 @@ public final class GUIManager
 		screen.update();
 	}
 
-	public static ScreenType getLastScreen() {
+	public static ScreenType getPreviousScreen() {
 		if (screenStateStack.size() > 1) {
 			return screenStateStack.get(screenStateStack.size() - 2);
 		} else {
+			// No previous screen exists
 			return top();
 		}
 	}

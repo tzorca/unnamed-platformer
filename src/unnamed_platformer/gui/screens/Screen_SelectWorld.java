@@ -1,7 +1,5 @@
 package unnamed_platformer.gui.screens;
 
-import java.awt.Color;
-
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -18,7 +16,7 @@ public class Screen_SelectWorld extends BaseScreen_GUI {
 	{
 		JLabel lblGameTitle = new JLabel("Custom Worlds");
 		lblGameTitle.setFont(GUIManager.SUB_HEADING_FONT);
-		lblGameTitle.setForeground(Color.darkGray);
+		lblGameTitle.setForeground(GUIManager.GUI_FG_COLOR);
 
 		TableModel_World mdlWorlds = new TableModel_World();
 		JTable tblWorlds = new JTable(mdlWorlds);
@@ -27,9 +25,16 @@ public class Screen_SelectWorld extends BaseScreen_GUI {
 		tblWorlds.setTableHeader(null);
 		tblWorlds.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tblWorlds.setRowHeight(64);
-
+		tblWorlds.setBackground(GUIManager.GUI_BG_COLOR);
+		tblWorlds.setForeground(GUIManager.GUI_FG_COLOR);
+		
+		JScrollPane scrlTable = new JScrollPane(tblWorlds);
+		scrlTable.getViewport().setBackground(GUIManager.GUI_BORDER_COLOR);
+		
 		pnlSurface.add(lblGameTitle, GUIManager.CENTER_LAYOUT + ", gapBottom 5%");
-		pnlSurface.add(new JScrollPane(tblWorlds), "growx");
+		pnlSurface.add(scrlTable, "growx");
+		pnlSurface.setBackground(GUIManager.GUI_BORDER_COLOR);
+		
 	}
 
 }

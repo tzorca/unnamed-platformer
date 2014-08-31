@@ -112,35 +112,41 @@ public class Screen_Edit extends BaseScreen_Hybrid
 		flowLayout.setVgap(0);
 		flowLayout.setHgap(0);
 		topToolbar.setLayout(flowLayout);
-		GUIHelper.removeButtonPadding(btnPrevLevel);
+
 		btnPrevLevel.addActionListener(new btnPrevLevel_Click());
 		btnPrevLevel.setBackground(GUIManager.GUI_BG_COLOR);
-
 		topToolbar.add(btnPrevLevel);
+
 		lblCurrentLevel.setText("0");
 		lblCurrentLevel.setForeground(GUIManager.GUI_FG_COLOR);
 		lblCurrentLevel.setBorder(new EmptyBorder(8, 8, 8, 8));
 		topToolbar.add(lblCurrentLevel);
-		GUIHelper.removeButtonPadding(btnNextLevel);
+
 		btnNextLevel.setBackground(GUIManager.GUI_BG_COLOR);
 		btnNextLevel.addActionListener(new btnNextLevel_Click());
 		topToolbar.add(btnNextLevel);
-		GUIHelper.removeButtonPadding(btnAddLevel);
+
 		btnAddLevel.setBackground(GUIManager.GUI_BG_COLOR);
 		btnAddLevel.addActionListener(new btnAddLevel_Click());
 		topToolbar.add(btnAddLevel);
-		GUIHelper.removeButtonPadding(btnRemoveLevel);
+
 		btnRemoveLevel.setBackground(GUIManager.GUI_BG_COLOR);
 		btnRemoveLevel.addActionListener(new btnRemoveLevel_Click());
 		topToolbar.add(btnRemoveLevel);
-		GUIHelper.removeButtonPadding(btnSaveLevel);
+
 		btnSaveLevel.setBackground(GUIManager.GUI_BG_COLOR);
 		btnSaveLevel.addActionListener(new btnSaveLevel_Click());
 		topToolbar.add(btnSaveLevel);
-		GUIHelper.removeButtonPadding(btnModeSwitch);
+
 		btnModeSwitch.setBackground(GUIManager.GUI_BG_COLOR);
 		btnModeSwitch.addActionListener(new btnModeSwitch_Click());
 		topToolbar.add(btnModeSwitch);
+
+		GUIHelper.removeButtonPadding(Lists.newArrayList(btnPrevLevel, btnNextLevel,
+				btnAddLevel, btnRemoveLevel, btnSaveLevel, btnModeSwitch));
+		GUIHelper.styleButtons(Lists.newArrayList(btnPrevLevel, btnNextLevel,
+				btnAddLevel, btnRemoveLevel, btnSaveLevel, btnModeSwitch),
+				0);
 	}
 
 	private void setToolbarSizes() {
@@ -355,7 +361,7 @@ public class Screen_Edit extends BaseScreen_Hybrid
 		if (!editor.unsavedChangesExist()) {
 			return true;
 		}
-		
+
 		if (plannedNextScreen == ScreenType.Transition) {
 			return true;
 		}
