@@ -7,6 +7,7 @@ import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Vector2f;
 
+import unnamed_platformer.app.ViewManager;
 import unnamed_platformer.game.other.EntitySetup;
 import unnamed_platformer.globals.EntityRef.EntityParam;
 import unnamed_platformer.globals.GameRef.Flag;
@@ -144,6 +145,16 @@ public abstract class Entity
 
 	public boolean isActive() {
 		return false;
+	}
+	
+	
+
+	public void draw() {
+		if (isFlagSet(Flag.INVISIBLE)) {
+			return;
+		}
+		
+		ViewManager.drawGraphic(graphic, getOriginalBox());
 	}
 
 }

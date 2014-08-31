@@ -176,11 +176,7 @@ public final class ViewManager
 
 		for (final int zIndex : zIndexBuckets.keySet()) {
 			for (final Entity entity : zIndexBuckets.get(zIndex)) {
-				if (entity.isFlagSet(Flag.INVISIBLE)) {
-					return;
-				}
-
-				drawGraphic(entity.graphic, entity.getOriginalBox());
+				entity.draw();
 			}
 		}
 	}
