@@ -142,11 +142,11 @@ public class Screen_Edit extends BaseScreen_Hybrid
 		btnModeSwitch.addActionListener(new btnModeSwitch_Click());
 		topToolbar.add(btnModeSwitch);
 
-		GUIHelper.removeButtonPadding(Lists.newArrayList(btnPrevLevel, btnNextLevel,
-				btnAddLevel, btnRemoveLevel, btnSaveLevel, btnModeSwitch));
+		GUIHelper.removeButtonPadding(Lists.newArrayList(btnPrevLevel,
+				btnNextLevel, btnAddLevel, btnRemoveLevel, btnSaveLevel,
+				btnModeSwitch));
 		GUIHelper.styleButtons(Lists.newArrayList(btnPrevLevel, btnNextLevel,
-				btnAddLevel, btnRemoveLevel, btnSaveLevel, btnModeSwitch),
-				0);
+				btnAddLevel, btnRemoveLevel, btnSaveLevel, btnModeSwitch), 0);
 	}
 
 	private void setToolbarSizes() {
@@ -423,20 +423,10 @@ public class Screen_Edit extends BaseScreen_Hybrid
 	private class btnModeSwitch_Click implements ActionListener
 	{
 		public void actionPerformed(final ActionEvent event) {
-			if (World.playing()) {
-				editor.switchToEditMode();
-				btnModeSwitch.setIcon(IMG_PLAY_MODE);
-				setToolbarSize(Side.left, LEFT_TOOLBAR_SIZE);
-			} else {
-				editor.switchToPlayMode();
-				editor.setCameraPos(World.getCurrentLevel()
-						.findEntityByFlag(Flag.PLAYER).getPos());
-				btnModeSwitch.setIcon(IMG_EDIT_MODE);
-				setToolbarSize(Side.left, 0);
-			}
+			toggleEditMode();
 
-			ViewManager.focusRenderCanvas();
 		}
+
 	}
 
 	private class btnAddLevel_Click implements ActionListener
@@ -482,6 +472,23 @@ public class Screen_Edit extends BaseScreen_Hybrid
 			editor.save();
 			ViewManager.focusRenderCanvas();
 		}
+	}
+
+	public void toggleEditMode() {
+		if (World.playing()) {
+			editor.switchToEditMode();
+			btnModeSwitch.setIcon(IMG_PLAY_MODE);
+			setToolbarSize(Side.left, LEFT_TOOLBAR_SIZE);
+		} else {
+
+			editor.switchToPlayMode();
+			editor.setCameraPos(World.getCurrentLevel()
+					.findEntityByFlag(Flag.PLAYER).getPos());
+			btnModeSwitch.setIcon(IMG_EDIT_MODE);
+			setToolbarSize(Side.left, 0);
+		}
+
+		ViewManager.focusRenderCanvas();
 	}
 
 }
