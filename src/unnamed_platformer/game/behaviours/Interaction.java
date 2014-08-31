@@ -10,7 +10,7 @@ import unnamed_platformer.globals.GameRef.InteractionResult;
 public abstract class Interaction {
 
 	public static final double LOOSE_SIDE_MATCH_DISTANCE = Math.PI / 2;
-	public static final double STRICT_SIDE_MATCH_DISTANCE = Math.PI / 6;
+	public static final double STRICT_SIDE_MATCH_DISTANCE = Math.PI / 3;
 
 	private Side[] activeSides;
 	private double maxSideMatchDistance = 0;
