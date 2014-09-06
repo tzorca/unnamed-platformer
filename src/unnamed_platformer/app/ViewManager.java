@@ -8,7 +8,6 @@ import java.awt.GraphicsEnvironment;
 import java.awt.Panel;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
@@ -102,7 +101,7 @@ public final class ViewManager
 		if (bgTexture == null) {
 			return;
 		}
-		
+
 		final float xPos = (int) viewport.getX();
 		final float yPos = (int) viewport.getY()
 				- (bgTexture.getTextureHeight() - viewport.getHeight());
@@ -198,14 +197,6 @@ public final class ViewManager
 
 	}
 
-	public static void drawGraphic(final Graphic graphic,
-			final Rectangle2D rect2D) {
-		drawGraphic(graphic, new Rectangle((float) rect2D.getX(),
-				(float) rect2D.getY(), (float) rect2D.getWidth(),
-				(float) rect2D.getHeight()));
-
-	}
-
 	private static void drawQuad(final float xPos, final float yPos,
 			final float width, final float height, final float textureWidth,
 			final float textureHeight) {
@@ -248,27 +239,11 @@ public final class ViewManager
 		return parentFrame;
 	}
 
-	public static Panel getGUIPanel() {
-		return guiPanel;
-	}
-
-	public static Object getRenderCanvas() {
-		return renderCanvas;
-	}
-
 	// TODO: Remove references to ViewManager.DEFAULT_RESOLUTION...
 	// Keep in mind that the internal render resolution should stay the same
 	// But it will not be equivalent to the renderCanvas resolution
 
-	public static float getRenderCanvasX() {
-		return renderCanvas.getX();
-	}
-
 	// TODO: Implement working fullscreen/different window size functionality
-
-	public static int getRenderCanvasY() {
-		return renderCanvas.getY();
-	}
 
 	public static Dimension getScreenResolution() {
 		final GraphicsDevice graphicsDevice = GraphicsEnvironment

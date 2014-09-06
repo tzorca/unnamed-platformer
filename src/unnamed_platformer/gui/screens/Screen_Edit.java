@@ -26,6 +26,7 @@ import javax.swing.tree.TreePath;
 
 import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.Color;
+import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.opengl.Texture;
 
@@ -325,7 +326,7 @@ public class Screen_Edit extends BaseScreen_Hybrid
 		if (entityPlaceholderGraphic == null) {
 			return;
 		}
-		
+
 		final Texture texture = entityPlaceholderGraphic.getTexture();
 		final Level currentLevel = World.getCurrentLevel();
 
@@ -343,7 +344,11 @@ public class Screen_Edit extends BaseScreen_Hybrid
 					texture.getImageHeight());
 
 			if (levelRect.contains(drawRect)) {
-				ViewManager.drawGraphic(entityPlaceholderGraphic, drawRect);
+				ViewManager.drawGraphic(
+						entityPlaceholderGraphic,
+						new Rectangle((float) drawRect.getX(), (float) drawRect
+								.getY(), (float) drawRect.getWidth(),
+								(float) drawRect.getHeight()));
 			} else {
 				ViewManager.setColor(Ref.COLOR_75_PERCENT_TRANS);
 			}
