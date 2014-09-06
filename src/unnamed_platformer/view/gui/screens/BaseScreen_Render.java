@@ -1,7 +1,7 @@
-package unnamed_platformer.gui.screens;
+package unnamed_platformer.view.gui.screens;
 
-import unnamed_platformer.app.ViewManager;
 import unnamed_platformer.game.other.World;
+import unnamed_platformer.view.ViewManager;
 
 public class BaseScreen_Render extends Screen {
 

@@ -3,8 +3,8 @@ package unnamed_platformer.res_mgt;
 import java.awt.image.BufferedImage;
 
 import unnamed_platformer.app.ImageHelper;
+import unnamed_platformer.game.other.CollisionData;
 import unnamed_platformer.globals.Ref;
-import unnamed_platformer.structures.CollisionData;
 
 public class CollisionDataResLoader extends ResLoader<CollisionData> {
 

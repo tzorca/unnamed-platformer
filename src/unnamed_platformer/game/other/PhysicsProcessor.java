@@ -13,15 +13,9 @@ import unnamed_platformer.app.Main;
 import unnamed_platformer.game.behaviours.Interaction;
 import unnamed_platformer.game.entities.ActiveEntity;
 import unnamed_platformer.game.entities.Entity;
+import unnamed_platformer.game.other.DirectionalEnums.Axis;
 import unnamed_platformer.globals.GameRef.Flag;
 import unnamed_platformer.globals.GameRef.InteractionResult;
-import unnamed_platformer.structures.DirectionalEnums.Axis;
-import unnamed_platformer.structures.MoveResult;
-// TODO: Implement slope physics (see below)
-// Implement image mask -> polygon
-// 1 - create polygon from coordinates of edge pixels
-// 2 - remove points from polygon and see how much area is reduced
-// 3 - if area is reduced < x%, allow point removal
 
 // TODO: Fix (separate x/y checking -related) pixel collision bug
 

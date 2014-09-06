@@ -11,8 +11,8 @@ import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Vector2f;
 
-import unnamed_platformer.structures.DirectionalEnums.Orientation;
-import unnamed_platformer.structures.DirectionalEnums.Side;
+import unnamed_platformer.game.other.DirectionalEnums.Orientation;
+import unnamed_platformer.game.other.DirectionalEnums.Side;
 
 public final class MathHelper
 {

@@ -1,11 +1,11 @@
-package unnamed_platformer.gui.screens;
+package unnamed_platformer.view.gui.screens;
 
 import java.awt.Panel;
 
 import net.miginfocom.swing.MigLayout;
 import unnamed_platformer.app.InputManager;
-import unnamed_platformer.gui.GUIManager;
-import unnamed_platformer.gui.GUIManager.ScreenType;
+import unnamed_platformer.view.gui.GUIManager;
+import unnamed_platformer.view.gui.GUIManager.ScreenType;
 
 public abstract class Screen {
 	protected Panel pnlSurface = new Panel(new MigLayout());

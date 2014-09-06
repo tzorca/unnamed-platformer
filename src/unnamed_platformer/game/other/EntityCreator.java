@@ -13,8 +13,7 @@ import unnamed_platformer.game.entities.Entity;
 import unnamed_platformer.globals.EntityRef;
 import unnamed_platformer.globals.EntityRef.EntityParam;
 import unnamed_platformer.res_mgt.ClassLookup;
-import unnamed_platformer.structures.Graphic;
-import unnamed_platformer.structures.SizeStrategy;
+import unnamed_platformer.view.Graphic;
 
 import com.google.common.collect.Maps;
 

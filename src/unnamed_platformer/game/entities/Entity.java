@@ -7,13 +7,13 @@ import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Vector2f;
 
-import unnamed_platformer.app.ViewManager;
 import unnamed_platformer.game.other.EntitySetup;
+import unnamed_platformer.game.other.SizeStrategy;
+import unnamed_platformer.game.other.SizeStrategy.Strategy;
 import unnamed_platformer.globals.EntityRef.EntityParam;
 import unnamed_platformer.globals.GameRef.Flag;
-import unnamed_platformer.structures.Graphic;
-import unnamed_platformer.structures.SizeStrategy;
-import unnamed_platformer.structures.SizeStrategy.Strategy;
+import unnamed_platformer.view.Graphic;
+import unnamed_platformer.view.ViewManager;
 
 public abstract class Entity
 {

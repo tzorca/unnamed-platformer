@@ -1,13 +1,13 @@
-package unnamed_platformer.gui.screens;
+package unnamed_platformer.view.gui.screens;
 
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 
-import unnamed_platformer.gui.GUIManager;
-import unnamed_platformer.gui.objects.TableCell_World;
-import unnamed_platformer.gui.objects.TableModel_World;
+import unnamed_platformer.view.gui.GUIManager;
+import unnamed_platformer.view.gui.objects.TableCell_World;
+import unnamed_platformer.view.gui.objects.TableModel_World;
 
 // TODO: Implement support for double-clicking in listing
 public class Screen_SelectWorld extends BaseScreen_GUI {

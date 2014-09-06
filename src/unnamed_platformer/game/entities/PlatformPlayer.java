@@ -9,7 +9,7 @@ import unnamed_platformer.game.other.EntitySetup;
 import unnamed_platformer.globals.EntityRef.EntityParam;
 import unnamed_platformer.globals.GameRef;
 import unnamed_platformer.globals.GameRef.Flag;
-import unnamed_platformer.structures.Graphic;
+import unnamed_platformer.view.Graphic;
 
 //TODO: Fix launched projectiles to have constant speed
 public class PlatformPlayer extends ActiveEntity {

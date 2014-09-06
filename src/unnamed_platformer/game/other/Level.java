@@ -10,14 +10,12 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 
-import unnamed_platformer.app.ViewManager;
 import unnamed_platformer.game.entities.Entity;
 import unnamed_platformer.globals.GameRef.Flag;
 import unnamed_platformer.globals.Ref;
 import unnamed_platformer.globals.Ref.BlueprintField;
-import unnamed_platformer.structures.Blueprint;
-import unnamed_platformer.structures.Graphic;
-import unnamed_platformer.structures.QuadTree;
+import unnamed_platformer.view.Graphic;
+import unnamed_platformer.view.ViewManager;
 
 public class Level
 {
@@ -66,9 +64,6 @@ public class Level
 
 				ViewManager.centerCamera(playerEntity.getCenter());
 			}
-		}
-		if (playerEntity == null) {
-			System.out.println("Warning: Player entity not found.");
 		}
 	}
 

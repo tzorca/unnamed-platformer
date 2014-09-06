@@ -1,4 +1,4 @@
-package unnamed_platformer.gui.screens;
+package unnamed_platformer.view.gui.screens;
 
 import java.awt.Label;
 import java.awt.event.ActionEvent;
@@ -7,8 +7,8 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 
 import unnamed_platformer.game.other.World;
-import unnamed_platformer.gui.GUIHelper;
-import unnamed_platformer.gui.GUIManager;
+import unnamed_platformer.view.gui.GUIHelper;
+import unnamed_platformer.view.gui.GUIManager;
 
 public class Screen_Transition extends BaseScreen_GUI
 {

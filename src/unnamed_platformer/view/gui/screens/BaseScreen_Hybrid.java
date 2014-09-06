@@ -1,4 +1,4 @@
-package unnamed_platformer.gui.screens;
+package unnamed_platformer.view.gui.screens;
 
 import java.awt.Panel;
 import java.util.EnumMap;
@@ -6,8 +6,8 @@ import java.util.EnumMap;
 import javax.swing.SwingUtilities;
 
 import net.miginfocom.swing.MigLayout;
-import unnamed_platformer.app.ViewManager;
-import unnamed_platformer.gui.GUIManager;
+import unnamed_platformer.view.ViewManager;
+import unnamed_platformer.view.gui.GUIManager;
 
 public class BaseScreen_Hybrid extends Screen {
 	private static final int INITIAL_TOOLBAR_SIZE = 48;

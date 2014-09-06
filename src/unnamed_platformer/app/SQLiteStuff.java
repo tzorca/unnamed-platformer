@@ -7,12 +7,12 @@ import java.util.logging.Logger;
 
 import org.newdawn.slick.opengl.Texture;
 
+import unnamed_platformer.game.other.TextureSetup;
 import unnamed_platformer.globals.EntityRef;
 import unnamed_platformer.globals.Ref;
 import unnamed_platformer.globals.TextureRef;
 import unnamed_platformer.res_mgt.ClassLookup;
 import unnamed_platformer.res_mgt.ResManager;
-import unnamed_platformer.structures.TextureSetup;
 
 import com.almworks.sqlite4java.SQLiteConnection;
 import com.almworks.sqlite4java.SQLiteException;

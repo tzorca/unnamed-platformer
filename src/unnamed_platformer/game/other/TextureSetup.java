@@ -1,4 +1,4 @@
-package unnamed_platformer.structures;
+package unnamed_platformer.game.other;
 
 import java.io.Serializable;
 

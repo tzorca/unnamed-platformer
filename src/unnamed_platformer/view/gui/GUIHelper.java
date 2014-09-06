@@ -1,4 +1,4 @@
-package unnamed_platformer.gui;
+package unnamed_platformer.view.gui;
 
 import java.awt.Component;
 import java.awt.Insets;

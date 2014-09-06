@@ -1,4 +1,4 @@
-package unnamed_platformer.gui.objects;
+package unnamed_platformer.view.gui.objects;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -7,7 +7,7 @@ import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 
-import unnamed_platformer.gui.GUIManager;
+import unnamed_platformer.view.gui.GUIManager;
 
 public class TreeCell_ImageRenderer extends DefaultTreeCellRenderer {
 	private static final long serialVersionUID = 3121464047823108249L;

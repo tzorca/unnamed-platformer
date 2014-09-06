@@ -9,11 +9,11 @@ import org.newdawn.slick.geom.Vector2f;
 
 import unnamed_platformer.app.InputManager;
 import unnamed_platformer.app.MathHelper;
-import unnamed_platformer.app.ViewManager;
 import unnamed_platformer.game.entities.Entity;
 import unnamed_platformer.globals.GameRef.Flag;
 import unnamed_platformer.globals.Ref;
-import unnamed_platformer.gui.objects.ImageListEntry;
+import unnamed_platformer.view.ViewManager;
+import unnamed_platformer.view.gui.objects.ImageListEntry;
 
 import com.google.common.collect.Lists;
 

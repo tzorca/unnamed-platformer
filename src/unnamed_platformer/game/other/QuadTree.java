@@ -2,7 +2,7 @@
 // http://gamedevelopment.tutsplus.com/tutorials/quick-tip-use-quadtrees-to-detect-likely-collisions-in-2d-space--gamedev-374
 // and was written by Steven Lambert
 
-package unnamed_platformer.structures;
+package unnamed_platformer.game.other;
 
 import java.util.ArrayList;
 import java.util.List;

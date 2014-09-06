@@ -14,10 +14,9 @@ import unnamed_platformer.game.entities.Entity;
 import unnamed_platformer.game.lvl_gen.BaseLevelGenerator;
 import unnamed_platformer.game.lvl_gen.ProceduralGenerator;
 import unnamed_platformer.globals.Ref.BlueprintField;
-import unnamed_platformer.gui.GUIManager;
-import unnamed_platformer.gui.GUIManager.ScreenType;
 import unnamed_platformer.res_mgt.ResManager;
-import unnamed_platformer.structures.Blueprint;
+import unnamed_platformer.view.gui.GUIManager;
+import unnamed_platformer.view.gui.GUIManager.ScreenType;
 
 public final class World
 {

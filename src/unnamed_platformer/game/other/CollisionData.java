@@ -1,4 +1,4 @@
-package unnamed_platformer.structures;
+package unnamed_platformer.game.other;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
@@ -8,7 +8,7 @@ import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 
 import unnamed_platformer.app.MathHelper;
-import unnamed_platformer.structures.TextureSetup.CollisionShapeOption;
+import unnamed_platformer.game.other.TextureSetup.CollisionShapeOption;
 
 public class CollisionData
 {

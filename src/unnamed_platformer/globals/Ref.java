@@ -5,7 +5,8 @@ import java.io.File;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.geom.Rectangle;
 
-public final class Ref {
+public final class Ref
+{
 
 	public enum SizeMethod {
 		ABSOLUTE, TEXTURE, TEXTURE_SCALE
@@ -32,7 +33,6 @@ public final class Ref {
 
 	public static final String SCREENSHOT_DIR = APP_PATH + File.separator
 			+ "scr" + File.separator;
-
 
 	public static final int FPS = 60;
 

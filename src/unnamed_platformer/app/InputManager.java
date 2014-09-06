@@ -16,6 +16,7 @@ import org.newdawn.slick.geom.Vector2f;
 
 import unnamed_platformer.globals.InputRef;
 import unnamed_platformer.globals.InputRef.GameKey;
+import unnamed_platformer.view.ViewManager;
 
 import com.google.common.collect.Maps;
 

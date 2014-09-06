@@ -18,6 +18,7 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 import unnamed_platformer.res_mgt.ResManager;
+import unnamed_platformer.view.ViewManager;
 
 public final class ImageHelper {
 	public static BufferedImage loadImage(InputStream input) throws IOException {

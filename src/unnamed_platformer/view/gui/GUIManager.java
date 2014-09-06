@@ -1,4 +1,4 @@
-package unnamed_platformer.gui;
+package unnamed_platformer.view.gui;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -6,10 +6,10 @@ import java.util.LinkedList;
 
 import javax.swing.UIManager;
 
-import unnamed_platformer.app.ViewManager;
 import unnamed_platformer.globals.Ref;
-import unnamed_platformer.gui.screens.Screen;
 import unnamed_platformer.res_mgt.ClassLookup;
+import unnamed_platformer.view.ViewManager;
+import unnamed_platformer.view.gui.screens.Screen;
 
 // TODO: Add button/key to return to previous menu
 // TODO: Implement pause key functionality (return to ...)
@@ -31,7 +31,7 @@ public final class GUIManager
 	public static final Font HEADING_FONT = new Font("Tahoma", Font.PLAIN, 48);
 
 	public static final String SCREEN_PACKAGE_NAME = Ref.BASE_PACKAGE_NAME
-			+ ".gui.screens";
+			+ ".view.gui.screens";
 
 	private static Screen screen;
 

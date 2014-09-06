@@ -7,8 +7,8 @@ import java.util.HashMap;
 import org.newdawn.slick.opengl.Texture;
 
 import unnamed_platformer.app.FileHelper;
+import unnamed_platformer.game.other.CollisionData;
 import unnamed_platformer.game.other.World;
-import unnamed_platformer.structures.CollisionData;
 
 @SuppressWarnings("unchecked")
 public final class ResManager {

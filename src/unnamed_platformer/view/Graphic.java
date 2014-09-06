@@ -1,4 +1,4 @@
-package unnamed_platformer.structures;
+package unnamed_platformer.view;
 
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
@@ -8,9 +8,11 @@ import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.opengl.Texture;
 
+import unnamed_platformer.game.other.CollisionData;
+import unnamed_platformer.game.other.TextureSetup;
+import unnamed_platformer.game.other.TextureSetup.CollisionShapeOption;
 import unnamed_platformer.globals.TextureRef;
 import unnamed_platformer.res_mgt.ResManager;
-import unnamed_platformer.structures.TextureSetup.CollisionShapeOption;
 
 public class Graphic implements Serializable {
 	private static final long serialVersionUID = 3743979572361086098L;

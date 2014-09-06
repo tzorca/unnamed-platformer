@@ -1,4 +1,4 @@
-package unnamed_platformer.gui.objects;
+package unnamed_platformer.view.gui.objects;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -14,10 +14,10 @@ import javax.swing.JTable;
 
 import unnamed_platformer.app.FileHelper;
 import unnamed_platformer.game.other.World;
-import unnamed_platformer.gui.GUIHelper;
-import unnamed_platformer.gui.GUIManager;
-import unnamed_platformer.gui.GUIManager.ScreenType;
 import unnamed_platformer.res_mgt.ResManager;
+import unnamed_platformer.view.gui.GUIHelper;
+import unnamed_platformer.view.gui.GUIManager;
+import unnamed_platformer.view.gui.GUIManager.ScreenType;
 
 import com.google.common.collect.Lists;
 

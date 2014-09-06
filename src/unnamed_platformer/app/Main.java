@@ -6,13 +6,14 @@ import org.newdawn.slick.opengl.Texture;
 import com.rits.cloning.Cloner;
 
 import unnamed_platformer.game.other.EntityCreator;
+import unnamed_platformer.game.other.QuadTree;
 import unnamed_platformer.game.other.World;
 import unnamed_platformer.globals.InputRef.GameKey;
 import unnamed_platformer.globals.Ref;
-import unnamed_platformer.gui.GUIManager;
-import unnamed_platformer.gui.GUIManager.ScreenType;
 import unnamed_platformer.res_mgt.ResManager;
-import unnamed_platformer.structures.QuadTree;
+import unnamed_platformer.view.ViewManager;
+import unnamed_platformer.view.gui.GUIManager;
+import unnamed_platformer.view.gui.GUIManager.ScreenType;
 
 public final class Main {
 

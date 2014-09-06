@@ -1,4 +1,4 @@
-package unnamed_platformer.gui.screens;
+package unnamed_platformer.view.gui.screens;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -33,7 +33,6 @@ import org.newdawn.slick.opengl.Texture;
 import unnamed_platformer.app.ImageHelper;
 import unnamed_platformer.app.InputManager;
 import unnamed_platformer.app.InputManager.InputEventType;
-import unnamed_platformer.app.ViewManager;
 import unnamed_platformer.game.other.Editor;
 import unnamed_platformer.game.other.EntityCreator;
 import unnamed_platformer.game.other.Level;
@@ -42,14 +41,15 @@ import unnamed_platformer.globals.EntityRef;
 import unnamed_platformer.globals.GameRef.Flag;
 import unnamed_platformer.globals.InputRef.GameKey;
 import unnamed_platformer.globals.Ref;
-import unnamed_platformer.gui.GUIHelper;
-import unnamed_platformer.gui.GUIManager;
-import unnamed_platformer.gui.GUIHelper.ParamRunnable;
-import unnamed_platformer.gui.GUIManager.ScreenType;
-import unnamed_platformer.gui.objects.ImageListEntry;
-import unnamed_platformer.gui.objects.TreeCell_ImageRenderer;
 import unnamed_platformer.res_mgt.ResManager;
-import unnamed_platformer.structures.Graphic;
+import unnamed_platformer.view.Graphic;
+import unnamed_platformer.view.ViewManager;
+import unnamed_platformer.view.gui.GUIHelper;
+import unnamed_platformer.view.gui.GUIManager;
+import unnamed_platformer.view.gui.GUIHelper.ParamRunnable;
+import unnamed_platformer.view.gui.GUIManager.ScreenType;
+import unnamed_platformer.view.gui.objects.ImageListEntry;
+import unnamed_platformer.view.gui.objects.TreeCell_ImageRenderer;
 
 import com.google.common.collect.Lists;
 
