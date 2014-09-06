@@ -7,11 +7,14 @@ import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Vector2f;
 
+import unnamed_platformer.game.other.CollisionData;
 import unnamed_platformer.game.other.EntitySetup;
 import unnamed_platformer.game.other.SizeStrategy;
 import unnamed_platformer.game.other.SizeStrategy.Strategy;
+import unnamed_platformer.game.other.TextureSetup.CollisionShapeOption;
 import unnamed_platformer.globals.EntityRef.EntityParam;
 import unnamed_platformer.globals.GameRef.Flag;
+import unnamed_platformer.res_mgt.ResManager;
 import unnamed_platformer.view.Graphic;
 import unnamed_platformer.view.ViewManager;
 
@@ -37,12 +40,14 @@ public abstract class Entity
 		setup.setEntityClassName(this.getClass().getSimpleName());
 		originalSetup = setup;
 
-		SizeStrategy sizeStrategy = (SizeStrategy) setup.get(EntityParam.SIZE_STRATEGY);
+		SizeStrategy sizeStrategy = (SizeStrategy) setup
+				.get(EntityParam.SIZE_STRATEGY);
 
 		setupEntity(graphic, pos, sizeStrategy, flags);
 	}
 
-	private void setupEntity(Graphic graphic, Vector2f pos, SizeStrategy sizeStrategy, EnumSet<Flag> flags) {
+	private void setupEntity(Graphic graphic, Vector2f pos,
+			SizeStrategy sizeStrategy, EnumSet<Flag> flags) {
 		this.graphic = graphic;
 		this.box.setLocation(pos);
 
@@ -50,25 +55,31 @@ public abstract class Entity
 
 		if (sizeStrategy == null) {
 			sizeStrategy = new SizeStrategy(Strategy.texture, 1);
-		} else if (sizeStrategy.getStrategy() == Strategy.absoluteSize && sizeStrategy.getSize() == null) {
-			System.out.println("Warning: Invalid size strategy specified. Defaulting to texture size.");
+		} else if (sizeStrategy.getStrategy() == Strategy.absoluteSize
+				&& sizeStrategy.getSize() == null) {
+			System.out
+					.println("Warning: Invalid size strategy specified. Defaulting to texture size.");
 			sizeStrategy = new SizeStrategy(Strategy.texture, 1);
 		}
 		try {
 			switch (sizeStrategy.getStrategy()) {
 			case absoluteSize:
-				box.setSize(sizeStrategy.getSize().getX(), sizeStrategy.getSize().getY());
+				box.setSize(sizeStrategy.getSize().getX(), sizeStrategy
+						.getSize().getY());
 				break;
 			case texture:
 				this.box.setSize(image.getWidth(), image.getHeight());
 				break;
 			case textureScale:
-				this.box.setWidth(image.getWidth() * sizeStrategy.getSizeScale());
-				this.box.setHeight((int) (image.getHeight() * (this.box.getWidth() / (image.getWidth() + 0.0f))));
+				this.box.setWidth(image.getWidth()
+						* sizeStrategy.getSizeScale());
+				this.box.setHeight((int) (image.getHeight() * (this.box
+						.getWidth() / (image.getWidth() + 0.0f))));
 				break;
 			case absoluteWidth:
 				this.box.setWidth(sizeStrategy.getSizeScale());
-				this.box.setHeight((int) (image.getHeight() * (this.box.getWidth() / (image.getWidth() + 0.0f))));
+				this.box.setHeight((int) (image.getHeight() * (this.box
+						.getWidth() / (image.getWidth() + 0.0f))));
 				break;
 			default:
 				break;
@@ -84,18 +95,6 @@ public abstract class Entity
 	}
 
 	public void update() {
-	}
-
-	public Shape getCollisionShape() {
-		Shape collisionShape = graphic.getCollisionShape(box);
-
-		return collisionShape;
-	}
-
-	public Rectangle getCollisionRect() {
-		Rectangle cropRect = graphic.getCollisionRect(box);
-
-		return cropRect;
 	}
 
 	public Vector2f getPos() {
@@ -146,15 +145,39 @@ public abstract class Entity
 	public boolean isActive() {
 		return false;
 	}
-	
-	
 
 	public void draw() {
 		if (isFlagSet(Flag.INVISIBLE)) {
 			return;
 		}
-		
+
 		ViewManager.drawGraphic(graphic, getOriginalBox());
+	}
+
+	public Shape getCollisionShape() {
+		Shape collisionShape = getCollisionShape(box);
+
+		return collisionShape;
+	}
+
+	public Rectangle getCollisionRect() {
+		Rectangle cropRect = getCollisionRect(box);
+
+		return cropRect;
+	}
+
+	private CollisionData getCollisionData() {
+		return ResManager.get(CollisionData.class, graphic.getTextureName());
+	}
+
+	private Rectangle getCollisionRect(Rectangle entityBox) {
+		return (Rectangle) getCollisionData().getScaledShape(entityBox,
+				CollisionShapeOption.rectangle);
+	}
+
+	private Shape getCollisionShape(Rectangle entityBox) {
+		return getCollisionData().getScaledShape(entityBox,
+				graphic.getTextureSetup().getCollisionShape());
 	}
 
 }

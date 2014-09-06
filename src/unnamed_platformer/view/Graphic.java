@@ -4,13 +4,9 @@ import java.awt.image.BufferedImage;
 import java.io.Serializable;
 
 import org.newdawn.slick.Color;
-import org.newdawn.slick.geom.Rectangle;
-import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.opengl.Texture;
 
-import unnamed_platformer.game.other.CollisionData;
 import unnamed_platformer.game.other.TextureSetup;
-import unnamed_platformer.game.other.TextureSetup.CollisionShapeOption;
 import unnamed_platformer.globals.TextureRef;
 import unnamed_platformer.res_mgt.ResManager;
 
@@ -49,9 +45,6 @@ public class Graphic implements Serializable {
 		return ResManager.get(Texture.class, textureName);
 	}
 
-	public CollisionData getCollisionData() {
-		return ResManager.get(CollisionData.class, textureName);
-	}
 
 	public BufferedImage getTextureImage() {
 		return ResManager.get(BufferedImage.class, textureName);
@@ -61,14 +54,9 @@ public class Graphic implements Serializable {
 		return textureName != null;
 	}
 
-	public Rectangle getCollisionRect(Rectangle entityBox) {
-		return (Rectangle) getCollisionData().getScaledShape(entityBox,
-				CollisionShapeOption.rectangle);
-	}
-
-	public Shape getCollisionShape(Rectangle entityBox) {
-		return getCollisionData().getScaledShape(entityBox,
-				cachedTextureSetup.getCollisionShape());
+	
+	public TextureSetup getTextureSetup() {
+		return cachedTextureSetup;
 	}
 
 	public String getTextureName() {
