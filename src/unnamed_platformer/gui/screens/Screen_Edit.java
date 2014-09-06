@@ -25,6 +25,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 
 import org.lwjgl.input.Keyboard;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.opengl.Texture;
 
@@ -310,7 +311,8 @@ public class Screen_Edit extends BaseScreen_Hybrid
 		if (World.playing()) {
 			return;
 		}
-		ViewManager.drawEditorGrid(editor.gridSize);
+
+		ViewManager.drawGrid(editor.gridSize, Color.lightGray);
 	}
 
 	public void drawForeground() {
@@ -323,7 +325,7 @@ public class Screen_Edit extends BaseScreen_Hybrid
 		if (entityPlaceholderGraphic == null) {
 			return;
 		}
-
+		
 		final Texture texture = entityPlaceholderGraphic.getTexture();
 		final Level currentLevel = World.getCurrentLevel();
 
@@ -424,9 +426,7 @@ public class Screen_Edit extends BaseScreen_Hybrid
 	{
 		public void actionPerformed(final ActionEvent event) {
 			toggleEditMode();
-
 		}
-
 	}
 
 	private class btnAddLevel_Click implements ActionListener

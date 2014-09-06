@@ -267,18 +267,13 @@ public class Level
 		this.rect = newRect;
 	}
 
-	public void draw() {
-		drawBackground();
-		drawEntities();
-	}
-
-	private void drawBackground() {
+	public void drawBackground() {
 		if (bgGraphic.hasTextureName()) {
 			ViewManager.drawBG(bgGraphic.getTexture());
 		}
 	}
 
-	private void drawEntities() {
+	public void drawForeground() {
 		TreeMap<Integer, List<Entity>> zIndexBuckets = new TreeMap<Integer, List<Entity>>();
 
 		for (final Entity entity : entities) {

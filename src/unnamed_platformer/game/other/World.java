@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.swing.ImageIcon;
 
+import org.lwjgl.opengl.Display;
 import org.newdawn.slick.geom.Rectangle;
 
 import unnamed_platformer.game.entities.Entity;
@@ -150,8 +151,22 @@ public final class World
 		return level.getEntities();
 	}
 
-	public static void draw() {
-		level.draw();
+	public static void drawBackground() {
+		if (GUIManager.atScreen(ScreenType.Play)
+				|| GUIManager.atScreen(ScreenType.Edit)) {
+			Display.setTitle(World.getName());
+
+			level.drawBackground();
+		}
+	}
+
+	public static void drawForeground() {
+		if (GUIManager.atScreen(ScreenType.Play)
+				|| GUIManager.atScreen(ScreenType.Edit)) {
+			Display.setTitle(World.getName());
+
+			level.drawForeground();
+		}
 	}
 
 	public static void addEntity(final Entity entity) {

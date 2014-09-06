@@ -29,7 +29,6 @@ import org.newdawn.slick.opengl.Texture;
 import unnamed_platformer.game.other.World;
 import unnamed_platformer.globals.Ref;
 import unnamed_platformer.gui.GUIManager;
-import unnamed_platformer.gui.GUIManager.ScreenType;
 import unnamed_platformer.res_mgt.ResManager;
 import unnamed_platformer.structures.Graphic;
 
@@ -100,7 +99,6 @@ public final class ViewManager
 
 	// TODO: Fix background tiling mechanism
 	public static void drawBG(final Texture bgTexture) {
-
 		if (bgTexture == null) {
 			return;
 		}
@@ -133,13 +131,18 @@ public final class ViewManager
 		GL11.glEnd();
 	}
 
-	// TODO: Fix bug in grid transparency when no objects displayed
-	public static void drawEditorGrid(final int gridSize) {
+	public static void drawGrid(final int gridSize, final Color color) {
 		if (gridSize < 1) {
 			return;
 		}
 
 		saveState();
+
+		if (color == null) {
+			resetColor();
+		} else {
+			GL11.glColor4f(color.r, color.g, color.b, color.a);
+		}
 		final ArrayList<int[]> pointBuffer = new ArrayList<int[]>();
 		final Rectangle levelRect = World.getLevelRect();
 
@@ -433,16 +436,9 @@ public final class ViewManager
 		ViewManager.clear();
 
 		GUIManager.update();
+		World.drawBackground();
 		GUIManager.drawBackground();
-
-		// TODO: Improve state logic here
-		if (GUIManager.atScreen(ScreenType.Play)
-				|| GUIManager.atScreen(ScreenType.Edit)) {
-			Display.setTitle(World.getName());
-
-			World.draw();
-		}
-
+		World.drawForeground();
 		GUIManager.drawForeground();
 
 		Display.sync(ViewManager.FPS);
