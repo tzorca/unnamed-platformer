@@ -119,6 +119,7 @@ public final class ViewManager
 		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T,
 				GL11.GL_REPEAT);
 
+		resetColor();
 		bgTexture.bind();
 		GL11.glBegin(GL11.GL_QUADS);
 		GL11.glTexCoord2f(0, 0);
