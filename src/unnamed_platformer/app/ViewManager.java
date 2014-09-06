@@ -102,10 +102,7 @@ public final class ViewManager
 		if (bgTexture == null) {
 			return;
 		}
-
-		final float tWidth = bgTexture.getWidth();
-		final float tHeight = bgTexture.getHeight();
-
+		
 		final float xPos = (int) viewport.getX();
 		final float yPos = (int) viewport.getY()
 				- (bgTexture.getTextureHeight() - viewport.getHeight());
@@ -120,14 +117,8 @@ public final class ViewManager
 		resetColor();
 		bgTexture.bind();
 		GL11.glBegin(GL11.GL_QUADS);
-		GL11.glTexCoord2f(0, 0);
-		GL11.glVertex2f(xPos, yPos);
-		GL11.glTexCoord2f(tWidth, 0);
-		GL11.glVertex2f(xPos + width, yPos);
-		GL11.glTexCoord2f(tWidth, tHeight);
-		GL11.glVertex2f(xPos + width, yPos + height);
-		GL11.glTexCoord2f(0, tHeight);
-		GL11.glVertex2f(xPos, yPos + height);
+		drawQuad(xPos, yPos, width, height, bgTexture.getWidth(),
+				bgTexture.getHeight());
 		GL11.glEnd();
 	}
 
