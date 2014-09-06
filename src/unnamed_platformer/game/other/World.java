@@ -9,7 +9,6 @@ import javax.swing.ImageIcon;
 
 import org.newdawn.slick.geom.Rectangle;
 
-import unnamed_platformer.app.ViewManager;
 import unnamed_platformer.game.entities.Entity;
 import unnamed_platformer.game.lvl_gen.BaseLevelGenerator;
 import unnamed_platformer.game.lvl_gen.ProceduralGenerator;
@@ -18,9 +17,9 @@ import unnamed_platformer.gui.GUIManager;
 import unnamed_platformer.gui.GUIManager.ScreenType;
 import unnamed_platformer.res_mgt.ResManager;
 import unnamed_platformer.structures.Blueprint;
-import unnamed_platformer.structures.Graphic;
 
-public final class World {
+public final class World
+{
 	private static List<Level> levels = new LinkedList<Level>();
 	private static Level level; // current level
 	private static int levelIndex = 0;
@@ -28,15 +27,14 @@ public final class World {
 	private static ImageIcon previewImage = null;
 	private static boolean playing;
 
-	
 	public static boolean playing() {
 		return playing;
 	}
-	
+
 	public static void setPlaying(boolean value) {
 		playing = value;
 	}
-	
+
 	public static void playRandomGame() {
 		reset("Randomly Generated Game", false);
 
@@ -50,16 +48,14 @@ public final class World {
 		GUIManager.changeScreen(ScreenType.Play);
 	}
 
-
 	public static void populateFromQuadTree(List<Entity> entities, Rectangle box) {
 		getCurrentLevel().retrieveFromQuadTree(entities, box);
 	}
-	
+
 	public static boolean saveCurrentGame() {
 		return save(getName());
 	}
 
-	
 	public static void reset(final String name, final boolean addBlank) {
 		localName = name;
 		levels.clear();
@@ -74,7 +70,7 @@ public final class World {
 		String filename = ResManager.getFilename(World.class, name);
 		return toBlueprint().save(filename);
 	}
-	
+
 	public static void load(String name) {
 		reset(name, false);
 		String filename = ResManager.getFilename(World.class, name);
@@ -155,15 +151,7 @@ public final class World {
 	}
 
 	public static void draw() {
-		Graphic levelBG = level.getBackgroundGraphic();
-		ViewManager.clearToColor(levelBG.color);
-		if (levelBG.hasTextureName()) {
-			ViewManager.drawBG(levelBG.getTexture());
-		}
-		GUIManager.drawBackground();
-		ViewManager.drawEntities(level.getEntities());
-		GUIManager.drawForeground();
-
+		level.draw();
 	}
 
 	public static void addEntity(final Entity entity) {

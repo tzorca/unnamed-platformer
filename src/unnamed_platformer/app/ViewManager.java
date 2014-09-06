@@ -12,9 +12,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.TreeMap;
 
 import javax.swing.JFrame;
 
@@ -28,9 +26,7 @@ import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.opengl.Texture;
 
-import unnamed_platformer.game.entities.Entity;
 import unnamed_platformer.game.other.World;
-import unnamed_platformer.globals.GameRef.Flag;
 import unnamed_platformer.globals.Ref;
 import unnamed_platformer.gui.GUIManager;
 import unnamed_platformer.gui.GUIManager.ScreenType;
@@ -54,10 +50,9 @@ public final class ViewManager
 
 	private static Canvas renderCanvas;
 
-	private static Rectangle viewport = new Rectangle(0, 0, ViewManager.DEFAULT_RESOLUTION.width,
+	private static Rectangle viewport = new Rectangle(0, 0,
+			ViewManager.DEFAULT_RESOLUTION.width,
 			ViewManager.DEFAULT_RESOLUTION.height);
-
-	private static TreeMap<Integer, List<Entity>> zIndexBuckets = new TreeMap<Integer, List<Entity>>();
 
 	public static class WindowEventHandler extends WindowAdapter
 	{
@@ -79,11 +74,15 @@ public final class ViewManager
 		final float xPos = location.x;
 		final float yPos = location.y;
 
-		final int left = (int) (xPos - ViewManager.DEFAULT_RESOLUTION.width / ViewManager.SCALE / 2);
-		final int top = (int) (yPos - ViewManager.DEFAULT_RESOLUTION.height / ViewManager.SCALE / 2);
+		final int left = (int) (xPos - ViewManager.DEFAULT_RESOLUTION.width
+				/ ViewManager.SCALE / 2);
+		final int top = (int) (yPos - ViewManager.DEFAULT_RESOLUTION.height
+				/ ViewManager.SCALE / 2);
 
-		final int right = (int) (ViewManager.DEFAULT_RESOLUTION.width / ViewManager.SCALE / 2 + xPos);
-		final int bottom = (int) (ViewManager.DEFAULT_RESOLUTION.height / ViewManager.SCALE / 2 + yPos);
+		final int right = (int) (ViewManager.DEFAULT_RESOLUTION.width
+				/ ViewManager.SCALE / 2 + xPos);
+		final int bottom = (int) (ViewManager.DEFAULT_RESOLUTION.height
+				/ ViewManager.SCALE / 2 + yPos);
 
 		viewport.setBounds(left, top, right - left, bottom - top);
 
@@ -110,12 +109,15 @@ public final class ViewManager
 		final float tHeight = bgTexture.getHeight();
 
 		final float xPos = (int) viewport.getX();
-		final float yPos = (int) viewport.getY() - (bgTexture.getTextureHeight() - viewport.getHeight());
+		final float yPos = (int) viewport.getY()
+				- (bgTexture.getTextureHeight() - viewport.getHeight());
 		final float width = bgTexture.getTextureWidth();
 		final float height = bgTexture.getTextureHeight();
 
-		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL11.GL_REPEAT);
-		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL11.GL_REPEAT);
+		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S,
+				GL11.GL_REPEAT);
+		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T,
+				GL11.GL_REPEAT);
 
 		bgTexture.bind();
 		GL11.glBegin(GL11.GL_QUADS);
@@ -164,24 +166,8 @@ public final class ViewManager
 		loadState();
 	}
 
-	public static void drawEntities(final List<Entity> entities) {
-		zIndexBuckets.clear();
-
-		for (final Entity entity : entities) {
-			if (!zIndexBuckets.containsKey(entity.zIndex)) {
-				zIndexBuckets.put(entity.zIndex, new LinkedList<Entity>());
-			}
-			zIndexBuckets.get(entity.zIndex).add(entity);
-		}
-
-		for (final int zIndex : zIndexBuckets.keySet()) {
-			for (final Entity entity : zIndexBuckets.get(zIndex)) {
-				entity.draw();
-			}
-		}
-	}
-
-	public static void drawGraphic(final Graphic graphic, final Rectangle rectangle) {
+	public static void drawGraphic(final Graphic graphic,
+			final Rectangle rectangle) {
 		if (!rectangle.intersects(viewport)) {
 			return;
 		}
@@ -210,20 +196,24 @@ public final class ViewManager
 		} else {
 			texture.bind();
 			GL11.glBegin(GL11.GL_QUADS);
-			drawQuad(xPos, yPos, width, height, texture.getWidth(), texture.getHeight());
+			drawQuad(xPos, yPos, width, height, texture.getWidth(),
+					texture.getHeight());
 			GL11.glEnd();
 		}
 
 	}
 
-	public static void drawGraphic(final Graphic graphic, final Rectangle2D rect2D) {
-		drawGraphic(graphic, new Rectangle((float) rect2D.getX(), (float) rect2D.getY(), (float) rect2D.getWidth(),
+	public static void drawGraphic(final Graphic graphic,
+			final Rectangle2D rect2D) {
+		drawGraphic(graphic, new Rectangle((float) rect2D.getX(),
+				(float) rect2D.getY(), (float) rect2D.getWidth(),
 				(float) rect2D.getHeight()));
 
 	}
 
-	private static void drawQuad(final float xPos, final float yPos, final float width, final float height,
-			final float textureWidth, final float textureHeight) {
+	private static void drawQuad(final float xPos, final float yPos,
+			final float width, final float height, final float textureWidth,
+			final float textureHeight) {
 		GL11.glTexCoord2f(0, 0);
 		GL11.glVertex2f(xPos, yPos);
 		GL11.glTexCoord2f(textureWidth, 0);
@@ -235,7 +225,8 @@ public final class ViewManager
 
 	}
 
-	public static void drawTexturesInBatch(final Texture texture, final List<int[]> pointBuffer) {
+	public static void drawTexturesInBatch(final Texture texture,
+			final List<int[]> pointBuffer) {
 		texture.bind();
 
 		final int imageWidth = texture.getImageWidth();
@@ -246,7 +237,8 @@ public final class ViewManager
 
 		GL11.glBegin(GL11.GL_QUADS);
 		for (final int[] point : pointBuffer) {
-			drawQuad(point[0], point[1], imageWidth, imageHeight, tWidth, tHeight);
+			drawQuad(point[0], point[1], imageWidth, imageHeight, tWidth,
+					tHeight);
 		}
 		GL11.glEnd();
 	}
@@ -284,10 +276,11 @@ public final class ViewManager
 	}
 
 	public static Dimension getScreenResolution() {
-		final GraphicsDevice graphicsDevice = GraphicsEnvironment.getLocalGraphicsEnvironment()
-				.getDefaultScreenDevice();
+		final GraphicsDevice graphicsDevice = GraphicsEnvironment
+				.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 
-		final java.awt.DisplayMode displayMode = graphicsDevice.getDisplayMode();
+		final java.awt.DisplayMode displayMode = graphicsDevice
+				.getDisplayMode();
 
 		return new Dimension(displayMode.getWidth(), displayMode.getHeight());
 	}
@@ -296,10 +289,13 @@ public final class ViewManager
 		GL11.glReadBuffer(GL11.GL_FRONT);
 		final int width = Display.getDisplayMode().getWidth();
 		final int height = Display.getDisplayMode().getHeight();
-		final ByteBuffer buffer = BufferUtils.createByteBuffer(width * height * BITS_PER_PIXEL);
-		GL11.glReadPixels(0, 0, width, height, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, buffer);
+		final ByteBuffer buffer = BufferUtils.createByteBuffer(width * height
+				* BITS_PER_PIXEL);
+		GL11.glReadPixels(0, 0, width, height, GL11.GL_RGBA,
+				GL11.GL_UNSIGNED_BYTE, buffer);
 
-		final BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+		final BufferedImage image = new BufferedImage(width, height,
+				BufferedImage.TYPE_INT_RGB);
 
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
@@ -307,7 +303,8 @@ public final class ViewManager
 				final int red = buffer.get(index) & 0xFF;
 				final int green = buffer.get(index + 1) & 0xFF;
 				final int blue = buffer.get(index + 2) & 0xFF;
-				image.setRGB(x, height - y + 1, (0xFF << 24) | (red << 16) | (green << 8) | blue);
+				image.setRGB(x, height - y + 1, (0xFF << 24) | (red << 16)
+						| (green << 8) | blue);
 			}
 		}
 
@@ -345,16 +342,19 @@ public final class ViewManager
 		}
 		try {
 			Display.setParent(renderCanvas);
-			Display.setDisplayMode(new DisplayMode(ViewManager.DEFAULT_RESOLUTION.width,
+			Display.setDisplayMode(new DisplayMode(
+					ViewManager.DEFAULT_RESOLUTION.width,
 					ViewManager.DEFAULT_RESOLUTION.height));
 			Display.setFullscreen(fullscreen);
 			Display.create();
 		} catch (LWJGLException e) {
 			// This exception typically occurs because pixel acceleration
 			// is not supported. Software mode works as a (slow) workaround.
-			System.setProperty("org.lwjgl.opengl.Display.allowSoftwareOpenGL", "true");
+			System.setProperty("org.lwjgl.opengl.Display.allowSoftwareOpenGL",
+					"true");
 			try {
-				System.out.println("Warning: Defaulting to software mode. Performance may be suboptimal.");
+				System.out
+						.println("Warning: Defaulting to software mode. Performance may be suboptimal.");
 				Display.create();
 			} catch (LWJGLException e2) {
 				e2.printStackTrace();
@@ -399,7 +399,8 @@ public final class ViewManager
 		parentFrame.validate();
 	}
 
-	public static void setRenderCanvasBounds(final int xPos, final int yPos, final int width, final int height) {
+	public static void setRenderCanvasBounds(final int xPos, final int yPos,
+			final int width, final int height) {
 		renderCanvas.setBounds(xPos, yPos, width, height);
 	}
 
@@ -417,25 +418,38 @@ public final class ViewManager
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
-		GL11.glViewport(0, 0, ViewManager.DEFAULT_RESOLUTION.width, ViewManager.DEFAULT_RESOLUTION.height);
+		GL11.glViewport(0, 0, ViewManager.DEFAULT_RESOLUTION.width,
+				ViewManager.DEFAULT_RESOLUTION.height);
 
 		GL11.glMatrixMode(GL11.GL_PROJECTION);
 		GL11.glLoadIdentity();
-		GL11.glOrtho(0, ViewManager.DEFAULT_RESOLUTION.width, ViewManager.DEFAULT_RESOLUTION.height, 0, 1, -1);
+		GL11.glOrtho(0, ViewManager.DEFAULT_RESOLUTION.width,
+				ViewManager.DEFAULT_RESOLUTION.height, 0, 1, -1);
 		GL11.glMatrixMode(GL11.GL_MODELVIEW);
 	}
 
 	public static void update() {
+		ViewManager.clear();
+
+		GUIManager.update();
+		GUIManager.drawBackground();
+
 		// TODO: Improve state logic here
-		if (GUIManager.atScreen(ScreenType.Play) || GUIManager.atScreen(ScreenType.Edit)) {
+		if (GUIManager.atScreen(ScreenType.Play)
+				|| GUIManager.atScreen(ScreenType.Edit)) {
 			Display.setTitle(World.getName());
 
 			World.draw();
 		}
-		GUIManager.update();
+
+		GUIManager.drawForeground();
 
 		Display.sync(ViewManager.FPS);
 		Display.update();
+	}
+
+	public static void clear() {
+		clearToColor(Color.black);
 	}
 
 }

@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.TreeMap;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.geom.Rectangle;
@@ -18,9 +19,11 @@ import unnamed_platformer.structures.Blueprint;
 import unnamed_platformer.structures.Graphic;
 import unnamed_platformer.structures.QuadTree;
 
-public class Level {
+public class Level
+{
 	// private boolean bgStretch = false;
-	private Graphic bgGraphic = new Graphic("bg", new Color(0x27, 0x27, 0x41, 1));
+	private Graphic bgGraphic = new Graphic("bg",
+			new Color(0x27, 0x27, 0x41, 1));
 
 	public int gridSize = Ref.DEFAULT_LEVEL_GRIDSIZE;
 
@@ -55,7 +58,6 @@ public class Level {
 		resetTo(EntityCreator.getSetupCollection(origEntities));
 		setRect(levelRect);
 	}
-
 
 	private void setupPlayer() {
 		for (Entity e : entities) {
@@ -101,8 +103,10 @@ public class Level {
 
 		Level newLevel = new Level(
 				EntityCreator.buildFromSetupCollection(entitySetups));
-		newLevel.bgGraphic = (Graphic) levelBlueprint.get(BlueprintField.LEVEL_BG);
-		newLevel.setRect((Rectangle) levelBlueprint.get(BlueprintField.LEVEL_RECT));
+		newLevel.bgGraphic = (Graphic) levelBlueprint
+				.get(BlueprintField.LEVEL_BG);
+		newLevel.setRect((Rectangle) levelBlueprint
+				.get(BlueprintField.LEVEL_RECT));
 
 		return newLevel;
 	}
@@ -138,7 +142,8 @@ public class Level {
 	}
 
 	public Entity getTopmostEntity(Vector2f point) {
-		ListIterator<Entity> entityIterator = entities.listIterator(entities.size());
+		ListIterator<Entity> entityIterator = entities.listIterator(entities
+				.size());
 
 		while (entityIterator.hasPrevious()) {
 			Entity entity = entityIterator.previous();
@@ -156,7 +161,7 @@ public class Level {
 		if (playerEntity == null) {
 			setupPlayer();
 		}
-		
+
 		// clear previous update's quad tree
 		quadTree.clear();
 
@@ -262,4 +267,32 @@ public class Level {
 		this.rect = newRect;
 	}
 
+	public void draw() {
+		drawBackground();
+		drawEntities();
+	}
+
+	private void drawBackground() {
+		if (bgGraphic.hasTextureName()) {
+			ViewManager.drawBG(bgGraphic.getTexture());
+		}
+	}
+
+	private void drawEntities() {
+		TreeMap<Integer, List<Entity>> zIndexBuckets = new TreeMap<Integer, List<Entity>>();
+
+		for (final Entity entity : entities) {
+			if (!zIndexBuckets.containsKey(entity.zIndex)) {
+				zIndexBuckets.put(entity.zIndex, new LinkedList<Entity>());
+			}
+			zIndexBuckets.get(entity.zIndex).add(entity);
+		}
+
+		for (final int zIndex : zIndexBuckets.keySet()) {
+			for (final Entity entity : zIndexBuckets.get(zIndex)) {
+				entity.draw();
+			}
+		}
+
+	}
 }
