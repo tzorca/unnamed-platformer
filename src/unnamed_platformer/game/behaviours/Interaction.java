@@ -3,9 +3,9 @@ package unnamed_platformer.game.behaviours;
 import java.util.EnumMap;
 
 import unnamed_platformer.app.MathHelper;
-import unnamed_platformer.app.MathHelper.Side;
 import unnamed_platformer.game.entities.Entity;
 import unnamed_platformer.globals.GameRef.InteractionResult;
+import unnamed_platformer.structures.DirectionalEnums.Side;
 
 public abstract class Interaction {
 

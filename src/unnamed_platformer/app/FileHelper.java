@@ -186,7 +186,7 @@ public final class FileHelper {
 									+ lastFilename + ")");
 					return null;
 				}
-				number = Integer.valueOf(numericSuffixMatcher.group()) + 1;
+				number = Integer.parseInt(numericSuffixMatcher.group()) + 1;
 			} catch (Exception e) {
 				System.out.println("Screenshot failed: " + e.getMessage());
 				return null;

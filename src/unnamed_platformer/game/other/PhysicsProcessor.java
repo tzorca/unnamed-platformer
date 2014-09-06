@@ -10,12 +10,12 @@ import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Vector2f;
 
 import unnamed_platformer.app.Main;
-import unnamed_platformer.app.MathHelper.Axis;
 import unnamed_platformer.game.behaviours.Interaction;
 import unnamed_platformer.game.entities.ActiveEntity;
 import unnamed_platformer.game.entities.Entity;
 import unnamed_platformer.globals.GameRef.Flag;
 import unnamed_platformer.globals.GameRef.InteractionResult;
+import unnamed_platformer.structures.DirectionalEnums.Axis;
 import unnamed_platformer.structures.MoveResult;
 // TODO: Implement slope physics (see below)
 // Implement image mask -> polygon

@@ -1,9 +1,9 @@
 package unnamed_platformer.game.entities;
 
-import unnamed_platformer.app.MathHelper.Side;
 import unnamed_platformer.game.behaviours.Inter_Damaging;
 import unnamed_platformer.game.other.EntitySetup;
 import unnamed_platformer.globals.GameRef.Flag;
+import unnamed_platformer.structures.DirectionalEnums.Side;
 
 public class Spikes extends ActiveEntity {
 	public Spikes(EntitySetup entitySetup) {

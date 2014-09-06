@@ -1,10 +1,10 @@
 package unnamed_platformer.game.behaviours;
 
-import unnamed_platformer.app.MathHelper.Side;
 import unnamed_platformer.game.entities.ActiveEntity;
 import unnamed_platformer.game.entities.Entity;
 import unnamed_platformer.globals.GameRef.Flag;
 import unnamed_platformer.globals.GameRef.InteractionResult;
+import unnamed_platformer.structures.DirectionalEnums.Side;
 
 // TODO: Add health system
 // TODO: Implement temporary invincibility after nonlethal hit

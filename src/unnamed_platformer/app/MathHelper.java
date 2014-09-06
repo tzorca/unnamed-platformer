@@ -11,30 +11,11 @@ import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Vector2f;
 
+import unnamed_platformer.structures.DirectionalEnums.Orientation;
+import unnamed_platformer.structures.DirectionalEnums.Side;
+
 public final class MathHelper
 {
-
-	public enum Axis {
-		BOTH, HORIZONTAL, VERTICAL, NONE
-	}
-
-	public enum Orientation {
-		DOWN, DOWN_LEFT, DOWN_RIGHT, LEFT, RIGHT, UP, UP_LEFT, UP_RIGHT
-	}
-
-	public enum Side {
-		BOTTOM(Math.PI / 2), LEFT(Math.PI), RIGHT(0), TOP(-Math.PI / 2);
-
-		private final double radians;
-
-		Side(double radians) {
-			this.radians = radians;
-		}
-
-		public double getRadians() {
-			return radians;
-		}
-	}
 
 	public static final Vector2f EMPTY_VECTOR = new Vector2f(0, 0);
 
@@ -70,16 +51,20 @@ public final class MathHelper
 		return rect.getWidth() * rect.getHeight();
 	}
 
-	public static Double getIntersectionAngle(final Rectangle rectA, final Rectangle rectB) {
+	public static Double getIntersectionAngle(final Rectangle rectA,
+			final Rectangle rectB) {
 		final Shape[] unionResult = rectA.union(rectB);
 		Shape c = new Rectangle(0, 0, 0, 0);
 		if (unionResult.length > 0) {
 			c = unionResult[0];
 		}
 
-		final float intersectionX = (float) (c.getCenterX() - rectA.getCenterX());
-		final float intersectionY = (float) (c.getCenterY() - rectA.getCenterY());
-		final Vector2f intersectionVector = new Vector2f(intersectionX, intersectionY);
+		final float intersectionX = (float) (c.getCenterX() - rectA
+				.getCenterX());
+		final float intersectionY = (float) (c.getCenterY() - rectA
+				.getCenterY());
+		final Vector2f intersectionVector = new Vector2f(intersectionX,
+				intersectionY);
 
 		return angleFromVector(intersectionVector);
 	}
@@ -88,8 +73,10 @@ public final class MathHelper
 		return (width < height ? width : height) / 2;
 	}
 
-	public static EnumMap<Side, Double> getSideDistances(final Double radians, final Side[] sidesToCheck) {
-		final EnumMap<Side, Double> distances = new EnumMap<Side, Double>(Side.class);
+	public static EnumMap<Side, Double> getSideDistances(final Double radians,
+			final Side[] sidesToCheck) {
+		final EnumMap<Side, Double> distances = new EnumMap<Side, Double>(
+				Side.class);
 
 		for (Side side : sidesToCheck) {
 			Double dist = Math.abs(side.getRadians() - radians);
@@ -102,14 +89,17 @@ public final class MathHelper
 	}
 
 	// Move in a direction towards a point (but not past it)
-	public static Vector2f moveTowards(final Vector2f startPoint, final Vector2f targetPoint, final double speed) {
+	public static Vector2f moveTowards(final Vector2f startPoint,
+			final Vector2f targetPoint, final double speed) {
 
 		final float initialDist = startPoint.distance(targetPoint);
-		final double theta = Math.atan2(targetPoint.y - startPoint.y, targetPoint.x - startPoint.x);
+		final double theta = Math.atan2(targetPoint.y - startPoint.y,
+				targetPoint.x - startPoint.x);
 		final float movX = (float) (speed * Math.cos(theta));
 		final float movY = (float) (speed * Math.sin(theta));
 
-		Vector2f newPoint = new Vector2f(startPoint.getX() + movX, startPoint.getY() + movY);
+		Vector2f newPoint = new Vector2f(startPoint.getX() + movX,
+				startPoint.getY() + movY);
 
 		final double newDist = newPoint.distance(targetPoint);
 
@@ -126,7 +116,8 @@ public final class MathHelper
 	}
 
 	public static Object randInCollection(final Collection<?> collection) {
-		return new ArrayList<>(collection).get(randRange(0, collection.size() - 1));
+		return new ArrayList<>(collection).get(randRange(0,
+				collection.size() - 1));
 	}
 
 	public static Object randInList(final List<?> list) {
@@ -158,18 +149,22 @@ public final class MathHelper
 		return randInCollection(map.values());
 	}
 
-	public static Vector2f snapToGrid(final Vector2f vector2f, final int gridSize) {
+	public static Vector2f snapToGrid(final Vector2f vector2f,
+			final int gridSize) {
 		final int xPos = (int) ((int) vector2f.x / gridSize) * gridSize;
 		final int yPos = (int) ((int) vector2f.y / gridSize) * gridSize;
 
 		return new Vector2f(xPos, yPos);
 	}
 
-	public static Vector2f vectorFromAngleAndSpeed(final double speed, final double angle) {
-		return new Vector2f((float) (speed * Math.cos(angle)), (float) (speed * Math.sin(angle)));
+	public static Vector2f vectorFromAngleAndSpeed(final double speed,
+			final double angle) {
+		return new Vector2f((float) (speed * Math.cos(angle)),
+				(float) (speed * Math.sin(angle)));
 	}
 
-	public static Vector2f vectorFromOrientationAndLength(final Orientation orientation, final float length) {
+	public static Vector2f vectorFromOrientationAndLength(
+			final Orientation orientation, final float length) {
 		switch (orientation) {
 		case DOWN:
 			return new Vector2f(0, length);
@@ -196,7 +191,8 @@ public final class MathHelper
 		return new java.awt.Point((int) vector.x, (int) vector.y);
 	}
 
-	public static double wrapValue(final double value, final double min, final double max) {
+	public static double wrapValue(final double value, final double min,
+			final double max) {
 		if (value > max) {
 			return value - max + min;
 		} else if (value < min) {

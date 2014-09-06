@@ -198,15 +198,15 @@ public final class ViewManager
 	}
 
 	private static void drawQuad(final float xPos, final float yPos,
-			final float width, final float height, final float textureWidth,
-			final float textureHeight) {
+			final float width, final float height, final float tWidth,
+			final float tHeight) {
 		GL11.glTexCoord2f(0, 0);
 		GL11.glVertex2f(xPos, yPos);
-		GL11.glTexCoord2f(textureWidth, 0);
+		GL11.glTexCoord2f(tWidth, 0);
 		GL11.glVertex2f(xPos + width, yPos);
-		GL11.glTexCoord2f(textureWidth, textureHeight);
+		GL11.glTexCoord2f(tWidth, tHeight);
 		GL11.glVertex2f(xPos + width, yPos + height);
-		GL11.glTexCoord2f(0, textureHeight);
+		GL11.glTexCoord2f(0, tHeight);
 		GL11.glVertex2f(xPos, yPos + height);
 
 	}

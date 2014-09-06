@@ -1,10 +1,10 @@
 package unnamed_platformer.game.entities;
 
 import unnamed_platformer.app.MathHelper;
-import unnamed_platformer.app.MathHelper.Orientation;
 import unnamed_platformer.game.behaviours.Inter_Spring;
 import unnamed_platformer.game.other.EntitySetup;
 import unnamed_platformer.globals.GameRef;
+import unnamed_platformer.structures.DirectionalEnums.Orientation;
 
 public class SpringLike extends ActiveEntity {
 
