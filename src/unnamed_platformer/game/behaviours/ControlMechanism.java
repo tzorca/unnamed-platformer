@@ -2,8 +2,8 @@ package unnamed_platformer.game.behaviours;
 
 import unnamed_platformer.game.entities.ActiveEntity;
 
-public abstract class ControlMechanism {
-
+public abstract class ControlMechanism
+{
 	public boolean toRemove = false;
 	public ActiveEntity actor;
 	boolean enabled = true;

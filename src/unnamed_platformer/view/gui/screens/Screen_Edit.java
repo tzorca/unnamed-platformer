@@ -62,20 +62,14 @@ public class Screen_Edit extends BaseScreen_Hybrid
 
 	private final Map<ImageListEntry, Graphic> entityGraphics = new HashMap<ImageListEntry, Graphic>();
 
-	private static final ImageIcon IMG_EDIT_MODE = ImageHelper
-			.getImageIconContent("gui_modeEdit");
-	private static final ImageIcon IMG_PLAY_MODE = ImageHelper
-			.getImageIconContent("gui_modePlay");
-	private static final ImageIcon IMG_ADD = ImageHelper
-			.getImageIconContent("gui_add");
-	private static final ImageIcon IMG_NEXT = ImageHelper
-			.getImageIconContent("gui_next");
-	private static final ImageIcon IMG_PREV = ImageHelper
-			.getImageIconContent("gui_prev");
-	private static final ImageIcon IMG_REMOVE = ImageHelper
-			.getImageIconContent("gui_remove");
-	private static final ImageIcon IMG_SAVE = ImageHelper
-			.getImageIconContent("gui_save");
+	private static final ImageIcon /* */
+	/*    */IMG_EDIT_MODE = ImageHelper.getImageIconContent("gui_modeEdit"),
+			IMG_PLAY_MODE = ImageHelper.getImageIconContent("gui_modePlay"),
+			IMG_ADD = ImageHelper.getImageIconContent("gui_add"),
+			IMG_NEXT = ImageHelper.getImageIconContent("gui_next"),
+			IMG_PREV = ImageHelper.getImageIconContent("gui_prev"),
+			IMG_REMOVE = ImageHelper.getImageIconContent("gui_remove"),
+			IMG_SAVE = ImageHelper.getImageIconContent("gui_save");
 
 	private final List<ImageListEntry> imageListEntries = new ArrayList<ImageListEntry>();
 	private final JTree treeEntities = new JTree(new DefaultMutableTreeNode());
@@ -116,7 +110,6 @@ public class Screen_Edit extends BaseScreen_Hybrid
 		topToolbar.setLayout(flowLayout);
 
 		btnPrevLevel.addActionListener(new btnPrevLevel_Click());
-		btnPrevLevel.setBackground(GUIManager.GUI_BG_COLOR);
 		topToolbar.add(btnPrevLevel);
 
 		lblCurrentLevel.setText("0");
@@ -124,23 +117,18 @@ public class Screen_Edit extends BaseScreen_Hybrid
 		lblCurrentLevel.setBorder(new EmptyBorder(8, 8, 8, 8));
 		topToolbar.add(lblCurrentLevel);
 
-		btnNextLevel.setBackground(GUIManager.GUI_BG_COLOR);
 		btnNextLevel.addActionListener(new btnNextLevel_Click());
 		topToolbar.add(btnNextLevel);
 
-		btnAddLevel.setBackground(GUIManager.GUI_BG_COLOR);
 		btnAddLevel.addActionListener(new btnAddLevel_Click());
 		topToolbar.add(btnAddLevel);
 
-		btnRemoveLevel.setBackground(GUIManager.GUI_BG_COLOR);
 		btnRemoveLevel.addActionListener(new btnRemoveLevel_Click());
 		topToolbar.add(btnRemoveLevel);
 
-		btnSaveLevel.setBackground(GUIManager.GUI_BG_COLOR);
 		btnSaveLevel.addActionListener(new btnSaveLevel_Click());
 		topToolbar.add(btnSaveLevel);
 
-		btnModeSwitch.setBackground(GUIManager.GUI_BG_COLOR);
 		btnModeSwitch.addActionListener(new btnModeSwitch_Click());
 		topToolbar.add(btnModeSwitch);
 
@@ -375,18 +363,16 @@ public class Screen_Edit extends BaseScreen_Hybrid
 
 		// this has to be done with a callback
 		// (a deadlock occurs if not invoked with SwingUtils.invokeLater)
-		GUIHelper
-				.confirmDangerousWithCallback(
-						"Are you sure you want to exit? Your game has unsaved changes.",
-						new ParamRunnable() {
-							public void run(final Object param) {
-								if (!(boolean) param) {
-									return;
-								}
-								editor.overrideSavedChanges();
-								GUIManager.changeScreen(plannedNextScreen);
-							}
-						});
+		String message = "Are you sure you want to exit? Your game has unsaved changes.";
+		GUIHelper.confirmDangerousWithCallback(message, new ParamRunnable() {
+			public void run(final Object param) {
+				if (!(boolean) param) {
+					return;
+				}
+				editor.overrideSavedChanges();
+				GUIManager.changeScreen(plannedNextScreen);
+			}
+		});
 		return false;
 	}
 
@@ -421,7 +407,6 @@ public class Screen_Edit extends BaseScreen_Hybrid
 	private class TreeEntities_SelectionChanged implements
 			TreeSelectionListener
 	{
-		@Override
 		public void valueChanged(final TreeSelectionEvent event) {
 			ViewManager.focusRenderCanvas();
 		}
@@ -485,7 +470,6 @@ public class Screen_Edit extends BaseScreen_Hybrid
 			btnModeSwitch.setIcon(IMG_PLAY_MODE);
 			setToolbarSize(Side.left, LEFT_TOOLBAR_SIZE);
 		} else {
-
 			editor.switchToPlayMode();
 			editor.setCameraPos(World.getCurrentLevel()
 					.findEntityByFlag(Flag.PLAYER).getPos());

@@ -54,10 +54,6 @@ public final class ClassLookup {
 		return classesInPackages.get(packageName);
 	}
 
-	public static Collection<String> getClassNamesInPackage(String packageName) {
-		return classNamesInPackages.get(packageName);
-	}
-
 	public static Class<?> getClass(String packageName, String className) {
 		return classesByClassNameInPackages.get(packageName,
 				className.toLowerCase());

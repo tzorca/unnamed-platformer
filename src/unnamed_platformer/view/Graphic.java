@@ -10,7 +10,8 @@ import unnamed_platformer.game.other.TextureSetup;
 import unnamed_platformer.globals.TextureRef;
 import unnamed_platformer.res_mgt.ResManager;
 
-public class Graphic implements Serializable {
+public class Graphic implements Serializable
+{
 	private static final long serialVersionUID = 3743979572361086098L;
 
 	public Color color;
@@ -45,7 +46,6 @@ public class Graphic implements Serializable {
 		return ResManager.get(Texture.class, textureName);
 	}
 
-
 	public BufferedImage getTextureImage() {
 		return ResManager.get(BufferedImage.class, textureName);
 	}
@@ -54,7 +54,6 @@ public class Graphic implements Serializable {
 		return textureName != null;
 	}
 
-	
 	public TextureSetup getTextureSetup() {
 		return cachedTextureSetup;
 	}
