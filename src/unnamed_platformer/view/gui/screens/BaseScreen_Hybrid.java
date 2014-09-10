@@ -14,8 +14,9 @@ public class BaseScreen_Hybrid extends Screen {
 
 	EnumMap<Side, Panel> toolbars = new EnumMap<Side, Panel>(Side.class);
 
-	// instance initializer
-	{
+	public BaseScreen_Hybrid() {
+		super();
+		
 		ViewManager.resetRenderCanvasBounds();
 		ViewManager.setRenderCanvasVisibility(true);
 		pnlSurface.setVisible(true);

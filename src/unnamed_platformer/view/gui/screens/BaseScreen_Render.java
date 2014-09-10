@@ -5,8 +5,9 @@ import unnamed_platformer.view.ViewManager;
 
 public class BaseScreen_Render extends Screen {
 
-	// Instance initializer
-	{
+	public BaseScreen_Render() {
+		super();
+		
 		ViewManager.resetRenderCanvasBounds();
 		ViewManager.setRenderCanvasVisibility(true);
 		pnlSurface.setVisible(false);

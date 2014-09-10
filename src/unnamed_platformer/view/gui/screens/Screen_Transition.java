@@ -12,8 +12,9 @@ import unnamed_platformer.view.gui.GUIManager;
 
 public class Screen_Transition extends BaseScreen_GUI
 {
-	// Instance initializer
-	{
+	public Screen_Transition() {
+		super();
+
 		pnlSurface.setBackground(GUIManager.GUI_BG_COLOR);
 
 		Label lblNextLevel = new Label("Level "
@@ -40,8 +41,7 @@ public class Screen_Transition extends BaseScreen_GUI
 				}
 			}
 		});
-		
-		
+
 		pnlSurface.add(lblNextLevel, GUIManager.CENTER_LAYOUT
 				+ ", gapbottom 20%, ");
 		pnlSurface.add(btnStart, GUIManager.CENTER_LAYOUT);

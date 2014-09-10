@@ -15,8 +15,9 @@ import unnamed_platformer.view.gui.GUIManager.ScreenType;
 
 public class Screen_Start extends BaseScreen_GUI {
 
-	// Instance initializer
-	{
+	public Screen_Start() {
+		super(); 
+
 		Label lblGameTitle = new Label(Ref.APP_TITLE);
 		lblGameTitle.setFont(GUIManager.HEADING_FONT);
 		lblGameTitle.setForeground(Color.darkGray);

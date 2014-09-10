@@ -7,7 +7,8 @@ import unnamed_platformer.app.InputManager;
 import unnamed_platformer.view.gui.GUIManager;
 import unnamed_platformer.view.gui.GUIManager.ScreenType;
 
-public abstract class Screen {
+public abstract class Screen
+{
 	protected Panel pnlSurface = new Panel(new MigLayout());
 
 	public void update() {
@@ -16,13 +17,15 @@ public abstract class Screen {
 	public Panel getPanel() {
 		return pnlSurface;
 	}
-	
+
 	// instance initializer
-	{
+	public Screen() {
+		super();
+
 		InputManager.resetEventHandlers();
 		pnlSurface.setBackground(GUIManager.GUI_BORDER_COLOR);
 	}
-	
+
 	final public boolean canExit() {
 		return onFinish(null);
 	}
@@ -38,7 +41,6 @@ public abstract class Screen {
 	}
 
 	/**
-	 * 
 	 * @return true if finishing is allowed
 	 */
 	public boolean onFinish(ScreenType plannedNextScreen) {
@@ -47,7 +49,7 @@ public abstract class Screen {
 
 	public void drawBackground() {
 	}
-	
+
 	public void drawForeground() {
 	}
 }

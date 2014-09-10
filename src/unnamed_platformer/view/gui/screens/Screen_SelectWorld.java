@@ -12,8 +12,9 @@ import unnamed_platformer.view.gui.objects.TableModel_World;
 // TODO: Implement support for double-clicking in listing
 public class Screen_SelectWorld extends BaseScreen_GUI {
 
-	// instance initializer
-	{
+	public Screen_SelectWorld() {
+		super();
+		
 		JLabel lblGameTitle = new JLabel("Custom Worlds");
 		lblGameTitle.setFont(GUIManager.SUB_HEADING_FONT);
 		lblGameTitle.setForeground(GUIManager.GUI_FG_COLOR);
