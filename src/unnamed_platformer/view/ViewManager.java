@@ -30,6 +30,8 @@ import unnamed_platformer.game.other.World;
 import unnamed_platformer.globals.Ref;
 import unnamed_platformer.res_mgt.ResManager;
 import unnamed_platformer.view.gui.GUIManager;
+import unnamed_platformer.view.gui.hud.HeadsUpDisplay;
+import unnamed_platformer.view.gui.objects.SlickLabel;
 
 public final class ViewManager
 {
@@ -281,14 +283,6 @@ public final class ViewManager
 		return image;
 	}
 
-	public static float getViewportX() {
-		return viewport.getX();
-	}
-
-	public static float getViewportY() {
-		return viewport.getY();
-	}
-
 	public static void init() {
 		parentFrame = new JFrame(Ref.APP_TITLE);
 		parentFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -398,6 +392,7 @@ public final class ViewManager
 		GL11.glMatrixMode(GL11.GL_MODELVIEW);
 	}
 
+
 	public static void update() {
 		ViewManager.clear();
 
@@ -406,6 +401,7 @@ public final class ViewManager
 		GUIManager.drawBackground();
 		World.drawForeground();
 		GUIManager.drawForeground();
+		HeadsUpDisplay.updateAndDraw();
 
 		Display.sync(ViewManager.FPS);
 		Display.update();
@@ -413,6 +409,10 @@ public final class ViewManager
 
 	public static void clear() {
 		clearToColor(Color.black);
+	}
+
+	public static Vector2f getCameraPos() {
+		return viewport.getLocation();
 	}
 
 }

@@ -12,21 +12,22 @@ import unnamed_platformer.globals.GameRef.Flag;
 import unnamed_platformer.view.Graphic;
 
 //TODO: Fix launched projectiles to have constant speed
-public class PlatformPlayer extends ActiveEntity {
+public class PlatformPlayer extends ActiveEntity
+{
 	Ctrl_HorizontalMove hzMoveBehaviour;
 	Ctrl_Jump jumpBehaviour;
 	Ctrl_Shoot shootBehaviour;
+
+	int health = GameRef.DEFAULT_MAX_HEALTH;
 
 	public PlatformPlayer(EntitySetup entitySetup) {
 		super(entitySetup);
 
 		hzMoveBehaviour = new Ctrl_HorizontalMove(this,
 				GameRef.DEFAULT_PLR_ACCELERATION,
-				GameRef.DEFAULT_PLR_DECELERATION,
-				GameRef.DEFAULT_PLR_MAX_SPEED);
+				GameRef.DEFAULT_PLR_DECELERATION, GameRef.DEFAULT_PLR_MAX_SPEED);
 
-		jumpBehaviour = new Ctrl_Jump(this,
-				GameRef.DEFAULT_PLR_JUMP_STRENGTH);
+		jumpBehaviour = new Ctrl_Jump(this, GameRef.DEFAULT_PLR_JUMP_STRENGTH);
 
 		EntitySetup setup = new EntitySetup();
 		setup.set(EntityParam.GRAPHIC, new Graphic("laser"));
@@ -59,6 +60,14 @@ public class PlatformPlayer extends ActiveEntity {
 
 	public void setJumpStrength(float jumpStrength) {
 		jumpBehaviour.setJumpStrength(jumpStrength);
+	}
+
+	public void addHealth(int healthDelta) {
+		health += healthDelta;
+	}
+
+	public int getHealth() {
+		return health;
 	}
 
 }

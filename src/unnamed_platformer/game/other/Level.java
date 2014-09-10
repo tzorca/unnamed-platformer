@@ -10,6 +10,7 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 
+import unnamed_platformer.game.entities.ActiveEntity;
 import unnamed_platformer.game.entities.Entity;
 import unnamed_platformer.globals.GameRef.Flag;
 import unnamed_platformer.globals.Ref;
@@ -32,7 +33,7 @@ public class Level
 	private Rectangle rect = Ref.DEFAULT_LEVEL_RECTANGLE;
 	private transient QuadTree quadTree = new QuadTree(0,
 			Ref.DEFAULT_LEVEL_RECTANGLE);
-	private Entity playerEntity;
+	private ActiveEntity playerEntity;
 
 	private void setRect(final Rectangle rect) {
 		quadTree = new QuadTree(0, rect);
@@ -60,7 +61,7 @@ public class Level
 	private void setupPlayer() {
 		for (Entity e : entities) {
 			if (e.isFlagSet(Flag.PLAYER)) {
-				playerEntity = e;
+				playerEntity = (ActiveEntity)e;
 
 				ViewManager.centerCamera(playerEntity.getCenter());
 			}
@@ -173,9 +174,9 @@ public class Level
 			if (World.playing()) {
 				// perform entity logic
 				entity.update();
-
+				
 				if (entity.isFlagSet(Flag.PLAYER)) {
-					playerEntity = entity;
+					playerEntity = (ActiveEntity) entity;
 
 				}
 			}
@@ -284,5 +285,9 @@ public class Level
 			}
 		}
 
+	}
+
+	public ActiveEntity getPlayer() {
+		return playerEntity;
 	}
 }
