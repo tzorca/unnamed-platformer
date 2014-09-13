@@ -4,7 +4,6 @@ import unnamed_platformer.game.entities.ActiveEntity;
 import unnamed_platformer.game.entities.Entity;
 import unnamed_platformer.game.other.DirectionalEnums.Side;
 import unnamed_platformer.globals.GameRef.Flag;
-import unnamed_platformer.globals.GameRef.InteractionResult;
 
 // TODO: Add health system
 // TODO: Implement temporary invincibility after nonlethal hit
@@ -21,9 +20,9 @@ public class Inter_Damaging extends Interaction {
 	}
 
 	@Override
-	public InteractionResult performInteraction(Entity target) {
+	public boolean performInteraction(Entity target) {
 		((ActiveEntity) target).returnToStart();
-		return InteractionResult.SKIP_PHYSICS;
+		return true;
 	}
 
 	@Override

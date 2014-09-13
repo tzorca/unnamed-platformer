@@ -27,8 +27,4 @@ public final class GameRef {
 	public enum Flag {
 		SOLID, HURTS_OTHERS, OBEYS_GRAVITY, OUT_OF_PLAY, TANGIBLE, PLAYER, INVISIBLE, DISSOLVES_ON_CONTACT, FOLLOWS_SLOPES
 	}
-
-	public enum InteractionResult {
-		BLANK_RESULT, COLLISION, SKIP_PHYSICS
-	}
 }

@@ -2,9 +2,9 @@ package unnamed_platformer.game.behaviours;
 
 import unnamed_platformer.game.entities.Entity;
 import unnamed_platformer.globals.GameRef.Flag;
-import unnamed_platformer.globals.GameRef.InteractionResult;
 
-public class Inter_Breakable extends Interaction {
+public class Inter_Breakable extends Interaction
+{
 
 	public Inter_Breakable(Entity source) {
 		super(source);
@@ -16,11 +16,11 @@ public class Inter_Breakable extends Interaction {
 	}
 
 	@Override
-	protected InteractionResult performInteraction(Entity target) {
+	protected boolean performInteraction(Entity target) {
 		source.setFlag(Flag.OUT_OF_PLAY, true);
 		if (target.isFlagSet(Flag.DISSOLVES_ON_CONTACT))
-			target.setFlag(Flag.OUT_OF_PLAY,  true);
-		return InteractionResult.BLANK_RESULT;
+			target.setFlag(Flag.OUT_OF_PLAY, true);
+		return true;
 	}
 
 }

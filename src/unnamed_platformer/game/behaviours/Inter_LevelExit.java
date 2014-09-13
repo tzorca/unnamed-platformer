@@ -3,7 +3,6 @@ package unnamed_platformer.game.behaviours;
 import unnamed_platformer.game.entities.Entity;
 import unnamed_platformer.game.other.World;
 import unnamed_platformer.globals.GameRef.Flag;
-import unnamed_platformer.globals.GameRef.InteractionResult;
 import unnamed_platformer.view.gui.GUIManager;
 import unnamed_platformer.view.gui.GUIManager.ScreenType;
 import unnamed_platformer.view.gui.screens.Screen_Edit;
@@ -18,7 +17,7 @@ public class Inter_LevelExit extends Interaction
 	}
 
 	@Override
-	public InteractionResult performInteraction(Entity target) {
+	public boolean performInteraction(Entity target) {
 		// TODO: Show current level in HUD
 		// TODO: Create GameFinished screen and ask if user wants to restart
 		
@@ -34,7 +33,7 @@ public class Inter_LevelExit extends Interaction
 			GUIManager.changeScreen(ScreenType.Transition);
 		}
 
-		return InteractionResult.SKIP_PHYSICS;
+		return true;
 	}
 
 	@Override

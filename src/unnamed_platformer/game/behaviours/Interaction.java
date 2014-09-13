@@ -5,7 +5,6 @@ import java.util.EnumMap;
 import unnamed_platformer.app.MathHelper;
 import unnamed_platformer.game.entities.Entity;
 import unnamed_platformer.game.other.DirectionalEnums.Side;
-import unnamed_platformer.globals.GameRef.InteractionResult;
 
 public abstract class Interaction {
 
@@ -36,13 +35,13 @@ public abstract class Interaction {
 
 	}
 
-	public final InteractionResult interactWith(Entity target) {
+	public final boolean interactWith(Entity target) {
 		if (!isValidTarget(target)) {
-			return InteractionResult.BLANK_RESULT;
+			return false;
 		}
 
 		if (!onActiveside(target)) {
-			return InteractionResult.BLANK_RESULT;
+			return false;
 		}
 
 		return performInteraction(target);
@@ -72,5 +71,5 @@ public abstract class Interaction {
 
 	protected abstract boolean isValidTarget(Entity target);
 
-	protected abstract InteractionResult performInteraction(Entity target);
+	protected abstract boolean performInteraction(Entity target);
 }

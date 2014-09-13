@@ -5,7 +5,6 @@ import org.newdawn.slick.geom.Vector2f;
 import unnamed_platformer.game.entities.ActiveEntity;
 import unnamed_platformer.game.entities.Entity;
 import unnamed_platformer.globals.GameRef.Flag;
-import unnamed_platformer.globals.GameRef.InteractionResult;
 
 
 public class Inter_Spring extends Interaction {
@@ -17,15 +16,15 @@ public class Inter_Spring extends Interaction {
 	}
 
 	@Override
-	public InteractionResult performInteraction(Entity target) {
+	public boolean performInteraction(Entity target) {
 		ActiveEntity plr = (ActiveEntity) target;
 
 		if (!plr.hasPhysics()) {
-			return InteractionResult.BLANK_RESULT;
+			return false;
 		}
 		plr.getPhysics().addForce(v);
 
-		return InteractionResult.BLANK_RESULT;
+		return true;
 	}
 
 	@Override
