@@ -4,7 +4,7 @@ package unnamed_platformer.game.other;
 public class DirectionalEnums
 {
 	public enum Axis {
-		BOTH, HORIZONTAL, VERTICAL, NONE
+		HORIZONTAL, VERTICAL, NONE
 	}
 
 	public enum Orientation {

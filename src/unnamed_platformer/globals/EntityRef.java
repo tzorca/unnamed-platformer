@@ -1,11 +1,14 @@
 package unnamed_platformer.globals;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.newdawn.slick.opengl.Texture;
 
+import unnamed_platformer.game.entities.Entity;
+import unnamed_platformer.globals.GameRef.Flag;
 import unnamed_platformer.res_mgt.ResManager;
 
 import com.google.common.collect.ArrayListMultimap;
@@ -58,5 +61,15 @@ public final class EntityRef {
 		return textureNameToEntityClass.containsKey(texName);
 	}
 
+	public static List<Entity> selectEntitiesWithFlag(List<Entity> entities,
+			Flag flag) {
+		List<Entity> selectedEntities = new ArrayList<Entity>();
+		for (Entity entity : entities) {
+			if (entity.isFlagSet(flag)) {
+				selectedEntities.add(entity);
+			}
+		}
+		return selectedEntities;
+	}
 
 }

@@ -1,7 +1,6 @@
 package unnamed_platformer.game.other;
 
 import java.util.ArrayList;
-import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -14,8 +13,8 @@ import unnamed_platformer.game.behaviours.Interaction;
 import unnamed_platformer.game.entities.ActiveEntity;
 import unnamed_platformer.game.entities.Entity;
 import unnamed_platformer.game.other.DirectionalEnums.Axis;
+import unnamed_platformer.globals.EntityRef;
 import unnamed_platformer.globals.GameRef.Flag;
-import unnamed_platformer.globals.GameRef.InteractionResult;
 
 // TODO: Fix (separate x/y checking -related) pixel collision bug
 
@@ -42,19 +41,22 @@ public final class PhysicsProcessor
 		}
 	}
 
-	public static void applyGravity(final ActiveEntity actor, final float multiplier) {
+	public static void applyGravity(final ActiveEntity actor,
+			final float multiplier) {
 		if (!actor.isFlagSet(Flag.OBEYS_GRAVITY)) {
 			return;
 		}
 
-		actor.getPhysics().addForce(new Vector2f(GRAVITY.x * multiplier, GRAVITY.y * multiplier));
+		actor.getPhysics().addForce(
+				new Vector2f(GRAVITY.x * multiplier, GRAVITY.y * multiplier));
 	}
 
 	public static void checkForInteractionsWithRegisteredEntities() {
 		final List<Entity> possibleInteractors = new ArrayList<Entity>();
 		for (final ActiveEntity registeredEntity : registeredEntities) {
 			// only check entities in nearby regions
-			World.populateFromQuadTree(possibleInteractors, registeredEntity.getCollisionRect());
+			World.populateFromQuadTree(possibleInteractors,
+					registeredEntity.getCollisionRect());
 
 			processInteractions(registeredEntity, possibleInteractors);
 			possibleInteractors.clear();
@@ -63,27 +65,55 @@ public final class PhysicsProcessor
 
 	}
 
-	private static Set<InteractionResult> collectInteractions(final ActiveEntity sourceEntity, final Axis direction,
-			final Vector2f velocity, final List<Entity> entitiesToCheck) {
-		final Set<InteractionResult> interactionResults = EnumSet.noneOf(InteractionResult.class);
-		final Shape checkShape = Main.deepClone(sourceEntity.getCollisionShape());
+	private static Shape buildCheckShape(Entity entity, Vector2f delta,
+			Axis axis) {
+		final Shape checkShape = Main.deepClone(entity.getCollisionShape());
 
 		// setup checking rectangle to include either x or y velocity,
 		// depending on axis
-		if (direction == Axis.HORIZONTAL) {
-			checkShape.setX(checkShape.getX() + velocity.x);
-		} else if (direction == Axis.VERTICAL) {
-			checkShape.setY(checkShape.getY() + velocity.y);
-		} else {
-			return interactionResults;
+		if (axis == Axis.HORIZONTAL) {
+			checkShape.setX(checkShape.getX() + delta.x);
+		} else if (axis == Axis.VERTICAL) {
+			checkShape.setY(checkShape.getY() + delta.y);
 		}
-		
-		final PhysicsInstance srcEntityPhysics = sourceEntity.getPhysics();
+
+		return checkShape;
+	}
+
+	private static boolean wouldEntityIntersect(
+			final ActiveEntity sourceEntity, final Axis direction,
+			final Vector2f velocity, final List<Entity> entitiesToCheck) {
+
+		final Shape checkShape = buildCheckShape(sourceEntity, velocity,
+				direction);
 
 		for (final Entity otherEntity : entitiesToCheck) {
-			// don't process interactions if the entities are the same
-			// or they don't intersect
-			if (sourceEntity.equals(otherEntity) || !checkShape.intersects(otherEntity.getCollisionShape())) {
+			if (sourceEntity.equals(otherEntity)) {
+				continue;
+			}
+
+			if (checkShape.intersects(otherEntity.getCollisionShape())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private static void processInteractions(final ActiveEntity sourceEntity,
+			final Axis direction, final Vector2f velocity,
+			final List<Entity> entitiesToCheck) {
+
+		final Shape checkShape = buildCheckShape(sourceEntity, velocity,
+				direction);
+
+		PhysicsInstance srcEntityPhysics = sourceEntity.getPhysics();
+
+		for (final Entity otherEntity : entitiesToCheck) {
+			if (sourceEntity.equals(otherEntity)) {
+				continue;
+			}
+
+			if (!checkShape.intersects(otherEntity.getCollisionShape())) {
 				continue;
 			}
 
@@ -91,7 +121,7 @@ public final class PhysicsProcessor
 			if (otherEntity.isActive()) {
 				final ActiveEntity activeOtherEntity = (ActiveEntity) otherEntity;
 				for (final Interaction interaction : activeOtherEntity.interactions) {
-					interactionResults.add(interaction.interactWith(sourceEntity));
+					interaction.interactWith(sourceEntity);
 				}
 			}
 
@@ -100,18 +130,11 @@ public final class PhysicsProcessor
 			if (srcEntityPhysics.isZero()) {
 				continue;
 			}
-
-			// if conditions are right for a solid collision
-			if (sourceEntity.isFlagSet(Flag.TANGIBLE) && otherEntity.isFlagSet(Flag.SOLID)) {
-				interactionResults.add(InteractionResult.COLLISION);
-			}
-
 		}
-
-		return interactionResults;
 	}
 
-	private static void processInteractions(final ActiveEntity actor, final List<Entity> entitiesToCheck) {
+	private static void processInteractions(final ActiveEntity actor,
+			final List<Entity> entitiesToCheck) {
 		final PhysicsInstance actorPhysics = actor.getPhysics();
 
 		final Vector2f originalPos = actor.getPos();
@@ -123,55 +146,75 @@ public final class PhysicsProcessor
 		boolean xCollision = false;
 		boolean yCollision = false;
 
-		final Axis[] axisCheckingOrder = velocity.x > velocity.y ? new Axis[] {
-				Axis.HORIZONTAL, Axis.VERTICAL
-		} : new Axis[] {
-				Axis.VERTICAL, Axis.HORIZONTAL
-		};
+		if (actor.isFlagSet(Flag.TANGIBLE)) {
+			// if the actor is tangible, we need to check axes separately to
+			// determine a safe position before doing interactions.
 
-		for (final Axis axis : axisCheckingOrder) {
-			Set<InteractionResult> interactionResults = collectInteractions(actor, axis, velocity, entitiesToCheck);
+			final Axis[] axisCheckingOrder;
 
-			if (interactionResults.contains(InteractionResult.SKIP_PHYSICS)) {
-				break;
+			if (velocity.x > velocity.y) {
+				axisCheckingOrder = new Axis[] {
+						Axis.HORIZONTAL, Axis.VERTICAL
+				};
+			} else {
+				axisCheckingOrder = new Axis[] {
+						Axis.VERTICAL, Axis.HORIZONTAL
+				};
 			}
 
-			switch (axis) {
-			case HORIZONTAL:
-				if (interactionResults.contains(InteractionResult.COLLISION)) {
-					actorPhysics.setXVelocity(0);
-					xCollision = true;
-				} else {
-					actor.setX(originalPos.x + velocity.x);
-				}
-				break;
-			case VERTICAL:
-				if (interactionResults.contains(InteractionResult.COLLISION)) {
-					actorPhysics.setInAir(false);
-					actorPhysics.setYVelocity(0);
+			List<Entity> solidEntities = EntityRef.selectEntitiesWithFlag(
+					entitiesToCheck, Flag.SOLID);
 
-					yCollision = true;
-				} else {
+			for (final Axis axis : axisCheckingOrder) {
+				boolean intersectsSolid = wouldEntityIntersect(actor, axis,
+						velocity, solidEntities);
 
-					actor.setY(originalPos.y + velocity.y);
-
-					if (Math.abs(velocity.y) > MIN_AIR_VELOCITY) {
-						actorPhysics.setInAir(true);
+				switch (axis) {
+				case HORIZONTAL:
+					if (intersectsSolid) {
+						actorPhysics.setXVelocity(0);
+						xCollision = true;
+					} else {
+						actor.setX(originalPos.x + velocity.x);
 					}
+					break;
+				case VERTICAL:
+					if (intersectsSolid) {
+						actorPhysics.setInAir(false);
+						actorPhysics.setYVelocity(0);
+						yCollision = true;
+					} else {
+						actor.setY(originalPos.y + velocity.y);
+						if (Math.abs(velocity.y) > MIN_AIR_VELOCITY) {
+							actorPhysics.setInAir(true);
+						}
+					}
+					break;
+				default:
+					break;
 				}
-				break;
-			default:
-				break;
 			}
-
+		} else {
+			// Otherwise, we can just perform interactions from the exact
+			// velocity
+			// that is desired
+			actor.setX(originalPos.x + velocity.x);
+			actor.setY(originalPos.y + velocity.y);
+			if (Math.abs(velocity.y) > MIN_AIR_VELOCITY) {
+				actorPhysics.setInAir(true);
+			}
 		}
 
-		actorPhysics.lastMoveResult = new MoveResult(xCollision, yCollision, originalVelocity.x, originalVelocity.y);
+		processInteractions(actor, Axis.NONE, new Vector2f(), entitiesToCheck);
+
+		actorPhysics.lastMoveResult = new MoveResult(xCollision, yCollision,
+				originalVelocity.x, originalVelocity.y);
 
 		actorPhysics.recalculateDirection(originalPos);
 	}
 
-	public static void registerEntityForInteractionChecking(final ActiveEntity actor) {
+	public static void registerEntityForInteractionChecking(
+			final ActiveEntity actor) {
 		registeredEntities.add(actor);
 	}
 }
