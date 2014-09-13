@@ -31,7 +31,6 @@ import unnamed_platformer.globals.Ref;
 import unnamed_platformer.res_mgt.ResManager;
 import unnamed_platformer.view.gui.GUIManager;
 import unnamed_platformer.view.gui.hud.HeadsUpDisplay;
-import unnamed_platformer.view.gui.objects.SlickLabel;
 
 public final class ViewManager
 {
