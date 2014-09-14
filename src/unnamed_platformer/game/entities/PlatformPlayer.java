@@ -1,5 +1,6 @@
 package unnamed_platformer.game.entities;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.geom.Vector2f;
 
 import unnamed_platformer.app.TimeManager;
@@ -21,6 +22,7 @@ public class PlatformPlayer extends ActiveEntity
 
 	int health = GameRef.DEFAULT_MAX_HEALTH;
 	private boolean invulnerable;
+	private boolean flashStatus;
 
 	public PlatformPlayer(EntitySetup entitySetup) {
 		super(entitySetup);
@@ -81,6 +83,8 @@ public class PlatformPlayer extends ActiveEntity
 	public void death() {
 		returnToStart();
 		health = GameRef.DEFAULT_MAX_HEALTH;
+		flashStatus = false;
+		invulnerable = false;
 	}
 
 	public int getHealth() {
@@ -90,22 +94,34 @@ public class PlatformPlayer extends ActiveEntity
 	public void update() {
 		super.update();
 
-		if (invulnerable
-				&& TimeManager.periodElapsed(this, TEMP_INVULNERABILITY,
-						GameRef.TEMP_INVULNERABILITY_SECONDS)) {
-			invulnerable = false;
+		if (invulnerable) {
+			if (TimeManager.periodElapsed(this, STR_TEMP_INVULNERABILITY,
+					GameRef.TEMP_INVULNERABILITY_SECONDS)) {
+				invulnerable = false;
+				flashStatus = false;
+			} else {
+				// flash
+				if (TimeManager.periodElapsed(this, STR_FLASHING, GameRef.FLASH_INTERVAL)) {
+					flashStatus = !flashStatus;
+				}
+			}
 		}
+
+		graphic.color = flashStatus ? new Color(0xff, 0xff, 0xff, 0xaa)
+				: Color.white;
 	}
 
 	public void damage() {
 		if (!invulnerable) {
 			addHealth(-1);
+			graphic.color = Color.red;
 			invulnerable = true;
-			TimeManager.periodElapsed(this, TEMP_INVULNERABILITY,
+			TimeManager.periodElapsed(this, STR_TEMP_INVULNERABILITY,
 					GameRef.TEMP_INVULNERABILITY_SECONDS);
 		}
 	}
 
-	private static final String TEMP_INVULNERABILITY = "tempInvulnerability";
+	private static final String STR_TEMP_INVULNERABILITY = "tempInvulnerability";
+	private static final String STR_FLASHING = "flashing";
 
 }

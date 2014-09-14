@@ -25,7 +25,9 @@ public final class GameRef
 	public static final int DEFAULT_MAX_HEALTH = 4;
 	public static final int MAX_PLR_HEALTH = 8;
 
-	public static final float TEMP_INVULNERABILITY_SECONDS = 2;
+	public static final float TEMP_INVULNERABILITY_SECONDS = 1.5f;
+
+	public static final float FLASH_INTERVAL = 0.05f;
 
 	public enum Flag {
 		SOLID, HURTS_OTHERS, OBEYS_GRAVITY, OUT_OF_PLAY, TANGIBLE, PLAYER, INVISIBLE, DISSOLVES_ON_CONTACT, FOLLOWS_SLOPES, ALWAYS_INTERACT
