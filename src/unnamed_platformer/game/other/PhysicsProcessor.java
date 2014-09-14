@@ -99,7 +99,7 @@ public final class PhysicsProcessor
 		return false;
 	}
 
-	private static void processInteractions(final ActiveEntity sourceEntity,
+	private static void performInteractions(final ActiveEntity sourceEntity,
 			final Axis direction, final Vector2f velocity,
 			final List<Entity> entitiesToCheck) {
 
@@ -143,8 +143,8 @@ public final class PhysicsProcessor
 
 		applyGlobalSpeedLimit(velocity);
 
-		boolean xCollision = false;
-		boolean yCollision = false;
+		actorPhysics.lastMoveResult = new MoveResult(originalVelocity.x,
+				originalVelocity.y);
 
 		if (actor.isFlagSet(Flag.TANGIBLE)) {
 			// if the actor is tangible, we need to check axes separately to
@@ -173,7 +173,7 @@ public final class PhysicsProcessor
 				case HORIZONTAL:
 					if (intersectsSolid) {
 						actorPhysics.setXVelocity(0);
-						xCollision = true;
+						actorPhysics.lastMoveResult.setXCollision(true);
 					} else {
 						actor.setX(originalPos.x + velocity.x);
 					}
@@ -182,7 +182,7 @@ public final class PhysicsProcessor
 					if (intersectsSolid) {
 						actorPhysics.setInAir(false);
 						actorPhysics.setYVelocity(0);
-						yCollision = true;
+						actorPhysics.lastMoveResult.setYCollision(true);
 					} else {
 						actor.setY(originalPos.y + velocity.y);
 						if (Math.abs(velocity.y) > MIN_AIR_VELOCITY) {
@@ -196,8 +196,7 @@ public final class PhysicsProcessor
 			}
 		} else {
 			// Otherwise, we can just perform interactions from the exact
-			// velocity
-			// that is desired
+			// velocity that is desired
 			actor.setX(originalPos.x + velocity.x);
 			actor.setY(originalPos.y + velocity.y);
 			if (Math.abs(velocity.y) > MIN_AIR_VELOCITY) {
@@ -205,10 +204,7 @@ public final class PhysicsProcessor
 			}
 		}
 
-		processInteractions(actor, Axis.NONE, new Vector2f(), entitiesToCheck);
-
-		actorPhysics.lastMoveResult = new MoveResult(xCollision, yCollision,
-				originalVelocity.x, originalVelocity.y);
+		performInteractions(actor, Axis.NONE, new Vector2f(), entitiesToCheck);
 
 		actorPhysics.recalculateDirection(originalPos);
 	}

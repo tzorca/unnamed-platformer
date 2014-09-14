@@ -10,20 +10,21 @@ import unnamed_platformer.game.behaviours.ControlMechanism;
 import unnamed_platformer.game.entities.ActiveEntity;
 import unnamed_platformer.globals.GameRef.Flag;
 
-public class PhysicsInstance {
+public class PhysicsInstance
+{
 
 	private final List<ControlMechanism> mechanisms = new LinkedList<ControlMechanism>();
 
 	private boolean inAir = true;
 	private Vector2f lastMove = new Vector2f(0, 0),
 			lastHorizontalDirection = new Vector2f(0, 0);
-	
+
 	Vector2f velocity = new Vector2f(0, 0);
 	Vector2f currentForces = new Vector2f();
 
 	private float forceMultiplier = PhysicsProcessor.FORCE_MULTIPLIER;
 
-	public MoveResult lastMoveResult = new MoveResult(false, false, 0, 0);
+	public MoveResult lastMoveResult = new MoveResult(0, 0);
 
 	private ActiveEntity associatedActor;
 
