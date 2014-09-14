@@ -8,7 +8,8 @@ import org.lwjgl.Sys;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
 
-public final class TimeManager {
+public final class TimeManager
+{
 
 	private static long lastTime;
 
@@ -27,7 +28,7 @@ public final class TimeManager {
 		return (Sys.getTime() * 1000) / Sys.getTimerResolution();
 	}
 
-	public static final Map<Integer, Long> SAMPLES = new HashMap<Integer, Long>();
+	public static final Map<Object, Long> SAMPLES = new HashMap<Object, Long>();
 
 	public static long lastSample(int hashCode) {
 		if (!SAMPLES.containsKey(hashCode)) {
@@ -36,32 +37,33 @@ public final class TimeManager {
 		return SAMPLES.get(hashCode);
 	}
 
-	public static long sample(int hashCode) {
+	public static long sample(Object obj) {
 		long time = time();
-		SAMPLES.put(hashCode, time);
+		SAMPLES.put(obj, time);
 		return time;
 	}
 
-	private static Table<Integer, Integer, Long> registeredPeriods = HashBasedTable.create();
+	private static Table<Object, String, Long> registeredPeriods = HashBasedTable
+			.create();
 
 	/**
 	 * Register a (every ... seconds) period given a hashcode and a period ID
 	 */
-	public static void registerPeriod(int hashCode, int periodId) {
-		registeredPeriods.put(hashCode, periodId, time());
+	private static void registerPeriod(Object obj, String periodId) {
+		registeredPeriods.put(obj, periodId, time());
 	}
 
 	/**
 	 * Returns true when a period of the specified length has finished since the
 	 * last call to this method.
 	 */
-	public static boolean periodElapsed(int hashCode, int periodId, float seconds) {
-		if (!registeredPeriods.contains(hashCode, periodId)) {
-			registerPeriod(hashCode, periodId);
+	public static boolean periodElapsed(Object obj, String periodId, float seconds) {
+		if (!registeredPeriods.contains(obj, periodId)) {
+			registerPeriod(obj, periodId);
 		}
 		long currTime = time();
-		if ((currTime - registeredPeriods.get(hashCode, periodId))/1000f > seconds) {
-			registeredPeriods.put(hashCode, periodId, currTime);
+		if ((currTime - registeredPeriods.get(obj, periodId)) / 1000f > seconds) {
+			registeredPeriods.put(obj, periodId, currTime);
 			return true;
 		}
 		return false;
