@@ -10,8 +10,9 @@ import unnamed_platformer.game.other.EntitySetup;
 import unnamed_platformer.game.other.PhysicsInstance;
 import unnamed_platformer.globals.EntityRef.EntityParam;
 
-public abstract class ActiveEntity extends Entity {
-	private PhysicsInstance physics;
+public abstract class ActiveEntity extends Entity
+{
+	protected PhysicsInstance physics;
 	public Set<Interaction> interactions = new HashSet<Interaction>();
 
 	public ActiveEntity(EntitySetup entitySetup) {
@@ -25,7 +26,7 @@ public abstract class ActiveEntity extends Entity {
 		setPos((Vector2f) originalSetup.get(EntityParam.LOCATION));
 
 		if (physics != null) {
-			this.getPhysics().zero();
+			getPhysics().zero();
 		}
 
 	}
@@ -58,5 +59,4 @@ public abstract class ActiveEntity extends Entity {
 		return true;
 	}
 
-	
 }

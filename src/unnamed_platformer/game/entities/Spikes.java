@@ -12,5 +12,6 @@ public class Spikes extends ActiveEntity {
 		this.interactions
 				.add(new Inter_Damaging(this, new Side[] { Side.TOP }));
 		setFlag(Flag.SOLID, true);
+		setFlag(Flag.ALWAYS_INTERACT, true);
 	}
 }

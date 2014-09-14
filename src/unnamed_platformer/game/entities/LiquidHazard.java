@@ -4,7 +4,7 @@ import org.newdawn.slick.Color;
 
 import unnamed_platformer.game.other.EntitySetup;
 
-public class LiquidHazard extends Hazard {
+public class LiquidHazard extends DeadlyHazard {
 
 	public LiquidHazard(EntitySetup entitySetup) {
 		super(entitySetup);

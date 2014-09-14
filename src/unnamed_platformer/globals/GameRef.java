@@ -1,6 +1,7 @@
 package unnamed_platformer.globals;
 
-public final class GameRef {
+public final class GameRef
+{
 
 	public static final float DEFAULT_SPRING_STRENGTH = 2f;
 
@@ -21,10 +22,12 @@ public final class GameRef {
 	public static final float DEFAULT_FLAME_JUMP_HEIGHT = 192;
 	public static final float DEFAULT_ORBIT_HAZARD_SPEED = 5f;
 
-	public static final int DEFAULT_MAX_HEALTH = 8;
+	public static final int DEFAULT_MAX_HEALTH = 4;
+	public static final int MAX_PLR_HEALTH = 8;
 
-	
+	public static final float TEMP_INVULNERABILITY_SECONDS = 2;
+
 	public enum Flag {
-		SOLID, HURTS_OTHERS, OBEYS_GRAVITY, OUT_OF_PLAY, TANGIBLE, PLAYER, INVISIBLE, DISSOLVES_ON_CONTACT, FOLLOWS_SLOPES
+		SOLID, HURTS_OTHERS, OBEYS_GRAVITY, OUT_OF_PLAY, TANGIBLE, PLAYER, INVISIBLE, DISSOLVES_ON_CONTACT, FOLLOWS_SLOPES, ALWAYS_INTERACT
 	}
 }

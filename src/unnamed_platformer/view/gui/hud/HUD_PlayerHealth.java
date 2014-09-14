@@ -19,7 +19,6 @@ public class HUD_PlayerHealth extends HUDComponent
 
 	@Override
 	public void update() {
-
 		Level currentLevel = World.getCurrentLevel();
 
 		if (currentLevel == null) {

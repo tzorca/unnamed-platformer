@@ -165,9 +165,20 @@ public final class PhysicsProcessor
 			List<Entity> solidEntities = EntityRef.selectEntitiesWithFlag(
 					entitiesToCheck, Flag.SOLID);
 
+			List<Entity> alwaysInteractEntities = EntityRef
+					.selectEntitiesWithFlag(entitiesToCheck,
+							Flag.ALWAYS_INTERACT);
+
 			for (final Axis axis : axisCheckingOrder) {
 				boolean intersectsSolid = wouldEntityIntersect(actor, axis,
 						velocity, solidEntities);
+
+				performInteractions(actor, axis, velocity,
+						alwaysInteractEntities);
+				
+				if (actorPhysics.isZero()) {
+					break;
+				}
 
 				switch (axis) {
 				case HORIZONTAL:
