@@ -113,7 +113,7 @@ public class Screen_Edit extends BaseScreen_Hybrid
 		topToolbar.add(btnPrevLevel);
 
 		lblCurrentLevel.setText("0");
-		lblCurrentLevel.setForeground(GUIManager.GUI_FG_COLOR);
+		lblCurrentLevel.setForeground(GUIManager.COLOR_WHITE);
 		lblCurrentLevel.setBorder(new EmptyBorder(8, 8, 8, 8));
 		topToolbar.add(lblCurrentLevel);
 

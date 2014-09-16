@@ -21,10 +21,11 @@ public final class GUIManager
 		Edit, Play, SelectWorld, Start, Transition
 	}
 
-	public static final Color GUI_BG_COLOR = new Color(0x16, 0x17, 0x26);
-	public static final Color GUI_FG_COLOR = Color.white;
-	public static final Color GUI_BG_ALT_COLOR= new Color(0x10, 0x10, 0x20);
-	public static final Color GUI_BORDER_COLOR = new Color(0x26, 0x27, 0x38);
+	public static final Color COLOR_WHITE = Color.white;
+	public static final Color COLOR_DARK_BLUE_1= new Color(0x10, 0x10, 0x20);
+	public static final Color COLOR_DARK_BLUE_2 = new Color(0x20, 0x20, 0x30);
+	public static final Color COLOR_DARK_BLUE_3 = new Color(0x30, 0x30, 0x40);
+	public static final Color COLOR_DARK_BLUE_4 = new Color(0x40, 0x40, 0x50);
 
 	public static final String CENTER_LAYOUT = "pushx, alignx center, wrap";
 

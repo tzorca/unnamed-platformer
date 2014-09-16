@@ -15,12 +15,12 @@ public class Screen_Transition extends BaseScreen_GUI
 	public Screen_Transition() {
 		super();
 
-		pnlSurface.setBackground(GUIManager.GUI_BG_COLOR);
+		pnlSurface.setBackground(GUIManager.COLOR_DARK_BLUE_2);
 
 		Label lblNextLevel = new Label("Level "
 				+ String.valueOf(World.getCurrentLevelIndex() + 1));
 		lblNextLevel.setFont(GUIManager.HEADING_FONT);
-		lblNextLevel.setForeground(GUIManager.GUI_FG_COLOR);
+		lblNextLevel.setForeground(GUIManager.COLOR_WHITE);
 
 		JButton btnStart = new JButton("Start");
 		btnStart.setFont(GUIManager.SUB_HEADING_FONT);

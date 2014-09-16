@@ -24,8 +24,8 @@ public class BaseScreen_Hybrid extends Screen {
 
 		for (Side side : Side.values()) {
 			Panel panel = new Panel(new MigLayout());
-			panel.setBackground(GUIManager.GUI_BG_COLOR);
-			panel.setForeground(GUIManager.GUI_FG_COLOR);
+			panel.setBackground(GUIManager.COLOR_DARK_BLUE_2);
+			panel.setForeground(GUIManager.COLOR_WHITE);
 			toolbars.put(side, panel);
 
 			setToolbarSize(side, INITIAL_TOOLBAR_SIZE);

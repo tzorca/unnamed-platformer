@@ -78,7 +78,7 @@ public class TableCell_World extends TableCell_ReadOnlyInteractive implements Ac
 		pnlButtons.add(btnCopy);
 		pnlButtons.add(btnDelete);
 		
-		lblTitle.setForeground(GUIManager.GUI_FG_COLOR);
+		lblTitle.setForeground(GUIManager.COLOR_WHITE);
 		GUIHelper.styleButtons(Lists.newArrayList(btnPlay, btnRename, btnEdit, btnCopy, btnDelete), 8);
 
 		// TODO: Make JButtons into clickable icon buttons

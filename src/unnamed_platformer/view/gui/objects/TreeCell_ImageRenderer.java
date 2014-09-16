@@ -20,12 +20,12 @@ public class TreeCell_ImageRenderer extends DefaultTreeCellRenderer {
 
 	@Override
 	public Color getTextSelectionColor() {
-		return GUIManager.GUI_FG_COLOR;
+		return GUIManager.COLOR_WHITE;
 	}
 
 	@Override
 	public Color getTextNonSelectionColor() {
-		return GUIManager.GUI_FG_COLOR;
+		return GUIManager.COLOR_WHITE;
 	}
 
 	@Override

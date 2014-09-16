@@ -2,14 +2,18 @@ package unnamed_platformer.view.gui;
 
 import java.awt.Component;
 import java.awt.Insets;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
@@ -76,31 +80,64 @@ public final class GUIHelper
 		button.setBorderPainted(false);
 		button.setMargin(new Insets(0, 0, 0, 0));
 	}
-	
+
 	public static void removeButtonPadding(ArrayList<JButton> buttons) {
 		for (JButton button : buttons) {
 			removeButtonPadding(button);
 		}
 	}
 
-	public static void styleButton(JButton button, int paddingSize) {
-		Border lineBorder = BorderFactory
-				.createLineBorder(GUIManager.GUI_BORDER_COLOR);
-	
-		Border paddingBorder =new EmptyBorder(paddingSize, (int) (paddingSize*2.5), paddingSize, (int) (paddingSize*2.5));
-		
-		Border border = BorderFactory.createCompoundBorder(lineBorder,
-				paddingBorder);
-
-		button.setBorder(border);
-		button.setForeground(GUIManager.GUI_FG_COLOR);
-		button.setBackground(GUIManager.GUI_BG_ALT_COLOR);
+	public static void styleButton(final JButton button, final int paddingSize) {
+		styleBorder(button, paddingSize, true);
+		styleComponentColors(button);
 		button.setContentAreaFilled(false);
 		button.setVerticalTextPosition(SwingConstants.CENTER);
 		button.setOpaque(true);
 	}
 
-	public static void styleButtons(ArrayList<JButton> buttons, int paddingSize) {
+	public static void styleComponentColors(JComponent component) {
+		component.setForeground(GUIManager.COLOR_WHITE);
+		component.setBackground(GUIManager.COLOR_DARK_BLUE_2);
+	}
+
+	public static void styleBorder(JComponent component, int paddingSize,
+			boolean clickable) {
+		Border raisedBevelBorder = BorderFactory
+				.createSoftBevelBorder(BevelBorder.RAISED);
+		Border loweredBevelBorder = BorderFactory
+				.createSoftBevelBorder(BevelBorder.LOWERED);
+
+		Border paddingBorder = new EmptyBorder(paddingSize,
+				(int) (paddingSize * 2.5), paddingSize,
+				(int) (paddingSize * 2.5));
+
+		final Border compoundLoweredBorder = BorderFactory
+				.createCompoundBorder(loweredBevelBorder, paddingBorder);
+
+		final Border compoundRaisedBorder = BorderFactory.createCompoundBorder(
+				raisedBevelBorder, paddingBorder);
+
+		if (clickable) {
+
+			component.addMouseListener(new MouseAdapter() {
+				public void mousePressed(MouseEvent e) {
+					JComponent component = (JComponent) e.getSource();
+					component.setBorder(compoundLoweredBorder);
+				}
+
+				public void mouseReleased(MouseEvent e) {
+					JComponent component = (JComponent) e.getSource();
+					component.setBorder(compoundRaisedBorder);
+				}
+			});
+		}
+
+		component.setBorder(clickable ? compoundRaisedBorder
+				: compoundLoweredBorder);
+	}
+
+	public static void styleButtons(final ArrayList<JButton> buttons,
+			final int paddingSize) {
 		for (JButton button : buttons) {
 			styleButton(button, paddingSize);
 		}
