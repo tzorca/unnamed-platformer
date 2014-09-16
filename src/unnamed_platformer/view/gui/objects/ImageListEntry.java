@@ -2,7 +2,8 @@ package unnamed_platformer.view.gui.objects;
 
 import javax.swing.Icon;
 
-public class ImageListEntry {
+public class ImageListEntry implements Comparable
+{
 
 	private Icon image;
 	private String displayName;
@@ -42,5 +43,15 @@ public class ImageListEntry {
 		this.image = image;
 		this.displayName = displayName;
 		this.internalName = internalName;
+	}
+
+	@Override
+	public int compareTo(Object o) {
+		if (!(o instanceof ImageListEntry)) {
+			return -1;
+		}
+		ImageListEntry otherEntry = (ImageListEntry) o;
+
+		return this.getDisplayName().compareTo(otherEntry.getDisplayName());
 	}
 }

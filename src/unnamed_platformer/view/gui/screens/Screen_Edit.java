@@ -164,30 +164,30 @@ public class Screen_Edit extends BaseScreen_Hybrid
 			treeEntities.setCellRenderer(new TreeCell_ImageRenderer());
 			treeEntities.setBackground(toolbar.getBackground());
 
-			final Map<String, DefaultMutableTreeNode> createdCategories = new HashMap<String, DefaultMutableTreeNode>();
+//			final Map<String, DefaultMutableTreeNode> createdCategories = new HashMap<String, DefaultMutableTreeNode>();
 
 			for (final ImageListEntry entry : imageListEntries) {
-				final String internalName = entry.getInternalName();
+//				final String internalName = entry.getInternalName();
 
 				// get class name for top-level category
-				final Class<?> clazz = EntityRef
-						.getEntityClassFromTextureName(internalName);
-				final String categoryName = clazz == null ? "misc" : clazz
-						.getSimpleName();
+//				final Class<?> clazz = EntityRef
+//						.getEntityClassFromTextureName(internalName);
+//				final String categoryName = clazz == null ? "misc" : clazz
+//						.getSimpleName();
 
 				// add category node to top-level (if not already there)
-				final DefaultMutableTreeNode categoryNode;
-				if (createdCategories.containsKey(categoryName)) {
-					categoryNode = createdCategories.get(categoryName);
-				} else {
-					categoryNode = new DefaultMutableTreeNode(
-							new ImageListEntry(IMG_ADD, categoryName));
-					root.add(categoryNode);
-					createdCategories.put(categoryName, categoryNode);
-				}
+//				final DefaultMutableTreeNode categoryNode;
+//				if (createdCategories.containsKey(categoryName)) {
+//					categoryNode = createdCategories.get(categoryName);
+//				} else {
+//					categoryNode = new DefaultMutableTreeNode(
+//							new ImageListEntry(IMG_ADD, categoryName));
+//					root.add(categoryNode);
+//					createdCategories.put(categoryName, categoryNode);
+//				}
 
-				// add entry to categoryNode
-				categoryNode.add(new DefaultMutableTreeNode(entry));
+				// add entry to tree
+				root.add(new DefaultMutableTreeNode(entry));
 			}
 
 			treeEntities.expandPath(new TreePath(root.getPath()));
@@ -231,6 +231,8 @@ public class Screen_Edit extends BaseScreen_Hybrid
 			entityGraphics.put(entry, new Graphic(textureName,
 					Ref.COLOR_75_PERCENT_TRANS));
 		}
+		
+		Collections.sort(imageListEntries);
 	}
 
 	public void update() {
