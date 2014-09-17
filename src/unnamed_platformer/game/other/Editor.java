@@ -19,7 +19,7 @@ import com.google.common.collect.Lists;
 
 public class Editor
 {
-	public int gridSize = 32;
+	public int gridSize = 48;
 	private boolean playerAdded;
 
 	private boolean unsavedChanges;
