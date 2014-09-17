@@ -5,9 +5,9 @@ import org.newdawn.slick.Color;
 import unnamed_platformer.game.behaviours.Inter_FastRegion;
 import unnamed_platformer.game.other.EntitySetup;
 
-public class LiquidFast extends ActiveEntity {
+public class SpeedZone extends ActiveEntity {
 
-	public LiquidFast(EntitySetup entitySetup) {
+	public SpeedZone(EntitySetup entitySetup) {
 		super(entitySetup);
 
 		interactions.add(new Inter_FastRegion(this));
