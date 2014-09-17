@@ -4,10 +4,12 @@ import java.awt.Color;
 import java.awt.Component;
 
 import javax.swing.JTree;
+import javax.swing.border.EmptyBorder;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 
 import unnamed_platformer.view.gui.GUIManager;
+import unnamed_platformer.view.gui.screens.Screen_Edit;
 
 public class TreeCell_ImageRenderer extends DefaultTreeCellRenderer {
 	private static final long serialVersionUID = 3121464047823108249L;
@@ -45,10 +47,14 @@ public class TreeCell_ImageRenderer extends DefaultTreeCellRenderer {
 		if (userObject != null) {
 			ImageListEntry imageListEntry = (ImageListEntry) userObject;
 			setIcon(imageListEntry.getImage());
-			setText(imageListEntry.getDisplayName());
-			this.heightValue = imageListEntry.getImage().getIconHeight();
-
-			tree.setRowHeight(0);
+			setText(" " + imageListEntry.getDisplayName());
+			
+//			int iconHeight = imageListEntry.getImage().getIconHeight();
+			this.heightValue = Screen_Edit.ROW_HEIGHT ;
+			tree.setRowHeight(Screen_Edit.ROW_HEIGHT);
+			
+			// add padding on left
+			this.setBorder(new EmptyBorder(0,8,0,0));
 		}
 
 		return this;
