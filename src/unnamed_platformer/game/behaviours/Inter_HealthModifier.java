@@ -7,8 +7,8 @@ import unnamed_platformer.globals.GameRef.Flag;
 public class Inter_HealthModifier extends Interaction {
 	private int healthDelta;
 	
-	public Inter_HealthModifier(Entity source, int healthDelta) {
-		super(source);
+	public Inter_HealthModifier(int healthDelta) {
+		super();
 		this.healthDelta = healthDelta;
 	}
 
@@ -18,7 +18,7 @@ public class Inter_HealthModifier extends Interaction {
 	}
 
 	@Override
-	protected boolean performInteraction(Entity target) {
+	protected boolean performInteraction(Entity source, Entity target) {
 		PlatformPlayer player = (PlatformPlayer)target;
 		
 		source.setFlag(Flag.OUT_OF_PLAY, true);

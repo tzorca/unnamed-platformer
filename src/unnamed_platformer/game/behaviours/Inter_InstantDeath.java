@@ -6,8 +6,8 @@ import unnamed_platformer.globals.GameRef.Flag;
 
 public class Inter_InstantDeath extends Interaction
 {
-	public Inter_InstantDeath(Entity source) {
-		super(source);
+	public Inter_InstantDeath() {
+		super();
 	}
 
 	@Override
@@ -16,7 +16,7 @@ public class Inter_InstantDeath extends Interaction
 	}
 
 	@Override
-	protected boolean performInteraction(Entity target) {
+	protected boolean performInteraction(Entity source, Entity target) {
 		PlatformPlayer player = (PlatformPlayer) target;
 		player.death();
 		return true;

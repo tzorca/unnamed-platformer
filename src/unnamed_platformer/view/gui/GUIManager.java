@@ -61,7 +61,6 @@ public final class GUIManager
 	public static void back() {
 		screenStateStack.removeLast();
 		changeScreen(top());
-
 	}
 
 	public static boolean canExit() {

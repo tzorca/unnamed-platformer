@@ -3,16 +3,16 @@ package unnamed_platformer.game.behaviours;
 import unnamed_platformer.game.entities.Entity;
 import unnamed_platformer.globals.GameRef.Flag;
 
-public class Inter_Breakable extends Interaction
+public class Inter_DissolveOnContact extends Interaction
 {
 
-	public Inter_Breakable() {
+	public Inter_DissolveOnContact() {
 		super();
 	}
 
 	@Override
 	protected boolean isValidTarget(Entity target) {
-		return target.isFlagSet(Flag.HURTS_OTHERS);
+		return target.isFlagSet(Flag.SOLID);
 	}
 
 	@Override

@@ -8,7 +8,7 @@ public class DeadlyHazard extends ActiveEntity
 	public DeadlyHazard(EntitySetup entitySetup) {
 		super(entitySetup);
 		
-		interactions.add(new Inter_InstantDeath(this));
+		interactions.add(new Inter_InstantDeath());
 	}
 
 }

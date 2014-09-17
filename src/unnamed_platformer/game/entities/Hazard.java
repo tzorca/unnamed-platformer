@@ -8,7 +8,7 @@ public class Hazard extends ActiveEntity {
 	public Hazard(EntitySetup entitySetup) {
 		super(entitySetup);
 		
-		interactions.add(new Inter_Damaging(this));
+		interactions.add(new Inter_Damaging());
 	}
 
 }

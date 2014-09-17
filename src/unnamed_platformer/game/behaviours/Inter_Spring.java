@@ -10,13 +10,13 @@ import unnamed_platformer.globals.GameRef.Flag;
 public class Inter_Spring extends Interaction {
 	Vector2f v;
 
-	public Inter_Spring(Entity source, Vector2f vector2f) {
-		super(source);
+	public Inter_Spring(Vector2f vector2f) {
+		super();
 		this.v = vector2f;
 	}
 
 	@Override
-	public boolean performInteraction(Entity target) {
+	protected boolean performInteraction(Entity source, Entity target) {
 		ActiveEntity plr = (ActiveEntity) target;
 
 		if (!plr.hasPhysics()) {

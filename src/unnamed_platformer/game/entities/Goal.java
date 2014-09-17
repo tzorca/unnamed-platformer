@@ -8,6 +8,6 @@ public class Goal extends ActiveEntity {
 	public Goal(EntitySetup entitySetup) {
 		super(entitySetup);
 
-		this.interactions.add(new Inter_LevelExit(this, 1));
+		this.interactions.add(new Inter_LevelExit(1));
 	}
 }

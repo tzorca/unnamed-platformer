@@ -11,7 +11,7 @@ public class SpringLike extends ActiveEntity {
 	public SpringLike(EntitySetup entitySetup) {
 		super(entitySetup);
 
-		this.interactions.add(new Inter_Spring(this, MathHelper
+		this.interactions.add(new Inter_Spring(MathHelper
 				.vectorFromOrientationAndLength(Orientation.UP,
 						GameRef.DEFAULT_SPRING_STRENGTH)));
 	}

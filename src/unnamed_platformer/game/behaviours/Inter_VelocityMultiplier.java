@@ -9,8 +9,8 @@ public class Inter_VelocityMultiplier extends Interaction {
 
 	private float factor; 
 	
-	public Inter_VelocityMultiplier(Entity source, float factor) {
-		super(source);
+	public Inter_VelocityMultiplier(float factor) {
+		super();
 		this.factor = factor;
 	}
 
@@ -20,7 +20,7 @@ public class Inter_VelocityMultiplier extends Interaction {
 	}
 
 	@Override
-	protected boolean performInteraction(Entity target) {
+	protected boolean performInteraction(Entity source, Entity target) {
 
 		PhysicsInstance physics = ((ActiveEntity) target).getPhysics();
 		physics.setForceMultiplier(factor);

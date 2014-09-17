@@ -11,13 +11,13 @@ public class Inter_LevelExit extends Interaction
 {
 	int relativeDestination;
 
-	public Inter_LevelExit(Entity source, int relativeDestination) {
-		super(source);
+	public Inter_LevelExit(int relativeDestination) {
+		super();
 		this.relativeDestination = relativeDestination;
 	}
 
 	@Override
-	public boolean performInteraction(Entity target) {
+	protected boolean performInteraction(Entity source, Entity target) {
 		// TODO: Show current level in HUD
 		// TODO: Create GameFinished screen and ask if user wants to restart
 		

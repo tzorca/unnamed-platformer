@@ -14,17 +14,13 @@ public abstract class Interaction {
 	private Side[] activeSides;
 	private double maxSideMatchDistance = 0;
 
-	Entity source;
 
-	public Interaction(Entity source) {
-		this.source = source;
+	public Interaction() {
 		activeSides = Side.values();
 	}
 
 	public Interaction(Entity source, Side[] activeSides,
 			boolean strictSideMatching) {
-		this.source = source;
-
 		this.activeSides = activeSides;
 
 		if (strictSideMatching) {
@@ -35,19 +31,19 @@ public abstract class Interaction {
 
 	}
 
-	public final boolean interactWith(Entity target) {
+	public final boolean interactWith(Entity source, Entity target) {
 		if (!isValidTarget(target)) {
 			return false;
 		}
 
-		if (!onActiveside(target)) {
+		if (!onActiveside(source, target)) {
 			return false;
 		}
 
-		return performInteraction(target);
+		return performInteraction(source, target);
 	}
 
-	private boolean onActiveside(Entity target) {
+	private boolean onActiveside(Entity source, Entity target) {
 		// All sides are active! Don't do math!
 		if (activeSides.length == Side.values().length) {
 			return true;
@@ -71,5 +67,5 @@ public abstract class Interaction {
 
 	protected abstract boolean isValidTarget(Entity target);
 
-	protected abstract boolean performInteraction(Entity target);
+	protected abstract boolean performInteraction(Entity source, Entity target);
 }

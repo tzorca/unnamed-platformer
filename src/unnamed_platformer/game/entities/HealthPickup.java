@@ -8,7 +8,7 @@ public class HealthPickup extends ActiveEntity {
 	public HealthPickup(EntitySetup entitySetup) {
 		super(entitySetup);
 
-		interactions.add(new Inter_HealthModifier(this, 1));
+		interactions.add(new Inter_HealthModifier(1));
 	}
 
 }

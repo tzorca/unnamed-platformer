@@ -121,7 +121,12 @@ public final class PhysicsProcessor
 			if (otherEntity.isActive()) {
 				final ActiveEntity activeOtherEntity = (ActiveEntity) otherEntity;
 				for (final Interaction interaction : activeOtherEntity.interactions) {
-					interaction.interactWith(sourceEntity);
+					interaction.interactWith(otherEntity, sourceEntity);
+				}
+			}
+			if (sourceEntity.isActive()) {
+				for (final Interaction interaction : sourceEntity.interactions) {
+					interaction.interactWith(sourceEntity, otherEntity);
 				}
 			}
 

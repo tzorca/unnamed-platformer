@@ -10,8 +10,8 @@ import unnamed_platformer.globals.GameRef.Flag;
 // TODO: Implement small waiting period after death but before restarting level
 public class Inter_Damaging extends Interaction {
 
-	public Inter_Damaging(Entity source) {
-		super(source);
+	public Inter_Damaging() {
+		super();
 	}
 
 	public Inter_Damaging(Entity source, Side[] sides) {
@@ -20,7 +20,7 @@ public class Inter_Damaging extends Interaction {
 	}
 
 	@Override
-	public boolean performInteraction(Entity target) {
+	protected boolean performInteraction(Entity source, Entity target) {
 		((PlatformPlayer) target).damage();
 		return true;
 	}
