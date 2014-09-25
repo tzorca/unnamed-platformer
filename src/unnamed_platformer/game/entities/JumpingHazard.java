@@ -5,7 +5,6 @@ import unnamed_platformer.app.TimeManager;
 import unnamed_platformer.game.behaviours.Ctrl_PathMovement;
 import unnamed_platformer.game.other.EntitySetup;
 import unnamed_platformer.globals.GameRef;
-
 public class JumpingHazard extends Hazard
 {
 

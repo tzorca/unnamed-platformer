@@ -6,7 +6,6 @@ import unnamed_platformer.game.entities.ActiveEntity;
 import unnamed_platformer.game.entities.Entity;
 import unnamed_platformer.globals.GameRef.Flag;
 
-
 public class Inter_Spring extends Interaction {
 	Vector2f v;
 

@@ -36,8 +36,9 @@ public class Ctrl_Shoot extends ControlMechanism {
 
 	private void fire() {
 		TimeManager.sample(hashCode());
-		ActiveEntity movingProjectile = (ActiveEntity) EntityCreator.buildFromSetup(projectile.getOriginalSetup());
-		
+		ActiveEntity movingProjectile = (ActiveEntity) EntityCreator
+				.buildFromSetup(projectile.getOriginalSetup());
+
 		Vector2f v = actor.getPhysics().getDirection();
 		v.y -= 0.1;
 		movingProjectile.getPhysics().addControlMechanism(

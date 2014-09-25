@@ -4,7 +4,6 @@ import unnamed_platformer.app.MathHelper;
 import unnamed_platformer.game.behaviours.Ctrl_PathMovement;
 import unnamed_platformer.game.other.EntitySetup;
 import unnamed_platformer.globals.GameRef;
-
 public class OrbitingHazard extends Hazard {
 	private Ctrl_PathMovement pathMovement;
 
