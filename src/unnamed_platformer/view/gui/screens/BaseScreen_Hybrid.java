@@ -40,8 +40,8 @@ public class BaseScreen_Hybrid extends Screen {
 	protected void setToolbarSize(Side side, int newSize) {
 		Panel toolbar = toolbars.get(side);
 
-		int viewWidth = (int) ViewManager.DEFAULT_RESOLUTION.getWidth();
-		int viewHeight = (int) ViewManager.DEFAULT_RESOLUTION.getHeight();
+		int viewWidth = (int) ViewManager.currentResolution.getWidth();
+		int viewHeight = (int) ViewManager.currentResolution.getHeight();
 		
 
 		switch (side) {

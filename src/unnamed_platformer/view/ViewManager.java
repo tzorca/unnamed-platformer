@@ -34,13 +34,12 @@ import unnamed_platformer.view.gui.hud.HeadsUpDisplay;
 
 public final class ViewManager
 {
-	public static final Dimension DEFAULT_RESOLUTION = new Dimension(960, 600);
-
 	final static private int BITS_PER_PIXEL = 4;
-
 	public static final float SCALE = 1f;
-
 	public static final int FPS = 60;
+	public static final Dimension DEFAULT_RESOLUTION = new Dimension(900, 500);
+
+	public static Dimension currentResolution = DEFAULT_RESOLUTION;
 
 	private static boolean fullscreen;
 
@@ -73,14 +72,14 @@ public final class ViewManager
 		final float xPos = location.x;
 		final float yPos = location.y;
 
-		final int left = (int) (xPos - ViewManager.DEFAULT_RESOLUTION.width
+		final int left = (int) (xPos - ViewManager.currentResolution.width
 				/ ViewManager.SCALE / 2);
-		final int top = (int) (yPos - ViewManager.DEFAULT_RESOLUTION.height
+		final int top = (int) (yPos - ViewManager.currentResolution.height
 				/ ViewManager.SCALE / 2);
 
-		final int right = (int) (ViewManager.DEFAULT_RESOLUTION.width
+		final int right = (int) (ViewManager.currentResolution.width
 				/ ViewManager.SCALE / 2 + xPos);
-		final int bottom = (int) (ViewManager.DEFAULT_RESOLUTION.height
+		final int bottom = (int) (ViewManager.currentResolution.height
 				/ ViewManager.SCALE / 2 + yPos);
 
 		viewport.setBounds(left, top, right - left, bottom - top);
@@ -240,7 +239,6 @@ public final class ViewManager
 		return parentFrame;
 	}
 
-	// TODO: Remove references to ViewManager.DEFAULT_RESOLUTION...
 	// Keep in mind that the internal render resolution should stay the same
 	// But it will not be equivalent to the renderCanvas resolution
 
@@ -291,7 +289,7 @@ public final class ViewManager
 
 		parentFrame.setLayout(null);
 		renderCanvas = new Canvas();
-		renderCanvas.setSize(ViewManager.DEFAULT_RESOLUTION);
+		renderCanvas.setSize(ViewManager.currentResolution);
 		parentFrame.setLayout(new BorderLayout());
 		guiPanel = new Panel();
 		parentFrame.add(guiPanel);
@@ -306,8 +304,8 @@ public final class ViewManager
 		try {
 			Display.setParent(renderCanvas);
 			Display.setDisplayMode(new DisplayMode(
-					ViewManager.DEFAULT_RESOLUTION.width,
-					ViewManager.DEFAULT_RESOLUTION.height));
+					ViewManager.currentResolution.width,
+					ViewManager.currentResolution.height));
 			Display.setFullscreen(fullscreen);
 			Display.create();
 		} catch (LWJGLException e) {
@@ -343,7 +341,7 @@ public final class ViewManager
 	}
 
 	public static void resetRenderCanvasBounds() {
-		renderCanvas.setSize(ViewManager.DEFAULT_RESOLUTION);
+		renderCanvas.setSize(ViewManager.currentResolution);
 		renderCanvas.setLocation(0, 0);
 	}
 
@@ -381,16 +379,15 @@ public final class ViewManager
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
-		GL11.glViewport(0, 0, ViewManager.DEFAULT_RESOLUTION.width,
-				ViewManager.DEFAULT_RESOLUTION.height);
+		GL11.glViewport(0, 0, ViewManager.currentResolution.width,
+				ViewManager.currentResolution.height);
 
 		GL11.glMatrixMode(GL11.GL_PROJECTION);
 		GL11.glLoadIdentity();
-		GL11.glOrtho(0, ViewManager.DEFAULT_RESOLUTION.width,
-				ViewManager.DEFAULT_RESOLUTION.height, 0, 1, -1);
+		GL11.glOrtho(0, ViewManager.currentResolution.width,
+				ViewManager.currentResolution.height, 0, 1, -1);
 		GL11.glMatrixMode(GL11.GL_MODELVIEW);
 	}
-
 
 	public static void update() {
 		ViewManager.clear();
