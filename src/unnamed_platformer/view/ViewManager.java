@@ -111,8 +111,22 @@ public final class ViewManager
 		resetColor();
 		bgTexture.bind();
 		GL11.glBegin(GL11.GL_QUADS);
-		drawQuad(xPos, yPos, width, height, bgTexture.getWidth(),
-				bgTexture.getHeight());
+
+		// figure out what how many times bigger the viewport is than the
+		// texture
+		float wTileAmount = viewport.getWidth() / width;
+		float hTileAmount = viewport.getHeight() / height;
+
+		if (wTileAmount < 1) {
+			wTileAmount = 1;
+		}
+		if (hTileAmount < 1) {
+			hTileAmount = 1;
+		}
+
+		drawQuad(xPos, yPos, width * wTileAmount, height * hTileAmount,
+				bgTexture.getWidth() * wTileAmount, bgTexture.getHeight()
+						* hTileAmount);
 		GL11.glEnd();
 	}
 
