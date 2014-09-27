@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;
@@ -207,7 +206,6 @@ public final class ViewManager
 					texture.getHeight());
 			GL11.glEnd();
 		}
-
 	}
 
 	private static void drawQuad(final float xPos, final float yPos,
@@ -221,7 +219,6 @@ public final class ViewManager
 		GL11.glVertex2f(xPos + width, yPos + height);
 		GL11.glTexCoord2f(0, tHeight);
 		GL11.glVertex2f(xPos, yPos + height);
-
 	}
 
 	public static void drawTexturesInBatch(final Texture texture,
@@ -370,6 +367,9 @@ public final class ViewManager
 		changeResolution(fullscreenValue ? getScreenResolution()
 				: DEFAULT_RESOLUTION);
 		parentFrame.setLocationRelativeTo(null);
+
+		parentFrame.toFront();
+		parentFrame.requestFocus();
 	}
 
 	// Note: If fullscreen is set, newResolution will be overriden

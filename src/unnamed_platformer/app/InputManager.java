@@ -46,7 +46,9 @@ public final class InputManager
 		Point mousePos = MouseInfo.getPointerInfo().getLocation();
 		Point contentLocation = ViewManager.getFrame().getContentPane()
 				.getLocation();
+
 		Point windowLocation = ViewManager.getFrame().getLocation();
+
 		mousePos.x -= contentLocation.x + windowLocation.x;
 		mousePos.y -= contentLocation.y + windowLocation.y;
 
