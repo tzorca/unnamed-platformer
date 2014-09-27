@@ -34,19 +34,20 @@ import unnamed_platformer.view.gui.hud.HeadsUpDisplay;
 
 public final class ViewManager
 {
-	final static private int BITS_PER_PIXEL = 4;
+	// constants
+	private static final int BITS_PER_PIXEL = 4;
 	public static final float SCALE = 1f;
 	public static final int FPS = 60;
 	public static final Dimension DEFAULT_RESOLUTION = new Dimension(900, 500);
 
-	public static Dimension currentResolution = DEFAULT_RESOLUTION;
-
-	private static boolean fullscreen;
-
+	// GUI-related
 	private static Panel guiPanel;
 	private static JFrame parentFrame;
-
 	private static Canvas renderCanvas;
+
+	public static Dimension currentResolution = DEFAULT_RESOLUTION;
+
+	private static boolean fullscreenValue;
 
 	private static Rectangle viewport = new Rectangle(0, 0,
 			ViewManager.DEFAULT_RESOLUTION.width,
@@ -60,12 +61,10 @@ public final class ViewManager
 					SQLiteStuff.finish();
 				}
 
-				// system.exit(0) won't work here
-				// there is some kind of deadlock
+				// system.exit(0) won't work here (causes deadlock)
 				Runtime.getRuntime().halt(0);
 			}
 		}
-
 	}
 
 	public static void centerCamera(final Vector2f location) {
@@ -89,11 +88,6 @@ public final class ViewManager
 			GL11.glLoadIdentity();
 			GL11.glOrtho(left, right, bottom, top, 1, -1);
 		}
-	}
-
-	public static void clearToColor(final Color color) {
-		GL11.glClearColor(color.r, color.g, color.b, color.a);
-		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 	}
 
 	// TODO: Fix background tiling mechanism
@@ -280,53 +274,6 @@ public final class ViewManager
 		return image;
 	}
 
-	public static void init() {
-		parentFrame = new JFrame(Ref.APP_TITLE);
-		parentFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-
-		// want to be able to handle close events as early as possible
-		parentFrame.addWindowListener(new ViewManager.WindowEventHandler());
-
-		parentFrame.setLayout(null);
-		renderCanvas = new Canvas();
-		renderCanvas.setSize(ViewManager.currentResolution);
-		parentFrame.setLayout(new BorderLayout());
-		guiPanel = new Panel();
-		parentFrame.add(guiPanel);
-		parentFrame.add(renderCanvas);
-		parentFrame.pack();
-		parentFrame.setLocationRelativeTo(null);
-		parentFrame.setVisible(true);
-
-		if (Display.isCreated()) {
-			Display.destroy();
-		}
-		try {
-			Display.setParent(renderCanvas);
-			Display.setDisplayMode(new DisplayMode(
-					ViewManager.currentResolution.width,
-					ViewManager.currentResolution.height));
-			Display.setFullscreen(fullscreen);
-			Display.create();
-		} catch (LWJGLException e) {
-			// This exception typically occurs because pixel acceleration
-			// is not supported. Software mode works as a (slow) workaround.
-			System.setProperty("org.lwjgl.opengl.Display.allowSoftwareOpenGL",
-					"true");
-			try {
-				System.out
-						.println("Warning: Defaulting to software mode. Performance may be suboptimal.");
-				Display.create();
-			} catch (LWJGLException e2) {
-				e2.printStackTrace();
-				System.exit(0);
-			}
-		}
-
-		setup();
-
-	}
-
 	public static void loadState() {
 		GL11.glPopAttrib();
 	}
@@ -336,7 +283,6 @@ public final class ViewManager
 	}
 
 	public static void resetColor() {
-
 		GL11.glColor4f(1, 1, 1, 1);
 	}
 
@@ -353,7 +299,7 @@ public final class ViewManager
 		GL11.glColor4f(color.r, color.g, color.b, color.a);
 	}
 
-	public static void setGUIPanel(final Panel panel) {
+	public static void changeGUIPanel(final Panel panel) {
 		parentFrame.remove(guiPanel);
 		guiPanel = panel;
 		parentFrame.add(guiPanel);
@@ -372,20 +318,75 @@ public final class ViewManager
 		}
 	}
 
-	private static void setup() {
+	public static void init() {
+
+		parentFrame = new JFrame(Ref.APP_TITLE);
+		parentFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+
+		// should be able to handle close events as early as possible
+		parentFrame.addWindowListener(new ViewManager.WindowEventHandler());
+
+		changeResolution(ViewManager.DEFAULT_RESOLUTION);
+	}
+
+	public static void changeResolution(Dimension newResolution) {
+		currentResolution = newResolution;
+		setupView();
+	}
+
+	private static void setupView() {
+
+		parentFrame.setLayout(null);
+		renderCanvas = new Canvas();
+		guiPanel = new Panel();
+		parentFrame.setLayout(new BorderLayout());
+		parentFrame.add(guiPanel);
+		parentFrame.add(renderCanvas);
+		renderCanvas.setSize(currentResolution);
+		parentFrame.pack();
+		parentFrame.setLocationRelativeTo(null);
+		parentFrame.setVisible(true);
+
+		// if (Display.isCreated()) {
+		// Display.destroy();
+		// }
+		try {
+			Display.setParent(renderCanvas);
+			Display.setDisplayMode(new DisplayMode(currentResolution.width,
+					currentResolution.height));
+			Display.setFullscreen(fullscreenValue);
+
+			if (!Display.isCreated()) {
+				Display.create();
+			}
+		} catch (LWJGLException e) {
+			// This exception typically occurs because pixel acceleration
+			// is not supported. Software mode works as a (slow) workaround.
+			System.setProperty("org.lwjgl.opengl.Display.allowSoftwareOpenGL",
+					"true");
+			try {
+				System.out
+						.println("Warning: Defaulting to software mode. Performance may be suboptimal.");
+				Display.create();
+			} catch (LWJGLException e2) {
+				e2.printStackTrace();
+				System.exit(0);
+			}
+		}
+
 		Display.setVSyncEnabled(true);
+
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
-		GL11.glViewport(0, 0, ViewManager.currentResolution.width,
-				ViewManager.currentResolution.height);
+		GL11.glViewport(0, 0, currentResolution.width, currentResolution.height);
 
 		GL11.glMatrixMode(GL11.GL_PROJECTION);
 		GL11.glLoadIdentity();
-		GL11.glOrtho(0, ViewManager.currentResolution.width,
-				ViewManager.currentResolution.height, 0, 1, -1);
+		GL11.glOrtho(0, currentResolution.width, currentResolution.height, 0,
+				1, -1);
 		GL11.glMatrixMode(GL11.GL_MODELVIEW);
 	}
 
@@ -404,7 +405,8 @@ public final class ViewManager
 	}
 
 	public static void clear() {
-		clearToColor(Color.black);
+		GL11.glClearColor(0f, 0f, 0f, 0f);
+		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 	}
 
 	public static Vector2f getCameraPos() {

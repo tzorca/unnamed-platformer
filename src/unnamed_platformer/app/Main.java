@@ -1,9 +1,9 @@
 package unnamed_platformer.app;
 
+import java.awt.Dimension;
+
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.opengl.Texture;
-
-import com.rits.cloning.Cloner;
 
 import unnamed_platformer.game.other.EntityCreator;
 import unnamed_platformer.game.other.QuadTree;
@@ -14,6 +14,8 @@ import unnamed_platformer.res_mgt.ResManager;
 import unnamed_platformer.view.ViewManager;
 import unnamed_platformer.view.gui.GUIManager;
 import unnamed_platformer.view.gui.GUIManager.ScreenType;
+
+import com.rits.cloning.Cloner;
 
 public final class Main {
 
@@ -57,6 +59,10 @@ public final class Main {
 
 		else if (InputManager.gameKeyPressed(GameKey.saveScreenshot, 1)) {
 			ImageHelper.saveScreenshot();
+		}
+		
+		else if (InputManager.gameKeyPressed(GameKey.changeResTest, 1)) {
+			ViewManager.changeResolution(new Dimension(1000, 800));
 		}
 
 	}

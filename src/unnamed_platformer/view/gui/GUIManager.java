@@ -87,7 +87,7 @@ public final class GUIManager
 				screen = (Screen) ClassLookup.instantiate(
 						GUIManager.SCREEN_PACKAGE_NAME, "BaseScreen_Render");
 			}
-			ViewManager.setGUIPanel(screen.getPanel());
+			ViewManager.changeGUIPanel(screen.getPanel());
 		}
 	}
 
