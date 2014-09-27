@@ -1,7 +1,5 @@
 package unnamed_platformer.app;
 
-import java.awt.Dimension;
-
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.opengl.Texture;
 
@@ -61,8 +59,8 @@ public final class Main {
 			ImageHelper.saveScreenshot();
 		}
 		
-		else if (InputManager.gameKeyPressed(GameKey.changeResTest, 1)) {
-			ViewManager.changeResolution(new Dimension(1000, 800));
+		else if (InputManager.gameKeyPressed(GameKey.toggleFullscreen, 1)) {
+			ViewManager.toggleFullscreen();
 		}
 
 	}

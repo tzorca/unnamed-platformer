@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;
@@ -152,6 +153,10 @@ public final class ViewManager
 		final Texture texture = ResManager.get(Texture.class, "gui_dot");
 		drawTexturesInBatch(texture, pointBuffer);
 		loadState();
+	}
+
+	public static boolean isFullscreen() {
+		return fullscreenValue;
 	}
 
 	public static void drawGraphic(final Graphic graphic,
@@ -319,6 +324,16 @@ public final class ViewManager
 	}
 
 	public static void init() {
+		reinitFrame();
+		changeResolution(ViewManager.DEFAULT_RESOLUTION);
+	}
+
+	private static void reinitFrame() {
+		if (parentFrame != null) {
+			parentFrame.setVisible(false);
+			parentFrame.removeAll();
+			parentFrame.dispose();
+		}
 
 		parentFrame = new JFrame(Ref.APP_TITLE);
 		parentFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -326,35 +341,49 @@ public final class ViewManager
 		// should be able to handle close events as early as possible
 		parentFrame.addWindowListener(new ViewManager.WindowEventHandler());
 
-		changeResolution(ViewManager.DEFAULT_RESOLUTION);
+		if (fullscreenValue) {
+			parentFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+			parentFrame.setUndecorated(true);
+		} else {
+			parentFrame.setExtendedState(JFrame.NORMAL);
+			parentFrame.setUndecorated(false);
+		}
 	}
 
+	public static void setFullscreen(boolean newFullscreenValue) {
+		fullscreenValue = newFullscreenValue;
+		reinitFrame();
+		changeResolution(fullscreenValue ? getScreenResolution()
+				: DEFAULT_RESOLUTION);
+		parentFrame.setLocationRelativeTo(null);
+	}
+
+	// Note: If fullscreen is set, newResolution will be overriden
 	public static void changeResolution(Dimension newResolution) {
 		currentResolution = newResolution;
 		setupView();
 	}
 
 	private static void setupView() {
-
 		parentFrame.setLayout(null);
-		renderCanvas = new Canvas();
-		guiPanel = new Panel();
+		if (guiPanel == null) {
+			guiPanel = new Panel();
+			renderCanvas = new Canvas();
+		}
 		parentFrame.setLayout(new BorderLayout());
 		parentFrame.add(guiPanel);
 		parentFrame.add(renderCanvas);
 		renderCanvas.setSize(currentResolution);
+
 		parentFrame.pack();
 		parentFrame.setLocationRelativeTo(null);
 		parentFrame.setVisible(true);
 
-		// if (Display.isCreated()) {
-		// Display.destroy();
-		// }
 		try {
 			Display.setParent(renderCanvas);
+			Display.setFullscreen(fullscreenValue);
 			Display.setDisplayMode(new DisplayMode(currentResolution.width,
 					currentResolution.height));
-			Display.setFullscreen(fullscreenValue);
 
 			if (!Display.isCreated()) {
 				Display.create();
@@ -411,6 +440,10 @@ public final class ViewManager
 
 	public static Vector2f getCameraPos() {
 		return viewport.getLocation();
+	}
+
+	public static void toggleFullscreen() {
+		setFullscreen(!isFullscreen());
 	}
 
 }
