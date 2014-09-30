@@ -71,7 +71,7 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 			IMG_SAVE = ImageHelper.getImageIconContent("gui_save");
 
 	private final List<ImageListEntry> imageListEntries = new ArrayList<ImageListEntry>();
-	private final JTree treeEntities = new JTree(new DefaultMutableTreeNode());
+	private final JTree treeEntityList = new JTree(new DefaultMutableTreeNode());
 
 	private final JLabel lblCurrentLevel = new JLabel();
 	private final JButton btnModeSwitch = new JButton(IMG_PLAY_MODE);
@@ -81,14 +81,14 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 	private final JButton btnRemoveLevel = new JButton(IMG_REMOVE);
 	private final JButton btnSaveLevel = new JButton(IMG_SAVE);
 
-	private final List<Component> editModeControls = new ArrayList<Component>();
+	private final List<Component> editModeComponents = new ArrayList<Component>();
 
 	private transient boolean lastShiftState;
 
 	public Screen_Edit() {
 		super();
 
-		editModeControls.addAll(Lists.newArrayList(treeEntities,
+		editModeComponents.addAll(Lists.newArrayList(treeEntityList,
 				lblCurrentLevel, btnPrevLevel, btnAddLevel, btnNextLevel,
 				btnRemoveLevel, btnSaveLevel));
 		loadEntityPlaceholderGraphics();
@@ -149,55 +149,37 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 
 		final Panel leftToolbar = toolbars.get(Side.left);
 		leftToolbar.setLayout(new BorderLayout());
-		setupEntityJTree(leftToolbar);
+		setupEntityList(leftToolbar);
 
-		treeEntities
-				.addTreeSelectionListener(new TreeEntities_SelectionChanged());
+		treeEntityList
+				.addTreeSelectionListener(new TreeEntityList_SelectionChanged());
 	}
 
-	private void setupEntityJTree(final Panel toolbar) {
+	private void setupEntityList(final Panel associatedToolbar) {
 		try {
-			final DefaultMutableTreeNode root = (DefaultMutableTreeNode) treeEntities
+			final DefaultMutableTreeNode root = (DefaultMutableTreeNode) treeEntityList
 					.getModel().getRoot();
 
-			treeEntities.setCellRenderer(new TreeCell_ImageRenderer());
-			treeEntities.setBackground(toolbar.getBackground());
+			treeEntityList.setCellRenderer(new TreeCell_ImageRenderer());
+			treeEntityList.setBackground(associatedToolbar.getBackground());
 
 			// final Map<String, DefaultMutableTreeNode> createdCategories = new
 			// HashMap<String, DefaultMutableTreeNode>();
 
 			for (final ImageListEntry entry : imageListEntries) {
-				// final String internalName = entry.getInternalName();
-
-				// get class name for top-level category
-				// final Class<?> clazz = EntityRef
-				// .getEntityClassFromTextureName(internalName);
-				// final String categoryName = clazz == null ? "misc" : clazz
-				// .getSimpleName();
-
-				// add category node to top-level (if not already there)
-				// final DefaultMutableTreeNode categoryNode;
-				// if (createdCategories.containsKey(categoryName)) {
-				// categoryNode = createdCategories.get(categoryName);
-				// } else {
-				// categoryNode = new DefaultMutableTreeNode(
-				// new ImageListEntry(IMG_ADD, categoryName));
-				// root.add(categoryNode);
-				// createdCategories.put(categoryName, categoryNode);
-				// }
-
 				// add entry to tree
 				root.add(new DefaultMutableTreeNode(entry));
 			}
 
-			treeEntities.expandPath(new TreePath(root.getPath()));
-			treeEntities.setRootVisible(false);
+			treeEntityList.expandPath(new TreePath(root.getPath()));
+			treeEntityList.setRootVisible(false);
+			treeEntityList.setShowsRootHandles(false);
 
-			final JScrollPane treeScroller = new JScrollPane(treeEntities,
+			final JScrollPane treeScroller = new JScrollPane(treeEntityList,
 					JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 					JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
-			toolbar.add(treeScroller, BorderLayout.CENTER);
+			associatedToolbar.add(treeScroller, BorderLayout.CENTER);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -243,7 +225,7 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 			processControls();
 		}
 
-		for (final Component editModeComponent : editModeControls) {
+		for (final Component editModeComponent : editModeComponents) {
 			try {
 				if (editModeComponent.isVisible() != currentlyEditing) {
 					editModeComponent.setVisible(currentlyEditing);
@@ -258,7 +240,19 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 	private void processControls() {
 		processCameraControls();
 		processGridControls();
+		processEntitySelectionControls();
 		processMultipaintControls();
+	}
+
+	private void processEntitySelectionControls() {
+		if (InputManager.keyPressOccurred(GameKey.extraUp, 1)) {
+			treeEntityList
+					.setSelectionRow(treeEntityList.getMinSelectionRow() - 1);
+		}
+		if (InputManager.keyPressOccurred(GameKey.extraDown, 1)) {
+			treeEntityList
+					.setSelectionRow(treeEntityList.getMinSelectionRow() + 1);
+		}
 	}
 
 	private void processMultipaintControls() {
@@ -290,7 +284,8 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 		Vector2f cameraDelta = new Vector2f(0, 0);
 
 		cameraDelta.x -= InputManager.keyPressOccuring(GameKey.left, 1) ? 8 : 0;
-		cameraDelta.x += InputManager.keyPressOccuring(GameKey.right, 1) ? 8 : 0;
+		cameraDelta.x += InputManager.keyPressOccuring(GameKey.right, 1) ? 8
+				: 0;
 		cameraDelta.y -= InputManager.keyPressOccuring(GameKey.up, 1) ? 8 : 0;
 		cameraDelta.y += InputManager.keyPressOccuring(GameKey.down, 1) ? 8 : 0;
 
@@ -378,11 +373,11 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 	}
 
 	private ImageListEntry getSelectedEntry() {
-		if (treeEntities.isSelectionEmpty()) {
+		if (treeEntityList.isSelectionEmpty()) {
 			return null;
 		}
 
-		final DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) treeEntities
+		final DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) treeEntityList
 				.getSelectionPath().getLastPathComponent();
 		final ImageListEntry entry = (ImageListEntry) selectedNode
 				.getUserObject();
@@ -403,7 +398,7 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 		}
 	}
 
-	private class TreeEntities_SelectionChanged implements
+	private class TreeEntityList_SelectionChanged implements
 			TreeSelectionListener {
 		public void valueChanged(final TreeSelectionEvent event) {
 			ViewManager.focusRenderCanvas();
