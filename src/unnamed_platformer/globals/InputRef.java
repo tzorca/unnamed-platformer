@@ -11,6 +11,7 @@ public final class InputRef {
 
 	public enum GameKey {
 		left, right, up, down, /* */
+		extraLeft, extraRight, extraUp, extraDown, /* */
 		ok, back, /* */
 		jump, shoot, /* */
 		scrollIn, scrollOut, /* */
@@ -28,20 +29,23 @@ public final class InputRef {
 
 		gk.put(Input.KEY_ENTER, new PlayerGameKey(1, GameKey.ok));
 		gk.put(Input.KEY_ESCAPE, new PlayerGameKey(1, GameKey.back));
-		
+
 		gk.put(Input.KEY_F2, new PlayerGameKey(1, GameKey.restartApp));
 		gk.put(Input.KEY_F11, new PlayerGameKey(1, GameKey.toggleFullscreen));
 		gk.put(Input.KEY_F12, new PlayerGameKey(1, GameKey.saveScreenshot));
 
-		gk.put(Input.KEY_LEFT, new PlayerGameKey(1, GameKey.left));
-		gk.put(Input.KEY_RIGHT, new PlayerGameKey(1, GameKey.right));
 		gk.put(Input.KEY_UP, new PlayerGameKey(1, GameKey.up));
+		gk.put(Input.KEY_LEFT, new PlayerGameKey(1, GameKey.left));
 		gk.put(Input.KEY_DOWN, new PlayerGameKey(1, GameKey.down));
+		gk.put(Input.KEY_RIGHT, new PlayerGameKey(1, GameKey.right));
 
-		gk.put(Input.KEY_LSHIFT, new PlayerGameKey(1, GameKey.jump));
-		gk.put(Input.KEY_RSHIFT, new PlayerGameKey(1, GameKey.jump));
-		gk.put(Input.KEY_LCONTROL, new PlayerGameKey(1, GameKey.shoot));
-		gk.put(Input.KEY_RCONTROL, new PlayerGameKey(1, GameKey.shoot));
+		gk.put(Input.KEY_W, new PlayerGameKey(1, GameKey.extraUp));
+		gk.put(Input.KEY_A, new PlayerGameKey(1, GameKey.extraLeft));
+		gk.put(Input.KEY_S, new PlayerGameKey(1, GameKey.extraDown));
+		gk.put(Input.KEY_D, new PlayerGameKey(1, GameKey.extraRight));
+
+		gk.put(Input.KEY_X, new PlayerGameKey(1, GameKey.jump));
+		gk.put(Input.KEY_Z, new PlayerGameKey(1, GameKey.shoot));
 
 		gk.put(Input.KEY_LSHIFT, new PlayerGameKey(1, GameKey.multiselect));
 		gk.put(Input.KEY_RSHIFT, new PlayerGameKey(1, GameKey.multiselect));
