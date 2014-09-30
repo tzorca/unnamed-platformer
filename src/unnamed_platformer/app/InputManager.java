@@ -182,7 +182,7 @@ public final class InputManager {
 		}
 	}
 
-	public static boolean keyPressOccuring(GameKey gk, int playerNo) {
+	public static boolean keyPressOccurring(GameKey gk, int playerNo) {
 		PlayerGameKey pgk = new PlayerGameKey(playerNo, gk);
 		if (!playerGameKeyStates.containsKey(pgk)) {
 			playerGameKeyStates.put(pgk, false);

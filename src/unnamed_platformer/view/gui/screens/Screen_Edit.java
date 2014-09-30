@@ -83,7 +83,7 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 
 	private final List<Component> editModeComponents = new ArrayList<Component>();
 
-	private transient boolean lastShiftState;
+	private transient boolean lastMultiselectState;
 
 	public Screen_Edit() {
 		super();
@@ -241,7 +241,8 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 		processCameraControls();
 		processGridControls();
 		processEntitySelectionControls();
-		processMultipaintControls();
+		processPaintControls();
+
 	}
 
 	private void processEntitySelectionControls() {
@@ -265,15 +266,26 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 		}
 	}
 
-	private void processMultipaintControls() {
-		final boolean shiftState = InputManager.keyPressOccuring(
+	private void processPaintControls() {
+		// Multi-select
+		final boolean multiselectState = InputManager.keyPressOccurring(
 				GameKey.multiselect, 1);
-		if (shiftState && !lastShiftState) {
+		if (multiselectState && !lastMultiselectState) {
 			editor.startMultiselect(InputManager.getGameMousePos());
-		} else if (!shiftState && lastShiftState) {
+		} else if (!multiselectState && lastMultiselectState) {
 			editor.exitMultiselect();
 		}
-		lastShiftState = shiftState;
+		lastMultiselectState = multiselectState;
+
+		// Place or remove objects
+		if (InputManager.keyPressOccurred(GameKey.placeObject, 1)) {
+			editor.placeObject(InputManager.getGameMousePos(),
+					getSelectedEntry());
+
+		} else if (InputManager.keyPressOccurred(GameKey.removeObject, 1)) {
+			editor.removeObject(InputManager.getGameMousePos());
+		}
+
 	}
 
 	private void processGridControls() {
@@ -293,11 +305,13 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 	private void processCameraControls() {
 		Vector2f cameraDelta = new Vector2f(0, 0);
 
-		cameraDelta.x -= InputManager.keyPressOccuring(GameKey.left, 1) ? 8 : 0;
-		cameraDelta.x += InputManager.keyPressOccuring(GameKey.right, 1) ? 8
+		cameraDelta.x -= InputManager.keyPressOccurring(GameKey.left, 1) ? 8
 				: 0;
-		cameraDelta.y -= InputManager.keyPressOccuring(GameKey.up, 1) ? 8 : 0;
-		cameraDelta.y += InputManager.keyPressOccuring(GameKey.down, 1) ? 8 : 0;
+		cameraDelta.x += InputManager.keyPressOccurring(GameKey.right, 1) ? 8
+				: 0;
+		cameraDelta.y -= InputManager.keyPressOccurring(GameKey.up, 1) ? 8 : 0;
+		cameraDelta.y += InputManager.keyPressOccurring(GameKey.down, 1) ? 8
+				: 0;
 
 		editor.tryMoveCamera(cameraDelta);
 	}

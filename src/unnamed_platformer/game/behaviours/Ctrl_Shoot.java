@@ -27,7 +27,7 @@ public class Ctrl_Shoot extends ControlMechanism {
 
 	@Override
 	public void doUpdate(float multiplier) {
-		if (InputManager.keyPressOccuring(GameKey.shoot, 1)) {
+		if (InputManager.keyPressOccurring(GameKey.shoot, 1)) {
 			if (TimeManager.time() - TimeManager.lastSample(hashCode()) >= fireDelay) {
 				fire();
 			}

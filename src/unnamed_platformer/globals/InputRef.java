@@ -14,9 +14,9 @@ public final class InputRef {
 		jump, shoot, /* */
 		ok, back, /* */
 		restartApp, toggleFullscreen, saveScreenshot, /* */
+		placeObject, removeObject, multiselect, /* */
 		extraLeft, extraRight, extraUp, extraDown, /* */
 		scrollIn, scrollOut, /* */
-		multiselect, /* */
 	}
 
 	public static final Multimap<Integer, PlayerGameKey> GAME_KEY_SETUP = HashMultimap
@@ -41,6 +41,11 @@ public final class InputRef {
 		gk.put(Input.KEY_F11, new PlayerGameKey(1, GameKey.toggleFullscreen));
 		gk.put(Input.KEY_F12, new PlayerGameKey(1, GameKey.saveScreenshot));
 
+		gk.put(Input.KEY_X, new PlayerGameKey(1, GameKey.placeObject));
+		gk.put(Input.KEY_Z, new PlayerGameKey(1, GameKey.removeObject));
+		gk.put(Input.KEY_LSHIFT, new PlayerGameKey(1, GameKey.multiselect));
+		gk.put(Input.KEY_RSHIFT, new PlayerGameKey(1, GameKey.multiselect));
+		
 		gk.put(Input.KEY_W, new PlayerGameKey(1, GameKey.extraUp));
 		gk.put(Input.KEY_A, new PlayerGameKey(1, GameKey.extraLeft));
 		gk.put(Input.KEY_S, new PlayerGameKey(1, GameKey.extraDown));
@@ -49,8 +54,6 @@ public final class InputRef {
 		gk.put(Input.KEY_LBRACKET, new PlayerGameKey(1, GameKey.scrollOut));
 		gk.put(Input.KEY_RBRACKET, new PlayerGameKey(1, GameKey.scrollIn));
 
-		gk.put(Input.KEY_LSHIFT, new PlayerGameKey(1, GameKey.multiselect));
-		gk.put(Input.KEY_RSHIFT, new PlayerGameKey(1, GameKey.multiselect));
 
 	}
 }
