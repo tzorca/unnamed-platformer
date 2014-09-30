@@ -74,7 +74,6 @@ public final class Main {
 		// used to load lwjgl libraries without relying on project configuration
 		System.setProperty("org.lwjgl.librarypath", Ref.LWJGL_NATIVE_DIR);
 		
-		SQLiteStuff.turnOffLogging();
 		TimeManager.init();
 		InputManager.init();
 		ViewManager.init();

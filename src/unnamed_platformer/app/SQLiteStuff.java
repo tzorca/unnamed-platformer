@@ -37,8 +37,10 @@ public class SQLiteStuff {
 	private static boolean initialized = false;
 
 	public static void init() {
+		turnOffLogging();
 		connect(new File(Ref.RESOURCE_DIR + "data.sqlite"));
 		initialized = true;
+		turnOffLogging();
 		initTables();
 		insertNewTextureNames();
 		addTextureMappings();
