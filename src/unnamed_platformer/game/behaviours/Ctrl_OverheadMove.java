@@ -19,19 +19,19 @@ public class Ctrl_OverheadMove extends ControlMechanism {
 	public void doUpdate(float multiplier) {
 		float mulSpeed = speed * multiplier;
 
-		if (InputManager.getGameKeyState(GameKey.right, 1)) {
+		if (InputManager.keyPressOccuring(GameKey.right, 1)) {
 			actor.getPhysics().addForce(new Vector2f(mulSpeed, 0));
 		}
 
-		if (InputManager.getGameKeyState(GameKey.left, 1)) {
+		if (InputManager.keyPressOccuring(GameKey.left, 1)) {
 			actor.getPhysics().addForce(new Vector2f(-mulSpeed, 0));
 		}
 
-		if (InputManager.getGameKeyState(GameKey.up, 1)) {
+		if (InputManager.keyPressOccuring(GameKey.up, 1)) {
 			actor.getPhysics().addForce(new Vector2f(0, -mulSpeed));
 		}
 
-		if (InputManager.getGameKeyState(GameKey.down, 1)) {
+		if (InputManager.keyPressOccuring(GameKey.down, 1)) {
 			actor.getPhysics().addForce(new Vector2f(0, mulSpeed));
 		}
 

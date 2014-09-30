@@ -24,7 +24,6 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 
-import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
@@ -53,8 +52,7 @@ import unnamed_platformer.view.gui.objects.TreeCell_ImageRenderer;
 import com.google.common.collect.Lists;
 
 @SuppressWarnings("unchecked")
-public class Screen_Edit extends BaseScreen_Hybrid
-{
+public class Screen_Edit extends BaseScreen_Hybrid {
 	public static final int LEFT_TOOLBAR_SIZE = 160;
 	public static final int ROW_HEIGHT = 56;
 	public static final int ENTITY_ICON_SIZE = 48;
@@ -264,7 +262,8 @@ public class Screen_Edit extends BaseScreen_Hybrid
 	}
 
 	private void processMultipaintControls() {
-		final boolean shiftState = InputManager.isShiftHeld();
+		final boolean shiftState = InputManager.keyPressOccuring(
+				GameKey.multiselect, 1);
 		if (shiftState && !lastShiftState) {
 			editor.startMultiselect(InputManager.getGameMousePos());
 		} else if (!shiftState && lastShiftState) {
@@ -275,13 +274,11 @@ public class Screen_Edit extends BaseScreen_Hybrid
 
 	private void processGridControls() {
 		int newGridSize = editor.gridSize;
-		if (InputManager.getGameKeyState(GameKey.scrollIn, 1)) {
+		if (InputManager.keyPressOccurred(GameKey.scrollIn, 1)) {
 			newGridSize /= 2;
-			InputManager.resetGameKey(GameKey.scrollIn, 1);
 
-		} else if (InputManager.getGameKeyState(GameKey.scrollOut, 1)) {
+		} else if (InputManager.keyPressOccurred(GameKey.scrollOut, 1)) {
 			newGridSize *= 2;
-			InputManager.resetGameKey(GameKey.scrollOut, 1);
 		}
 
 		if (newGridSize >= 8 && newGridSize <= 128) {
@@ -292,10 +289,10 @@ public class Screen_Edit extends BaseScreen_Hybrid
 	private void processCameraControls() {
 		Vector2f cameraDelta = new Vector2f(0, 0);
 
-		cameraDelta.x -= InputManager.getKeyState(Keyboard.KEY_LEFT) ? 8 : 0;
-		cameraDelta.x += InputManager.getKeyState(Keyboard.KEY_RIGHT) ? 8 : 0;
-		cameraDelta.y -= InputManager.getKeyState(Keyboard.KEY_UP) ? 8 : 0;
-		cameraDelta.y += InputManager.getKeyState(Keyboard.KEY_DOWN) ? 8 : 0;
+		cameraDelta.x -= InputManager.keyPressOccuring(GameKey.left, 1) ? 8 : 0;
+		cameraDelta.x += InputManager.keyPressOccuring(GameKey.right, 1) ? 8 : 0;
+		cameraDelta.y -= InputManager.keyPressOccuring(GameKey.up, 1) ? 8 : 0;
+		cameraDelta.y += InputManager.keyPressOccuring(GameKey.down, 1) ? 8 : 0;
 
 		editor.tryMoveCamera(cameraDelta);
 	}
@@ -393,38 +390,33 @@ public class Screen_Edit extends BaseScreen_Hybrid
 		return entry;
 	}
 
-	private class RenderCanvas_LeftClick implements Runnable
-	{
+	private class RenderCanvas_LeftClick implements Runnable {
 		public void run() {
 			editor.placeObject(InputManager.getGameMousePos(),
 					getSelectedEntry());
 		}
 	}
 
-	private class RenderCanvas_RightClick implements Runnable
-	{
+	private class RenderCanvas_RightClick implements Runnable {
 		public void run() {
 			editor.removeObject(InputManager.getGameMousePos());
 		}
 	}
 
 	private class TreeEntities_SelectionChanged implements
-			TreeSelectionListener
-	{
+			TreeSelectionListener {
 		public void valueChanged(final TreeSelectionEvent event) {
 			ViewManager.focusRenderCanvas();
 		}
 	}
 
-	private class btnModeSwitch_Click implements ActionListener
-	{
+	private class btnModeSwitch_Click implements ActionListener {
 		public void actionPerformed(final ActionEvent event) {
 			toggleEditMode();
 		}
 	}
 
-	private class btnAddLevel_Click implements ActionListener
-	{
+	private class btnAddLevel_Click implements ActionListener {
 		public void actionPerformed(final ActionEvent event) {
 			World.addBlankLevel();
 			editor.changeLevel(World.getLevelCount() - 1);
@@ -433,8 +425,7 @@ public class Screen_Edit extends BaseScreen_Hybrid
 		}
 	}
 
-	private class btnNextLevel_Click implements ActionListener
-	{
+	private class btnNextLevel_Click implements ActionListener {
 		public void actionPerformed(final ActionEvent event) {
 			editor.levelInc(1);
 			updateCurrentLevelLabel();
@@ -442,8 +433,7 @@ public class Screen_Edit extends BaseScreen_Hybrid
 		}
 	}
 
-	private class btnPrevLevel_Click implements ActionListener
-	{
+	private class btnPrevLevel_Click implements ActionListener {
 		public void actionPerformed(final ActionEvent event) {
 			editor.levelInc(-1);
 			updateCurrentLevelLabel();
@@ -451,8 +441,7 @@ public class Screen_Edit extends BaseScreen_Hybrid
 		}
 	}
 
-	private class btnRemoveLevel_Click implements ActionListener
-	{
+	private class btnRemoveLevel_Click implements ActionListener {
 		public void actionPerformed(final ActionEvent event) {
 			editor.removeLevel();
 			updateCurrentLevelLabel();
@@ -460,8 +449,7 @@ public class Screen_Edit extends BaseScreen_Hybrid
 		}
 	}
 
-	private class btnSaveLevel_Click implements ActionListener
-	{
+	private class btnSaveLevel_Click implements ActionListener {
 		public void actionPerformed(final ActionEvent event) {
 			editor.save();
 			ViewManager.focusRenderCanvas();

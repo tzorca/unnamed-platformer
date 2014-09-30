@@ -3,7 +3,7 @@ package unnamed_platformer.app;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.event.KeyEvent;
+import java.util.Collection;
 import java.util.EnumMap;
 import java.util.HashMap;
 
@@ -19,27 +19,21 @@ import unnamed_platformer.globals.InputRef.GameKey;
 import unnamed_platformer.view.ViewManager;
 
 import com.google.common.collect.Maps;
+import com.google.common.collect.Multimap;
 
-public final class InputManager
-{
+public final class InputManager {
 	private static HashMap<Integer, Boolean> rawKeyStates = Maps.newHashMap();
 	private static HashMap<PlayerGameKey, Boolean> playerGameKeyStates = Maps
 			.newHashMap(), lastPlayerGameKeyStates = Maps.newHashMap(),
 			playerGameKeyPressEvents = Maps.newHashMap();
-	private static HashMap<Integer, PlayerGameKey> rawKeyToPlayerGameKeyMapping = Maps
-			.newHashMap();
-
-	public static void init() {
-		// add default key mapping
-		rawKeyToPlayerGameKeyMapping.putAll(InputRef.DEFAULT_GAME_KEYS);
-	}
+	private static Multimap<Integer, PlayerGameKey> gamekeyMappings = InputRef.GAME_KEY_SETUP;
 
 	public static void mapKey(int playerNo, GameKey gk, int key) {
-		rawKeyToPlayerGameKeyMapping.put(key, new PlayerGameKey(playerNo, gk));
+		gamekeyMappings.put(key, new PlayerGameKey(playerNo, gk));
 	}
 
-	public static void unmapKey(int key) {
-		rawKeyToPlayerGameKeyMapping.remove(key);
+	public static void unmapAllKeyMappings(int key) {
+		gamekeyMappings.removeAll(key);
 	}
 
 	private static Point getMousePosInWindow() {
@@ -100,7 +94,6 @@ public final class InputManager
 				boolean nowState = nowMouseButtonStates.get(button);
 				boolean prevState = prevMouseButtonStates.get(button);
 
-				// TODO: Check if this is CPU-intensive or not
 				if (nowState) {
 					if (button == MouseButton.left) {
 						eventHandlers.get(InputEventType.leftMouseDown).run();
@@ -170,32 +163,26 @@ public final class InputManager
 	}
 
 	private static void assignKeyState(int keycode, boolean state) {
-
 		rawKeyStates.put(keycode, state);
-		if (rawKeyToPlayerGameKeyMapping.containsKey(keycode)) {
-			PlayerGameKey mapping = rawKeyToPlayerGameKeyMapping.get(keycode);
+		if (gamekeyMappings.containsKey(keycode)) {
+			Collection<PlayerGameKey> mappings = gamekeyMappings.get(keycode);
 
-			playerGameKeyStates.put(mapping, state);
-			if (!lastPlayerGameKeyStates.containsKey(mapping)) {
-				lastPlayerGameKeyStates.put(mapping, false);
-			}
+			for (PlayerGameKey mapping : mappings) {
+				playerGameKeyStates.put(mapping, state);
+				if (!lastPlayerGameKeyStates.containsKey(mapping)) {
+					lastPlayerGameKeyStates.put(mapping, false);
+				}
 
-			if (state && !lastPlayerGameKeyStates.get(mapping)) {
-				playerGameKeyPressEvents.put(mapping, true);
+				if (state && !lastPlayerGameKeyStates.get(mapping)) {
+					playerGameKeyPressEvents.put(mapping, true);
+				}
+				lastPlayerGameKeyStates.put(mapping, state);
+
 			}
-			lastPlayerGameKeyStates.put(mapping, state);
 		}
 	}
 
-	public static boolean getKeyState(Integer keycode) {
-		if (!rawKeyStates.containsKey(keycode)) {
-			return false;
-		}
-
-		return rawKeyStates.get(keycode);
-	}
-
-	public static boolean getGameKeyState(GameKey gk, int playerNo) {
+	public static boolean keyPressOccuring(GameKey gk, int playerNo) {
 		PlayerGameKey pgk = new PlayerGameKey(playerNo, gk);
 		if (!playerGameKeyStates.containsKey(pgk)) {
 			playerGameKeyStates.put(pgk, false);
@@ -205,7 +192,7 @@ public final class InputManager
 		return playerGameKeyStates.get(pgk);
 	}
 
-	public static boolean gameKeyPressed(GameKey gk, int playerNo) {
+	public static boolean keyPressOccurred(GameKey gk, int playerNo) {
 		PlayerGameKey pgk = new PlayerGameKey(playerNo, gk);
 		if (playerGameKeyPressEvents.containsKey(pgk)) {
 			boolean returnValue = playerGameKeyPressEvents.get(pgk);
@@ -216,18 +203,7 @@ public final class InputManager
 		return false;
 	}
 
-	public static void resetGameKey(GameKey gk, int playerNo) {
-		PlayerGameKey pgk = new PlayerGameKey(playerNo, gk);
-
-		if (!playerGameKeyStates.containsKey(pgk)) {
-			return;
-		}
-
-		playerGameKeyStates.put(pgk, false);
-	}
-
-	public static class PlayerGameKey
-	{
+	public static class PlayerGameKey {
 		private GameKey gameKey;
 		private int playerNo;
 
@@ -259,22 +235,6 @@ public final class InputManager
 
 	public static boolean mouseIntersects(Rectangle box) {
 		return mouseBox.intersects(box);
-	}
-
-	public static boolean isArrowKey(int keyCode) {
-		switch (keyCode) {
-		case KeyEvent.VK_LEFT:
-		case KeyEvent.VK_RIGHT:
-		case KeyEvent.VK_UP:
-		case KeyEvent.VK_DOWN:
-			return true;
-		}
-		return false;
-	}
-
-	public static boolean isShiftHeld() {
-		return getKeyState(Keyboard.KEY_LSHIFT)
-				|| getKeyState(Keyboard.KEY_RSHIFT);
 	}
 
 }

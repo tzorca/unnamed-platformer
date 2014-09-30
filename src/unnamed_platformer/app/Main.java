@@ -43,23 +43,24 @@ public final class Main {
 	}
 
 	private static void handleHotkeys() {
-		if (InputManager.gameKeyPressed(GameKey.restartApp, 1)) {
+		if (InputManager.keyPressOccurred(GameKey.restartApp, 1)) {
 			GUIManager.changeScreen(ScreenType.SelectWorld);
 		}
 
-		else if (InputManager.gameKeyPressed(GameKey.menuBack, 1)) {
+		else if (InputManager.keyPressOccurred(GameKey.back, 1)) {
 			GUIManager.back();
 		}
-		
-		else if (InputManager.gameKeyPressed(GameKey.saveTempGame, 1)) {
-			World.save("Temp");
-		}
 
-		else if (InputManager.gameKeyPressed(GameKey.saveScreenshot, 1)) {
+		/*
+		 * else if (InputManager.gameKeyPressed(GameKey.saveTempGame, 1)) {
+		 * World.save("Temp"); }
+		 */
+
+		else if (InputManager.keyPressOccurred(GameKey.saveScreenshot, 1)) {
 			ImageHelper.saveScreenshot();
 		}
-		
-		else if (InputManager.gameKeyPressed(GameKey.toggleFullscreen, 1)) {
+
+		else if (InputManager.keyPressOccurred(GameKey.toggleFullscreen, 1)) {
 			ViewManager.toggleFullscreen();
 		}
 
@@ -73,16 +74,15 @@ public final class Main {
 	private static void init() {
 		// used to load lwjgl libraries without relying on project configuration
 		System.setProperty("org.lwjgl.librarypath", Ref.LWJGL_NATIVE_DIR);
-		
+
 		TimeManager.init();
-		InputManager.init();
 		ViewManager.init();
 		ResManager.init();
 		GUIManager.changeScreen(ScreenType.SelectWorld);
 		SQLiteStuff.init();
 		EntityCreator.init();
 	}
-	
+
 	private static Cloner cloner = new Cloner();
 	static {
 		cloner.dontClone(QuadTree.class);
