@@ -245,13 +245,23 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 	}
 
 	private void processEntitySelectionControls() {
+		int currentIndex = treeEntityList.getMinSelectionRow();
+		int nextIndex = currentIndex;
+
 		if (InputManager.keyPressOccurred(GameKey.extraUp, 1)) {
-			treeEntityList
-					.setSelectionRow(treeEntityList.getMinSelectionRow() - 1);
+			nextIndex = currentIndex - 1;
 		}
 		if (InputManager.keyPressOccurred(GameKey.extraDown, 1)) {
-			treeEntityList
-					.setSelectionRow(treeEntityList.getMinSelectionRow() + 1);
+			nextIndex = currentIndex + 1;
+		}
+
+		if (nextIndex != currentIndex) {
+			if (nextIndex < 0) {
+				nextIndex = 0;
+			}
+
+			treeEntityList.scrollRowToVisible(nextIndex);
+			treeEntityList.setSelectionRow(nextIndex);
 		}
 	}
 
