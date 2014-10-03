@@ -9,42 +9,44 @@ import javax.swing.JButton;
 import unnamed_platformer.game.other.World;
 import unnamed_platformer.view.gui.GUIHelper;
 import unnamed_platformer.view.gui.GUIManager;
+import unnamed_platformer.view.gui.GUIManager.ScreenType;
 
-public class Screen_Transition extends BaseScreen_GUI
-{
+public class Screen_Transition extends BaseScreen_GUI {
 	public Screen_Transition() {
 		super();
 
-		pnlSurface.setBackground(GUIManager.COLOR_DARK_BLUE_2);
+		Label lblInfo;
+		JButton btnNext;
 
-		Label lblNextLevel = new Label("Level "
-				+ String.valueOf(World.getCurrentLevelIndex() + 1));
-		lblNextLevel.setFont(GUIManager.HEADING_FONT);
-		lblNextLevel.setForeground(GUIManager.COLOR_WHITE);
+		int nextLevelIndex = World.getCurrentLevelIndex() + 1;
+		if (World.hasLevelIndex(nextLevelIndex)) {
+			lblInfo = new Label("Level "
+					+ String.valueOf(World.getCurrentLevelIndex() + 1));
 
-		JButton btnStart = new JButton("Start");
-		btnStart.setFont(GUIManager.SUB_HEADING_FONT);
-		GUIHelper.styleButton(btnStart, 12);
-		btnStart.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				switch (GUIManager.getPreviousScreen()) {
-				case Edit:
-				case Play:
-					GUIManager.back();
-					break;
-				case SelectWorld:
-				case Start:
-				case Transition:
-				default:
-					// ?
-					break;
+			btnNext = new JButton("Start");
+			btnNext.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					GUIManager.changeScreen(ScreenType.Play);
 				}
-			}
-		});
+			});
+		} else {
+			lblInfo = new Label("You finished all the levels.");
 
-		pnlSurface.add(lblNextLevel, GUIManager.CENTER_LAYOUT
-				+ ", gapbottom 20%, ");
-		pnlSurface.add(btnStart, GUIManager.CENTER_LAYOUT);
+			btnNext = new JButton("Ok");
+			btnNext.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					GUIManager.changeScreen(ScreenType.SelectWorld);
+				}
+			});
+		}
 
+		pnlSurface.setBackground(GUIManager.COLOR_DARK_BLUE_2);
+		lblInfo.setFont(GUIManager.HEADING_FONT);
+		lblInfo.setForeground(GUIManager.COLOR_LIGHT_GREY);
+		btnNext.setFont(GUIManager.SUB_HEADING_FONT);
+		GUIHelper.styleButton(btnNext, 12);
+
+		pnlSurface.add(lblInfo, GUIManager.CENTER_LAYOUT + ", gaptop 10%, ");
+		pnlSurface.add(btnNext, GUIManager.CENTER_LAYOUT + ", pushy");
 	}
 }

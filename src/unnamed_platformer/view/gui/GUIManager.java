@@ -14,22 +14,24 @@ import unnamed_platformer.view.gui.screens.Screen;
 // TODO: Add button/key to return to previous menu
 // TODO: Implement pause key functionality (return to ...)
 // TODO: Add options screen
-public final class GUIManager
-{
+public final class GUIManager {
 
 	public static enum ScreenType {
 		Edit, Play, SelectWorld, Start, Transition
 	}
 
 	public static final Color COLOR_WHITE = Color.white;
-	public static final Color COLOR_DARK_BLUE_1= new Color(0x10, 0x10, 0x20);
+	public static final Color COLOR_LIGHT_GREY = new Color(0xee, 0xee, 0xee);
+	public static final Color COLOR_DARK_BLUE_1 = new Color(0x10, 0x10, 0x20);
 	public static final Color COLOR_DARK_BLUE_2 = new Color(0x20, 0x20, 0x30);
 	public static final Color COLOR_DARK_BLUE_3 = new Color(0x30, 0x30, 0x40);
 	public static final Color COLOR_DARK_BLUE_4 = new Color(0x40, 0x40, 0x50);
 
 	public static final String CENTER_LAYOUT = "pushx, alignx center, wrap";
 
-	public static final Font HEADING_FONT = new Font("Tahoma", Font.PLAIN, 48);
+	public static final Font HEADING_FONT = new Font("Calibri", Font.PLAIN, 36);
+	public static final Font SUB_HEADING_FONT = new Font("Tahoma", Font.PLAIN,
+			18);
 
 	public static final String SCREEN_PACKAGE_NAME = Ref.BASE_PACKAGE_NAME
 			+ ".view.gui.screens";
@@ -37,9 +39,6 @@ public final class GUIManager
 	private static Screen screen;
 
 	private static LinkedList<ScreenType> screenStateStack = new LinkedList<ScreenType>();
-
-	public static final Font SUB_HEADING_FONT = new Font("Tahoma", Font.PLAIN,
-			18);
 
 	static {
 		// enable native look and feel
