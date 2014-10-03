@@ -14,8 +14,7 @@ import org.newdawn.slick.geom.Vector2f;
 import unnamed_platformer.game.other.DirectionalEnums.Orientation;
 import unnamed_platformer.game.other.DirectionalEnums.Side;
 
-public final class MathHelper
-{
+public final class MathHelper {
 
 	public static final Vector2f EMPTY_VECTOR = new Vector2f(0, 0);
 
@@ -40,10 +39,11 @@ public final class MathHelper
 
 	public static List<Vector2f> createUpDownPath(final float dist) {
 		final List<Vector2f> path = new ArrayList<Vector2f>();
-		path.add(new Vector2f(0, 0));
+		// targeting a line straight down causes problems
+		// for now, use 3,3
+		path.add(new Vector2f(3, 3));
+		
 		path.add(new Vector2f(0, -dist));
-		path.add(new Vector2f(0, 0));
-
 		return path;
 	}
 
@@ -102,7 +102,7 @@ public final class MathHelper
 				startPoint.getY() + movY);
 
 		final double newDist = newPoint.distance(targetPoint);
-
+		
 		// don't move past the point
 		if (newDist >= initialDist) {
 			newPoint = targetPoint;

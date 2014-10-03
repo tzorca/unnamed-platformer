@@ -5,12 +5,12 @@ import unnamed_platformer.app.TimeManager;
 import unnamed_platformer.game.behaviours.Ctrl_PathMovement;
 import unnamed_platformer.game.other.EntitySetup;
 import unnamed_platformer.globals.GameRef;
-public class JumpingHazard extends Hazard
-{
+
+public class PeriodicJumpingEnemy extends Hazard {
 
 	private Ctrl_PathMovement pathMovement;
 
-	public JumpingHazard(EntitySetup entitySetup) {
+	public PeriodicJumpingEnemy(EntitySetup entitySetup) {
 		super(entitySetup);
 		addPathMovement();
 	}
@@ -19,8 +19,8 @@ public class JumpingHazard extends Hazard
 		pathMovement = new Ctrl_PathMovement(this, this.startPos,
 				MathHelper.createUpDownPath(GameRef.DEFAULT_FLAME_JUMP_HEIGHT),
 				GameRef.DEFAULT_FLAME_SPEED);
-		pathMovement.setLoop(false);
-		// pathMovement.disable();
+		pathMovement.setLoop(true);
+//		pathMovement.disable();
 		this.getPhysics().addControlMechanism(pathMovement);
 	}
 
@@ -30,8 +30,8 @@ public class JumpingHazard extends Hazard
 
 		if (TimeManager.periodElapsed(this, "flameJump",
 				GameRef.DEFAULT_FLAME_JUMP_INTERVAL)) {
-			// pathMovement.enable();
-			pathMovement.reset();
+//			pathMovement.enable();
+//			pathMovement.reset();
 		}
 
 	}

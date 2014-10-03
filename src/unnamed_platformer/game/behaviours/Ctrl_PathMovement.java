@@ -33,9 +33,11 @@ public class Ctrl_PathMovement extends ControlMechanism {
 		this.loop = loop;
 	}
 
-	public Ctrl_PathMovement(ActiveEntity actor, Vector2f startPos, List<Vector2f> relativePath, double speed) {
+	public Ctrl_PathMovement(ActiveEntity actor, Vector2f startPos,
+			List<Vector2f> relativePath, double speed) {
 		super(actor);
 		this.origin = startPos;
+		System.out.println("Starting at " + startPos);
 		this.relativePath = relativePath;
 		this.speed = speed;
 		reset();
@@ -58,18 +60,20 @@ public class Ctrl_PathMovement extends ControlMechanism {
 
 		double requiredDist = speed * multiplier;
 		do {
-			newPoint = MathHelper.moveTowards(actor.getPos(), targetPoint, requiredDist);
+			newPoint = MathHelper.moveTowards(actor.getPos(), targetPoint,
+					requiredDist);
 			requiredDist -= newPoint.distance(origPoint);
 
 			actor.setPos(newPoint);
 
 			if (newPoint.x == targetPoint.x && newPoint.y == targetPoint.y) {
-				if (pathIndex == 0 && lastPathIndex == relativePath.size() - 1 && !loop) {
+				if (pathIndex == 0 && lastPathIndex == relativePath.size() - 1
+						&& !loop) { 
 					finished = true;
 					return;
 				}
 
-				incrementPathIndex();
+				setPathIndex(pathIndex + 1);
 			}
 
 		} while (requiredDist > 0);
@@ -77,19 +81,14 @@ public class Ctrl_PathMovement extends ControlMechanism {
 	}
 
 	private void setPathIndex(int index) {
+		if (index >= relativePath.size()) {
+			index = 0;
+		}
 		lastPathIndex = pathIndex;
 		pathIndex = index;
 		targetPoint = new Vector2f(origin);
 		targetPoint.x += relativePath.get(pathIndex).getX();
 		targetPoint.y += relativePath.get(pathIndex).getY();
-	}
-
-	private void incrementPathIndex() {
-		if (pathIndex + 1 > relativePath.size() - 1) {
-			setPathIndex(0);
-		} else {
-			setPathIndex(pathIndex + 1);
-		}
 	}
 
 	public double getSpeed() {
