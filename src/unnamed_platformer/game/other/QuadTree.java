@@ -4,10 +4,9 @@
 
 package unnamed_platformer.game.other;
 
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.newdawn.slick.geom.Rectangle;
 
 import unnamed_platformer.game.entities.Entity;
 
@@ -51,10 +50,14 @@ public class QuadTree
 		final int xPos = (int) bounds.getX();
 		final int yPos = (int) bounds.getY();
 
-		nodes[0] = new QuadTree(level + 1, new Rectangle(xPos + subWidth, yPos, subWidth, subHeight));
-		nodes[1] = new QuadTree(level + 1, new Rectangle(xPos, yPos, subWidth, subHeight));
-		nodes[2] = new QuadTree(level + 1, new Rectangle(xPos, yPos + subHeight, subWidth, subHeight));
-		nodes[3] = new QuadTree(level + 1, new Rectangle(xPos + subWidth, yPos + subHeight, subWidth, subHeight));
+		nodes[0] = new QuadTree(level + 1, new Rectangle(xPos + subWidth, yPos,
+				subWidth, subHeight));
+		nodes[1] = new QuadTree(level + 1, new Rectangle(xPos, yPos, subWidth,
+				subHeight));
+		nodes[2] = new QuadTree(level + 1, new Rectangle(xPos,
+				yPos + subHeight, subWidth, subHeight));
+		nodes[3] = new QuadTree(level + 1, new Rectangle(xPos + subWidth, yPos
+				+ subHeight, subWidth, subHeight));
 	}
 
 	/*
@@ -68,13 +71,15 @@ public class QuadTree
 		final double horzMidpoint = bounds.getY() + bounds.getHeight() / 2;
 
 		// Object can completely fit within the top quadrants
-		final boolean topQuadrant = pRect.getY() < horzMidpoint && pRect.getY() + pRect.getHeight() < horzMidpoint;
+		final boolean topQuadrant = pRect.getY() < horzMidpoint
+				&& pRect.getY() + pRect.getHeight() < horzMidpoint;
 
 		// Object can completely fit within the bottom quadrants
 		final boolean bottomQuadrant = pRect.getY() > horzMidpoint;
 
 		// Object can completely fit within the left quadrants
-		if (pRect.getX() < vertMidpoint && pRect.getX() + pRect.getWidth() < vertMidpoint) {
+		if (pRect.getX() < vertMidpoint
+				&& pRect.getX() + pRect.getWidth() < vertMidpoint) {
 			if (topQuadrant) {
 				index = 1;
 			} else if (bottomQuadrant) {
@@ -95,8 +100,19 @@ public class QuadTree
 
 	// prevent stupid bugs
 	public static Rectangle increaseRect(final Rectangle pRect) {
-		return new Rectangle(pRect.getX() - pRect.getWidth()*2, pRect.getY() - pRect.getHeight()*2, pRect.getWidth() * 4,
-				pRect.getHeight() * 4);
+		int x = (int) (pRect.getX() - pRect.getWidth() * 2);
+		int y = (int) (pRect.getY() - pRect.getHeight() * 2);
+		int w = (int) (pRect.getWidth() * 4);
+		int h = (int) (pRect.getHeight() * 4);
+		return new Rectangle(x, y, w, h);
+	}
+
+	public static Rectangle increaseRect(org.newdawn.slick.geom.Rectangle pRect) {
+		int x = (int) (pRect.getX() - pRect.getWidth() * 2);
+		int y = (int) (pRect.getY() - pRect.getHeight() * 2);
+		int w = (int) (pRect.getWidth() * 4);
+		int h = (int) (pRect.getHeight() * 4);
+		return new Rectangle(x, y, w, h);
 	}
 
 	/*
@@ -122,7 +138,8 @@ public class QuadTree
 
 			int i = 0;
 			while (i < entities.size()) {
-				final int index = getIndex(increaseRect(entities.get(i).getCollisionRect()));
+				final int index = getIndex(increaseRect(entities.get(i)
+						.getCollisionRect()));
 				if (index != -1) {
 					nodes[index].insert(entities.remove(i), box);
 				} else {
@@ -133,7 +150,8 @@ public class QuadTree
 	}
 
 	// Return all objects that could collide with the given object
-	public List<Entity> retrieve(final List<Entity> returnObjects, final Rectangle pRect) {
+	public List<Entity> retrieve(final List<Entity> returnObjects,
+			final Rectangle pRect) {
 		final int index = getIndex(pRect);
 		if (index != -1 && nodes[0] != null) {
 			nodes[index].retrieve(returnObjects, pRect);

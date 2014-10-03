@@ -20,10 +20,9 @@ import unnamed_platformer.view.ViewManager;
 
 public abstract class Entity
 {
-
 	protected EntitySetup originalSetup;
 	protected EnumSet<Flag> flags = EnumSet.noneOf(Flag.class);
-	protected Rectangle box = new Rectangle(0, 0, 0, 0);
+	private Rectangle box = new Rectangle(0, 0, 0, 0);
 	public Graphic graphic;
 
 	public int zIndex = 0; // higher indices are brought to front
@@ -49,7 +48,7 @@ public abstract class Entity
 	private void setupEntity(Graphic graphic, Vector2f pos,
 			SizeStrategy sizeStrategy, EnumSet<Flag> flags) {
 		this.graphic = graphic;
-		this.box.setLocation(pos);
+		setLocation(pos);
 
 		BufferedImage image = graphic.getTextureImage();
 
@@ -102,6 +101,12 @@ public abstract class Entity
 	}
 
 	public void setPos(Vector2f newPoint) {
+		if (newPoint == box.getLocation()) {
+			return;
+		}
+		collisionCache_rectDirty = true;
+		collisionCache_shapeDirty = true;
+		
 		box.setLocation(new Vector2f(newPoint));
 	}
 
@@ -110,6 +115,9 @@ public abstract class Entity
 	}
 
 	public void setCenter(Vector2f p) {
+		collisionCache_rectDirty = true;
+		collisionCache_shapeDirty = true;
+		
 		box.setCenterX(p.getX());
 		box.setCenterY(p.getY());
 	}
@@ -127,10 +135,16 @@ public abstract class Entity
 	}
 
 	public void setY(float y) {
+		collisionCache_rectDirty = true;
+		collisionCache_shapeDirty = true;
+		
 		box.setY(y);
 	}
 
 	public void setX(float x) {
+		collisionCache_rectDirty = true;
+		collisionCache_shapeDirty = true;
+		
 		box.setX(x);
 	}
 
@@ -154,20 +168,39 @@ public abstract class Entity
 		ViewManager.drawGraphic(graphic, getOriginalBox());
 	}
 
-	public Shape getCollisionShape() {
-		Shape collisionShape = getCollisionShape(box);
+	boolean collisionCache_rectDirty = true;
+	boolean collisionCache_shapeDirty = true;
+	Rectangle collisionCache_Rect;
+	Shape collisionCache_Shape;
 
-		return collisionShape;
+	private void setLocation(Vector2f pos) {
+		collisionCache_rectDirty = true;
+		collisionCache_shapeDirty = true;
+		
+		box.setLocation(pos);
+	}
+	
+	private CollisionData getCollisionData() {
+		return ResManager.get(CollisionData.class, graphic.getTextureName());
 	}
 
 	public Rectangle getCollisionRect() {
-		Rectangle cropRect = getCollisionRect(box);
-
-		return cropRect;
+		if (collisionCache_rectDirty) {
+			collisionCache_Rect = getCollisionRect(box);
+			collisionCache_rectDirty = false;
+		}
+		return collisionCache_Rect;
 	}
 
-	private CollisionData getCollisionData() {
-		return ResManager.get(CollisionData.class, graphic.getTextureName());
+
+
+	public Shape getCollisionShape() {
+		if (collisionCache_shapeDirty) {
+			collisionCache_Shape = getCollisionShape(box);
+			collisionCache_shapeDirty = false;
+		}
+
+		return collisionCache_Shape;
 	}
 
 	private Rectangle getCollisionRect(Rectangle entityBox) {

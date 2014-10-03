@@ -10,6 +10,7 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 
+import unnamed_platformer.app.MathHelper;
 import unnamed_platformer.game.entities.ActiveEntity;
 import unnamed_platformer.game.entities.Entity;
 import unnamed_platformer.globals.GameRef.Flag;
@@ -32,11 +33,11 @@ public class Level
 
 	private Rectangle rect = Ref.DEFAULT_LEVEL_RECTANGLE;
 	private transient QuadTree quadTree = new QuadTree(0,
-			Ref.DEFAULT_LEVEL_RECTANGLE);
+			 MathHelper.slickToJavaRect(Ref.DEFAULT_LEVEL_RECTANGLE));
 	private ActiveEntity playerEntity;
 
 	private void setRect(final Rectangle rect) {
-		quadTree = new QuadTree(0, rect);
+		quadTree = new QuadTree(0, MathHelper.slickToJavaRect(rect));
 		this.rect = rect;
 	}
 
@@ -227,7 +228,7 @@ public class Level
 
 	public List<Entity> retrieveFromQuadTree(List<Entity> entities,
 			Rectangle box) {
-		return quadTree.retrieve(entities, box);
+		return quadTree.retrieve(entities, MathHelper.slickToJavaRect(box));
 	}
 
 	private void onStart() {

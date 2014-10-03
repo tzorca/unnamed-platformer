@@ -201,4 +201,12 @@ public final class MathHelper
 		return value;
 	}
 
+	public static java.awt.Rectangle slickToJavaRect(Rectangle slickRect) {
+		int x = (int) slickRect.getX();
+		int y = (int) slickRect.getY();
+		int w = (int) slickRect.getWidth();
+		int h = (int) slickRect.getHeight();
+		return new java.awt.Rectangle(x, y, w, h);
+	}
+
 }
