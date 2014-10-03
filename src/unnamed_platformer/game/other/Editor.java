@@ -7,7 +7,6 @@ import org.lwjgl.opengl.Display;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 
-import unnamed_platformer.app.InputManager;
 import unnamed_platformer.app.MathHelper;
 import unnamed_platformer.game.entities.Entity;
 import unnamed_platformer.globals.GameRef.Flag;
@@ -26,7 +25,8 @@ public class Editor
 
 	private Multiselect multiselect;
 
-	private Vector2f cameraPos = new Vector2f(Ref.DEFAULT_LEVEL_GRIDSIZE * 4, Ref.DEFAULT_LEVEL_GRIDSIZE * 4);
+	private Vector2f cameraPos = new Vector2f(Ref.DEFAULT_LEVEL_GRIDSIZE * 4,
+			Ref.DEFAULT_LEVEL_GRIDSIZE * 4);
 
 	public Editor(final int levelIndex) {
 		changeLevel(levelIndex);
@@ -40,7 +40,8 @@ public class Editor
 
 		World.setLevelByIndex(index);
 
-		final Entity player = World.getCurrentLevel().findEntityByFlag(Flag.PLAYER);
+		final Entity player = World.getCurrentLevel().findEntityByFlag(
+				Flag.PLAYER);
 
 		if (player == null) {
 			playerAdded = false;
@@ -52,26 +53,31 @@ public class Editor
 		return true;
 	}
 
-	public void placeObject(final Vector2f location, final ImageListEntry imageListEntry) {
+	public void placeObject(final Vector2f location,
+			final ImageListEntry imageListEntry) {
 		if (World.playing()) {
 			return;
 		}
 
 		if (multiselect == null) {
-			final Vector2f snappedLocation = MathHelper.snapToGrid(location, gridSize);
+			final Vector2f snappedLocation = MathHelper.snapToGrid(location,
+					gridSize);
 			placeObjectAfterChecks(snappedLocation, imageListEntry);
 		} else {
-			for (final Vector2f multiselectLocation : multiselect.getLastLocations()) {
+			for (final Vector2f multiselectLocation : multiselect
+					.getLastLocations()) {
 				placeObjectAfterChecks(multiselectLocation, imageListEntry);
 			}
 		}
 
 	}
 
-	private void placeObjectAfterChecks(final Vector2f location, final ImageListEntry imageListEntry) {
+	private void placeObjectAfterChecks(final Vector2f location,
+			final ImageListEntry imageListEntry) {
 
 		if (!World.getCurrentLevel().getRect().includes(location.x, location.y)
-				&& !World.getCurrentLevel().getRect().contains(location.x, location.y)) {
+				&& !World.getCurrentLevel().getRect()
+						.contains(location.x, location.y)) {
 			return;
 		}
 
@@ -102,13 +108,14 @@ public class Editor
 			return;
 		}
 
-		final Entity entityAtMouse = World.getCurrentLevel().getTopmostEntity(location);
+		final Entity entityAtCursor = World.getCurrentLevel().getTopmostEntity(
+				location);
 
-		if (entityAtMouse != null) {
-			World.getCurrentLevel().removeEntity(entityAtMouse);
+		if (entityAtCursor != null) {
+			World.getCurrentLevel().removeEntity(entityAtCursor);
 			unsavedChanges = true;
 
-			if (entityAtMouse.isFlagSet(Flag.PLAYER)) {
+			if (entityAtCursor.isFlagSet(Flag.PLAYER)) {
 				playerAdded = false;
 			}
 		}
@@ -129,13 +136,15 @@ public class Editor
 
 	}
 
-	public void tryMoveCamera(final Vector2f cameraDelta) {
+	public void moveCamera(final Vector2f cameraDelta) {
 
 		final Rectangle cameraBounds = World.getCurrentLevel().getRect();
 		cameraBounds.setX(cameraBounds.getX() - Display.getWidth() / 4f);
-		cameraBounds.setWidth(cameraBounds.getWidth() + Display.getWidth() / 2f);
+		cameraBounds
+				.setWidth(cameraBounds.getWidth() + Display.getWidth() / 2f);
 		cameraBounds.setY(cameraBounds.getY() - Display.getHeight() / 4f);
-		cameraBounds.setHeight(cameraBounds.getHeight() + Display.getHeight() / 2f);
+		cameraBounds.setHeight(cameraBounds.getHeight() + Display.getHeight()
+				/ 2f);
 
 		final float origX = cameraPos.x;
 		cameraPos.x += cameraDelta.x;
@@ -152,10 +161,11 @@ public class Editor
 
 	public void update() {
 		ViewManager.centerCamera(cameraPos);
+
 	}
 
 	public boolean levelInc(final int increment) {
-		return changeLevel(World.getCurrentLevelIndex()+ increment);
+		return changeLevel(World.getCurrentLevelIndex() + increment);
 	}
 
 	public boolean removeLevel() {
@@ -196,7 +206,8 @@ public class Editor
 
 		private List<Vector2f> lastLocations = new ArrayList<Vector2f>();
 
-		public List<Vector2f> getLocations(final Vector2f dest, final int xSeparation, final int ySeparation) {
+		public List<Vector2f> getLocations(final Vector2f dest,
+				final int xSeparation, final int ySeparation) {
 			final Vector2f snapDest = MathHelper.snapToGrid(dest, gridSize);
 			final Vector2f snapOrigin = MathHelper.snapToGrid(origin, gridSize);
 
@@ -235,12 +246,11 @@ public class Editor
 		}
 	}
 
-	public List<Vector2f> getPaintDrawLocations(final int xSeparation, final int ySeparation) {
-		final Vector2f gridMousePos = MathHelper.snapToGrid(InputManager.getGameMousePos(), gridSize);
+	public List<Vector2f> getPotentialPaintLocations(final Vector2f startPos,
+			final int xSeparation, final int ySeparation) {
 
-		return multiselect == null ? Lists.newArrayList(gridMousePos) : multiselect.getLocations(gridMousePos,
-				xSeparation, ySeparation);
-
+		return multiselect == null ? Lists.newArrayList(startPos) : multiselect
+				.getLocations(startPos, xSeparation, ySeparation);
 	}
 
 	public void exitMultiselect() {
@@ -264,5 +274,9 @@ public class Editor
 		if (World.saveCurrentGame()) {
 			unsavedChanges = false;
 		}
+	}
+
+	public Vector2f getCameraPos() {
+		return new Vector2f(cameraPos);
 	}
 }

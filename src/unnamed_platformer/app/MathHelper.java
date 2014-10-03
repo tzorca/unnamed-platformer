@@ -14,7 +14,8 @@ import org.newdawn.slick.geom.Vector2f;
 import unnamed_platformer.game.other.DirectionalEnums.Orientation;
 import unnamed_platformer.game.other.DirectionalEnums.Side;
 
-public final class MathHelper {
+public final class MathHelper
+{
 
 	public static final Vector2f EMPTY_VECTOR = new Vector2f(0, 0);
 
@@ -42,7 +43,7 @@ public final class MathHelper {
 		// targeting a line straight down causes problems
 		// for now, use 3,3
 		path.add(new Vector2f(3, 3));
-		
+
 		path.add(new Vector2f(0, -dist));
 		return path;
 	}
@@ -102,7 +103,7 @@ public final class MathHelper {
 				startPoint.getY() + movY);
 
 		final double newDist = newPoint.distance(targetPoint);
-		
+
 		// don't move past the point
 		if (newDist >= initialDist) {
 			newPoint = targetPoint;
@@ -207,6 +208,23 @@ public final class MathHelper {
 		int w = (int) slickRect.getWidth();
 		int h = (int) slickRect.getHeight();
 		return new java.awt.Rectangle(x, y, w, h);
+	}
+
+	public static boolean rectExitingOrOutsideRect(Rectangle activeRect,
+			Rectangle largeRect) {
+		if (activeRect.getMinX() <= largeRect.getMinX()) {
+			return true;
+		}
+		if (activeRect.getMaxX() >= largeRect.getMaxX()) {
+			return true;
+		}
+		if (activeRect.getMinY() <= largeRect.getMinY()) {
+			return true;
+		}
+		if (activeRect.getMaxY() >= largeRect.getMaxY()) {
+			return true;
+		}
+		return false;
 	}
 
 }

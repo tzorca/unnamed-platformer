@@ -32,6 +32,7 @@ import org.newdawn.slick.opengl.Texture;
 import unnamed_platformer.app.ImageHelper;
 import unnamed_platformer.app.InputManager;
 import unnamed_platformer.app.InputManager.InputEventType;
+import unnamed_platformer.app.MathHelper;
 import unnamed_platformer.game.other.Editor;
 import unnamed_platformer.game.other.EntityCreator;
 import unnamed_platformer.game.other.Level;
@@ -52,10 +53,13 @@ import unnamed_platformer.view.gui.objects.TreeCell_ImageRenderer;
 import com.google.common.collect.Lists;
 
 @SuppressWarnings("unchecked")
-public class Screen_Edit extends BaseScreen_Hybrid {
+public class Screen_Edit extends BaseScreen_Hybrid
+{
 	public static final int LEFT_TOOLBAR_SIZE = 160;
+	public static final int TOP_TOOLBAR_SIZE = 36;
 	public static final int ROW_HEIGHT = 56;
 	public static final int ENTITY_ICON_SIZE = 48;
+	public static final int CURSOR_SIZE = 48;
 
 	private final Editor editor = new Editor(0);
 
@@ -99,6 +103,8 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 
 		addCanvasListeners();
 		setupTopToolbar();
+
+		initCursor();
 	}
 
 	private void setupTopToolbar() {
@@ -141,7 +147,7 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 	private void setToolbarSizes() {
 		setToolbarSize(Side.left, LEFT_TOOLBAR_SIZE);
 		setToolbarSize(Side.right, 0);
-		setToolbarSize(Side.top, 36);
+		setToolbarSize(Side.top, TOP_TOOLBAR_SIZE);
 		setToolbarSize(Side.bottom, 0);
 	}
 
@@ -163,11 +169,7 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 			treeEntityList.setCellRenderer(new TreeCell_ImageRenderer());
 			treeEntityList.setBackground(associatedToolbar.getBackground());
 
-			// final Map<String, DefaultMutableTreeNode> createdCategories = new
-			// HashMap<String, DefaultMutableTreeNode>();
-
 			for (final ImageListEntry entry : imageListEntries) {
-				// add entry to tree
 				root.add(new DefaultMutableTreeNode(entry));
 			}
 
@@ -238,7 +240,7 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 	}
 
 	private void processControls() {
-		processCameraControls();
+		processNavigationControls();
 		processGridControls();
 		processEntitySelectionControls();
 		processPaintControls();
@@ -271,7 +273,7 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 		final boolean multiselectState = InputManager.keyPressOccurring(
 				GameKey.multiselect, 1);
 		if (multiselectState && !lastMultiselectState) {
-			editor.startMultiselect(InputManager.getGameMousePos());
+			editor.startMultiselect(cursorRect.getLocation());
 		} else if (!multiselectState && lastMultiselectState) {
 			editor.exitMultiselect();
 		}
@@ -279,11 +281,10 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 
 		// Place or remove objects
 		if (InputManager.keyPressOccurred(GameKey.placeObject, 1)) {
-			editor.placeObject(InputManager.getGameMousePos(),
-					getSelectedEntry());
+			editor.placeObject(cursorRect.getLocation(), getSelectedEntry());
 
 		} else if (InputManager.keyPressOccurred(GameKey.removeObject, 1)) {
-			editor.removeObject(InputManager.getGameMousePos());
+			editor.removeObject(cursorRect.getLocation());
 		}
 
 	}
@@ -302,20 +303,15 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 		}
 	}
 
-	private void processCameraControls() {
-		Vector2f cameraDelta = new Vector2f(0, 0);
-
-		cameraDelta.x -= InputManager.keyPressOccurring(GameKey.left, 1) ? 8
-				: 0;
-		cameraDelta.x += InputManager.keyPressOccurring(GameKey.right, 1) ? 8
-				: 0;
-		cameraDelta.y -= InputManager.keyPressOccurring(GameKey.up, 1) ? 8 : 0;
-		cameraDelta.y += InputManager.keyPressOccurring(GameKey.down, 1) ? 8
-				: 0;
-
-		editor.tryMoveCamera(cameraDelta);
+	private void updateCurrentLevelLabel() {
+		lblCurrentLevel.setText(String.valueOf(World.getCurrentLevelIndex()));
 	}
 
+	// ===============================================================================
+	// DRAWING
+	// ===============================================================================
+
+	@Override
 	public void drawBackground() {
 		if (World.playing()) {
 			return;
@@ -324,11 +320,17 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 		ViewManager.drawGrid(editor.gridSize, Color.lightGray);
 	}
 
+	@Override
 	public void drawForeground() {
 		if (World.playing()) {
 			return;
 		}
 
+		drawEntityPlaceHolder();
+		drawCursor();
+	}
+
+	private void drawEntityPlaceHolder() {
 		final Graphic entityPlaceholderGraphic = getCurrentGraphic();
 
 		if (entityPlaceholderGraphic == null) {
@@ -342,8 +344,11 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 				.getRect().getX(), currentLevel.getRect().getY(), currentLevel
 				.getRect().getWidth(), currentLevel.getRect().getHeight());
 
-		final List<Vector2f> drawLocations = editor.getPaintDrawLocations(
-				texture.getImageWidth(), texture.getImageHeight());
+		Vector2f startPos = MathHelper.snapToGrid(cursorRect.getLocation(),
+				editor.gridSize);
+
+		final List<Vector2f> drawLocations = editor.getPotentialPaintLocations(
+				startPos, texture.getImageWidth(), texture.getImageHeight());
 
 		for (final Vector2f drawLocation : drawLocations) {
 
@@ -363,8 +368,56 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 		}
 	}
 
-	private void updateCurrentLevelLabel() {
-		lblCurrentLevel.setText(String.valueOf(World.getCurrentLevelIndex()));
+	private Graphic cursorGraphic = new Graphic("crosshair");
+
+	private void drawCursor() {
+		Rectangle cursorDrawRect = new Rectangle(cursorRect.getX()
+				- cursorRect.getWidth() / 2, cursorRect.getY()
+				- cursorRect.getHeight() / 2, cursorRect.getWidth(),
+				cursorRect.getHeight());
+		
+		ViewManager.drawGraphic(cursorGraphic, cursorDrawRect);
+	}
+
+	// ===============================================================================
+	// Level Navigation
+	// ===============================================================================
+
+	private void initCursor() {
+		int x = (int) (editor.getCameraPos().x - LEFT_TOOLBAR_SIZE);
+		int y = (int) (editor.getCameraPos().y - TOP_TOOLBAR_SIZE);
+		cursorRect = new Rectangle(x, y, CURSOR_SIZE, CURSOR_SIZE);
+	}
+
+	private Rectangle cursorRect;
+
+	private Rectangle getNavigationBounds() {
+		Rectangle rect = ViewManager.getViewport();
+		rect.setWidth(rect.getWidth() - LEFT_TOOLBAR_SIZE);
+		rect.setY(rect.getY() + TOP_TOOLBAR_SIZE);
+		rect.setHeight(rect.getHeight() - TOP_TOOLBAR_SIZE);
+
+		return rect;
+	}
+
+	private void processNavigationControls() {
+		Vector2f cursorDelta = new Vector2f(0, 0);
+
+		cursorDelta.x -= InputManager.keyPressOccurring(GameKey.left, 1) ? 8
+				: 0;
+		cursorDelta.x += InputManager.keyPressOccurring(GameKey.right, 1) ? 8
+				: 0;
+		cursorDelta.y -= InputManager.keyPressOccurring(GameKey.up, 1) ? 8 : 0;
+		cursorDelta.y += InputManager.keyPressOccurring(GameKey.down, 1) ? 8
+				: 0;
+
+		cursorRect.setX(cursorRect.getX() + cursorDelta.x);
+		cursorRect.setY(cursorRect.getY() + cursorDelta.y);
+
+		if (MathHelper.rectExitingOrOutsideRect(cursorRect,
+				getNavigationBounds())) {
+			editor.moveCamera(cursorDelta);
+		}
 	}
 
 	// ===============================================================================
@@ -409,33 +462,37 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 		return entry;
 	}
 
-	private class RenderCanvas_LeftClick implements Runnable {
+	private class RenderCanvas_LeftClick implements Runnable
+	{
 		public void run() {
-			editor.placeObject(InputManager.getGameMousePos(),
-					getSelectedEntry());
+			editor.placeObject(cursorRect.getLocation(), getSelectedEntry());
 		}
 	}
 
-	private class RenderCanvas_RightClick implements Runnable {
+	private class RenderCanvas_RightClick implements Runnable
+	{
 		public void run() {
-			editor.removeObject(InputManager.getGameMousePos());
+			editor.removeObject(cursorRect.getLocation());
 		}
 	}
 
 	private class TreeEntityList_SelectionChanged implements
-			TreeSelectionListener {
+			TreeSelectionListener
+	{
 		public void valueChanged(final TreeSelectionEvent event) {
 			ViewManager.focusRenderCanvas();
 		}
 	}
 
-	private class btnModeSwitch_Click implements ActionListener {
+	private class btnModeSwitch_Click implements ActionListener
+	{
 		public void actionPerformed(final ActionEvent event) {
 			toggleEditMode();
 		}
 	}
 
-	private class btnAddLevel_Click implements ActionListener {
+	private class btnAddLevel_Click implements ActionListener
+	{
 		public void actionPerformed(final ActionEvent event) {
 			World.addBlankLevel();
 			editor.changeLevel(World.getLevelCount() - 1);
@@ -444,7 +501,8 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 		}
 	}
 
-	private class btnNextLevel_Click implements ActionListener {
+	private class btnNextLevel_Click implements ActionListener
+	{
 		public void actionPerformed(final ActionEvent event) {
 			editor.levelInc(1);
 			updateCurrentLevelLabel();
@@ -452,7 +510,8 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 		}
 	}
 
-	private class btnPrevLevel_Click implements ActionListener {
+	private class btnPrevLevel_Click implements ActionListener
+	{
 		public void actionPerformed(final ActionEvent event) {
 			editor.levelInc(-1);
 			updateCurrentLevelLabel();
@@ -460,7 +519,8 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 		}
 	}
 
-	private class btnRemoveLevel_Click implements ActionListener {
+	private class btnRemoveLevel_Click implements ActionListener
+	{
 		public void actionPerformed(final ActionEvent event) {
 			editor.removeLevel();
 			updateCurrentLevelLabel();
@@ -468,7 +528,8 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 		}
 	}
 
-	private class btnSaveLevel_Click implements ActionListener {
+	private class btnSaveLevel_Click implements ActionListener
+	{
 		public void actionPerformed(final ActionEvent event) {
 			editor.save();
 			ViewManager.focusRenderCanvas();

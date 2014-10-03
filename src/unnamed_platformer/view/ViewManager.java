@@ -460,4 +460,9 @@ public final class ViewManager
 		setFullscreen(!isFullscreen());
 	}
 
+	public static Rectangle getViewport() {
+		return new Rectangle(viewport.getX(), viewport.getY(),
+				viewport.getWidth(), viewport.getHeight());
+	}
+
 }
