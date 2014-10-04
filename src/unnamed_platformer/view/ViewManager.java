@@ -110,8 +110,7 @@ public final class ViewManager
 		bgTexture.bind();
 		GL11.glBegin(GL11.GL_QUADS);
 
-		// figure out what how many times bigger the viewport is than the
-		// texture
+		// Calculate how many times bigger the viewport is than the texture
 		float wTileAmount = viewport.getWidth() / width;
 		float hTileAmount = viewport.getHeight() / height;
 
