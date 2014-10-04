@@ -10,7 +10,7 @@ public class LiquidHazard extends DeadlyHazard {
 		super(entitySetup);
 		
 		zIndex = 3;
-		graphic.color = new Color(1,1,1,0.75f);
+		graphic.color = new Color(1,1,1,0.85f);
 	}
 	
 
