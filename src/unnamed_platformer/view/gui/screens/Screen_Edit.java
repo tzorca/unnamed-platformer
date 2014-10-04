@@ -226,6 +226,7 @@ public class Screen_Edit extends BaseScreen_Hybrid
 		if (currentlyEditing) {
 			editor.update();
 			processControls();
+			keepCursorInView();
 		}
 
 		for (final Component editModeComponent : editModeComponents) {
@@ -392,6 +393,15 @@ public class Screen_Edit extends BaseScreen_Hybrid
 
 	private Rectangle cursorRect;
 
+	private void keepCursorInView() {
+		// if cursor got lost, put it back in the center
+		if (!cursorRect.intersects(getNavigationBounds())) {
+			cursorRect.setCenterX(ViewManager.getViewport().getCenterX());
+			cursorRect.setCenterY(ViewManager.getViewport().getCenterY());
+		}
+
+	}
+
 	private Rectangle getNavigationBounds() {
 		Rectangle rect = ViewManager.getViewport();
 		rect.setWidth(rect.getWidth() - LEFT_TOOLBAR_SIZE);
@@ -402,9 +412,10 @@ public class Screen_Edit extends BaseScreen_Hybrid
 	}
 
 	private static final String NAV_TIME_PERIOD_STRING = "EditorLevelNavigation";
-	private static final float NAV_RATE = 0.05f;
+	private static final float NAV_RATE = 0.06f;
 
 	private void processNavigationControls() {
+
 		if (!TimeManager.periodElapsed(this, NAV_TIME_PERIOD_STRING, NAV_RATE)) {
 			return;
 		}
