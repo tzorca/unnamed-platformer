@@ -133,7 +133,6 @@ public class Editor
 
 	public void resetToEditPlacement() {
 		World.getCurrentLevel().resetToCurrent();
-
 	}
 
 	public void moveCamera(final Vector2f cameraDelta) {

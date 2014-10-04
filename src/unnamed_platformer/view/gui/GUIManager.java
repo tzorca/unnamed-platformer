@@ -9,12 +9,14 @@ import javax.swing.UIManager;
 import unnamed_platformer.globals.Ref;
 import unnamed_platformer.res_mgt.ClassLookup;
 import unnamed_platformer.view.ViewManager;
+import unnamed_platformer.view.gui.dialogs.Dialog;
 import unnamed_platformer.view.gui.screens.Screen;
 
 // TODO: Add button/key to return to previous menu
 // TODO: Implement pause key functionality (return to ...)
 // TODO: Add options screen
-public final class GUIManager {
+public final class GUIManager
+{
 
 	public static enum ScreenType {
 		Edit, Play, SelectWorld, Start, Transition
@@ -37,6 +39,7 @@ public final class GUIManager {
 			+ ".view.gui.screens";
 
 	private static Screen screen;
+	private static Dialog dialog;
 
 	private static LinkedList<ScreenType> screenStateStack = new LinkedList<ScreenType>();
 
@@ -115,7 +118,13 @@ public final class GUIManager {
 	}
 
 	public static void update() {
-		screen.update();
+		// if a dialog exists and is visible
+		// update it instead of the screen
+		if (dialog != null && dialog.isVisible()) {
+			dialog.update();
+		} else {
+			screen.update();
+		}
 	}
 
 	public static ScreenType getPreviousScreen() {
@@ -125,5 +134,10 @@ public final class GUIManager {
 			// No previous screen exists
 			return top();
 		}
+	}
+
+	public static void showDialog(Dialog newDialog) {
+		dialog = newDialog;
+		dialog.setVisible(true);
 	}
 }

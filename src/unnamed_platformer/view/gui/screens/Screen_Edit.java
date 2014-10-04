@@ -4,8 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.Panel;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,11 +13,8 @@ import java.util.Map;
 
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
-import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -47,6 +42,7 @@ import unnamed_platformer.view.gui.GUIHelper;
 import unnamed_platformer.view.gui.GUIHelper.ParamRunnable;
 import unnamed_platformer.view.gui.GUIManager;
 import unnamed_platformer.view.gui.GUIManager.ScreenType;
+import unnamed_platformer.view.gui.dialogs.Dialog_EditMenu;
 import unnamed_platformer.view.gui.objects.ImageListEntry;
 import unnamed_platformer.view.gui.objects.ListCellRenderer_ImageListEntry;
 
@@ -56,7 +52,6 @@ import com.google.common.collect.Lists;
 public class Screen_Edit extends BaseScreen_Hybrid
 {
 	public static final int LEFT_TOOLBAR_SIZE = 160;
-	public static final int TOP_TOOLBAR_SIZE = 36;
 	public static final int ROW_HEIGHT = 56;
 	public static final int ENTITY_ICON_SIZE = 48;
 	public static final int CURSOR_SIZE = 48;
@@ -65,25 +60,8 @@ public class Screen_Edit extends BaseScreen_Hybrid
 
 	private final Map<ImageListEntry, Graphic> entityGraphics = new HashMap<ImageListEntry, Graphic>();
 
-	private static final ImageIcon /* */
-	/*    */IMG_EDIT_MODE = ImageHelper.getImageIconContent("gui_modeEdit"),
-			IMG_PLAY_MODE = ImageHelper.getImageIconContent("gui_modePlay"),
-			IMG_ADD = ImageHelper.getImageIconContent("gui_add"),
-			IMG_NEXT = ImageHelper.getImageIconContent("gui_next"),
-			IMG_PREV = ImageHelper.getImageIconContent("gui_prev"),
-			IMG_REMOVE = ImageHelper.getImageIconContent("gui_remove"),
-			IMG_SAVE = ImageHelper.getImageIconContent("gui_save");
-
 	private final List<ImageListEntry> imageListEntries = new ArrayList<ImageListEntry>();
 	private final JList<ImageListEntry> lstEntities = new JList<ImageListEntry>();
-
-	private final JLabel lblCurrentLevel = new JLabel();
-	private final JButton btnModeSwitch = new JButton(IMG_PLAY_MODE);
-	private final JButton btnPrevLevel = new JButton(IMG_PREV);
-	private final JButton btnAddLevel = new JButton(IMG_ADD);
-	private final JButton btnNextLevel = new JButton(IMG_NEXT);
-	private final JButton btnRemoveLevel = new JButton(IMG_REMOVE);
-	private final JButton btnSaveLevel = new JButton(IMG_SAVE);
 
 	private final List<Component> editModeComponents = new ArrayList<Component>();
 
@@ -93,17 +71,15 @@ public class Screen_Edit extends BaseScreen_Hybrid
 		super();
 
 		// ADD COMPONENTS TO EDIT MODE LIST
-		editModeComponents.addAll(Lists.newArrayList(lstEntities,
-				lblCurrentLevel, btnPrevLevel, btnAddLevel, btnNextLevel,
-				btnRemoveLevel, btnSaveLevel));
+		editModeComponents.addAll(Lists.newArrayList(lstEntities));
 
 		// LOAD ENTITY PLACEHOLDER GRAPHICS
 		loadEntityPlaceholderGraphics();
 
 		// SET TOOLBAR SIZES
 		setToolbarSize(Side.left, LEFT_TOOLBAR_SIZE);
+		setToolbarSize(Side.top, 0);
 		setToolbarSize(Side.right, 0);
-		setToolbarSize(Side.top, TOP_TOOLBAR_SIZE);
 		setToolbarSize(Side.bottom, 0);
 
 		// SETUP ENTITY LIST
@@ -139,32 +115,11 @@ public class Screen_Edit extends BaseScreen_Hybrid
 		flowLayout.setHgap(0);
 		topToolbar.setLayout(flowLayout);
 
-		// SETUP TOP TOOLBAR BUTTONS
-		btnPrevLevel.addActionListener(new btnPrevLevel_Click());
-		btnNextLevel.addActionListener(new btnNextLevel_Click());
-		btnAddLevel.addActionListener(new btnAddLevel_Click());
-		btnRemoveLevel.addActionListener(new btnRemoveLevel_Click());
-		btnSaveLevel.addActionListener(new btnSaveLevel_Click());
-		btnModeSwitch.addActionListener(new btnModeSwitch_Click());
-		GUIHelper.removeButtonPadding(Lists.newArrayList(btnPrevLevel,
-				btnNextLevel, btnAddLevel, btnRemoveLevel, btnSaveLevel,
-				btnModeSwitch));
-		GUIHelper.styleButtons(Lists.newArrayList(btnPrevLevel, btnNextLevel,
-				btnAddLevel, btnRemoveLevel, btnSaveLevel, btnModeSwitch), 0);
+		// // SETUP TOP TOOLBAR LABELS
 
-		// SETUP TOP TOOLBAR LABELS
-		lblCurrentLevel.setText("0");
-		lblCurrentLevel.setForeground(GUIManager.COLOR_WHITE);
-		lblCurrentLevel.setBorder(new EmptyBorder(8, 8, 8, 8));
-
-		// ADD COMPONENTS TO TOP TOOLBAR
-		topToolbar.add(btnPrevLevel);
-		topToolbar.add(lblCurrentLevel);
-		topToolbar.add(btnNextLevel);
-		topToolbar.add(btnAddLevel);
-		topToolbar.add(btnRemoveLevel);
-		topToolbar.add(btnSaveLevel);
-		topToolbar.add(btnModeSwitch);
+		//
+		// // ADD COMPONENTS TO TOP TOOLBAR
+		// topToolbar.add(lblCurrentLevel);
 
 		// INITIALIZE CURSOR
 		initCursor();
@@ -202,6 +157,13 @@ public class Screen_Edit extends BaseScreen_Hybrid
 			editor.update();
 			processControls();
 			keepCursorInView();
+		}
+
+		// Can display edit mode dialog while playtesting too
+		if (InputManager.keyPressOccurred(GameKey.start, 1)) {
+			Dialog_EditMenu dialogEditMenu = new Dialog_EditMenu(
+					ViewManager.getFrame(), editor, this);
+			GUIManager.showDialog(dialogEditMenu);
 		}
 
 		for (final Component editModeComponent : editModeComponents) {
@@ -295,9 +257,7 @@ public class Screen_Edit extends BaseScreen_Hybrid
 		}
 	}
 
-	private void updateCurrentLevelLabel() {
-		lblCurrentLevel.setText(String.valueOf(World.getCurrentLevelIndex()));
-	}
+
 
 	// ===============================================================================
 	// DRAWING
@@ -377,7 +337,7 @@ public class Screen_Edit extends BaseScreen_Hybrid
 
 	private void initCursor() {
 		int x = (int) (editor.getCameraPos().x - LEFT_TOOLBAR_SIZE);
-		int y = (int) (editor.getCameraPos().y - TOP_TOOLBAR_SIZE);
+		int y = (int) (editor.getCameraPos().y);
 		cursorRect = new Rectangle(x, y, CURSOR_SIZE, CURSOR_SIZE);
 	}
 
@@ -395,8 +355,6 @@ public class Screen_Edit extends BaseScreen_Hybrid
 	private Rectangle getNavigationBounds() {
 		Rectangle rect = ViewManager.getViewport();
 		rect.setWidth(rect.getWidth() - LEFT_TOOLBAR_SIZE);
-		rect.setY(rect.getY() + TOP_TOOLBAR_SIZE);
-		rect.setHeight(rect.getHeight() - TOP_TOOLBAR_SIZE);
 
 		return rect;
 	}
@@ -502,68 +460,14 @@ public class Screen_Edit extends BaseScreen_Hybrid
 		}
 	}
 
-	private class btnModeSwitch_Click implements ActionListener
-	{
-		public void actionPerformed(final ActionEvent event) {
-			toggleEditMode();
-		}
-	}
-
-	private class btnAddLevel_Click implements ActionListener
-	{
-		public void actionPerformed(final ActionEvent event) {
-			World.addBlankLevel();
-			editor.changeLevel(World.getLevelCount() - 1);
-			updateCurrentLevelLabel();
-			ViewManager.focusRenderCanvas();
-		}
-	}
-
-	private class btnNextLevel_Click implements ActionListener
-	{
-		public void actionPerformed(final ActionEvent event) {
-			editor.levelInc(1);
-			updateCurrentLevelLabel();
-			ViewManager.focusRenderCanvas();
-		}
-	}
-
-	private class btnPrevLevel_Click implements ActionListener
-	{
-		public void actionPerformed(final ActionEvent event) {
-			editor.levelInc(-1);
-			updateCurrentLevelLabel();
-			ViewManager.focusRenderCanvas();
-		}
-	}
-
-	private class btnRemoveLevel_Click implements ActionListener
-	{
-		public void actionPerformed(final ActionEvent event) {
-			editor.removeLevel();
-			updateCurrentLevelLabel();
-			ViewManager.focusRenderCanvas();
-		}
-	}
-
-	private class btnSaveLevel_Click implements ActionListener
-	{
-		public void actionPerformed(final ActionEvent event) {
-			editor.save();
-			ViewManager.focusRenderCanvas();
-		}
-	}
-
 	public void toggleEditMode() {
 		if (World.playing()) {
 			editor.switchToEditMode();
-			btnModeSwitch.setIcon(IMG_PLAY_MODE);
 			setToolbarSize(Side.left, LEFT_TOOLBAR_SIZE);
 		} else {
 			editor.switchToPlayMode();
 			editor.setCameraPos(World.getCurrentLevel()
 					.findEntityByFlag(Flag.PLAYER).getPos());
-			btnModeSwitch.setIcon(IMG_EDIT_MODE);
 			setToolbarSize(Side.left, 0);
 		}
 
