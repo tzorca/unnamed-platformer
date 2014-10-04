@@ -66,8 +66,8 @@ public class Dialog_EditMenu extends Dialog
 				btnModeSwitch));
 		GUIHelper.styleButtons(Lists.newArrayList(btnPrevLevel, btnNextLevel,
 				btnAddLevel, btnRemoveLevel, btnSaveLevel, btnModeSwitch), 0);
-		lblCurrentLevel
-				.setText("Level " + String.valueOf(World.getCurrentLevelIndex() + 1));
+		lblCurrentLevel.setText("Level "
+				+ String.valueOf(World.getCurrentLevelIndex() + 1));
 		lblCurrentLevel.setForeground(GUIManager.COLOR_WHITE);
 		lblCurrentLevel.setBorder(new EmptyBorder(8, 8, 8, 8));
 
@@ -84,6 +84,11 @@ public class Dialog_EditMenu extends Dialog
 			btnModeSwitch.setIcon(IMG_EDIT_MODE);
 		}
 		this.add(lblCurrentLevel);
+
+		// ADD DIRECTIONAL NAVIGATION
+		GUIHelper.addDirectionalNavigation(Lists.newArrayList(btnModeSwitch,
+				btnPrevLevel, btnNextLevel, btnAddLevel, btnRemoveLevel,
+				btnSaveLevel));
 
 		this.pack();
 	}

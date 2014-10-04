@@ -3,9 +3,11 @@ package unnamed_platformer.app;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.event.KeyEvent;
 import java.util.Collection;
 import java.util.EnumMap;
 import java.util.HashMap;
+import java.util.HashSet;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -21,12 +23,26 @@ import unnamed_platformer.view.ViewManager;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 
-public final class InputManager {
+public final class InputManager
+{
 	private static HashMap<Integer, Boolean> rawKeyStates = Maps.newHashMap();
 	private static HashMap<PlayerGameKey, Boolean> playerGameKeyStates = Maps
 			.newHashMap(), lastPlayerGameKeyStates = Maps.newHashMap(),
 			playerGameKeyPressEvents = Maps.newHashMap();
 	private static Multimap<Integer, PlayerGameKey> gamekeyMappings = InputRef.GAME_KEY_SETUP;
+
+	public static Collection<PlayerGameKey> getGameKeysMatchingKeyEvent(
+			KeyEvent keyEvent) {
+
+		int translatedKeyCode = KeyCodeTranslator
+				.translateJavaVKToJInputCode(keyEvent.getKeyCode());
+
+		if (gamekeyMappings.containsKey(translatedKeyCode)) {
+			return gamekeyMappings.get(translatedKeyCode);
+		}
+
+		return new HashSet<PlayerGameKey>();
+	}
 
 	public static void mapKey(int playerNo, GameKey gk, int key) {
 		gamekeyMappings.put(key, new PlayerGameKey(playerNo, gk));
@@ -157,6 +173,7 @@ public final class InputManager {
 	private static void readKeys() {
 		while (Keyboard.next()) {
 			int keycode = Keyboard.getEventKey();
+			Keyboard.getEventCharacter();
 			boolean state = Keyboard.getEventKeyState();
 			assignKeyState(keycode, state);
 		}
@@ -203,7 +220,8 @@ public final class InputManager {
 		return false;
 	}
 
-	public static class PlayerGameKey {
+	public static class PlayerGameKey
+	{
 		private GameKey gameKey;
 		private int playerNo;
 
@@ -216,6 +234,14 @@ public final class InputManager {
 			// two randomly chosen prime numbers
 			return new HashCodeBuilder(23, 11).append(playerNo).append(gameKey)
 					.toHashCode();
+		}
+		
+		public GameKey getGameKey() {
+			return gameKey;
+		}
+		
+		public int getPlayerNo() {
+			return playerNo;
 		}
 
 		public boolean equals(Object obj) {

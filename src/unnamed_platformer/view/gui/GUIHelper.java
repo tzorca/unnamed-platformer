@@ -4,9 +4,13 @@ import java.awt.Component;
 import java.awt.Insets;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -19,6 +23,8 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
+import unnamed_platformer.app.InputManager;
+import unnamed_platformer.app.InputManager.PlayerGameKey;
 import unnamed_platformer.globals.Ref;
 
 public final class GUIHelper
@@ -97,10 +103,11 @@ public final class GUIHelper
 		button.setOpaque(true);
 	}
 
-	public static void styleComponentColors(final JComponent component, boolean focusHighlight) {
+	public static void styleComponentColors(final JComponent component,
+			boolean focusHighlight) {
 		component.setForeground(GUIManager.COLOR_WHITE);
 		component.setBackground(GUIManager.COLOR_DARK_BLUE_2);
-		
+
 		if (focusHighlight) {
 
 			component.addFocusListener(new FocusListener() {
@@ -114,7 +121,7 @@ public final class GUIHelper
 				public void focusLost(FocusEvent e) {
 					component.setBackground(GUIManager.COLOR_DARK_BLUE_2);
 				}
-				
+
 			});
 		}
 	}
@@ -136,9 +143,9 @@ public final class GUIHelper
 		final Border compoundRaisedBorder = BorderFactory.createCompoundBorder(
 				raisedBevelBorder, paddingBorder);
 
-		if (clickable) {			
+		if (clickable) {
 			component.addMouseListener(new MouseAdapter() {
-				
+
 				public void mousePressed(MouseEvent e) {
 					JComponent component = (JComponent) e.getSource();
 					component.setBorder(compoundLoweredBorder);
@@ -161,4 +168,60 @@ public final class GUIHelper
 			styleButton(button, paddingSize);
 		}
 	}
+
+	public static void addDirectionalNavigation(final List<JButton> buttons) {
+		for (int i = 0; i < buttons.size(); i++) {
+
+			// Get current button
+			final JButton currentButton = buttons.get(i);
+
+			// Get previous and next buttons
+			int prevIndex = i - 1;
+			if (prevIndex < 0) {
+				prevIndex = buttons.size()-1;
+			}
+			final JButton prevButton = buttons.get(prevIndex);
+			int nextIndex = i + 1;
+			if (nextIndex >= buttons.size()) {
+				nextIndex = 0;
+			}
+			final JButton nextButton = buttons.get(nextIndex);
+
+			// Add directional navigation
+			currentButton.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyPressed(KeyEvent e) {
+
+					Collection<PlayerGameKey> gameKeys = InputManager
+							.getGameKeysMatchingKeyEvent(e);
+
+					// No matching keys
+					if (gameKeys.size() == 0) {
+						return;
+					}
+
+					for (PlayerGameKey gk : gameKeys) {
+						switch (gk.getGameKey()) {
+						case A:
+							currentButton.doClick();
+							break;
+						case LEFT:
+							prevButton.requestFocus();
+							break;
+						case RIGHT:
+							nextButton.requestFocus();
+							break;
+						case DOWN:
+							break;
+						case UP:
+							break;
+						default:
+							break;
+						}
+					}
+				}
+			});
+		}
+	}
+
 }
