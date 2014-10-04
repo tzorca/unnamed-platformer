@@ -5,9 +5,6 @@ import unnamed_platformer.game.entities.PlatformPlayer;
 import unnamed_platformer.game.other.DirectionalEnums.Side;
 import unnamed_platformer.globals.GameRef.Flag;
 
-// TODO: Add health system
-// TODO: Implement temporary invincibility after nonlethal hit
-// TODO: Implement small waiting period after death but before restarting level
 public class Inter_Damaging extends Interaction {
 
 	public Inter_Damaging() {

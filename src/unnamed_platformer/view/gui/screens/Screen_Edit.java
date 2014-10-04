@@ -238,7 +238,6 @@ public class Screen_Edit extends BaseScreen_Hybrid
 		processGridControls();
 		processEntitySelectionControls();
 		processPaintControls();
-
 	}
 
 	private static final String ENTITY_SELECTION_STRING = "EntitySelection";

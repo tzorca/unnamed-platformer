@@ -37,7 +37,6 @@ public class Ctrl_PathMovement extends ControlMechanism {
 			List<Vector2f> relativePath, double speed) {
 		super(actor);
 		this.origin = startPos;
-		System.out.println("Starting at " + startPos);
 		this.relativePath = relativePath;
 		this.speed = speed;
 		reset();
