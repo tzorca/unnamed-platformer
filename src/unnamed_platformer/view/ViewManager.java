@@ -90,7 +90,6 @@ public final class ViewManager
 		}
 	}
 
-	// TODO: Fix background tiling mechanism
 	public static void drawBG(final Texture bgTexture) {
 		if (bgTexture == null) {
 			return;

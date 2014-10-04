@@ -17,7 +17,6 @@ import unnamed_platformer.globals.EntityRef;
 import unnamed_platformer.globals.GameRef.Flag;
 import unnamed_platformer.game.other.PhysicsInstance;
 
-// TODO: Fix (separate x/y checking -related) pixel collision bug
 
 public final class PhysicsProcessor
 {

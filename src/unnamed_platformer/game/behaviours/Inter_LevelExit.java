@@ -18,9 +18,6 @@ public class Inter_LevelExit extends Interaction
 
 	@Override
 	protected boolean performInteraction(Entity source, Entity target) {
-		// TODO: Show current level in HUD
-		// TODO: Create GameFinished screen and ask if user wants to restart
-		
 		if (GUIManager.atScreen(ScreenType.Edit)) {
 			Screen_Edit currentScreen = ((Screen_Edit)GUIManager.getScreen());
 			
