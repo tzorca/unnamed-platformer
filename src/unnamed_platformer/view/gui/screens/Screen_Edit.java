@@ -249,15 +249,29 @@ public class Screen_Edit extends BaseScreen_Hybrid
 
 	}
 
+	private static final String ENTITY_SELECTION_STRING = "EntitySelection";
+	private static final float ENTITY_SELECTION_CHANGE_RATE = 0.15f;
+
 	private void processEntitySelectionControls() {
 		int currentIndex = treeEntityList.getMinSelectionRow();
 		int nextIndex = currentIndex;
-
+		
 		if (InputManager.keyPressOccurred(GameKey.extraUp, 1)) {
 			nextIndex = currentIndex - 1;
-		}
-		if (InputManager.keyPressOccurred(GameKey.extraDown, 1)) {
+			TimeManager.periodElapsed(this, ENTITY_SELECTION_STRING,
+					ENTITY_SELECTION_CHANGE_RATE);
+		} else if (InputManager.keyPressOccurred(GameKey.extraDown, 1)) {
 			nextIndex = currentIndex + 1;
+			TimeManager.periodElapsed(this, ENTITY_SELECTION_STRING,
+					ENTITY_SELECTION_CHANGE_RATE);
+		} else if (TimeManager.periodElapsed(this, ENTITY_SELECTION_STRING,
+				ENTITY_SELECTION_CHANGE_RATE)) {
+			if (InputManager.keyPressOccurring(GameKey.extraUp, 1)) {
+				nextIndex = currentIndex - 1;
+			}
+			if (InputManager.keyPressOccurring(GameKey.extraDown, 1)) {
+				nextIndex = currentIndex + 1;
+			}
 		}
 
 		if (nextIndex != currentIndex) {
