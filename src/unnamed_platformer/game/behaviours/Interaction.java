@@ -9,7 +9,7 @@ import unnamed_platformer.game.other.DirectionalEnums.Side;
 public abstract class Interaction {
 
 	public static final double LOOSE_SIDE_MATCH_DISTANCE = Math.PI / 2;
-	public static final double STRICT_SIDE_MATCH_DISTANCE = Math.PI / 3;
+	public static final double STRICT_SIDE_MATCH_DISTANCE = Math.PI / 4;
 
 	private Side[] activeSides;
 	private double maxSideMatchDistance = 0;
