@@ -49,8 +49,8 @@ public class Ctrl_HorizontalMove extends ControlMechanism {
 		boolean movingLeft = velocity.x < 0;
 		boolean notMoving = velocity.x == 0;
 
-		boolean rightPressed = InputManager.keyPressOccurring(GameKey.right, 1);
-		boolean leftPressed = InputManager.keyPressOccurring(GameKey.left, 1);
+		boolean rightPressed = InputManager.keyPressOccurring(GameKey.RIGHT, 1);
+		boolean leftPressed = InputManager.keyPressOccurring(GameKey.LEFT, 1);
 
 		Vector2f baseForce = new Vector2f(0, 0);
 

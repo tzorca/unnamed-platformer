@@ -15,7 +15,8 @@ import unnamed_platformer.view.gui.GUIManager.ScreenType;
 
 import com.rits.cloning.Cloner;
 
-public final class Main {
+public final class Main
+{
 
 	private static long accumulator = 0;
 
@@ -43,24 +44,21 @@ public final class Main {
 	}
 
 	private static void handleHotkeys() {
-		if (InputManager.keyPressOccurred(GameKey.restartApp, 1)) {
+		if (InputManager.keyPressOccurred(GameKey.RESTART_APP, 1)) {
 			GUIManager.changeScreen(ScreenType.SelectWorld);
 		}
 
-		else if (InputManager.keyPressOccurred(GameKey.back, 1)) {
-			GUIManager.back();
-		}
+		// else if (InputManager.keyPressOccurred(GameKey.back, 1)) {
+		// GUIManager.back();
+		// }
+		// else if (InputManager.gameKeyPressed(GameKey.saveTempGame, 1)) {
+		// World.save("Temp"); }
 
-		/*
-		 * else if (InputManager.gameKeyPressed(GameKey.saveTempGame, 1)) {
-		 * World.save("Temp"); }
-		 */
-
-		else if (InputManager.keyPressOccurred(GameKey.saveScreenshot, 1)) {
+		else if (InputManager.keyPressOccurred(GameKey.SAVE_SCREENSHOT, 1)) {
 			ImageHelper.saveScreenshot();
 		}
 
-		else if (InputManager.keyPressOccurred(GameKey.toggleFullscreen, 1)) {
+		else if (InputManager.keyPressOccurred(GameKey.TOGGLE_FULLSCREEN, 1)) {
 			ViewManager.toggleFullscreen();
 		}
 

@@ -160,7 +160,7 @@ public class Screen_Edit extends BaseScreen_Hybrid
 		}
 
 		// Can display edit mode dialog while playtesting too
-		if (InputManager.keyPressOccurred(GameKey.start, 1)) {
+		if (InputManager.keyPressOccurred(GameKey.START, 1)) {
 			Dialog_EditMenu dialogEditMenu = new Dialog_EditMenu(
 					ViewManager.getFrame(), editor, this);
 			GUIManager.showDialog(dialogEditMenu);
@@ -192,20 +192,20 @@ public class Screen_Edit extends BaseScreen_Hybrid
 		int currentIndex = lstEntities.getSelectedIndex();
 		int nextIndex = currentIndex;
 
-		if (InputManager.keyPressOccurred(GameKey.extraUp, 1)) {
+		if (InputManager.keyPressOccurred(GameKey.SECONDARY_UP, 1)) {
 			nextIndex = currentIndex - 1;
 			TimeManager.periodElapsed(this, ENTITY_SELECTION_STRING,
 					ENTITY_SELECTION_CHANGE_RATE);
-		} else if (InputManager.keyPressOccurred(GameKey.extraDown, 1)) {
+		} else if (InputManager.keyPressOccurred(GameKey.SECONDARY_DOWN, 1)) {
 			nextIndex = currentIndex + 1;
 			TimeManager.periodElapsed(this, ENTITY_SELECTION_STRING,
 					ENTITY_SELECTION_CHANGE_RATE);
 		} else if (TimeManager.periodElapsed(this, ENTITY_SELECTION_STRING,
 				ENTITY_SELECTION_CHANGE_RATE)) {
-			if (InputManager.keyPressOccurring(GameKey.extraUp, 1)) {
+			if (InputManager.keyPressOccurring(GameKey.SECONDARY_UP, 1)) {
 				nextIndex = currentIndex - 1;
 			}
-			if (InputManager.keyPressOccurring(GameKey.extraDown, 1)) {
+			if (InputManager.keyPressOccurring(GameKey.SECONDARY_DOWN, 1)) {
 				nextIndex = currentIndex + 1;
 			}
 		}
@@ -225,7 +225,7 @@ public class Screen_Edit extends BaseScreen_Hybrid
 	private void processPaintControls() {
 		// Multi-select
 		final boolean multiselectState = InputManager.keyPressOccurring(
-				GameKey.multiselect, 1);
+				GameKey.MULTI_SELECT, 1);
 		if (multiselectState && !lastMultiselectState) {
 			editor.startMultiselect(cursorRect.getLocation());
 		} else if (!multiselectState && lastMultiselectState) {
@@ -234,10 +234,10 @@ public class Screen_Edit extends BaseScreen_Hybrid
 		lastMultiselectState = multiselectState;
 
 		// Place or remove objects
-		if (InputManager.keyPressOccurred(GameKey.placeObject, 1)) {
+		if (InputManager.keyPressOccurred(GameKey.A, 1)) {
 			editor.placeObject(cursorRect.getLocation(), getSelectedEntry());
 
-		} else if (InputManager.keyPressOccurred(GameKey.removeObject, 1)) {
+		} else if (InputManager.keyPressOccurred(GameKey.B, 1)) {
 			editor.removeObject(cursorRect.getLocation());
 		}
 
@@ -245,10 +245,10 @@ public class Screen_Edit extends BaseScreen_Hybrid
 
 	private void processGridControls() {
 		int newGridSize = editor.gridSize;
-		if (InputManager.keyPressOccurred(GameKey.scrollIn, 1)) {
+		if (InputManager.keyPressOccurred(GameKey.SCROLL_IN, 1)) {
 			newGridSize /= 2;
 
-		} else if (InputManager.keyPressOccurred(GameKey.scrollOut, 1)) {
+		} else if (InputManager.keyPressOccurred(GameKey.SCROLL_OUT, 1)) {
 			newGridSize *= 2;
 		}
 
@@ -372,19 +372,19 @@ public class Screen_Edit extends BaseScreen_Hybrid
 		int navDist = NAV_SPEED;
 
 		Vector2f cursorDelta = new Vector2f(0, 0);
-		if (InputManager.keyPressOccurring(GameKey.left, 1)) {
+		if (InputManager.keyPressOccurring(GameKey.LEFT, 1)) {
 			cursorDelta.x -= navDist;
 		}
 
-		if (InputManager.keyPressOccurring(GameKey.right, 1)) {
+		if (InputManager.keyPressOccurring(GameKey.RIGHT, 1)) {
 			cursorDelta.x += navDist;
 		}
 
-		if (InputManager.keyPressOccurring(GameKey.up, 1)) {
+		if (InputManager.keyPressOccurring(GameKey.UP, 1)) {
 			cursorDelta.y -= navDist;
 		}
 
-		if (InputManager.keyPressOccurring(GameKey.down, 1)) {
+		if (InputManager.keyPressOccurring(GameKey.DOWN, 1)) {
 			cursorDelta.y += navDist;
 		}
 
