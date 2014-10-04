@@ -31,6 +31,7 @@ import org.newdawn.slick.opengl.Texture;
 
 import unnamed_platformer.app.ImageHelper;
 import unnamed_platformer.app.InputManager;
+import unnamed_platformer.app.TimeManager;
 import unnamed_platformer.app.InputManager.InputEventType;
 import unnamed_platformer.app.MathHelper;
 import unnamed_platformer.game.other.Editor;
@@ -375,7 +376,7 @@ public class Screen_Edit extends BaseScreen_Hybrid
 				- cursorRect.getWidth() / 2, cursorRect.getY()
 				- cursorRect.getHeight() / 2, cursorRect.getWidth(),
 				cursorRect.getHeight());
-		
+
 		ViewManager.drawGraphic(cursorGraphic, cursorDrawRect);
 	}
 
@@ -400,23 +401,43 @@ public class Screen_Edit extends BaseScreen_Hybrid
 		return rect;
 	}
 
+	private static final String NAV_TIME_PERIOD_STRING = "EditorLevelNavigation";
+	private static final float NAV_RATE = 0.05f;
+
 	private void processNavigationControls() {
+		if (!TimeManager.periodElapsed(this, NAV_TIME_PERIOD_STRING, NAV_RATE)) {
+			return;
+		}
+
+		int navDist = editor.gridSize;
+
 		Vector2f cursorDelta = new Vector2f(0, 0);
+		if (InputManager.keyPressOccurring(GameKey.left, 1)) {
+			cursorDelta.x -= navDist;
+		}
 
-		cursorDelta.x -= InputManager.keyPressOccurring(GameKey.left, 1) ? 8
-				: 0;
-		cursorDelta.x += InputManager.keyPressOccurring(GameKey.right, 1) ? 8
-				: 0;
-		cursorDelta.y -= InputManager.keyPressOccurring(GameKey.up, 1) ? 8 : 0;
-		cursorDelta.y += InputManager.keyPressOccurring(GameKey.down, 1) ? 8
-				: 0;
+		if (InputManager.keyPressOccurring(GameKey.right, 1)) {
+			cursorDelta.x += navDist;
+		}
 
-		cursorRect.setX(cursorRect.getX() + cursorDelta.x);
-		cursorRect.setY(cursorRect.getY() + cursorDelta.y);
+		if (InputManager.keyPressOccurring(GameKey.up, 1)) {
+			cursorDelta.y -= navDist;
+		}
+
+		if (InputManager.keyPressOccurring(GameKey.down, 1)) {
+			cursorDelta.y += navDist;
+		}
+
+		Vector2f newPos = cursorRect.getLocation();
+		newPos.add(cursorDelta);
+		newPos = MathHelper.snapToGrid(newPos, navDist);
+
+		cursorRect.setLocation(newPos);
 
 		if (MathHelper.rectExitingOrOutsideRect(cursorRect,
 				getNavigationBounds())) {
 			editor.moveCamera(cursorDelta);
+			editor.update();
 		}
 	}
 
@@ -465,14 +486,15 @@ public class Screen_Edit extends BaseScreen_Hybrid
 	private class RenderCanvas_LeftClick implements Runnable
 	{
 		public void run() {
-			editor.placeObject(cursorRect.getLocation(), getSelectedEntry());
+			editor.placeObject(InputManager.getGameMousePos(),
+					getSelectedEntry());
 		}
 	}
 
 	private class RenderCanvas_RightClick implements Runnable
 	{
 		public void run() {
-			editor.removeObject(cursorRect.getLocation());
+			editor.removeObject(InputManager.getGameMousePos());
 		}
 	}
 
