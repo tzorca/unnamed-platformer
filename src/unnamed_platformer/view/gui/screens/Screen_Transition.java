@@ -11,14 +11,17 @@ import unnamed_platformer.view.gui.GUIHelper;
 import unnamed_platformer.view.gui.GUIManager;
 import unnamed_platformer.view.gui.GUIManager.ScreenType;
 
-public class Screen_Transition extends BaseScreen_GUI {
+public class Screen_Transition extends BaseScreen_GUI
+{
 	public Screen_Transition() {
 		super();
 
 		Label lblInfo;
 		JButton btnNext;
 
-		int nextLevelIndex = World.getCurrentLevelIndex() + 1;
+		// this will already have been set by the end level object
+		int nextLevelIndex = World.getCurrentLevelIndex();
+
 		if (World.hasLevelIndex(nextLevelIndex)) {
 			lblInfo = new Label("Level "
 					+ String.valueOf(World.getCurrentLevelIndex() + 1));

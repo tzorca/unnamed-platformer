@@ -127,15 +127,12 @@ public final class World
 	}
 
 	public static void setLevelByIndex(int destination) {
+		levelIndex = destination;
 		if (hasLevelIndex(destination)) {
 			level = levels.get(destination);
-			levelIndex = destination;
 		} else {
 			// App.print("Level with index " + destination
 			// + " doesn't exist.");
-			if (level != null) {
-				// level.won = true;
-			}
 			return;
 		}
 	}
