@@ -141,10 +141,12 @@ public class Level
 	public Entity getTopmostEntity(Vector2f point) {
 		ListIterator<Entity> entityIterator = entities.listIterator(entities
 				.size());
+		
+		Rectangle rangeBox = new Rectangle(point.x-3, point.y-3, 6, 6);
 
 		while (entityIterator.hasPrevious()) {
 			Entity entity = entityIterator.previous();
-			if (entity.getCollisionShape().contains(point.x, point.y)) {
+			if (entity.getCollisionShape().intersects(rangeBox)) {
 				return entity;
 			}
 		}
