@@ -17,7 +17,6 @@ import unnamed_platformer.view.gui.screens.Screen;
 // TODO: Add options screen
 public final class GUIManager
 {
-
 	public static enum ScreenType {
 		Edit, Play, SelectWorld, Start, Transition
 	}

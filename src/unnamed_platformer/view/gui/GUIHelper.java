@@ -169,7 +169,8 @@ public final class GUIHelper
 		}
 	}
 
-	public static void addDirectionalNavigation(final List<JButton> buttons) {
+	public static void addDirectionalNavigation(final List<JButton> buttons,
+			final Runnable exitRunnable) {
 		for (int i = 0; i < buttons.size(); i++) {
 
 			// Get current button
@@ -178,7 +179,7 @@ public final class GUIHelper
 			// Get previous and next buttons
 			int prevIndex = i - 1;
 			if (prevIndex < 0) {
-				prevIndex = buttons.size()-1;
+				prevIndex = buttons.size() - 1;
 			}
 			final JButton prevButton = buttons.get(prevIndex);
 			int nextIndex = i + 1;
@@ -205,15 +206,16 @@ public final class GUIHelper
 						case A:
 							currentButton.doClick();
 							break;
+						case B:
+							if (exitRunnable != null) {
+								exitRunnable.run();
+							}
+							break;
 						case LEFT:
 							prevButton.requestFocus();
 							break;
 						case RIGHT:
 							nextButton.requestFocus();
-							break;
-						case DOWN:
-							break;
-						case UP:
 							break;
 						default:
 							break;

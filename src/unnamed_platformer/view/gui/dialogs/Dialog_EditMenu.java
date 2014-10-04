@@ -23,7 +23,6 @@ import com.google.common.collect.Lists;
 
 public class Dialog_EditMenu extends Dialog
 {
-
 	private static final long serialVersionUID = -846612117309570380L;
 
 	private static final ImageIcon /* */
@@ -85,10 +84,22 @@ public class Dialog_EditMenu extends Dialog
 		}
 		this.add(lblCurrentLevel);
 
+		// CREATE MENU EXIT RUNNABLE
+		Runnable exitRunnable = new Runnable() {
+			public void run() {
+				SwingUtilities.invokeLater(new Runnable() {
+					public void run() {
+						Dialog_EditMenu.this.setVisible(false);
+						ViewManager.focusRenderCanvas();
+					}
+				});
+			}
+		};
+
 		// ADD DIRECTIONAL NAVIGATION
 		GUIHelper.addDirectionalNavigation(Lists.newArrayList(btnModeSwitch,
 				btnPrevLevel, btnNextLevel, btnAddLevel, btnRemoveLevel,
-				btnSaveLevel));
+				btnSaveLevel), exitRunnable);
 
 		this.pack();
 	}
@@ -100,6 +111,7 @@ public class Dialog_EditMenu extends Dialog
 				public void run() {
 					Dialog_EditMenu.this.setVisible(false);
 					screenEdit.toggleEditMode();
+					ViewManager.focusRenderCanvas();
 				}
 			});
 		}
