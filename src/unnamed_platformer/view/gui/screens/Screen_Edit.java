@@ -412,7 +412,8 @@ public class Screen_Edit extends BaseScreen_Hybrid
 	}
 
 	private static final String NAV_TIME_PERIOD_STRING = "EditorLevelNavigation";
-	private static final float NAV_RATE = 0.06f;
+	private static final float NAV_RATE = 0.01f;
+	private static final int NAV_SPEED = 8;
 
 	private void processNavigationControls() {
 
@@ -420,7 +421,7 @@ public class Screen_Edit extends BaseScreen_Hybrid
 			return;
 		}
 
-		int navDist = editor.gridSize;
+		int navDist = NAV_SPEED;
 
 		Vector2f cursorDelta = new Vector2f(0, 0);
 		if (InputManager.keyPressOccurring(GameKey.left, 1)) {
