@@ -5,11 +5,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.SwingUtilities;
 
 import unnamed_platformer.game.other.World;
 import unnamed_platformer.view.gui.GUIHelper;
 import unnamed_platformer.view.gui.GUIManager;
 import unnamed_platformer.view.gui.GUIManager.ScreenType;
+
+import com.google.common.collect.Lists;
 
 public class Screen_Transition extends BaseScreen_GUI
 {
@@ -17,7 +20,7 @@ public class Screen_Transition extends BaseScreen_GUI
 		super();
 
 		Label lblInfo;
-		JButton btnNext;
+		final JButton btnNext;
 
 		// this will already have been set by the end level object
 		int nextLevelIndex = World.getCurrentLevelIndex();
@@ -48,8 +51,16 @@ public class Screen_Transition extends BaseScreen_GUI
 		lblInfo.setForeground(GUIManager.COLOR_LIGHT_GREY);
 		btnNext.setFont(GUIManager.SUB_HEADING_FONT);
 		GUIHelper.styleButton(btnNext, 12);
-
+		
 		pnlSurface.add(lblInfo, GUIManager.CENTER_LAYOUT + ", gaptop 10%, ");
 		pnlSurface.add(btnNext, GUIManager.CENTER_LAYOUT + ", pushy");
+		
+		GUIHelper.addDirectionalNavigation(Lists.newArrayList(btnNext), null);
+		
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				btnNext.requestFocus();
+			}				
+		});
 	}
 }
