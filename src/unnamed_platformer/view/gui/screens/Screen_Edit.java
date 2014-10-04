@@ -92,99 +92,82 @@ public class Screen_Edit extends BaseScreen_Hybrid
 	public Screen_Edit() {
 		super();
 
+		// ADD COMPONENTS TO EDIT MODE LIST
 		editModeComponents.addAll(Lists.newArrayList(lstEntities,
 				lblCurrentLevel, btnPrevLevel, btnAddLevel, btnNextLevel,
 				btnRemoveLevel, btnSaveLevel));
+
+		// LOAD ENTITY PLACEHOLDER GRAPHICS
 		loadEntityPlaceholderGraphics();
 
-		setToolbarSizes();
+		// SET TOOLBAR SIZES
+		setToolbarSize(Side.left, LEFT_TOOLBAR_SIZE);
+		setToolbarSize(Side.right, 0);
+		setToolbarSize(Side.top, TOP_TOOLBAR_SIZE);
+		setToolbarSize(Side.bottom, 0);
 
-		setupLeftToolbar();
+		// SETUP ENTITY LIST
+		lstEntities.setCellRenderer(new ListCellRenderer_ImageListEntry());
+		lstEntities.setSelectionBackground(java.awt.Color.DARK_GRAY);
+		lstEntities.setBackground(toolbars.get(Side.left).getBackground());
+		lstEntities.setForeground(java.awt.Color.white);
+		DefaultListModel<ImageListEntry> lstEntitiesModel = new DefaultListModel<ImageListEntry>();
+		for (final ImageListEntry entry : imageListEntries) {
+			lstEntitiesModel.addElement(entry);
+		}
+		lstEntities.setModel(lstEntitiesModel);
+		final JScrollPane treeScroller = new JScrollPane(lstEntities,
+				JScrollPane.VERTICAL_SCROLLBAR_NEVER,
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		lstEntities.addListSelectionListener(new EntityList_SelectionChanged());
 
-		addCanvasListeners();
-		setupTopToolbar();
+		// SETUP LEFT TOOLBAR
+		final Panel leftToolbar = toolbars.get(Side.left);
+		leftToolbar.setLayout(new BorderLayout());
+		leftToolbar.add(treeScroller, BorderLayout.CENTER);
 
-		initCursor();
-	}
+		// ADD CANVAS LISTENERS
+		InputManager.setEventHandler(InputEventType.leftClick,
+				new RenderCanvas_LeftClick());
+		InputManager.setEventHandler(InputEventType.rightClick,
+				new RenderCanvas_RightClick());
 
-	private void setupTopToolbar() {
+		// SETUP TOP TOOLBAR
 		final Panel topToolbar = toolbars.get(Side.top);
 		final FlowLayout flowLayout = new FlowLayout(FlowLayout.RIGHT);
 		flowLayout.setVgap(0);
 		flowLayout.setHgap(0);
 		topToolbar.setLayout(flowLayout);
 
+		// SETUP TOP TOOLBAR BUTTONS
 		btnPrevLevel.addActionListener(new btnPrevLevel_Click());
-		topToolbar.add(btnPrevLevel);
-
-		lblCurrentLevel.setText("0");
-		lblCurrentLevel.setForeground(GUIManager.COLOR_WHITE);
-		lblCurrentLevel.setBorder(new EmptyBorder(8, 8, 8, 8));
-		topToolbar.add(lblCurrentLevel);
-
 		btnNextLevel.addActionListener(new btnNextLevel_Click());
-		topToolbar.add(btnNextLevel);
-
 		btnAddLevel.addActionListener(new btnAddLevel_Click());
-		topToolbar.add(btnAddLevel);
-
 		btnRemoveLevel.addActionListener(new btnRemoveLevel_Click());
-		topToolbar.add(btnRemoveLevel);
-
 		btnSaveLevel.addActionListener(new btnSaveLevel_Click());
-		topToolbar.add(btnSaveLevel);
-
 		btnModeSwitch.addActionListener(new btnModeSwitch_Click());
-		topToolbar.add(btnModeSwitch);
-
 		GUIHelper.removeButtonPadding(Lists.newArrayList(btnPrevLevel,
 				btnNextLevel, btnAddLevel, btnRemoveLevel, btnSaveLevel,
 				btnModeSwitch));
 		GUIHelper.styleButtons(Lists.newArrayList(btnPrevLevel, btnNextLevel,
 				btnAddLevel, btnRemoveLevel, btnSaveLevel, btnModeSwitch), 0);
-	}
 
-	private void setToolbarSizes() {
-		setToolbarSize(Side.left, LEFT_TOOLBAR_SIZE);
-		setToolbarSize(Side.right, 0);
-		setToolbarSize(Side.top, TOP_TOOLBAR_SIZE);
-		setToolbarSize(Side.bottom, 0);
-	}
+		// SETUP TOP TOOLBAR LABELS
+		lblCurrentLevel.setText("0");
+		lblCurrentLevel.setForeground(GUIManager.COLOR_WHITE);
+		lblCurrentLevel.setBorder(new EmptyBorder(8, 8, 8, 8));
 
-	private void setupLeftToolbar() {
+		// ADD COMPONENTS TO TOP TOOLBAR
+		topToolbar.add(btnPrevLevel);
+		topToolbar.add(lblCurrentLevel);
+		topToolbar.add(btnNextLevel);
+		topToolbar.add(btnAddLevel);
+		topToolbar.add(btnRemoveLevel);
+		topToolbar.add(btnSaveLevel);
+		topToolbar.add(btnModeSwitch);
 
-		final Panel leftToolbar = toolbars.get(Side.left);
-		leftToolbar.setLayout(new BorderLayout());
-		setupEntityList(leftToolbar);
-
-		lstEntities.addListSelectionListener(new EntityList_SelectionChanged());
-	}
-
-	private void setupEntityList(final Panel associatedToolbar) {
-		lstEntities.setCellRenderer(new ListCellRenderer_ImageListEntry());
-		lstEntities.setSelectionBackground(java.awt.Color.DARK_GRAY);
-		lstEntities.setBackground(associatedToolbar.getBackground());
-		lstEntities.setForeground(java.awt.Color.white);
-
-		DefaultListModel<ImageListEntry> lstEntitiesModel = new DefaultListModel<ImageListEntry>();
-		for (final ImageListEntry entry : imageListEntries) {
-			lstEntitiesModel.addElement(entry);
-		}
-
-		lstEntities.setModel(lstEntitiesModel);
-
-		final JScrollPane treeScroller = new JScrollPane(lstEntities,
-				JScrollPane.VERTICAL_SCROLLBAR_NEVER,
-				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-
-		associatedToolbar.add(treeScroller, BorderLayout.CENTER);
-	}
-
-	private void addCanvasListeners() {
-		InputManager.setEventHandler(InputEventType.leftClick,
-				new RenderCanvas_LeftClick());
-		InputManager.setEventHandler(InputEventType.rightClick,
-				new RenderCanvas_RightClick());
+		// INITIALIZE CURSOR
+		initCursor();
 	}
 
 	public Graphic getCurrentGraphic() {
