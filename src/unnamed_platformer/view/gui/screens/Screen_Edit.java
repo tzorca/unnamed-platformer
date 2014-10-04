@@ -13,16 +13,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JScrollPane;
-import javax.swing.JTree;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.TreePath;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.geom.Rectangle;
@@ -31,9 +30,9 @@ import org.newdawn.slick.opengl.Texture;
 
 import unnamed_platformer.app.ImageHelper;
 import unnamed_platformer.app.InputManager;
-import unnamed_platformer.app.TimeManager;
 import unnamed_platformer.app.InputManager.InputEventType;
 import unnamed_platformer.app.MathHelper;
+import unnamed_platformer.app.TimeManager;
 import unnamed_platformer.game.other.Editor;
 import unnamed_platformer.game.other.EntityCreator;
 import unnamed_platformer.game.other.Level;
@@ -49,7 +48,7 @@ import unnamed_platformer.view.gui.GUIHelper.ParamRunnable;
 import unnamed_platformer.view.gui.GUIManager;
 import unnamed_platformer.view.gui.GUIManager.ScreenType;
 import unnamed_platformer.view.gui.objects.ImageListEntry;
-import unnamed_platformer.view.gui.objects.TreeCell_ImageRenderer;
+import unnamed_platformer.view.gui.objects.ListCellRenderer_ImageListEntry;
 
 import com.google.common.collect.Lists;
 
@@ -76,7 +75,7 @@ public class Screen_Edit extends BaseScreen_Hybrid
 			IMG_SAVE = ImageHelper.getImageIconContent("gui_save");
 
 	private final List<ImageListEntry> imageListEntries = new ArrayList<ImageListEntry>();
-	private final JTree treeEntityList = new JTree(new DefaultMutableTreeNode());
+	private final JList<ImageListEntry> lstEntities = new JList<ImageListEntry>();
 
 	private final JLabel lblCurrentLevel = new JLabel();
 	private final JButton btnModeSwitch = new JButton(IMG_PLAY_MODE);
@@ -93,7 +92,7 @@ public class Screen_Edit extends BaseScreen_Hybrid
 	public Screen_Edit() {
 		super();
 
-		editModeComponents.addAll(Lists.newArrayList(treeEntityList,
+		editModeComponents.addAll(Lists.newArrayList(lstEntities,
 				lblCurrentLevel, btnPrevLevel, btnAddLevel, btnNextLevel,
 				btnRemoveLevel, btnSaveLevel));
 		loadEntityPlaceholderGraphics();
@@ -158,34 +157,27 @@ public class Screen_Edit extends BaseScreen_Hybrid
 		leftToolbar.setLayout(new BorderLayout());
 		setupEntityList(leftToolbar);
 
-		treeEntityList
-				.addTreeSelectionListener(new TreeEntityList_SelectionChanged());
+		lstEntities.addListSelectionListener(new EntityList_SelectionChanged());
 	}
 
 	private void setupEntityList(final Panel associatedToolbar) {
-		try {
-			final DefaultMutableTreeNode root = (DefaultMutableTreeNode) treeEntityList
-					.getModel().getRoot();
+		lstEntities.setCellRenderer(new ListCellRenderer_ImageListEntry());
+		lstEntities.setSelectionBackground(java.awt.Color.DARK_GRAY);
+		lstEntities.setBackground(associatedToolbar.getBackground());
+		lstEntities.setForeground(java.awt.Color.white);
 
-			treeEntityList.setCellRenderer(new TreeCell_ImageRenderer());
-			treeEntityList.setBackground(associatedToolbar.getBackground());
-
-			for (final ImageListEntry entry : imageListEntries) {
-				root.add(new DefaultMutableTreeNode(entry));
-			}
-
-			treeEntityList.expandPath(new TreePath(root.getPath()));
-			treeEntityList.setRootVisible(false);
-			treeEntityList.setShowsRootHandles(false);
-
-			final JScrollPane treeScroller = new JScrollPane(treeEntityList,
-					JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-					JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-
-			associatedToolbar.add(treeScroller, BorderLayout.CENTER);
-		} catch (Exception e) {
-			e.printStackTrace();
+		DefaultListModel<ImageListEntry> lstEntitiesModel = new DefaultListModel<ImageListEntry>();
+		for (final ImageListEntry entry : imageListEntries) {
+			lstEntitiesModel.addElement(entry);
 		}
+
+		lstEntities.setModel(lstEntitiesModel);
+
+		final JScrollPane treeScroller = new JScrollPane(lstEntities,
+				JScrollPane.VERTICAL_SCROLLBAR_NEVER,
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+
+		associatedToolbar.add(treeScroller, BorderLayout.CENTER);
 	}
 
 	private void addCanvasListeners() {
@@ -253,9 +245,9 @@ public class Screen_Edit extends BaseScreen_Hybrid
 	private static final float ENTITY_SELECTION_CHANGE_RATE = 0.15f;
 
 	private void processEntitySelectionControls() {
-		int currentIndex = treeEntityList.getMinSelectionRow();
+		int currentIndex = lstEntities.getSelectedIndex();
 		int nextIndex = currentIndex;
-		
+
 		if (InputManager.keyPressOccurred(GameKey.extraUp, 1)) {
 			nextIndex = currentIndex - 1;
 			TimeManager.periodElapsed(this, ENTITY_SELECTION_STRING,
@@ -276,11 +268,13 @@ public class Screen_Edit extends BaseScreen_Hybrid
 
 		if (nextIndex != currentIndex) {
 			if (nextIndex < 0) {
+				nextIndex = imageListEntries.size() - 1;
+			} else if (nextIndex >= imageListEntries.size()) {
 				nextIndex = 0;
 			}
 
-			treeEntityList.scrollRowToVisible(nextIndex);
-			treeEntityList.setSelectionRow(nextIndex);
+			lstEntities.ensureIndexIsVisible(nextIndex);
+			lstEntities.setSelectedIndex(nextIndex);
 		}
 	}
 
@@ -497,16 +491,11 @@ public class Screen_Edit extends BaseScreen_Hybrid
 	}
 
 	private ImageListEntry getSelectedEntry() {
-		if (treeEntityList.isSelectionEmpty()) {
+		if (lstEntities.isSelectionEmpty()) {
 			return null;
 		}
 
-		final DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) treeEntityList
-				.getSelectionPath().getLastPathComponent();
-		final ImageListEntry entry = (ImageListEntry) selectedNode
-				.getUserObject();
-
-		return entry;
+		return lstEntities.getSelectedValue();
 	}
 
 	private class RenderCanvas_LeftClick implements Runnable
@@ -524,10 +513,9 @@ public class Screen_Edit extends BaseScreen_Hybrid
 		}
 	}
 
-	private class TreeEntityList_SelectionChanged implements
-			TreeSelectionListener
+	private class EntityList_SelectionChanged implements ListSelectionListener
 	{
-		public void valueChanged(final TreeSelectionEvent event) {
+		public void valueChanged(ListSelectionEvent e) {
 			ViewManager.focusRenderCanvas();
 		}
 	}

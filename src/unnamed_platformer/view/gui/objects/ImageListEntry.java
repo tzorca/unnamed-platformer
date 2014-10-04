@@ -33,6 +33,7 @@ public class ImageListEntry implements Comparable<ImageListEntry>
 		return image;
 	}
 
+	
 	public ImageListEntry(Icon image, String displayName) {
 		this.image = image;
 		this.displayName = displayName;
