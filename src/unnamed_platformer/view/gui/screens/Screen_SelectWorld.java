@@ -68,7 +68,7 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 		tblWorlds.setForeground(GUIManager.COLOR_WHITE);
 
 		JScrollPane scrlTable = new JScrollPane(tblWorlds);
-		GUIHelper.styleComponentColors(scrlTable);
+		GUIHelper.styleComponentColors(scrlTable, false);
 		GUIHelper.styleBorder(scrlTable, 0, false);
 		scrlTable.getViewport().setBackground(GUIManager.COLOR_DARK_BLUE_2);
 

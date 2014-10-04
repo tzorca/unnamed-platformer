@@ -2,6 +2,8 @@ package unnamed_platformer.view.gui;
 
 import java.awt.Component;
 import java.awt.Insets;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -89,15 +91,32 @@ public final class GUIHelper
 
 	public static void styleButton(final JButton button, final int paddingSize) {
 		styleBorder(button, paddingSize, true);
-		styleComponentColors(button);
+		styleComponentColors(button, true);
 		button.setContentAreaFilled(false);
 		button.setVerticalTextPosition(SwingConstants.CENTER);
 		button.setOpaque(true);
 	}
 
-	public static void styleComponentColors(JComponent component) {
+	public static void styleComponentColors(final JComponent component, boolean focusHighlight) {
 		component.setForeground(GUIManager.COLOR_WHITE);
 		component.setBackground(GUIManager.COLOR_DARK_BLUE_2);
+		
+		if (focusHighlight) {
+
+			component.addFocusListener(new FocusListener() {
+
+				@Override
+				public void focusGained(FocusEvent e) {
+					component.setBackground(GUIManager.COLOR_HIGHLIGHT_BLUE);
+				}
+
+				@Override
+				public void focusLost(FocusEvent e) {
+					component.setBackground(GUIManager.COLOR_DARK_BLUE_2);
+				}
+				
+			});
+		}
 	}
 
 	public static void styleBorder(JComponent component, int paddingSize,
@@ -117,9 +136,9 @@ public final class GUIHelper
 		final Border compoundRaisedBorder = BorderFactory.createCompoundBorder(
 				raisedBevelBorder, paddingBorder);
 
-		if (clickable) {
-
+		if (clickable) {			
 			component.addMouseListener(new MouseAdapter() {
+				
 				public void mousePressed(MouseEvent e) {
 					JComponent component = (JComponent) e.getSource();
 					component.setBorder(compoundLoweredBorder);

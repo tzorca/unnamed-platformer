@@ -69,7 +69,7 @@ public class Dialog_EditMenu extends Dialog
 		lblCurrentLevel.setText(String.valueOf(World.getCurrentLevelIndex()));
 		lblCurrentLevel.setForeground(GUIManager.COLOR_WHITE);
 		lblCurrentLevel.setBorder(new EmptyBorder(8, 8, 8, 8));
-
+		
 		// ADD COMPONENTS
 		final boolean currentlyEditing = !World.playing();
 		this.add(btnModeSwitch);

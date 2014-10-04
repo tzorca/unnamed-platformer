@@ -28,6 +28,7 @@ public final class GUIManager
 	public static final Color COLOR_DARK_BLUE_2 = new Color(0x20, 0x20, 0x30);
 	public static final Color COLOR_DARK_BLUE_3 = new Color(0x30, 0x30, 0x40);
 	public static final Color COLOR_DARK_BLUE_4 = new Color(0x40, 0x40, 0x50);
+	public static final Color COLOR_HIGHLIGHT_BLUE = new Color(0x30, 0x30, 0x60);
 
 	public static final String CENTER_LAYOUT = "pushx, alignx center, wrap";
 
