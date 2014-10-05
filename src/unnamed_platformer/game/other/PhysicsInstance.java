@@ -57,6 +57,10 @@ public class PhysicsInstance
 	public Vector2f getDirection() {
 		return lastHorizontalDirection;
 	}
+	
+	public boolean movingLeft() {
+		return lastHorizontalDirection.x < 0;
+	}
 
 	public Vector2f getLastMove() {
 		return lastMove;

@@ -172,10 +172,16 @@ public final class ViewManager
 
 	public static void drawGraphic(final Graphic graphic,
 			final Rectangle rectangle) {
+		drawGraphic(graphic, rectangle, false);
+	}
+
+	public static void drawGraphic(final Graphic graphic,
+			final Rectangle rectangle, final boolean horzFlip) {
 		if (!rectangle.intersects(viewport)) {
 			return;
 		}
 
+		// quantize floats before drawing
 		final float xPos = (float) (int) rectangle.getX();
 		final float yPos = (float) (int) rectangle.getY();
 		final float width = (float) (int) rectangle.getWidth();
@@ -201,7 +207,7 @@ public final class ViewManager
 			texture.bind();
 			GL11.glBegin(GL11.GL_QUADS);
 			drawQuad(xPos, yPos, width, height, texture.getWidth(),
-					texture.getHeight());
+					texture.getHeight(), horzFlip);
 			GL11.glEnd();
 		}
 	}
@@ -209,14 +215,21 @@ public final class ViewManager
 	private static void drawQuad(final float xPos, final float yPos,
 			final float width, final float height, final float tWidth,
 			final float tHeight) {
+		drawQuad(xPos, yPos, width, height, tWidth, tHeight, false);
+	}
+
+	private static void drawQuad(final float xPos, final float yPos,
+			final float width, final float height, final float tWidth,
+			final float tHeight, boolean horzFlip) {
+
 		GL11.glTexCoord2f(0, 0);
-		GL11.glVertex2f(xPos, yPos);
+		GL11.glVertex2f(horzFlip ? xPos + width : xPos, yPos);
 		GL11.glTexCoord2f(tWidth, 0);
-		GL11.glVertex2f(xPos + width, yPos);
+		GL11.glVertex2f(horzFlip ? xPos : xPos + width, yPos);
 		GL11.glTexCoord2f(tWidth, tHeight);
-		GL11.glVertex2f(xPos + width, yPos + height);
+		GL11.glVertex2f(horzFlip ? xPos : xPos + width, yPos + height);
 		GL11.glTexCoord2f(0, tHeight);
-		GL11.glVertex2f(xPos, yPos + height);
+		GL11.glVertex2f(horzFlip ? xPos + width : xPos, yPos + height);
 	}
 
 	public static void drawTexturesInBatch(final Texture texture,

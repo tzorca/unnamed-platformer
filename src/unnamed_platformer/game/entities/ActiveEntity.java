@@ -9,6 +9,8 @@ import unnamed_platformer.game.behaviours.Interaction;
 import unnamed_platformer.game.other.EntitySetup;
 import unnamed_platformer.game.other.PhysicsInstance;
 import unnamed_platformer.globals.EntityRef.EntityParam;
+import unnamed_platformer.globals.GameRef.Flag;
+import unnamed_platformer.view.ViewManager;
 
 public abstract class ActiveEntity extends Entity
 {
@@ -59,4 +61,19 @@ public abstract class ActiveEntity extends Entity
 		return true;
 	}
 
+	@Override
+	public void draw() {
+		if (isFlagSet(Flag.INVISIBLE)) {
+			return;
+		}
+
+		boolean horzFlip = false;
+		if (this.hasPhysics()) {
+			horzFlip = physics.movingLeft();
+		}
+		
+		
+		ViewManager.drawGraphic(graphic, getOriginalBox(), horzFlip);
+	}
+	
 }
