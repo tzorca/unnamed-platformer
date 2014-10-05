@@ -26,6 +26,7 @@ import javax.swing.border.EmptyBorder;
 import unnamed_platformer.app.InputManager;
 import unnamed_platformer.app.InputManager.PlayerGameKey;
 import unnamed_platformer.globals.Ref;
+import unnamed_platformer.view.ViewManager;
 
 public final class GUIHelper
 {
@@ -59,9 +60,7 @@ public final class GUIHelper
 			final ParamRunnable paramRunnable) {
 		Runnable dialogRunnable = new Runnable() {
 			public void run() {
-				boolean returnValue = JOptionPane.showConfirmDialog(null, msg,
-						Ref.APP_TITLE, JOptionPane.YES_NO_OPTION,
-						JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION;
+				boolean returnValue = confirmDangerous(msg);
 				paramRunnable.run(returnValue);
 			}
 		};
@@ -71,9 +70,12 @@ public final class GUIHelper
 	}
 
 	public static boolean confirmDangerous(final String msg) {
-		boolean returnValue = JOptionPane.showConfirmDialog(null, msg,
+		Object[] options = {
+				"Yes", "No"
+		};
+		boolean returnValue = JOptionPane.showOptionDialog(ViewManager.getFrame(), msg,
 				Ref.APP_TITLE, JOptionPane.YES_NO_OPTION,
-				JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION;
+				JOptionPane.WARNING_MESSAGE, null, options, options[1]) == 0;
 		return returnValue;
 	}
 
@@ -162,7 +164,7 @@ public final class GUIHelper
 				: compoundLoweredBorder);
 	}
 
-	public static void styleButtons(final ArrayList<JButton> buttons,
+	public static void styleButtons(final List<JButton> buttons,
 			final int paddingSize) {
 		for (JButton button : buttons) {
 			styleButton(button, paddingSize);

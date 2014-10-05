@@ -16,6 +16,7 @@ import unnamed_platformer.game.other.Editor;
 import unnamed_platformer.game.other.World;
 import unnamed_platformer.view.ViewManager;
 import unnamed_platformer.view.gui.GUIHelper;
+import unnamed_platformer.view.gui.GUIHelper.ParamRunnable;
 import unnamed_platformer.view.gui.GUIManager;
 import unnamed_platformer.view.gui.screens.Screen_Edit;
 
@@ -161,13 +162,23 @@ public class Dialog_EditMenu extends Dialog
 	private class btnRemoveLevel_Click implements ActionListener
 	{
 		public void actionPerformed(final ActionEvent event) {
-			SwingUtilities.invokeLater(new Runnable() {
-				public void run() {
-					Dialog_EditMenu.this.setVisible(false);
-					editor.removeLevel();
-					ViewManager.focusRenderCanvas();
-				}
-			});
+			GUIHelper.confirmDangerousWithCallback(
+					"Are you sure you want to delete "
+							+ lblCurrentLevel.getText() + "?", new ParamRunnable() {
+						public void run(Object param) {
+							final boolean choice = (boolean) param;
+
+							SwingUtilities.invokeLater(new Runnable() {
+								public void run() {
+									Dialog_EditMenu.this.setVisible(false);
+									if (choice) {
+										editor.removeLevel();
+									}
+									ViewManager.focusRenderCanvas();
+								}
+							});
+						}
+					});
 
 		}
 	}

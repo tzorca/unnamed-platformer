@@ -5,6 +5,7 @@ import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -79,7 +80,10 @@ public class TableCell_World extends TableCell_ReadOnlyInteractive implements Ac
 		pnlButtons.add(btnDelete);
 		
 		lblTitle.setForeground(GUIManager.COLOR_WHITE);
-		GUIHelper.styleButtons(Lists.newArrayList(btnPlay, btnRename, btnEdit, btnCopy, btnDelete), 8);
+		
+		List<JButton> buttons = Lists.newArrayList(btnPlay, btnRename, btnEdit, btnCopy, btnDelete);
+		GUIHelper.styleButtons(buttons, 8);
+		GUIHelper.addDirectionalNavigation(buttons, null);
 
 		// TODO: Make JButtons into clickable icon buttons
 	}
