@@ -29,6 +29,7 @@ public class HUD_PlayerHealth extends HUDComponent
 
 		if (player == null) {
 			setText("");
+			return;
 		}
 
 		int playerHealth = player.getHealth();
