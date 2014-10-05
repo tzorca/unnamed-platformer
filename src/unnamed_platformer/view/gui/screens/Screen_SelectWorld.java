@@ -163,6 +163,7 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 	// =================================================================
 
 	public void update() {
+		super.update();
 
 		// LWJGL JInput Keys
 		if (InputManager.keyPressOccurred(GameKey.LEFT, 1)) {
