@@ -13,9 +13,9 @@ import unnamed_platformer.globals.Ref;
 import unnamed_platformer.view.gui.GUIManager;
 import unnamed_platformer.view.gui.GUIManager.ScreenType;
 
-public class Screen_Start extends BaseScreen_GUI {
+public class Screen_OldStart extends BaseScreen_GUI {
 
-	public Screen_Start() {
+	public Screen_OldStart() {
 		super(); 
 
 		Label lblGameTitle = new Label(Ref.APP_TITLE);
