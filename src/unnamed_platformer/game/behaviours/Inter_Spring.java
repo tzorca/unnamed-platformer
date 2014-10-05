@@ -6,7 +6,8 @@ import unnamed_platformer.game.entities.ActiveEntity;
 import unnamed_platformer.game.entities.Entity;
 import unnamed_platformer.globals.GameRef.Flag;
 
-public class Inter_Spring extends Interaction {
+public class Inter_Spring extends Interaction
+{
 	Vector2f v;
 
 	public Inter_Spring(Vector2f vector2f) {
@@ -21,7 +22,12 @@ public class Inter_Spring extends Interaction {
 		if (!plr.hasPhysics()) {
 			return false;
 		}
-		plr.getPhysics().addForce(v);
+		plr.getPhysics().setVerticalForce(v);
+		plr.getPhysics().setInAir(true);
+
+		// TODO: Revisit this and think about how to deal with
+		// setting the jumping flag more intelligently.
+		plr.getPhysics().resetControlMechanisms();
 
 		return true;
 	}

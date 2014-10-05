@@ -42,6 +42,10 @@ public class PhysicsInstance
 		currentForces = currentForces.add(v);
 	}
 
+	public void setVerticalForce(Vector2f v) {
+		currentForces.y = v.y;
+	}
+
 	public void clearControlMechanisms() {
 		mechanisms.clear();
 	}
@@ -86,7 +90,7 @@ public class PhysicsInstance
 		mechanisms.remove(mechanism);
 	}
 
-	private void resetControlMechanisms() {
+	public void resetControlMechanisms() {
 		for (ControlMechanism mechanism : mechanisms) {
 			mechanism.reset();
 		}
@@ -142,7 +146,6 @@ public class PhysicsInstance
 		// clear out current force (no longer current next tic)
 		currentForces = new Vector2f(0, 0);
 
-		inAir = false;
 		PhysicsProcessor.registerEntityForInteractionChecking(associatedActor);
 		forceMultiplier = PhysicsProcessor.FORCE_MULTIPLIER;
 	}
