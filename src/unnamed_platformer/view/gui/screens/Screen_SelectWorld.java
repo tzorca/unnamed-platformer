@@ -1,5 +1,6 @@
 package unnamed_platformer.view.gui.screens;
 
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,6 +13,7 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 
+import javax.swing.Box;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -51,8 +53,8 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 	JButton btnDelete = new JButton("Delete");
 
 	// Collect buttons
-	List<JButton> buttons = Lists.newArrayList(btnNew, btnPlay, btnRename,
-			btnEdit, btnCopy, btnDelete);
+	List<JButton> buttons =Lists.newArrayList(btnPlay, btnEdit, btnNew,
+			btnRename, btnCopy, btnDelete);
 
 	// Collect all components
 	@SuppressWarnings("unchecked")
@@ -63,9 +65,9 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 		super();
 
 		// SETUP TITLE
-		JLabel lblTitle = new JLabel("Custom Worlds");
-		lblTitle.setFont(GUIManager.SUB_HEADING_FONT);
-		lblTitle.setForeground(GUIManager.COLOR_WHITE);
+		JLabel lblTitle = new JLabel("Select a World");
+		lblTitle.setFont(GUIManager.FONT_SUB_HEADING);
+		lblTitle.setForeground(GUIManager.COLOR_LIGHT_GREY);
 
 		// SETUP WORLD LIST
 		for (String worldName : ResManager.list(World.class, true)) {
@@ -73,9 +75,10 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 		}
 		lstWorlds.setModel(mdlWorlds);
 		lstWorlds.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		lstWorlds.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lstWorlds.setFont(GUIManager.FONT_NORMAL);
 		lstWorlds.setBackground(GUIManager.COLOR_DARK_BLUE_2);
 		lstWorlds.setForeground(GUIManager.COLOR_WHITE);
+		lstWorlds.setSelectionBackground(GUIManager.COLOR_HIGHLIGHT_BLUE);
 		lstWorlds.addListSelectionListener(new lstWorlds_SelectionListener());
 		lstWorlds.setSelectedIndex(0);
 
@@ -94,6 +97,7 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 		btnDelete.addActionListener(new btnDelete_Click());
 		for (JButton btn : buttons) {
 			btn.addFocusListener(new btn_FocusListener());
+			btn.setFont(GUIManager.FONT_NORMAL);
 		}
 
 		// ADD GLOBAL LISTENER FOR ARROW NAVIGATION
@@ -102,27 +106,27 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 		}
 
 		// ADD BUTTONS TO PANEL
-		pnlButtons.add(btnNew);
 		pnlButtons.add(btnPlay);
-		pnlButtons.add(btnRename);
 		pnlButtons.add(btnEdit);
+		pnlButtons.add(Box.createRigidArea(new Dimension(16, 0)));
+		pnlButtons.add(btnNew);
+		pnlButtons.add(Box.createRigidArea(new Dimension(16, 0)));
+		pnlButtons.add(btnRename);
 		pnlButtons.add(btnCopy);
 		pnlButtons.add(btnDelete);
 
 		// SETUP BUTTON PANEL
 		pnlButtons.setBackground(GUIManager.COLOR_DARK_BLUE_3);
-		List<JButton> buttons = Lists.newArrayList(btnNew, btnPlay, btnRename,
-				btnEdit, btnCopy, btnDelete);
 		GUIHelper.styleButtons(buttons, 6);
 
 		// ADD COMPONENTS TO MAIN PANEL
-		pnlSurface.add(lblTitle, GUIManager.CENTER_LAYOUT);
-		pnlSurface.add(scrlWorlds, "gapy 8px, grow, pushy, wrap");
+		pnlSurface.add(lblTitle, "gapx 8px 8px, pushx, wrap");
+		pnlSurface.add(scrlWorlds, "gapx 8px 8px, gapy 16px, grow, pushy, wrap");
 		pnlSurface.setBackground(GUIManager.COLOR_DARK_BLUE_3);
-		pnlSurface.add(pnlButtons);
+		pnlSurface.add(pnlButtons, "gapx 8px 8px, gapy 4px");
 	}
 
-	private int buttonIndex = 1;
+	private int buttonIndex = 0;
 	private String gameName;
 
 	// ================================================================
@@ -346,7 +350,7 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 
 	private void copy(File gameFile) {
 		if (FileHelper.copyFileInSameDir(gameFile, " - Copy")) {
-			mdlWorlds.addElement(gameName +  " - Copy");
+			mdlWorlds.addElement(gameName + " - Copy");
 		} else {
 			System.out.println("Could not create copy of '" + gameName + "'");
 			// TODO: Show error in GUI

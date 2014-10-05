@@ -19,11 +19,11 @@ public class Screen_OldStart extends BaseScreen_GUI {
 		super(); 
 
 		Label lblGameTitle = new Label(Ref.APP_TITLE);
-		lblGameTitle.setFont(GUIManager.HEADING_FONT);
+		lblGameTitle.setFont(GUIManager.FONT_HEADING);
 		lblGameTitle.setForeground(Color.darkGray);
 
 		JButton btnDynamicWorld = new JButton("Dynamic World");
-		btnDynamicWorld.setFont(GUIManager.SUB_HEADING_FONT);
+		btnDynamicWorld.setFont(GUIManager.FONT_SUB_HEADING);
 		btnDynamicWorld.setBorder(new EmptyBorder(15, 20, 15, 20));
 		btnDynamicWorld.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -33,7 +33,7 @@ public class Screen_OldStart extends BaseScreen_GUI {
 		
 
 		JButton btnCustomWorlds = new JButton("Custom Worlds");
-		btnCustomWorlds.setFont(GUIManager.SUB_HEADING_FONT);
+		btnCustomWorlds.setFont(GUIManager.FONT_SUB_HEADING);
 		btnCustomWorlds.setBorder(new EmptyBorder(15, 20, 15, 20));
 		btnCustomWorlds.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

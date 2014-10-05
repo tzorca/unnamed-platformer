@@ -27,13 +27,15 @@ public final class GUIManager
 	public static final Color COLOR_DARK_BLUE_2 = new Color(0x20, 0x20, 0x30);
 	public static final Color COLOR_DARK_BLUE_3 = new Color(0x30, 0x30, 0x40);
 	public static final Color COLOR_DARK_BLUE_4 = new Color(0x40, 0x40, 0x50);
-	public static final Color COLOR_HIGHLIGHT_BLUE = new Color(0x30, 0x30, 0x60);
+	public static final Color COLOR_HIGHLIGHT_BLUE = new Color(0x30, 0x30, 0x70);
 
 	public static final String CENTER_LAYOUT = "pushx, alignx center, wrap";
 
-	public static final Font HEADING_FONT = new Font("Calibri", Font.PLAIN, 36);
-	public static final Font SUB_HEADING_FONT = new Font("Tahoma", Font.PLAIN,
-			18);
+	public static final Font FONT_HEADING = new Font("Tahoma", Font.PLAIN, 36);
+	public static final Font FONT_SUB_HEADING = new Font("Tahoma", Font.PLAIN,
+			24);
+	public static final Font FONT_NORMAL = new Font("Tahoma", Font.PLAIN,
+			16);
 
 	public static final String SCREEN_PACKAGE_NAME = Ref.BASE_PACKAGE_NAME
 			+ ".view.gui.screens";
