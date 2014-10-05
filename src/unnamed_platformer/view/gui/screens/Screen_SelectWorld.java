@@ -1,7 +1,6 @@
 package unnamed_platformer.view.gui.screens;
 
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -99,6 +98,7 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 			btn.addFocusListener(new btn_FocusListener());
 			btn.setFont(GUIManager.FONT_NORMAL);
 		}
+		GUIHelper.styleButtons(buttons, 6);
 
 		// ADD GLOBAL LISTENER FOR ARROW NAVIGATION
 		for (JComponent c : components) {
@@ -117,7 +117,6 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 
 		// SETUP BUTTON PANEL
 		pnlButtons.setBackground(GUIManager.COLOR_DARK_BLUE_3);
-		GUIHelper.styleButtons(buttons, 6);
 
 		// ADD COMPONENTS TO MAIN PANEL
 		pnlSurface.add(lblTitle, "gapx 8px 8px, pushx, wrap");
@@ -159,13 +158,13 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 
 		buttons.get(buttonIndex).requestFocus();
 	}
-
 	// =================================================================
 	// EVENTS
 	// =================================================================
 
-	// LWJGL JInput Keys
 	public void update() {
+
+		// LWJGL JInput Keys
 		if (InputManager.keyPressOccurred(GameKey.LEFT, 1)) {
 			changeButton(-1);
 		}
@@ -178,12 +177,16 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 		if (InputManager.keyPressOccurred(GameKey.DOWN, 1)) {
 			changeListSelectedIndex(1);
 		}
-
 		if (InputManager.keyPressOccurred(GameKey.A, 1)) {
 			JButton btn = buttons.get(buttonIndex);
 			if (btn != null) {
 				btn.doClick();
 			}
+		}
+		
+		// Default button selection
+		if (!buttons.get(buttonIndex).hasFocus()) {
+			buttons.get(buttonIndex).requestFocusInWindow();
 		}
 	}
 
@@ -324,7 +327,7 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 		try {
 			FileHelper.renameKeepExtension(gameFile, newName);
 			mdlWorlds.set(lstWorlds.getSelectedIndex(), newName);
-			update(newName);
+			updateGamename(newName);
 
 		} catch (Exception e) {
 			// TODO: Show error in GUI
@@ -357,7 +360,7 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 		}
 	}
 
-	void update(String gameName) {
+	void updateGamename(String gameName) {
 		this.gameName = gameName;
 	}
 

@@ -45,6 +45,6 @@ public final class Ref
 
 	public static final String BASE_PACKAGE_NAME = "unnamed_platformer";
 
-	public static final String APP_TITLE = "TODO: Title";
+	public static final String APP_TITLE = "Unnamed Platformer";
 
 }
