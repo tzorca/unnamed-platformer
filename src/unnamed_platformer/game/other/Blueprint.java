@@ -1,5 +1,6 @@
 package unnamed_platformer.game.other;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -10,7 +11,8 @@ import de.ruedigermoeller.serialization.FSTConfiguration;
 import de.ruedigermoeller.serialization.FSTObjectInput;
 import de.ruedigermoeller.serialization.FSTObjectOutput;
 
-public class Blueprint extends EnumMap<BlueprintField, Object> {
+public class Blueprint extends EnumMap<BlueprintField, Object>
+{
 	private static final long serialVersionUID = -7682315731084504119L;
 
 	private static transient FSTConfiguration conf = FSTConfiguration
@@ -43,6 +45,18 @@ public class Blueprint extends EnumMap<BlueprintField, Object> {
 	}
 
 	public static Blueprint load(String filename, boolean loadHeader) {
+		File file = new File(filename);
+
+		// File doesn't exist
+		if (!file.exists()) {
+			return null;
+		}
+
+		// Too small to be a valid blueprint
+		if (file.length() < 2) {
+			return null;
+		}
+
 		Blueprint bp = null;
 		FileInputStream stream = null;
 		FSTObjectInput in = null;

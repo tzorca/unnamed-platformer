@@ -74,7 +74,9 @@ public final class World
 	public static void load(String name) {
 		reset(name, false);
 		String filename = ResManager.getFilename(World.class, name);
-		fromBlueprint(Blueprint.load(filename, false), name);
+
+		Blueprint bp = Blueprint.load(filename, false);
+		fromBlueprint(bp, name);
 	}
 
 	public static Blueprint toBlueprint() {

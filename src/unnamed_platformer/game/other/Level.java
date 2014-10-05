@@ -69,14 +69,6 @@ public class Level
 		}
 	}
 
-	public void save(final String filename) {
-		toBlueprint().save(filename);
-	}
-
-	public static Level load(final String filename) {
-		return fromBlueprint(Blueprint.load(filename, false));
-	}
-
 	public Blueprint toBlueprint() {
 		Blueprint lBP = new Blueprint();
 
