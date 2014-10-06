@@ -81,7 +81,7 @@ public final class GUIHelper
 
 	// TODO: Change box's title from "Input" to something that makes sense
 	public static String getInput(String msg, String defaultVal) {
-		String result = JOptionPane.showInputDialog(msg, defaultVal);
+		String result = JOptionPane.showInputDialog(null, msg, defaultVal);
 		return result != null ? result : "";
 	}
 

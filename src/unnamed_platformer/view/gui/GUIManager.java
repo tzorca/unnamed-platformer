@@ -2,7 +2,9 @@ package unnamed_platformer.view.gui;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.font.TextAttribute;
 import java.util.LinkedList;
+import java.util.Map;
 
 import javax.swing.UIManager;
 
@@ -15,6 +17,7 @@ import unnamed_platformer.view.gui.screens.Screen;
 // TODO: Add button/key to return to previous menu
 // TODO: Implement pause key functionality (return to ...)
 // TODO: Add options screen
+@SuppressWarnings("unchecked")
 public final class GUIManager
 {
 	public static enum ScreenType {
@@ -34,8 +37,15 @@ public final class GUIManager
 	public static final Font FONT_HEADING = new Font("Tahoma", Font.PLAIN, 36);
 	public static final Font FONT_SUB_HEADING = new Font("Tahoma", Font.PLAIN,
 			24);
-	public static final Font FONT_NORMAL = new Font("Tahoma", Font.PLAIN,
-			16);
+	public static final Font FONT_NORMAL = new Font("Tahoma", Font.PLAIN, 16);
+	public static final Font FONT_NORMAL_STRIKETHROUGH;
+	static {
+		@SuppressWarnings("rawtypes")
+		Map attributes = FONT_NORMAL.getAttributes();
+		attributes.put(TextAttribute.STRIKETHROUGH,
+				TextAttribute.STRIKETHROUGH_ON);
+		FONT_NORMAL_STRIKETHROUGH = new Font(attributes);
+	}
 
 	public static final String SCREEN_PACKAGE_NAME = Ref.BASE_PACKAGE_NAME
 			+ ".view.gui.screens";

@@ -12,6 +12,8 @@ public class GameConfig
 {
 	public final static boolean DEFAULT_FULLSCREEN = false;
 
+	public final static String PRIMARY_WORLD_NAME = "Example Levels";
+
 	public static final Multimap<Integer, PlrGameKey> GAME_KEYS = HashMultimap
 			.create();
 	static {
@@ -27,6 +29,8 @@ public class GameConfig
 		GAME_KEYS.put(Input.KEY_ENTER, new PlrGameKey(1, GameKey.START));
 
 		GAME_KEYS.put(Input.KEY_F2, new PlrGameKey(1, GameKey.RESTART_APP));
+		GAME_KEYS.put(Input.KEY_F11, new PlrGameKey(1,
+				GameKey.TOGGLE_FULLSCREEN));
 		GAME_KEYS
 				.put(Input.KEY_F12, new PlrGameKey(1, GameKey.SAVE_SCREENSHOT));
 
@@ -43,9 +47,6 @@ public class GameConfig
 		GAME_KEYS
 				.put(Input.KEY_LBRACKET, new PlrGameKey(1, GameKey.SCROLL_OUT));
 		GAME_KEYS.put(Input.KEY_RBRACKET, new PlrGameKey(1, GameKey.SCROLL_IN));
-
-		// GAME_KEYS.put(Input.KEY_F11, new PlrGameKey(1,
-		// GameKey.TOGGLE_FULLSCREEN));
 
 	}
 }

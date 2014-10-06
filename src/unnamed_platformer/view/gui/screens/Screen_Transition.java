@@ -24,7 +24,7 @@ public class Screen_Transition extends BaseScreen_GUI
 
 		Label lblInfo;
 
-		// this will already have been set by the end level object
+		// This will already have been set by the end level object
 		int nextLevelIndex = World.getCurrentLevelIndex();
 
 		if (World.hasLevelIndex(nextLevelIndex)) {

@@ -1,5 +1,6 @@
 package unnamed_platformer.view.gui.screens;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,15 +22,17 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import unnamed_platformer.app.FileHelper;
 import unnamed_platformer.app.InputManager;
-import unnamed_platformer.app.SQLiteStuff;
 import unnamed_platformer.app.InputManager.GameKey;
 import unnamed_platformer.app.InputManager.PlrGameKey;
+import unnamed_platformer.app.SQLiteStuff;
 import unnamed_platformer.game.other.World;
+import unnamed_platformer.globals.GameConfig;
 import unnamed_platformer.res_mgt.ResManager;
 import unnamed_platformer.view.gui.GUIHelper;
 import unnamed_platformer.view.gui.GUIManager;
@@ -100,6 +103,7 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 		for (JButton btn : buttons) {
 			btn.addFocusListener(new btn_FocusListener());
 			btn.setFont(GUIManager.FONT_NORMAL);
+			btn.setIconTextGap(0);
 		}
 		GUIHelper.styleButtons(buttons, 6);
 
@@ -129,10 +133,16 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 				.add(scrlWorlds, "gapx 8px 8px, gapy 16px, grow, pushy, wrap");
 		pnlSurface.setBackground(GUIManager.COLOR_DARK_BLUE_3);
 		pnlSurface.add(pnlButtons, "gapx 8px 8px, gapy 4px");
+
+		updateButtonVisualDisableStatus();
 	}
 
 	private int buttonIndex = 0;
 	private String gameName;
+
+	private boolean currentGameIsLocked() {
+		return gameName.equals(GameConfig.PRIMARY_WORLD_NAME);
+	}
 
 	// ================================================================
 	// NAVIGATION
@@ -159,10 +169,22 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 		if (newIndex < 0) {
 			newIndex = mdlWorlds.size() - 1;
 		}
-
 		lstWorlds.setSelectedIndex(newIndex);
+		updateButtonVisualDisableStatus();
 
 		buttons.get(buttonIndex).requestFocus();
+	}
+
+	private void updateButtonVisualDisableStatus() {
+		if (currentGameIsLocked()) {
+			btnEdit.setForeground(Color.DARK_GRAY);
+			btnDelete.setForeground(Color.DARK_GRAY);
+			btnRename.setForeground(Color.DARK_GRAY);
+		} else {
+			btnEdit.setForeground(Color.WHITE);
+			btnDelete.setForeground(Color.WHITE);
+			btnRename.setForeground(Color.WHITE);
+		}
 	}
 
 	// =================================================================
@@ -193,9 +215,13 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 		}
 
 		// Default button selection
-		if (!buttons.get(buttonIndex).hasFocus()) {
-			buttons.get(buttonIndex).requestFocusInWindow();
-		}
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				if (!buttons.get(buttonIndex).hasFocus()) {
+					buttons.get(buttonIndex).requestFocus();
+				}
+			}
+		});
 	}
 
 	// Java VK KeyEvents
@@ -239,7 +265,15 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 		public void valueChanged(ListSelectionEvent e) {
 			buttons.get(buttonIndex).requestFocus();
 			gameName = lstWorlds.getSelectedValue();
+
+			if (gameName == null) {
+				return;
+			}
+
+			updateButtonVisualDisableStatus();
+
 		}
+
 	}
 
 	private class btnNew_Click implements ActionListener
@@ -260,6 +294,10 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 	private class btnEdit_Click implements ActionListener
 	{
 		public void actionPerformed(final ActionEvent event) {
+			if (currentGameIsLocked()) {
+				return;
+			}
+
 			World.load(gameName);
 			GUIManager.changeScreen(ScreenType.Edit);
 		}
@@ -268,6 +306,10 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 	private class btnRename_Click implements ActionListener
 	{
 		public void actionPerformed(final ActionEvent event) {
+			if (currentGameIsLocked()) {
+				return;
+			}
+
 			File gameFile = getGameFile();
 			if (!gameFile.exists()) {
 				return;
@@ -291,6 +333,10 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 	private class btnDelete_Click implements ActionListener
 	{
 		public void actionPerformed(final ActionEvent event) {
+			if (currentGameIsLocked()) {
+				return;
+			}
+
 			File gameFile = getGameFile();
 			if (!gameFile.exists()) {
 				return;
@@ -300,14 +346,14 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 			}
 		}
 	}
-	
+
 	private class btnExit_Click implements ActionListener
 	{
 		public void actionPerformed(final ActionEvent event) {
 			if (SQLiteStuff.isInitialized()) {
 				SQLiteStuff.finish();
 			}
-			
+
 			System.exit(0);
 		}
 	}
@@ -325,7 +371,7 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 
 	private void createNew() {
 		String worldName = GUIHelper.getInput("Enter a name for your world:",
-				"");
+				"New World");
 
 		if (!worldName.trim().isEmpty()) {
 
