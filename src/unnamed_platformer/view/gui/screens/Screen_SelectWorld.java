@@ -26,6 +26,7 @@ import javax.swing.event.ListSelectionListener;
 
 import unnamed_platformer.app.FileHelper;
 import unnamed_platformer.app.InputManager;
+import unnamed_platformer.app.SQLiteStuff;
 import unnamed_platformer.app.InputManager.GameKey;
 import unnamed_platformer.app.InputManager.PlrGameKey;
 import unnamed_platformer.game.other.World;
@@ -50,15 +51,16 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 	JButton btnEdit = new JButton("Edit");
 	JButton btnCopy = new JButton("Copy");
 	JButton btnDelete = new JButton("Delete");
+	JButton btnExit = new JButton("Exit");
 
 	// Collect buttons
-	List<JButton> buttons =Lists.newArrayList(btnPlay, btnEdit, btnNew,
-			btnRename, btnCopy, btnDelete);
+	List<JButton> buttons = Lists.newArrayList(btnPlay, btnEdit, btnNew,
+			btnRename, btnCopy, btnDelete, btnExit);
 
 	// Collect all components
 	@SuppressWarnings("unchecked")
 	List<? extends JComponent> components = Lists.newArrayList(lstWorlds,
-			btnNew, btnPlay, btnRename, btnEdit, btnCopy, btnDelete);
+			btnNew, btnPlay, btnRename, btnEdit, btnCopy, btnDelete, btnExit);
 
 	public Screen_SelectWorld() {
 		super();
@@ -94,6 +96,7 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 		btnEdit.addActionListener(new btnEdit_Click());
 		btnCopy.addActionListener(new btnCopy_Click());
 		btnDelete.addActionListener(new btnDelete_Click());
+		btnExit.addActionListener(new btnExit_Click());
 		for (JButton btn : buttons) {
 			btn.addFocusListener(new btn_FocusListener());
 			btn.setFont(GUIManager.FONT_NORMAL);
@@ -114,13 +117,16 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 		pnlButtons.add(btnRename);
 		pnlButtons.add(btnCopy);
 		pnlButtons.add(btnDelete);
+		pnlButtons.add(Box.createRigidArea(new Dimension(16, 0)));
+		pnlButtons.add(btnExit);
 
 		// SETUP BUTTON PANEL
 		pnlButtons.setBackground(GUIManager.COLOR_DARK_BLUE_3);
 
 		// ADD COMPONENTS TO MAIN PANEL
 		pnlSurface.add(lblTitle, "gapx 8px 8px, pushx, wrap");
-		pnlSurface.add(scrlWorlds, "gapx 8px 8px, gapy 16px, grow, pushy, wrap");
+		pnlSurface
+				.add(scrlWorlds, "gapx 8px 8px, gapy 16px, grow, pushy, wrap");
 		pnlSurface.setBackground(GUIManager.COLOR_DARK_BLUE_3);
 		pnlSurface.add(pnlButtons, "gapx 8px 8px, gapy 4px");
 	}
@@ -158,6 +164,7 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 
 		buttons.get(buttonIndex).requestFocus();
 	}
+
 	// =================================================================
 	// EVENTS
 	// =================================================================
@@ -184,7 +191,7 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 				btn.doClick();
 			}
 		}
-		
+
 		// Default button selection
 		if (!buttons.get(buttonIndex).hasFocus()) {
 			buttons.get(buttonIndex).requestFocusInWindow();
@@ -291,6 +298,17 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 			if (confirmDelete()) {
 				delete(gameFile);
 			}
+		}
+	}
+	
+	private class btnExit_Click implements ActionListener
+	{
+		public void actionPerformed(final ActionEvent event) {
+			if (SQLiteStuff.isInitialized()) {
+				SQLiteStuff.finish();
+			}
+			
+			System.exit(0);
 		}
 	}
 
