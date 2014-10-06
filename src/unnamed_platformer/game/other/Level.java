@@ -33,7 +33,7 @@ public class Level
 
 	private Rectangle rect = Ref.DEFAULT_LEVEL_RECTANGLE;
 	private transient QuadTree quadTree = new QuadTree(0,
-			 MathHelper.slickToJavaRect(Ref.DEFAULT_LEVEL_RECTANGLE));
+			MathHelper.slickToJavaRect(Ref.DEFAULT_LEVEL_RECTANGLE));
 	private ActiveEntity playerEntity;
 
 	private void setRect(final Rectangle rect) {
@@ -62,7 +62,7 @@ public class Level
 	private void setupPlayer() {
 		for (Entity e : entities) {
 			if (e.isFlagSet(Flag.PLAYER)) {
-				playerEntity = (ActiveEntity)e;
+				playerEntity = (ActiveEntity) e;
 
 				ViewManager.centerCamera(playerEntity.getCenter());
 			}
@@ -104,7 +104,10 @@ public class Level
 		resetTo(entitySetups);
 	}
 
-	private void resetTo(LinkedList<EntitySetup> setups) {
+	private void resetTo(LinkedList<EntitySetup> setups) {		
+		// get rid of old pointer to player entity (no longer valid)
+		playerEntity = null;
+		
 		entitySetups = setups;
 		entities = EntityCreator.buildFromSetupCollection(entitySetups);
 		onStart();
@@ -133,8 +136,8 @@ public class Level
 	public Entity getTopmostEntity(Vector2f point) {
 		ListIterator<Entity> entityIterator = entities.listIterator(entities
 				.size());
-		
-		Rectangle rangeBox = new Rectangle(point.x-3, point.y-3, 6, 6);
+
+		Rectangle rangeBox = new Rectangle(point.x - 3, point.y - 3, 6, 6);
 
 		while (entityIterator.hasPrevious()) {
 			Entity entity = entityIterator.previous();
@@ -169,7 +172,7 @@ public class Level
 			if (World.playing()) {
 				// perform entity logic
 				entity.update();
-				
+
 				if (entity.isFlagSet(Flag.PLAYER)) {
 					playerEntity = (ActiveEntity) entity;
 

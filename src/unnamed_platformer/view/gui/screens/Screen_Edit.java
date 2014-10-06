@@ -466,8 +466,6 @@ public class Screen_Edit extends BaseScreen_Hybrid
 			setToolbarSize(Side.left, LEFT_TOOLBAR_SIZE);
 		} else {
 			editor.switchToPlayMode();
-			editor.setCameraPos(World.getCurrentLevel()
-					.findEntityByFlag(Flag.PLAYER).getPos());
 			setToolbarSize(Side.left, 0);
 		}
 
