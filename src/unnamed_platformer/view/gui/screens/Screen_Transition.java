@@ -51,7 +51,7 @@ public class Screen_Transition extends BaseScreen_GUI
 		lblInfo.setFont(GUIManager.FONT_HEADING);
 		lblInfo.setForeground(GUIManager.COLOR_LIGHT_GREY);
 		btnNext.setFont(GUIManager.FONT_SUB_HEADING);
-		GUIHelper.styleButton(btnNext, 12);
+		GUIHelper.styleButton(btnNext, 6);
 
 		pnlSurface.add(lblInfo, GUIManager.CENTER_LAYOUT + ", gaptop 10%, ");
 		pnlSurface.add(btnNext, GUIManager.CENTER_LAYOUT + ", pushy");
