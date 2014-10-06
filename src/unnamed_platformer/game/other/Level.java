@@ -286,6 +286,9 @@ public class Level
 	}
 
 	public ActiveEntity getPlayer() {
+		if (playerEntity == null) {
+			setupPlayer();
+		}
 		return playerEntity;
 	}
 }

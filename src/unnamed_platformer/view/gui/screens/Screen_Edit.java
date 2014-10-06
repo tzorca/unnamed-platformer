@@ -33,7 +33,6 @@ import unnamed_platformer.game.other.Editor;
 import unnamed_platformer.game.other.EntityCreator;
 import unnamed_platformer.game.other.Level;
 import unnamed_platformer.game.other.World;
-import unnamed_platformer.globals.GameRef.Flag;
 import unnamed_platformer.globals.Ref;
 import unnamed_platformer.res_mgt.ResManager;
 import unnamed_platformer.view.Graphic;
@@ -115,14 +114,11 @@ public class Screen_Edit extends BaseScreen_Hybrid
 		flowLayout.setHgap(0);
 		topToolbar.setLayout(flowLayout);
 
-		// // SETUP TOP TOOLBAR LABELS
-
-		//
-		// // ADD COMPONENTS TO TOP TOOLBAR
-		// topToolbar.add(lblCurrentLevel);
-
 		// INITIALIZE CURSOR
 		initCursor();
+		
+		// FOCUS ON PLAYER INITIALLY
+		editor.focusOnPlayer();
 	}
 
 	public Graphic getCurrentGraphic() {

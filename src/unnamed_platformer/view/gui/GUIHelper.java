@@ -91,7 +91,7 @@ public final class GUIHelper
 		button.setMargin(new Insets(0, 0, 0, 0));
 	}
 
-	public static void removeButtonPadding(ArrayList<JButton> buttons) {
+	public static void removeButtonPadding(List<JButton> buttons) {
 		for (JButton button : buttons) {
 			removeButtonPadding(button);
 		}

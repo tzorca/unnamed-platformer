@@ -1,9 +1,12 @@
 package unnamed_platformer.view.gui.dialogs;
 
+import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
+import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -24,6 +27,7 @@ import com.google.common.collect.Lists;
 
 public class Dialog_EditMenu extends Dialog
 {
+
 	private static final long serialVersionUID = -846612117309570380L;
 
 	private static final ImageIcon /* */
@@ -34,6 +38,7 @@ public class Dialog_EditMenu extends Dialog
 			IMG_PREV = ImageHelper.getImageIconContent("gui_prev"),
 			IMG_REMOVE = ImageHelper.getImageIconContent("gui_remove"),
 			IMG_SAVE = ImageHelper.getImageIconContent("gui_save");
+	// , IMG_EXIT = ImageHelper. getImageIconContent ("gui_exit");
 
 	private final JButton btnModeSwitch = new JButton(IMG_PLAY_MODE);
 	private final JButton btnPrevLevel = new JButton(IMG_PREV);
@@ -41,31 +46,37 @@ public class Dialog_EditMenu extends Dialog
 	private final JButton btnNextLevel = new JButton(IMG_NEXT);
 	private final JButton btnRemoveLevel = new JButton(IMG_REMOVE);
 	private final JButton btnSaveLevel = new JButton(IMG_SAVE);
+	// private final JButton btnExit = new JButton(IMG_EXIT);
 
 	private Editor editor;
 	private Screen_Edit screenEdit;
 	private final JLabel lblCurrentLevel = new JLabel();
+
+	private final List<JButton> buttonList = Lists.newArrayList(btnModeSwitch,
+			btnSaveLevel, btnPrevLevel, btnNextLevel, btnAddLevel,
+			btnRemoveLevel/* , btnExit */);
 
 	public Dialog_EditMenu(Frame owner, Editor editor, Screen_Edit screenEdit) {
 		super(owner, "Editor Options");
 		this.editor = editor;
 		this.screenEdit = screenEdit;
 
+		// SETUP DIALOG
 		this.setLayout(new MigLayout());
 		this.setLocationRelativeTo(owner);
 
-		// SETUP COMPONENTS
+		// SETUP BUTTONS
 		btnPrevLevel.addActionListener(new btnPrevLevel_Click());
 		btnNextLevel.addActionListener(new btnNextLevel_Click());
 		btnAddLevel.addActionListener(new btnAddLevel_Click());
 		btnRemoveLevel.addActionListener(new btnRemoveLevel_Click());
 		btnSaveLevel.addActionListener(new btnSaveLevel_Click());
 		btnModeSwitch.addActionListener(new btnModeSwitch_Click());
-		GUIHelper.removeButtonPadding(Lists.newArrayList(btnPrevLevel,
-				btnNextLevel, btnAddLevel, btnRemoveLevel, btnSaveLevel,
-				btnModeSwitch));
-		GUIHelper.styleButtons(Lists.newArrayList(btnPrevLevel, btnNextLevel,
-				btnAddLevel, btnRemoveLevel, btnSaveLevel, btnModeSwitch), 0);
+		// btnExit.addActionListener(new btnExit_Click());
+		GUIHelper.removeButtonPadding(buttonList);
+		GUIHelper.styleButtons(buttonList, 0);
+
+		// SETUP CURRENT LEVEL LABEL
 		lblCurrentLevel.setText("Level "
 				+ String.valueOf(World.getCurrentLevelIndex() + 1));
 		lblCurrentLevel.setForeground(GUIManager.COLOR_WHITE);
@@ -75,17 +86,22 @@ public class Dialog_EditMenu extends Dialog
 		final boolean currentlyEditing = !World.playing();
 		this.add(btnModeSwitch);
 		if (currentlyEditing) {
+			this.add(btnSaveLevel);
+			this.add(Box.createRigidArea(new Dimension(24, 0)));
 			this.add(btnPrevLevel);
+			this.add(lblCurrentLevel);
 			this.add(btnNextLevel);
 			this.add(btnAddLevel);
 			this.add(btnRemoveLevel);
-			this.add(btnSaveLevel);
 		} else {
 			btnModeSwitch.setIcon(IMG_EDIT_MODE);
+			this.add(lblCurrentLevel);
 		}
-		this.add(lblCurrentLevel);
 
-		// CREATE MENU EXIT RUNNABLE
+		// this.add(Box.createRigidArea(new Dimension(24, 0)));
+		// this.add(btnExit);
+
+		// CREATE DIALOG EXIT RUNNABLE
 		Runnable exitRunnable = new Runnable() {
 			public void run() {
 				SwingUtilities.invokeLater(new Runnable() {
@@ -98,9 +114,7 @@ public class Dialog_EditMenu extends Dialog
 		};
 
 		// ADD DIRECTIONAL NAVIGATION
-		GUIHelper.addDirectionalNavigation(Lists.newArrayList(btnModeSwitch,
-				btnPrevLevel, btnNextLevel, btnAddLevel, btnRemoveLevel,
-				btnSaveLevel), exitRunnable);
+		GUIHelper.addDirectionalNavigation(buttonList, exitRunnable);
 
 		this.pack();
 	}
@@ -164,7 +178,8 @@ public class Dialog_EditMenu extends Dialog
 		public void actionPerformed(final ActionEvent event) {
 			GUIHelper.confirmDangerousWithCallback(
 					"Are you sure you want to delete "
-							+ lblCurrentLevel.getText() + "?", new ParamRunnable() {
+							+ lblCurrentLevel.getText() + "?",
+					new ParamRunnable() {
 						public void run(Object param) {
 							final boolean choice = (boolean) param;
 

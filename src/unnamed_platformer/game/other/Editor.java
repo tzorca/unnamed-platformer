@@ -278,4 +278,12 @@ public class Editor
 	public Vector2f getCameraPos() {
 		return new Vector2f(cameraPos);
 	}
+
+	public void focusOnPlayer() {
+		Entity playerEntity = World.getCurrentLevel().getPlayer();
+
+		if (playerEntity != null) {
+			ViewManager.centerCamera(playerEntity.getCenter());
+		}
+	}
 }
