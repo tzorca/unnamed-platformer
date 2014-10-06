@@ -27,6 +27,7 @@ import org.newdawn.slick.opengl.Texture;
 
 import unnamed_platformer.app.SQLiteStuff;
 import unnamed_platformer.game.other.World;
+import unnamed_platformer.globals.GameConfig;
 import unnamed_platformer.globals.Ref;
 import unnamed_platformer.res_mgt.ResManager;
 import unnamed_platformer.view.gui.GUIManager;
@@ -346,8 +347,9 @@ public final class ViewManager
 	}
 
 	public static void init() {
-		reinitFrame();
-		changeResolution(ViewManager.DEFAULT_RESOLUTION);
+		setFullscreen(GameConfig.DEFAULT_FULLSCREEN);
+//		reinitFrame();
+//		changeResolution(ViewManager.DEFAULT_RESOLUTION);
 	}
 
 	private static void reinitFrame() {

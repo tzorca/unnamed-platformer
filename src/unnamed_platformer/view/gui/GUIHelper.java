@@ -24,7 +24,7 @@ import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
 import unnamed_platformer.app.InputManager;
-import unnamed_platformer.app.InputManager.PlayerGameKey;
+import unnamed_platformer.app.InputManager.PlrGameKey;
 import unnamed_platformer.globals.Ref;
 import unnamed_platformer.view.ViewManager;
 
@@ -195,7 +195,7 @@ public final class GUIHelper
 				@Override
 				public void keyPressed(KeyEvent e) {
 
-					Collection<PlayerGameKey> gameKeys = InputManager
+					Collection<PlrGameKey> gameKeys = InputManager
 							.getGameKeysMatchingKeyEvent(e);
 
 					// No matching keys
@@ -203,7 +203,7 @@ public final class GUIHelper
 						return;
 					}
 
-					for (PlayerGameKey gk : gameKeys) {
+					for (PlrGameKey gk : gameKeys) {
 						switch (gk.getGameKey()) {
 						case A:
 							currentButton.doClick();

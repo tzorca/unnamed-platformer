@@ -25,6 +25,7 @@ import org.newdawn.slick.opengl.Texture;
 
 import unnamed_platformer.app.ImageHelper;
 import unnamed_platformer.app.InputManager;
+import unnamed_platformer.app.InputManager.GameKey;
 import unnamed_platformer.app.InputManager.InputEventType;
 import unnamed_platformer.app.MathHelper;
 import unnamed_platformer.app.TimeManager;
@@ -33,7 +34,6 @@ import unnamed_platformer.game.other.EntityCreator;
 import unnamed_platformer.game.other.Level;
 import unnamed_platformer.game.other.World;
 import unnamed_platformer.globals.GameRef.Flag;
-import unnamed_platformer.globals.InputRef.GameKey;
 import unnamed_platformer.globals.Ref;
 import unnamed_platformer.res_mgt.ResManager;
 import unnamed_platformer.view.Graphic;

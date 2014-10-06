@@ -26,9 +26,9 @@ import javax.swing.event.ListSelectionListener;
 
 import unnamed_platformer.app.FileHelper;
 import unnamed_platformer.app.InputManager;
-import unnamed_platformer.app.InputManager.PlayerGameKey;
+import unnamed_platformer.app.InputManager.GameKey;
+import unnamed_platformer.app.InputManager.PlrGameKey;
 import unnamed_platformer.game.other.World;
-import unnamed_platformer.globals.InputRef.GameKey;
 import unnamed_platformer.res_mgt.ResManager;
 import unnamed_platformer.view.gui.GUIHelper;
 import unnamed_platformer.view.gui.GUIManager;
@@ -195,10 +195,10 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 	private class Global_KeyListener extends KeyAdapter
 	{
 		public void keyPressed(KeyEvent e) {
-			Collection<PlayerGameKey> plrGameKeys = InputManager
+			Collection<PlrGameKey> plrGameKeys = InputManager
 					.getGameKeysMatchingKeyEvent(e);
 
-			for (PlayerGameKey plrGameKey : plrGameKeys) {
+			for (PlrGameKey plrGameKey : plrGameKeys) {
 				GameKey gameKey = plrGameKey.getGameKey();
 				switch (gameKey) {
 				case UP:

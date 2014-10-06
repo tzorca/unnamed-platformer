@@ -16,8 +16,7 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.geom.Vector2f;
 
-import unnamed_platformer.globals.InputRef;
-import unnamed_platformer.globals.InputRef.GameKey;
+import unnamed_platformer.globals.GameConfig;
 import unnamed_platformer.view.ViewManager;
 
 import com.google.common.collect.Maps;
@@ -25,13 +24,24 @@ import com.google.common.collect.Multimap;
 
 public final class InputManager
 {
+
+	public enum GameKey {
+		LEFT, RIGHT, UP, DOWN, /* */
+		A, B, /* */
+		START, /* */
+		RESTART_APP, TOGGLE_FULLSCREEN, SAVE_SCREENSHOT, /* */
+		MULTI_SELECT, /* */
+		SECONDARY_LEFT, SECONDARY_RIGHT, SECONDARY_UP, SECONDARY_DOWN, /* */
+		SCROLL_IN, SCROLL_OUT /* */
+	}
+
 	private static HashMap<Integer, Boolean> rawKeyStates = Maps.newHashMap();
-	private static HashMap<PlayerGameKey, Boolean> playerGameKeyStates = Maps
+	private static HashMap<PlrGameKey, Boolean> playerGameKeyStates = Maps
 			.newHashMap(), lastPlayerGameKeyStates = Maps.newHashMap(),
 			playerGameKeyPressEvents = Maps.newHashMap();
-	private static Multimap<Integer, PlayerGameKey> gamekeyMappings = InputRef.GAME_KEY_SETUP;
+	private static Multimap<Integer, PlrGameKey> gamekeyMappings = GameConfig.GAME_KEYS;
 
-	public static Collection<PlayerGameKey> getGameKeysMatchingKeyEvent(
+	public static Collection<PlrGameKey> getGameKeysMatchingKeyEvent(
 			KeyEvent keyEvent) {
 
 		int translatedKeyCode = KeyCodeTranslator
@@ -41,11 +51,11 @@ public final class InputManager
 			return gamekeyMappings.get(translatedKeyCode);
 		}
 
-		return new HashSet<PlayerGameKey>();
+		return new HashSet<PlrGameKey>();
 	}
 
 	public static void mapKey(int playerNo, GameKey gk, int key) {
-		gamekeyMappings.put(key, new PlayerGameKey(playerNo, gk));
+		gamekeyMappings.put(key, new PlrGameKey(playerNo, gk));
 	}
 
 	public static void unmapAllKeyMappings(int key) {
@@ -182,9 +192,9 @@ public final class InputManager
 	private static void assignKeyState(int keycode, boolean state) {
 		rawKeyStates.put(keycode, state);
 		if (gamekeyMappings.containsKey(keycode)) {
-			Collection<PlayerGameKey> mappings = gamekeyMappings.get(keycode);
+			Collection<PlrGameKey> mappings = gamekeyMappings.get(keycode);
 
-			for (PlayerGameKey mapping : mappings) {
+			for (PlrGameKey mapping : mappings) {
 				playerGameKeyStates.put(mapping, state);
 				if (!lastPlayerGameKeyStates.containsKey(mapping)) {
 					lastPlayerGameKeyStates.put(mapping, false);
@@ -200,7 +210,7 @@ public final class InputManager
 	}
 
 	public static boolean keyPressOccurring(GameKey gk, int playerNo) {
-		PlayerGameKey pgk = new PlayerGameKey(playerNo, gk);
+		PlrGameKey pgk = new PlrGameKey(playerNo, gk);
 		if (!playerGameKeyStates.containsKey(pgk)) {
 			playerGameKeyStates.put(pgk, false);
 			return false;
@@ -210,7 +220,7 @@ public final class InputManager
 	}
 
 	public static boolean keyPressOccurred(GameKey gk, int playerNo) {
-		PlayerGameKey pgk = new PlayerGameKey(playerNo, gk);
+		PlrGameKey pgk = new PlrGameKey(playerNo, gk);
 		if (playerGameKeyPressEvents.containsKey(pgk)) {
 			boolean returnValue = playerGameKeyPressEvents.get(pgk);
 			playerGameKeyPressEvents.put(pgk, false);
@@ -220,12 +230,12 @@ public final class InputManager
 		return false;
 	}
 
-	public static class PlayerGameKey
+	public static class PlrGameKey
 	{
 		private GameKey gameKey;
 		private int playerNo;
 
-		public PlayerGameKey(int playerNo, GameKey gk) {
+		public PlrGameKey(int playerNo, GameKey gk) {
 			this.playerNo = playerNo;
 			this.gameKey = gk;
 		}
@@ -235,11 +245,11 @@ public final class InputManager
 			return new HashCodeBuilder(23, 11).append(playerNo).append(gameKey)
 					.toHashCode();
 		}
-		
+
 		public GameKey getGameKey() {
 			return gameKey;
 		}
-		
+
 		public int getPlayerNo() {
 			return playerNo;
 		}
@@ -249,10 +259,10 @@ public final class InputManager
 				return false;
 			if (obj == this)
 				return true;
-			if (!(obj instanceof PlayerGameKey))
+			if (!(obj instanceof PlrGameKey))
 				return false;
 
-			PlayerGameKey rhs = (PlayerGameKey) obj;
+			PlrGameKey rhs = (PlrGameKey) obj;
 			return new EqualsBuilder().append(playerNo, rhs.playerNo)
 					.append(gameKey, rhs.gameKey).isEquals();
 		}
