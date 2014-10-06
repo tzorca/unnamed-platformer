@@ -60,10 +60,7 @@ public class Dialog_EditMenu extends Dialog
 		super(owner, "Editor Options");
 		this.editor = editor;
 		this.screenEdit = screenEdit;
-
-		// SETUP DIALOG
 		this.setLayout(new MigLayout());
-		this.setLocationRelativeTo(owner);
 
 		// SETUP BUTTONS
 		btnPrevLevel.addActionListener(new btnPrevLevel_Click());
@@ -117,6 +114,7 @@ public class Dialog_EditMenu extends Dialog
 		GUIHelper.addDirectionalNavigation(buttonList, exitRunnable);
 
 		this.pack();
+		this.setLocationRelativeTo(owner);
 	}
 
 	private class btnModeSwitch_Click implements ActionListener
