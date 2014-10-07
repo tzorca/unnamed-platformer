@@ -20,6 +20,7 @@ import unnamed_platformer.game.other.World;
 import unnamed_platformer.view.ViewManager;
 import unnamed_platformer.view.gui.GUIHelper;
 import unnamed_platformer.view.gui.GUIHelper.ParamRunnable;
+import unnamed_platformer.view.gui.GUIManager.ScreenType;
 import unnamed_platformer.view.gui.GUIManager;
 import unnamed_platformer.view.gui.screens.Screen_Edit;
 
@@ -37,8 +38,8 @@ public class Dialog_EditMenu extends Dialog
 			IMG_NEXT = ImageHelper.getImageIconContent("gui_next"),
 			IMG_PREV = ImageHelper.getImageIconContent("gui_prev"),
 			IMG_REMOVE = ImageHelper.getImageIconContent("gui_remove"),
-			IMG_SAVE = ImageHelper.getImageIconContent("gui_save");
-	// , IMG_EXIT = ImageHelper. getImageIconContent ("gui_exit");
+			IMG_SAVE = ImageHelper.getImageIconContent("gui_save"),
+			IMG_EXIT = ImageHelper.getImageIconContent("gui_exit");
 
 	private final JButton btnModeSwitch = new JButton(IMG_PLAY_MODE);
 	private final JButton btnPrevLevel = new JButton(IMG_PREV);
@@ -46,7 +47,7 @@ public class Dialog_EditMenu extends Dialog
 	private final JButton btnNextLevel = new JButton(IMG_NEXT);
 	private final JButton btnRemoveLevel = new JButton(IMG_REMOVE);
 	private final JButton btnSaveLevel = new JButton(IMG_SAVE);
-	// private final JButton btnExit = new JButton(IMG_EXIT);
+	private final JButton btnExit = new JButton(IMG_EXIT);
 
 	private Editor editor;
 	private Screen_Edit screenEdit;
@@ -54,7 +55,7 @@ public class Dialog_EditMenu extends Dialog
 
 	private final List<JButton> buttonList = Lists.newArrayList(btnModeSwitch,
 			btnSaveLevel, btnPrevLevel, btnNextLevel, btnAddLevel,
-			btnRemoveLevel/* , btnExit */);
+			btnRemoveLevel, btnExit);
 
 	public Dialog_EditMenu(Frame owner, Editor editor, Screen_Edit screenEdit) {
 		super(owner, "Editor Options");
@@ -69,7 +70,7 @@ public class Dialog_EditMenu extends Dialog
 		btnRemoveLevel.addActionListener(new btnRemoveLevel_Click());
 		btnSaveLevel.addActionListener(new btnSaveLevel_Click());
 		btnModeSwitch.addActionListener(new btnModeSwitch_Click());
-		// btnExit.addActionListener(new btnExit_Click());
+		btnExit.addActionListener(new btnExit_Click());
 		GUIHelper.removeButtonPadding(buttonList);
 		GUIHelper.styleButtons(buttonList, 0);
 
@@ -95,8 +96,8 @@ public class Dialog_EditMenu extends Dialog
 			this.add(lblCurrentLevel);
 		}
 
-		// this.add(Box.createRigidArea(new Dimension(24, 0)));
-		// this.add(btnExit);
+		this.add(Box.createRigidArea(new Dimension(24, 0)));
+		this.add(btnExit);
 
 		// CREATE DIALOG EXIT RUNNABLE
 		Runnable exitRunnable = new Runnable() {
@@ -127,6 +128,14 @@ public class Dialog_EditMenu extends Dialog
 					ViewManager.focusRenderCanvas();
 				}
 			});
+		}
+	}
+
+	private class btnExit_Click implements ActionListener
+	{
+		public void actionPerformed(ActionEvent e) {
+			Dialog_EditMenu.this.setVisible(false);
+			GUIManager.changeScreen(ScreenType.SelectWorld);
 		}
 	}
 
