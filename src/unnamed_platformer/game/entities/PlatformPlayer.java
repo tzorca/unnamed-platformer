@@ -77,7 +77,6 @@ public class PlatformPlayer extends ActiveEntity
 		health += healthDelta;
 
 		if (health <= 0) {
-			SoundManager.playSample("death");
 			death();
 		} else if (healthDelta < 0) {
 			SoundManager.playSample("hit");
@@ -85,6 +84,7 @@ public class PlatformPlayer extends ActiveEntity
 	}
 
 	public void death() {
+		SoundManager.playSample("death");
 		returnToStart();
 		health = GameRef.DEFAULT_MAX_HEALTH;
 		flashStatus = false;
