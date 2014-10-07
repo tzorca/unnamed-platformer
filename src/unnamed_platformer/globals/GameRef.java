@@ -3,7 +3,7 @@ package unnamed_platformer.globals;
 public final class GameRef
 {
 
-	public static final float DEFAULT_SPRING_STRENGTH = 2.2f;
+	public static final float DEFAULT_SPRING_STRENGTH = 2.3f;
 
 	public static final float DEFAULT_PLR_ACCELERATION = 0.7f;
 	public static final float DEFAULT_PLR_DECELERATION = 2.1f;

@@ -8,6 +8,7 @@ import unnamed_platformer.game.behaviours.Ctrl_HorizontalMove;
 import unnamed_platformer.game.behaviours.Ctrl_Jump;
 import unnamed_platformer.game.behaviours.Ctrl_Shoot;
 import unnamed_platformer.game.other.EntitySetup;
+import unnamed_platformer.game.other.World;
 import unnamed_platformer.globals.EntityRef.EntityParam;
 import unnamed_platformer.globals.GameRef;
 import unnamed_platformer.globals.GameRef.Flag;
@@ -101,10 +102,19 @@ public class PlatformPlayer extends ActiveEntity
 				flashStatus = false;
 			} else {
 				// flash
-				if (TimeManager.periodElapsed(this, STR_FLASHING, GameRef.FLASH_INTERVAL)) {
+				if (TimeManager.periodElapsed(this, STR_FLASHING,
+						GameRef.FLASH_INTERVAL)) {
 					flashStatus = !flashStatus;
 				}
 			}
+		}
+
+		// Falling off the map
+		// TODO: Refactor this into a generic way of checking if an entity is
+		// out of view or level bounds
+		if (this.getOriginalBox().getMinY() > World.getCurrentLevel().getRect()
+				.getMaxY()) {
+			death();
 		}
 
 		graphic.color = flashStatus ? new Color(0xff, 0xff, 0xff, 0xaa)
