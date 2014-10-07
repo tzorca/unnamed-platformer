@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.util.Collection;
 import java.util.HashMap;
 
+import org.newdawn.slick.openal.Audio;
 import org.newdawn.slick.opengl.Texture;
 
 import unnamed_platformer.app.FileHelper;
@@ -45,6 +46,7 @@ public final class ResManager {
 
 	public static void init() {
 		addResLoader(Texture.class, new TextureResLoader());
+		addResLoader(Audio.class, new SoundLoader());
 		addResLoader(BufferedImage.class, new ImageResLoader());
 		addResLoader(CollisionData.class, new CollisionDataResLoader());
 		addResLoader(World.class, new GameResDummyLoader());

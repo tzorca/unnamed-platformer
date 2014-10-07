@@ -12,6 +12,7 @@ import unnamed_platformer.game.other.World;
 import unnamed_platformer.globals.EntityRef.EntityParam;
 import unnamed_platformer.globals.GameRef;
 import unnamed_platformer.globals.GameRef.Flag;
+import unnamed_platformer.res_mgt.SoundManager;
 import unnamed_platformer.view.Graphic;
 
 //TODO: Fix launched projectiles to have constant speed
@@ -76,9 +77,11 @@ public class PlatformPlayer extends ActiveEntity
 		health += healthDelta;
 
 		if (health <= 0) {
+			SoundManager.playSample("death");
 			death();
+		} else if (healthDelta < 0) {
+			SoundManager.playSample("hit");
 		}
-
 	}
 
 	public void death() {

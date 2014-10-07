@@ -9,6 +9,7 @@ import unnamed_platformer.game.other.QuadTree;
 import unnamed_platformer.game.other.World;
 import unnamed_platformer.globals.Ref;
 import unnamed_platformer.res_mgt.ResManager;
+import unnamed_platformer.res_mgt.SoundManager;
 import unnamed_platformer.view.ViewManager;
 import unnamed_platformer.view.gui.GUIManager;
 import unnamed_platformer.view.gui.GUIManager.ScreenType;
@@ -89,6 +90,25 @@ public final class Main
 
 	public static <T> T deepClone(T o) {
 		return cloner.deepClone(o);
+	}
+
+	public static void doExit() {
+		deinit();
+		System.exit(0);
+	}
+
+	public static void doHalt() {
+
+		deinit();
+		Runtime.getRuntime().halt(0);
+	}
+
+	public static void deinit() {
+		if (SQLiteStuff.isInitialized()) {
+			SQLiteStuff.finish();
+		}
+		SoundManager.finish();
+
 	}
 
 }

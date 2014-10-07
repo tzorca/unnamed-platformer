@@ -28,6 +28,7 @@ import javax.swing.event.ListSelectionListener;
 
 import unnamed_platformer.app.FileHelper;
 import unnamed_platformer.app.InputManager;
+import unnamed_platformer.app.Main;
 import unnamed_platformer.app.InputManager.GameKey;
 import unnamed_platformer.app.InputManager.PlrGameKey;
 import unnamed_platformer.app.SQLiteStuff;
@@ -354,7 +355,7 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 				SQLiteStuff.finish();
 			}
 
-			System.exit(0);
+			Main.doExit();
 		}
 	}
 

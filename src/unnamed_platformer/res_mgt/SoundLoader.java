@@ -4,10 +4,10 @@ import org.newdawn.slick.openal.Audio;
 import org.newdawn.slick.openal.AudioLoader;
 import org.newdawn.slick.util.ResourceLoader;
 
-public class UntestedAudioLoader extends ResLoader<Audio> {
+public class SoundLoader extends ResLoader<Audio> {
 
-	protected UntestedAudioLoader() {
-		super("audio", ".ogg");
+	protected SoundLoader() {
+		super("snd", ".ogg");
 	}
 
 	@Override

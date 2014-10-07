@@ -4,8 +4,9 @@ import org.lwjgl.openal.AL;
 import org.newdawn.slick.openal.Audio;
 import org.newdawn.slick.openal.SoundStore;
 
-public class UntestedAudioManager {
-	public static void playSample(String name, float vol) {
+public class SoundManager {
+	public static void playSample(String name) {
+		ResManager.get(Audio.class, name).playAsSoundEffect(1.0f, 1.0f, false);
 	}
 
 	public static void playSample(String name, float pitch, float gain, boolean loop) {

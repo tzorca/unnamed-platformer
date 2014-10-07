@@ -25,11 +25,13 @@ import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.opengl.Texture;
 
+import unnamed_platformer.app.Main;
 import unnamed_platformer.app.SQLiteStuff;
 import unnamed_platformer.game.other.World;
 import unnamed_platformer.globals.GameConfig;
 import unnamed_platformer.globals.Ref;
 import unnamed_platformer.res_mgt.ResManager;
+import unnamed_platformer.res_mgt.SoundManager;
 import unnamed_platformer.view.gui.GUIManager;
 import unnamed_platformer.view.gui.hud.HeadsUpDisplay;
 
@@ -58,12 +60,8 @@ public final class ViewManager
 	{
 		public void windowClosing(final WindowEvent event) {
 			if (GUIManager.canExit()) {
-				if (SQLiteStuff.isInitialized()) {
-					SQLiteStuff.finish();
-				}
-
 				// system.exit(0) won't work here (causes deadlock)
-				Runtime.getRuntime().halt(0);
+				Main.doHalt();
 			}
 		}
 	}
@@ -426,7 +424,7 @@ public final class ViewManager
 				Display.create();
 			} catch (LWJGLException e2) {
 				e2.printStackTrace();
-				System.exit(0);
+				Main.doExit();
 			}
 		}
 

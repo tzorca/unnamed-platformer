@@ -31,5 +31,7 @@
 			<attribute name="javadoc_location" value="jar:platform:/resource/UnnamedPlatformer/javadoc/lwjgl-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="lib/misc/jogg-0.0.7.jar"/>
+	<classpathentry kind="lib" path="lib/misc/jorbis-0.0.15.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

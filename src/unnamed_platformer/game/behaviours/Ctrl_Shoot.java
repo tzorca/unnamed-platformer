@@ -10,6 +10,7 @@ import unnamed_platformer.game.entities.ActiveEntity;
 import unnamed_platformer.game.other.EntityCreator;
 import unnamed_platformer.game.other.World;
 import unnamed_platformer.globals.GameRef.Flag;
+import unnamed_platformer.res_mgt.SoundManager;
 
 public class Ctrl_Shoot extends ControlMechanism {
 
@@ -35,6 +36,7 @@ public class Ctrl_Shoot extends ControlMechanism {
 	}
 
 	private void fire() {
+		SoundManager.playSample("laser");
 		TimeManager.sample(hashCode());
 		ActiveEntity movingProjectile = (ActiveEntity) EntityCreator
 				.buildFromSetup(projectile.getOriginalSetup());

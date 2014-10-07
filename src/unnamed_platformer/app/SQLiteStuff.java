@@ -69,7 +69,7 @@ public class SQLiteStuff {
 		} catch (SQLiteException e) {
 			System.out.println("Could not add texture mappings: " + e.toString());
 			e.printStackTrace();
-			System.exit(0);
+			Main.doExit();
 		}
 
 	}
@@ -96,7 +96,7 @@ public class SQLiteStuff {
 		} catch (Exception e) {
 			System.out.println("Could not insert new texture names: " + e.toString());
 			e.printStackTrace();
-			System.exit(0);
+			Main.doExit();
 		}
 	}
 
@@ -115,7 +115,7 @@ public class SQLiteStuff {
 
 		} catch (SQLiteException e) {
 			System.out.println("Could not create tables: " + e.toString());
-			System.exit(0);
+			Main.doExit();
 		}
 	}
 
@@ -125,7 +125,7 @@ public class SQLiteStuff {
 			db.open(true);
 		} catch (SQLiteException e) {
 			System.out.println("Could not connect to datatbase: " + e.toString());
-			System.exit(0);
+			Main.doExit();
 		}
 	}
 

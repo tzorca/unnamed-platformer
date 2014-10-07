@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.swing.UIManager;
 
+import unnamed_platformer.app.Main;
 import unnamed_platformer.globals.Ref;
 import unnamed_platformer.res_mgt.ClassLookup;
 import unnamed_platformer.view.ViewManager;
@@ -87,7 +88,7 @@ public final class GUIManager
 	public static void changeScreen(ScreenType newState) {
 		if (newState == null) {
 			System.out.println("Note: Exited by changing screen.");
-			System.exit(0);
+			Main.doExit();
 		}
 		if (screen == null || screen.finish(newState)) {
 			screenStateStack.add(newState);

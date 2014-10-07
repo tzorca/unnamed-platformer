@@ -7,8 +7,10 @@ import unnamed_platformer.app.InputManager.GameKey;
 import unnamed_platformer.game.entities.ActiveEntity;
 import unnamed_platformer.game.other.PhysicsInstance;
 import unnamed_platformer.globals.GameRef.Flag;
+import unnamed_platformer.res_mgt.SoundManager;
 
-public class Ctrl_Jump extends ControlMechanism {
+public class Ctrl_Jump extends ControlMechanism
+{
 
 	float jumpStrength = 0;
 	boolean jumping = false;
@@ -27,14 +29,11 @@ public class Ctrl_Jump extends ControlMechanism {
 			jumping = false;
 		}
 
-		if (!jumping && physics.isOnGround() && InputManager.keyPressOccurring(GameKey.A, 1)
+		if (!jumping && physics.isOnGround()
+				&& InputManager.keyPressOccurring(GameKey.A, 1)
 				&& actor.isFlagSet(Flag.OBEYS_GRAVITY)) {
 
-			actor.getPhysics().setInAir(true);
-			jumping = true;
-
-			actor.getPhysics().addForce(
-					new Vector2f(0f, (float) (-jumpStrength * Math.pow(multiplier, 0.5))));
+			jump(multiplier);
 		}
 
 		if (jumping) {
@@ -45,12 +44,22 @@ public class Ctrl_Jump extends ControlMechanism {
 					if (yDiff > 0) {
 
 						actor.getPhysics().addForce(
-								new Vector2f(0, (float) (yDiff * Math.pow(multiplier, 0.5)
-										/ 4)));
+								new Vector2f(0, (float) (yDiff
+										* Math.pow(multiplier, 0.5) / 4)));
 					}
 				}
 			}
 		}
+	}
+
+	private void jump(float multiplier) {
+		SoundManager.playSample("jump");
+		actor.getPhysics().setInAir(true);
+		jumping = true;
+
+		actor.getPhysics().addForce(
+				new Vector2f(0f, (float) (-jumpStrength * Math.pow(multiplier,
+						0.5))));
 	}
 
 	public void reset() {
