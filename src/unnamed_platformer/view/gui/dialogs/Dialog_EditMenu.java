@@ -53,7 +53,7 @@ public class Dialog_EditMenu extends Dialog
 	private Screen_Edit screenEdit;
 	private final JLabel lblCurrentLevel = new JLabel();
 
-	private final List<JButton> buttonList = Lists.newArrayList(btnModeSwitch,
+	private List<JButton> buttonList = Lists.newArrayList(btnModeSwitch,
 			btnSaveLevel, btnPrevLevel, btnNextLevel, btnAddLevel,
 			btnRemoveLevel, btnExit);
 
@@ -91,13 +91,13 @@ public class Dialog_EditMenu extends Dialog
 			this.add(btnNextLevel);
 			this.add(btnAddLevel);
 			this.add(btnRemoveLevel);
+			this.add(Box.createRigidArea(new Dimension(24, 0)));
+			this.add(btnExit);
 		} else {
 			btnModeSwitch.setIcon(IMG_EDIT_MODE);
 			this.add(lblCurrentLevel);
+			buttonList = Lists.newArrayList(btnModeSwitch);
 		}
-
-		this.add(Box.createRigidArea(new Dimension(24, 0)));
-		this.add(btnExit);
 
 		// CREATE DIALOG EXIT RUNNABLE
 		Runnable exitRunnable = new Runnable() {
