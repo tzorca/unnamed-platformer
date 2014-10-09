@@ -8,6 +8,7 @@ import javax.swing.JButton;
 import javax.swing.SwingUtilities;
 
 import unnamed_platformer.game.other.World;
+import unnamed_platformer.res_mgt.SoundManager;
 import unnamed_platformer.view.gui.GUIHelper;
 import unnamed_platformer.view.gui.GUIManager;
 import unnamed_platformer.view.gui.GUIManager.ScreenType;
@@ -28,6 +29,9 @@ public class Screen_Transition extends BaseScreen_GUI
 		int nextLevelIndex = World.getCurrentLevelIndex();
 
 		if (World.hasLevelIndex(nextLevelIndex)) {
+			// Play a sound for completing the level!
+			SoundManager.playSample("level-complete");
+			
 			lblInfo = new Label("Level "
 					+ String.valueOf(World.getCurrentLevelIndex() + 1));
 
@@ -37,7 +41,7 @@ public class Screen_Transition extends BaseScreen_GUI
 				}
 			});
 		} else {
-			lblInfo = new Label("You finished all the levels.");
+			lblInfo = new Label("You finished all the levels! Good job!");
 
 			btnNext = new JButton("Ok");
 			btnNext.addActionListener(new ActionListener() {

@@ -80,6 +80,8 @@ public class PlatformPlayer extends ActiveEntity
 			death();
 		} else if (healthDelta < 0) {
 			SoundManager.playSample("hit");
+		} else if (healthDelta > 0){
+			SoundManager.playSample("energy");
 		}
 	}
 
