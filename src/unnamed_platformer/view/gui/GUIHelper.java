@@ -23,6 +23,7 @@ import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
 import unnamed_platformer.app.InputManager;
+import unnamed_platformer.app.Main;
 import unnamed_platformer.app.InputManager.PlrGameKey;
 import unnamed_platformer.globals.Ref;
 import unnamed_platformer.view.ViewManager;
@@ -218,6 +219,8 @@ public final class GUIHelper
 						case RIGHT:
 							nextButton.requestFocus();
 							break;
+						case EXIT:
+							Main.doHalt();
 						default:
 							break;
 						}

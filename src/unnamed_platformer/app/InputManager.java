@@ -23,16 +23,17 @@ import unnamed_platformer.view.ViewManager;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 
-public final class InputManager {
+public final class InputManager
+{
 
 	public enum GameKey {
 		LEFT, RIGHT, UP, DOWN, /* */
 		A, B, /* */
 		START, /* */
-		RESTART_APP, TOGGLE_FULLSCREEN, SAVE_SCREENSHOT, /* */
+		RESTART, TOGGLE_FULLSCREEN, SAVE_SCREENSHOT, EXIT, /* */
 		MULTI_SELECT, /* */
 		SECONDARY_LEFT, SECONDARY_RIGHT, SECONDARY_UP, SECONDARY_DOWN, /* */
-		SCROLL_IN, SCROLL_OUT /* */
+		SCROLL_IN, SCROLL_OUT /* */,
 	}
 
 	private static HashMap<Integer, Boolean> rawKeyStates = Maps.newHashMap();
@@ -257,7 +258,8 @@ public final class InputManager {
 		}
 	}
 
-	public static class PlrGameKey {
+	public static class PlrGameKey
+	{
 		private GameKey gameKey;
 		private int playerNo;
 

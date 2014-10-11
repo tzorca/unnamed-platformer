@@ -10,9 +10,9 @@ import com.google.common.collect.Multimap;
 
 public class GameConfig
 {
-	public final static boolean DEFAULT_FULLSCREEN = false;
+	public final static boolean DEFAULT_FULLSCREEN = true;
 
-	public final static String PRIMARY_WORLD_NAME = "Example Levels ...";
+	public final static String PRIMARY_WORLD_NAME = "Example Levels";
 
 	public static final Multimap<Integer, PlrGameKey> GAME_KEYS = HashMultimap
 			.create();
@@ -28,7 +28,8 @@ public class GameConfig
 
 		GAME_KEYS.put(Input.KEY_ENTER, new PlrGameKey(1, GameKey.START));
 
-		GAME_KEYS.put(Input.KEY_F2, new PlrGameKey(1, GameKey.RESTART_APP));
+		GAME_KEYS.put(Input.KEY_ESCAPE, new PlrGameKey(1, GameKey.EXIT));
+		GAME_KEYS.put(Input.KEY_F2, new PlrGameKey(1, GameKey.RESTART));
 		GAME_KEYS.put(Input.KEY_F11, new PlrGameKey(1,
 				GameKey.TOGGLE_FULLSCREEN));
 		GAME_KEYS

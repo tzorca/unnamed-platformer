@@ -45,15 +45,9 @@ public final class Main
 	}
 
 	private static void handleHotkeys() {
-		if (InputManager.keyPressOccurred(GameKey.RESTART_APP, 1)) {
+		if (InputManager.keyPressOccurred(GameKey.RESTART, 1)) {
 			GUIManager.changeScreen(ScreenType.SelectWorld);
 		}
-
-		// else if (InputManager.keyPressOccurred(GameKey.back, 1)) {
-		// GUIManager.back();
-		// }
-		// else if (InputManager.gameKeyPressed(GameKey.saveTempGame, 1)) {
-		// World.save("Temp"); }
 
 		else if (InputManager.keyPressOccurred(GameKey.SAVE_SCREENSHOT, 1)) {
 			ImageHelper.saveScreenshot();
@@ -62,6 +56,17 @@ public final class Main
 		else if (InputManager.keyPressOccurred(GameKey.TOGGLE_FULLSCREEN, 1)) {
 			ViewManager.toggleFullscreen();
 		}
+
+		else if (InputManager.keyPressOccurred(GameKey.EXIT, 1)) {
+			doHalt();
+		}
+
+		// else if (InputManager.keyPressOccurred(GameKey.back, 1)) {
+		// GUIManager.back();
+		// }
+		// else if (InputManager.gameKeyPressed(GameKey.saveTempGame, 1)) {
+		// World.save("Temp");
+		// }
 
 	}
 

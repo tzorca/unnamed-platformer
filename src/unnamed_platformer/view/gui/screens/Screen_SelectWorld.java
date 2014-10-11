@@ -253,6 +253,8 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 						btn.doClick();
 					}
 					break;
+				case EXIT:
+					Main.doHalt();
 				default:
 					break;
 				}
