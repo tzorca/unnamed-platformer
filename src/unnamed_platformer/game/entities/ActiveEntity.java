@@ -71,9 +71,8 @@ public abstract class ActiveEntity extends Entity
 		if (this.hasPhysics()) {
 			horzFlip = physics.movingLeft();
 		}
-		
-		
+
 		ViewManager.drawGraphic(graphic, getOriginalBox(), horzFlip);
 	}
-	
+
 }

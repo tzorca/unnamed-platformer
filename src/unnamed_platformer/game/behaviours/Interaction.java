@@ -6,14 +6,14 @@ import unnamed_platformer.app.MathHelper;
 import unnamed_platformer.game.entities.Entity;
 import unnamed_platformer.game.other.DirectionalEnums.Side;
 
-public abstract class Interaction {
+public abstract class Interaction
+{
 
 	public static final double LOOSE_SIDE_MATCH_DISTANCE = Math.PI / 2;
 	public static final double STRICT_SIDE_MATCH_DISTANCE = Math.PI / 4;
 
 	private Side[] activeSides;
 	private double maxSideMatchDistance = 0;
-
 
 	public Interaction() {
 		activeSides = Side.values();
@@ -57,7 +57,6 @@ public abstract class Interaction {
 
 		for (Side side : activeSides) {
 			if (sideDistances.get(side) <= maxSideMatchDistance) {
-
 				return true;
 			}
 		}

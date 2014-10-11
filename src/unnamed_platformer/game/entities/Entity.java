@@ -106,7 +106,7 @@ public abstract class Entity
 		}
 		collisionCache_rectDirty = true;
 		collisionCache_shapeDirty = true;
-		
+
 		box.setLocation(new Vector2f(newPoint));
 	}
 
@@ -117,7 +117,7 @@ public abstract class Entity
 	public void setCenter(Vector2f p) {
 		collisionCache_rectDirty = true;
 		collisionCache_shapeDirty = true;
-		
+
 		box.setCenterX(p.getX());
 		box.setCenterY(p.getY());
 	}
@@ -137,14 +137,14 @@ public abstract class Entity
 	public void setY(float y) {
 		collisionCache_rectDirty = true;
 		collisionCache_shapeDirty = true;
-		
+
 		box.setY(y);
 	}
 
 	public void setX(float x) {
 		collisionCache_rectDirty = true;
 		collisionCache_shapeDirty = true;
-		
+
 		box.setX(x);
 	}
 
@@ -176,10 +176,10 @@ public abstract class Entity
 	private void setLocation(Vector2f pos) {
 		collisionCache_rectDirty = true;
 		collisionCache_shapeDirty = true;
-		
+
 		box.setLocation(pos);
 	}
-	
+
 	private CollisionData getCollisionData() {
 		return ResManager.get(CollisionData.class, graphic.getTextureName());
 	}
@@ -191,8 +191,6 @@ public abstract class Entity
 		}
 		return collisionCache_Rect;
 	}
-
-
 
 	public Shape getCollisionShape() {
 		if (collisionCache_shapeDirty) {
@@ -211,6 +209,10 @@ public abstract class Entity
 	private Shape getCollisionShape(Rectangle entityBox) {
 		return getCollisionData().getScaledShape(entityBox,
 				graphic.getTextureSetup().getCollisionShape());
+	}
+
+	public void moveAbove(Entity otherEntity) {
+		box.setY(otherEntity.getCollisionRect().getMinY() - box.getHeight());
 	}
 
 }

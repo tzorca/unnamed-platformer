@@ -12,7 +12,7 @@ public class GameConfig
 {
 	public final static boolean DEFAULT_FULLSCREEN = false;
 
-	public final static String PRIMARY_WORLD_NAME = "Example Levels";
+	public final static String PRIMARY_WORLD_NAME = "Example Levels ...";
 
 	public static final Multimap<Integer, PlrGameKey> GAME_KEYS = HashMultimap
 			.create();

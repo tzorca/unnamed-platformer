@@ -26,12 +26,10 @@ import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.opengl.Texture;
 
 import unnamed_platformer.app.Main;
-import unnamed_platformer.app.SQLiteStuff;
 import unnamed_platformer.game.other.World;
 import unnamed_platformer.globals.GameConfig;
 import unnamed_platformer.globals.Ref;
 import unnamed_platformer.res_mgt.ResManager;
-import unnamed_platformer.res_mgt.SoundManager;
 import unnamed_platformer.view.gui.GUIManager;
 import unnamed_platformer.view.gui.hud.HeadsUpDisplay;
 

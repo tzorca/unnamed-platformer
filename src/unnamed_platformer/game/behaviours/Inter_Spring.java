@@ -5,6 +5,7 @@ import org.newdawn.slick.geom.Vector2f;
 import unnamed_platformer.game.entities.ActiveEntity;
 import unnamed_platformer.game.entities.Entity;
 import unnamed_platformer.globals.GameRef.Flag;
+import unnamed_platformer.res_mgt.SoundManager;
 
 public class Inter_Spring extends Interaction
 {
@@ -22,8 +23,12 @@ public class Inter_Spring extends Interaction
 		if (!plr.hasPhysics()) {
 			return false;
 		}
+
+		SoundManager.playSample("spring");
+
 		plr.getPhysics().setVerticalForce(v);
 		plr.getPhysics().setInAir(true);
+		plr.moveAbove(target);
 
 		// TODO: Revisit this and think about how to deal with
 		// setting the jumping flag more intelligently.

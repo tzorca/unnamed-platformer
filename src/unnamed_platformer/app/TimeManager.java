@@ -57,7 +57,8 @@ public final class TimeManager
 	 * Returns true when a period of the specified length has finished since the
 	 * last call to this method.
 	 */
-	public static boolean periodElapsed(Object obj, String periodId, float seconds) {
+	public static boolean periodElapsed(Object obj, String periodId,
+			float seconds) {
 		if (!registeredPeriods.contains(obj, periodId)) {
 			registerPeriod(obj, periodId);
 		}
@@ -67,5 +68,13 @@ public final class TimeManager
 			return true;
 		}
 		return false;
+	}
+
+	public static float secondsSince(long comparisonTime) {
+		return (time() - comparisonTime) / 1000f;
+	}
+
+	public static long millisecondsSince(long comparisonTime) {
+		return (time() - comparisonTime);
 	}
 }

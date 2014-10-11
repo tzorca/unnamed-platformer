@@ -43,6 +43,7 @@ public class PhysicsInstance
 	}
 
 	public void setVerticalForce(Vector2f v) {
+		velocity.y = 0;
 		currentForces.y = v.y;
 	}
 
@@ -131,6 +132,8 @@ public class PhysicsInstance
 	}
 
 	public void update() {
+		
+		
 		isZero = false;
 
 		runControlMechanisms();
