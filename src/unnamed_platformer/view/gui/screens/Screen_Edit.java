@@ -48,8 +48,7 @@ import unnamed_platformer.view.gui.objects.ListCellRenderer_ImageListEntry;
 import com.google.common.collect.Lists;
 
 @SuppressWarnings("unchecked")
-public class Screen_Edit extends BaseScreen_Hybrid
-{
+public class Screen_Edit extends BaseScreen_Hybrid {
 	public static final int LEFT_TOOLBAR_SIZE = 160;
 	public static final int ROW_HEIGHT = 56;
 	public static final int ENTITY_ICON_SIZE = 48;
@@ -116,7 +115,7 @@ public class Screen_Edit extends BaseScreen_Hybrid
 
 		// INITIALIZE CURSOR
 		initCursor();
-		
+
 		// FOCUS ON PLAYER INITIALLY
 		editor.focusOnPlayer();
 	}
@@ -187,10 +186,11 @@ public class Screen_Edit extends BaseScreen_Hybrid
 
 		if (InputManager.keyPressOccurredOrRepeating(GameKey.SECONDARY_UP, 1)) {
 			nextIndex = currentIndex - 1;
-		} else if (InputManager.keyPressOccurredOrRepeating(GameKey.SECONDARY_DOWN, 1)) {
+		} else if (InputManager.keyPressOccurredOrRepeating(
+				GameKey.SECONDARY_DOWN, 1)) {
 			nextIndex = currentIndex + 1;
 		}
-		
+
 		if (nextIndex != currentIndex) {
 			if (nextIndex < 0) {
 				nextIndex = imageListEntries.size() - 1;
@@ -237,8 +237,6 @@ public class Screen_Edit extends BaseScreen_Hybrid
 			editor.gridSize = newGridSize;
 		}
 	}
-
-
 
 	// ===============================================================================
 	// DRAWING
@@ -342,42 +340,48 @@ public class Screen_Edit extends BaseScreen_Hybrid
 
 	private static final String NAV_TIME_PERIOD_STRING = "EditorLevelNavigation";
 	private static final float NAV_RATE = 0.01f;
-	private static final int NAV_SPEED = 8;
+	private static final int NAV_SPEED = 6;
+	private static final float NAV_EDGE_SPEED_MULTIPLIER = 3f;
 
 	private void processNavigationControls() {
-
 		if (!TimeManager.periodElapsed(this, NAV_TIME_PERIOD_STRING, NAV_RATE)) {
 			return;
 		}
 
-		int navDist = NAV_SPEED;
-
 		Vector2f cursorDelta = new Vector2f(0, 0);
 		if (InputManager.keyPressOccurring(GameKey.LEFT, 1)) {
-			cursorDelta.x -= navDist;
+			cursorDelta.x -= NAV_SPEED;
 		}
 
 		if (InputManager.keyPressOccurring(GameKey.RIGHT, 1)) {
-			cursorDelta.x += navDist;
+			cursorDelta.x += NAV_SPEED;
 		}
 
 		if (InputManager.keyPressOccurring(GameKey.UP, 1)) {
-			cursorDelta.y -= navDist;
+			cursorDelta.y -= NAV_SPEED;
 		}
 
 		if (InputManager.keyPressOccurring(GameKey.DOWN, 1)) {
-			cursorDelta.y += navDist;
+			cursorDelta.y += NAV_SPEED;
 		}
 
+		Vector2f originalPos = cursorRect.getLocation();
 		Vector2f newPos = cursorRect.getLocation();
 		newPos.add(cursorDelta);
-		newPos = MathHelper.snapToGrid(newPos, navDist);
+		newPos = MathHelper.snapToGrid(newPos, NAV_SPEED);
 
 		cursorRect.setLocation(newPos);
 
 		if (MathHelper.rectExitingOrOutsideRect(cursorRect,
 				getNavigationBounds())) {
-			editor.moveCamera(cursorDelta);
+			// Scroll across level faster than inside frame
+			Vector2f cursorEdgeDelta = cursorDelta.scale(NAV_EDGE_SPEED_MULTIPLIER);
+			
+			newPos = originalPos.add(cursorEdgeDelta);
+			newPos = MathHelper.snapToGrid(newPos, NAV_SPEED);
+			cursorRect.setLocation(newPos);
+			
+			editor.moveCamera(cursorEdgeDelta);
 			editor.update();
 		}
 	}
@@ -419,23 +423,20 @@ public class Screen_Edit extends BaseScreen_Hybrid
 		return lstEntities.getSelectedValue();
 	}
 
-	private class RenderCanvas_LeftClick implements Runnable
-	{
+	private class RenderCanvas_LeftClick implements Runnable {
 		public void run() {
 			editor.placeObject(InputManager.getGameMousePos(),
 					getSelectedEntry());
 		}
 	}
 
-	private class RenderCanvas_RightClick implements Runnable
-	{
+	private class RenderCanvas_RightClick implements Runnable {
 		public void run() {
 			editor.removeObject(InputManager.getGameMousePos());
 		}
 	}
 
-	private class EntityList_SelectionChanged implements ListSelectionListener
-	{
+	private class EntityList_SelectionChanged implements ListSelectionListener {
 		public void valueChanged(ListSelectionEvent e) {
 			ViewManager.focusRenderCanvas();
 		}
