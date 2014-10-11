@@ -17,13 +17,13 @@ import org.lwjgl.opengl.Display;
 import org.newdawn.slick.geom.Vector2f;
 
 import unnamed_platformer.globals.GameConfig;
+import unnamed_platformer.globals.Ref;
 import unnamed_platformer.view.ViewManager;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 
-public final class InputManager
-{
+public final class InputManager {
 
 	public enum GameKey {
 		LEFT, RIGHT, UP, DOWN, /* */
@@ -211,10 +211,7 @@ public final class InputManager
 
 	public static boolean keyPressOccurring(GameKey gk, int playerNo) {
 		PlrGameKey pgk = new PlrGameKey(playerNo, gk);
-		if (!playerGameKeyStates.containsKey(pgk)) {
-			playerGameKeyStates.put(pgk, false);
-			return false;
-		}
+		createPlrGameKeyEntry(pgk);
 
 		return playerGameKeyStates.get(pgk);
 	}
@@ -230,8 +227,37 @@ public final class InputManager
 		return false;
 	}
 
-	public static class PlrGameKey
-	{
+	private final static String REPETITION = "Repetition";
+
+	public static boolean keyPressOccurredOrRepeating(GameKey gk, int playerNo) {
+
+		PlrGameKey pgk = new PlrGameKey(playerNo, gk);
+		createPlrGameKeyEntry(pgk);
+
+		// Check if occurred
+		if (keyPressOccurred(gk, playerNo)) {
+			TimeManager.sample(pgk);
+			return true;
+		}
+
+		if (TimeManager.secondsSince(TimeManager.lastSample(pgk)) > Ref.INPUT_DELAY_TIME) {
+			// Check if repeating
+			if (TimeManager.periodElapsed(pgk, REPETITION,
+					Ref.INPUT_REPEAT_TIME)) {
+				return playerGameKeyStates.get(pgk);
+			}
+		}
+
+		return false;
+	}
+
+	private static void createPlrGameKeyEntry(PlrGameKey pgk) {
+		if (!playerGameKeyStates.containsKey(pgk)) {
+			playerGameKeyStates.put(pgk, false);
+		}
+	}
+
+	public static class PlrGameKey {
 		private GameKey gameKey;
 		private int playerNo;
 

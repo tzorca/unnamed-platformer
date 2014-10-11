@@ -181,31 +181,16 @@ public class Screen_Edit extends BaseScreen_Hybrid
 		processPaintControls();
 	}
 
-	private static final String ENTITY_SELECTION_STRING = "EntitySelection";
-	private static final float ENTITY_SELECTION_CHANGE_RATE = 0.15f;
-
 	private void processEntitySelectionControls() {
 		int currentIndex = lstEntities.getSelectedIndex();
 		int nextIndex = currentIndex;
 
-		if (InputManager.keyPressOccurred(GameKey.SECONDARY_UP, 1)) {
+		if (InputManager.keyPressOccurredOrRepeating(GameKey.SECONDARY_UP, 1)) {
 			nextIndex = currentIndex - 1;
-			TimeManager.periodElapsed(this, ENTITY_SELECTION_STRING,
-					ENTITY_SELECTION_CHANGE_RATE);
-		} else if (InputManager.keyPressOccurred(GameKey.SECONDARY_DOWN, 1)) {
+		} else if (InputManager.keyPressOccurredOrRepeating(GameKey.SECONDARY_DOWN, 1)) {
 			nextIndex = currentIndex + 1;
-			TimeManager.periodElapsed(this, ENTITY_SELECTION_STRING,
-					ENTITY_SELECTION_CHANGE_RATE);
-		} else if (TimeManager.periodElapsed(this, ENTITY_SELECTION_STRING,
-				ENTITY_SELECTION_CHANGE_RATE)) {
-			if (InputManager.keyPressOccurring(GameKey.SECONDARY_UP, 1)) {
-				nextIndex = currentIndex - 1;
-			}
-			if (InputManager.keyPressOccurring(GameKey.SECONDARY_DOWN, 1)) {
-				nextIndex = currentIndex + 1;
-			}
 		}
-
+		
 		if (nextIndex != currentIndex) {
 			if (nextIndex < 0) {
 				nextIndex = imageListEntries.size() - 1;

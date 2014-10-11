@@ -30,11 +30,11 @@ public final class TimeManager
 
 	public static final Map<Object, Long> SAMPLES = new HashMap<Object, Long>();
 
-	public static long lastSample(int hashCode) {
-		if (!SAMPLES.containsKey(hashCode)) {
+	public static long lastSample(Object obj) {
+		if (!SAMPLES.containsKey(obj)) {
 			return 0;
 		}
-		return SAMPLES.get(hashCode);
+		return SAMPLES.get(obj);
 	}
 
 	public static long sample(Object obj) {
