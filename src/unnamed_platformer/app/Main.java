@@ -14,6 +14,7 @@ import unnamed_platformer.view.ViewManager;
 import unnamed_platformer.view.gui.GUIManager;
 import unnamed_platformer.view.gui.GUIManager.ScreenType;
 
+import com.almworks.sqlite4java.SQLite;
 import com.rits.cloning.Cloner;
 
 public final class Main
@@ -76,8 +77,10 @@ public final class Main
 	}
 
 	private static void init() {
-		// used to load lwjgl libraries without relying on project configuration
-		System.setProperty("org.lwjgl.librarypath", Ref.LWJGL_NATIVE_DIR);
+		// used to load native libraries without relying on project
+		// configuration
+		SQLite.setLibraryPath(Ref.NATIVE_LIB_DIR);
+		System.setProperty("org.lwjgl.librarypath", Ref.NATIVE_LIB_DIR);
 
 		TimeManager.init();
 		ViewManager.init();

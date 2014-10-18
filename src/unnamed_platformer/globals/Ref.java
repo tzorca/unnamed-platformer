@@ -24,8 +24,8 @@ public final class Ref {
 
 	public static final String APP_PATH = new File("").getAbsolutePath();
 
-	public static final String LWJGL_NATIVE_DIR = APP_PATH + File.separator
-			+ "lwjgl-native-lib" + File.separator;
+	public static final String NATIVE_LIB_DIR = APP_PATH + File.separator
+			+ "native-lib" + File.separator;
 
 	public static final String RESOURCE_DIR = APP_PATH + File.separator + "res"
 			+ File.separator;
