@@ -2,8 +2,6 @@ package unnamed_platformer.app;
 
 import java.io.File;
 import java.util.Collection;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.newdawn.slick.opengl.Texture;
 
@@ -18,14 +16,18 @@ import com.almworks.sqlite4java.SQLiteConnection;
 import com.almworks.sqlite4java.SQLiteException;
 import com.almworks.sqlite4java.SQLiteStatement;
 
-public class SQLiteStuff {
+public class SQLiteStuff
+{
 
-	private static final class Names {
-		public static final class Tbl {
+	private static final class Names
+	{
+		public static final class Tbl
+		{
 			static final String TEXTURE_MAPPINGS = "textureMappings";
 		}
 
-		public static final class Col {
+		public static final class Col
+		{
 			static final String TEXTURE_NAME = "textureName";
 			static final String ENTITY_NAME = "entityName";
 			static final String COLLISION_SHAPE = "collisionShape";
@@ -37,10 +39,8 @@ public class SQLiteStuff {
 	private static boolean initialized = false;
 
 	public static void init() {
-		turnOffLogging();
 		connect(new File(Ref.RESOURCE_DIR + "data.sqlite"));
 		initialized = true;
-		turnOffLogging();
 		initTables();
 		insertNewTextureNames();
 		addTextureMappings();
@@ -52,22 +52,27 @@ public class SQLiteStuff {
 
 	private static void addTextureMappings() {
 		try {
-			SQLiteStatement st = db.prepare("select * FROM " + Names.Tbl.TEXTURE_MAPPINGS + ";");
+			SQLiteStatement st = db.prepare("select * FROM "
+					+ Names.Tbl.TEXTURE_MAPPINGS + ";");
 
 			while (st.step()) {
 				String entityClassName = st.columnString(1);
 				String textureName = st.columnString(0);
 				if (!entityClassName.equals("none")) {
-					Class<?> entityClass = ClassLookup.getClass(EntityRef.PACKAGE_NAME, entityClassName);
-					EntityRef.addTextureNameToEntityClassMapping(textureName, entityClass);
+					Class<?> entityClass = ClassLookup.getClass(
+							EntityRef.PACKAGE_NAME, entityClassName);
+					EntityRef.addTextureNameToEntityClassMapping(textureName,
+							entityClass);
 				}
 				String collisionShape = st.columnString(2);
-				TextureRef.addSetup(textureName, new TextureSetup(collisionShape));
+				TextureRef.addSetup(textureName, new TextureSetup(
+						collisionShape));
 			}
 
 			st.dispose();
 		} catch (SQLiteException e) {
-			System.out.println("Could not add texture mappings: " + e.toString());
+			System.out.println("Could not add texture mappings: "
+					+ e.toString());
 			e.printStackTrace();
 			Main.doExit();
 		}
@@ -81,8 +86,8 @@ public class SQLiteStuff {
 		}
 
 		try {
-			SQLiteStatement st = db
-					.prepare("insert or ignore into " + Names.Tbl.TEXTURE_MAPPINGS + " values (?, ?, ?);");
+			SQLiteStatement st = db.prepare("insert or ignore into "
+					+ Names.Tbl.TEXTURE_MAPPINGS + " values (?, ?, ?);");
 
 			for (String textureName : textureNames) {
 				st.bind(1, textureName);
@@ -94,7 +99,8 @@ public class SQLiteStuff {
 
 			st.dispose();
 		} catch (Exception e) {
-			System.out.println("Could not insert new texture names: " + e.toString());
+			System.out.println("Could not insert new texture names: "
+					+ e.toString());
 			e.printStackTrace();
 			Main.doExit();
 		}
@@ -103,7 +109,8 @@ public class SQLiteStuff {
 	private static void initTables() {
 		try {
 			String creationSQL = "";
-			creationSQL += "create table if not exists " + Names.Tbl.TEXTURE_MAPPINGS;
+			creationSQL += "create table if not exists "
+					+ Names.Tbl.TEXTURE_MAPPINGS;
 			creationSQL += " (";
 			creationSQL += Names.Col.TEXTURE_NAME + " text, ";
 			creationSQL += Names.Col.ENTITY_NAME + " text, ";
@@ -124,13 +131,10 @@ public class SQLiteStuff {
 		try {
 			db.open(true);
 		} catch (SQLiteException e) {
-			System.out.println("Could not connect to datatbase: " + e.toString());
+			System.out.println("Could not connect to database: "
+					+ e.toString());
 			Main.doExit();
 		}
-	}
-
-	public static void turnOffLogging() {
-		Logger.getLogger("com.almworks.sqlite4java").setLevel(Level.OFF);
 	}
 
 	public static void finish() {
