@@ -9,9 +9,10 @@ public class BaseScreen_GUI extends Screen
 		super();
 		
 		World.setPlaying(false);
+//		ViewManager.resetRenderCanvasBounds();
 		ViewManager.setRenderCanvasVisibility(false);
 		pnlSurface.setVisible(true);
-		ViewManager.resetRenderCanvasBounds();
+		ViewManager.validate();
 	}
 
 }

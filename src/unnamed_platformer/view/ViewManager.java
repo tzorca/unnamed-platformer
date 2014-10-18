@@ -328,6 +328,7 @@ public final class ViewManager
 		guiPanel = panel;
 		parentFrame.add(guiPanel);
 		parentFrame.validate();
+		guiPanel.validate();
 	}
 
 	public static void setRenderCanvasBounds(final int xPos, final int yPos,
@@ -339,13 +340,16 @@ public final class ViewManager
 		renderCanvas.setVisible(visibility);
 		if (visibility) {
 			renderCanvas.requestFocus();
+		} else {
+			// Workaround to prevent opengl from stealing view when not supposed to
+			renderCanvas.setBounds(0,0,0,0);
 		}
 	}
 
 	public static void init() {
 		setFullscreen(GameConfig.DEFAULT_FULLSCREEN);
-//		reinitFrame();
-//		changeResolution(ViewManager.DEFAULT_RESOLUTION);
+		// reinitFrame();
+		// changeResolution(ViewManager.DEFAULT_RESOLUTION);
 	}
 
 	private static void reinitFrame() {
@@ -356,6 +360,7 @@ public final class ViewManager
 		}
 
 		parentFrame = new JFrame(Ref.APP_TITLE);
+		parentFrame.setBackground(java.awt.Color.black);
 		parentFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
 		// should be able to handle close events as early as possible
@@ -378,7 +383,10 @@ public final class ViewManager
 		parentFrame.setLocationRelativeTo(null);
 
 		parentFrame.toFront();
-		parentFrame.requestFocus();
+		parentFrame.requestFocusInWindow();
+
+		// Workaround to prevent opengl from stealing view when not supposed to
+		setRenderCanvasVisibility(renderCanvas.isVisible());
 	}
 
 	// Note: If fullscreen is set, newResolution will be overriden
@@ -396,8 +404,10 @@ public final class ViewManager
 		parentFrame.setLayout(new BorderLayout());
 		parentFrame.add(guiPanel);
 		parentFrame.add(renderCanvas);
-		renderCanvas.setSize(currentResolution);
 
+		renderCanvas.setBackground(java.awt.Color.black);
+		renderCanvas.setSize(currentResolution);
+		
 		parentFrame.pack();
 		parentFrame.setLocationRelativeTo(null);
 		parentFrame.setVisible(true);
@@ -472,6 +482,11 @@ public final class ViewManager
 	public static Rectangle getViewport() {
 		return new Rectangle(viewport.getX(), viewport.getY(),
 				viewport.getWidth(), viewport.getHeight());
+	}
+
+	public static void validate() {
+		parentFrame.validate();
+		parentFrame.repaint();
 	}
 
 }
