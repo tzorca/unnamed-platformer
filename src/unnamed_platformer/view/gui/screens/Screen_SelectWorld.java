@@ -28,12 +28,13 @@ import javax.swing.event.ListSelectionListener;
 
 import unnamed_platformer.app.FileHelper;
 import unnamed_platformer.app.InputManager;
-import unnamed_platformer.app.Main;
 import unnamed_platformer.app.InputManager.GameKey;
 import unnamed_platformer.app.InputManager.PlrGameKey;
+import unnamed_platformer.app.Main;
 import unnamed_platformer.app.SQLiteStuff;
+import unnamed_platformer.app.Settings;
+import unnamed_platformer.app.Settings.SettingName;
 import unnamed_platformer.game.other.World;
-import unnamed_platformer.globals.GameConfig;
 import unnamed_platformer.res_mgt.ResManager;
 import unnamed_platformer.view.gui.GUIHelper;
 import unnamed_platformer.view.gui.GUIManager;
@@ -142,7 +143,7 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 	private String gameName;
 
 	private boolean currentGameIsLocked() {
-		return gameName.equals(GameConfig.PRIMARY_WORLD_NAME);
+		return gameName.equals(Settings.getString(SettingName.OFFICIAL_LEVELSET_NAME));
 	}
 
 	// ================================================================

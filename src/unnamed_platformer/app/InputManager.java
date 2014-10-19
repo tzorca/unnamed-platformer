@@ -16,7 +16,6 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.geom.Vector2f;
 
-import unnamed_platformer.globals.GameConfig;
 import unnamed_platformer.globals.Ref;
 import unnamed_platformer.view.ViewManager;
 
@@ -40,7 +39,7 @@ public final class InputManager
 	private static HashMap<PlrGameKey, Boolean> playerGameKeyStates = Maps
 			.newHashMap(), lastPlayerGameKeyStates = Maps.newHashMap(),
 			playerGameKeyPressEvents = Maps.newHashMap();
-	private static Multimap<Integer, PlrGameKey> gamekeyMappings = GameConfig.GAME_KEYS;
+	private static Multimap<Integer, PlrGameKey> gameKeyMappings;
 
 	public static Collection<PlrGameKey> getGameKeysMatchingKeyEvent(
 			KeyEvent keyEvent) {
@@ -48,19 +47,19 @@ public final class InputManager
 		int translatedKeyCode = KeyCodeTranslator
 				.translateJavaVKToJInputCode(keyEvent.getKeyCode());
 
-		if (gamekeyMappings.containsKey(translatedKeyCode)) {
-			return gamekeyMappings.get(translatedKeyCode);
+		if (gameKeyMappings.containsKey(translatedKeyCode)) {
+			return gameKeyMappings.get(translatedKeyCode);
 		}
 
 		return new HashSet<PlrGameKey>();
 	}
 
 	public static void mapKey(int playerNo, GameKey gk, int key) {
-		gamekeyMappings.put(key, new PlrGameKey(playerNo, gk));
+		gameKeyMappings.put(key, new PlrGameKey(playerNo, gk));
 	}
 
 	public static void unmapAllKeyMappings(int key) {
-		gamekeyMappings.removeAll(key);
+		gameKeyMappings.removeAll(key);
 	}
 
 	private static Point getMousePosInWindow() {
@@ -163,6 +162,9 @@ public final class InputManager
 			InputEventType.class);
 
 	static {
+		// load game key mappings from settings
+		gameKeyMappings = Settings.generateGameKeyMappings();
+
 		// setup event handlers to be non-null initially
 		resetEventHandlers();
 	}
@@ -192,8 +194,8 @@ public final class InputManager
 
 	private static void assignKeyState(int keycode, boolean state) {
 		rawKeyStates.put(keycode, state);
-		if (gamekeyMappings.containsKey(keycode)) {
-			Collection<PlrGameKey> mappings = gamekeyMappings.get(keycode);
+		if (gameKeyMappings.containsKey(keycode)) {
+			Collection<PlrGameKey> mappings = gameKeyMappings.get(keycode);
 
 			for (PlrGameKey mapping : mappings) {
 				playerGameKeyStates.put(mapping, state);
@@ -295,6 +297,33 @@ public final class InputManager
 					.append(gameKey, rhs.gameKey).isEquals();
 		}
 
+		public String toString() {
+			return "PLR" + playerNo + "_" + gameKey.toString();
+		}
+
+		/***
+		 * 
+		 * @param source
+		 *            PLR{playerNo}_{gameKey}
+		 * @return
+		 */
+		public static PlrGameKey fromString(String source) {
+			try {
+				Integer playerNo = Integer.parseInt(String.valueOf(source
+						.charAt(3)));
+
+				String gameKeyString = source.substring(5);
+
+				GameKey gameKey = GameKey.valueOf(gameKeyString);
+
+				return new PlrGameKey(playerNo, gameKey);
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.err.println("Invalid PlrGameKey string " + source
+						+ ". Format should be PLR{playerNo}_{gameKey}");
+				return null;
+			}
+		}
 	}
 
 	public static boolean mouseIntersects(Rectangle box) {

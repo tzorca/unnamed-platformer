@@ -26,8 +26,9 @@ import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.opengl.Texture;
 
 import unnamed_platformer.app.Main;
+import unnamed_platformer.app.Settings;
+import unnamed_platformer.app.Settings.SettingName;
 import unnamed_platformer.game.other.World;
-import unnamed_platformer.globals.GameConfig;
 import unnamed_platformer.globals.Ref;
 import unnamed_platformer.res_mgt.ResManager;
 import unnamed_platformer.view.gui.GUIManager;
@@ -152,9 +153,7 @@ public final class ViewManager
 				if (y < minY || y > maxY) {
 					continue;
 				}
-				pointBuffer.add(new int[] {
-						x - 2, y - 2
-				});
+				pointBuffer.add(new int[] { x - 2, y - 2 });
 			}
 		}
 
@@ -341,15 +340,14 @@ public final class ViewManager
 		if (visibility) {
 			renderCanvas.requestFocus();
 		} else {
-			// Workaround to prevent opengl from stealing view when not supposed to
-			renderCanvas.setBounds(0,0,0,0);
+			// Workaround to prevent opengl from stealing view when not supposed
+			// to
+			renderCanvas.setBounds(0, 0, 0, 0);
 		}
 	}
 
 	public static void init() {
-		setFullscreen(GameConfig.DEFAULT_FULLSCREEN);
-		// reinitFrame();
-		// changeResolution(ViewManager.DEFAULT_RESOLUTION);
+		setFullscreen(Settings.getBoolean(SettingName.DEFAULTS_TO_FULLSCREEN));
 	}
 
 	private static void reinitFrame() {
@@ -407,7 +405,7 @@ public final class ViewManager
 
 		renderCanvas.setBackground(java.awt.Color.black);
 		renderCanvas.setSize(currentResolution);
-		
+
 		parentFrame.pack();
 		parentFrame.setLocationRelativeTo(null);
 		parentFrame.setVisible(true);
