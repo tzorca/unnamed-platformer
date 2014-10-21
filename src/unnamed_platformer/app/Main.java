@@ -82,6 +82,7 @@ public final class Main
 		SQLite.setLibraryPath(Ref.NATIVE_LIB_DIR);
 		System.setProperty("org.lwjgl.librarypath", Ref.NATIVE_LIB_DIR);
 
+		Settings.init();
 		TimeManager.init();
 		ViewManager.init();
 		ResManager.init();
@@ -106,7 +107,6 @@ public final class Main
 	}
 
 	public static void doHalt() {
-
 		deinit();
 		Runtime.getRuntime().halt(0);
 	}

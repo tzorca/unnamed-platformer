@@ -1,11 +1,14 @@
 package unnamed_platformer.app;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.EnumMap;
 
+import org.ini4j.Wini;
 import org.newdawn.slick.Input;
 
 import unnamed_platformer.app.InputManager.PlrGameKey;
+import unnamed_platformer.globals.Ref;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
@@ -64,12 +67,13 @@ public class Settings
 	}
 
 	/**
-	 * Loads game key mappings multimap from settings map. Uses reflection to
-	 * get key codes from Input class.
+	 * Generates game key mappings multimap from settings map. Uses reflection
+	 * to get key codes from Input class.
 	 * 
 	 * @return
 	 */
 	private static String KEYCODE_FIELD_PREFIX = "KEY_";
+
 	public static Multimap<Integer, PlrGameKey> generateGameKeyMappings() {
 
 		Multimap<Integer, PlrGameKey> gameKeys = HashMultimap.create();
@@ -82,7 +86,8 @@ public class Settings
 			PlrGameKey plrGameKey = PlrGameKey.fromString(settingName
 					.toString());
 
-			String keyCodeFieldName = KEYCODE_FIELD_PREFIX + getString(settingName);
+			String keyCodeFieldName = KEYCODE_FIELD_PREFIX
+					+ getString(settingName);
 
 			Field keyCodeField;
 			int keyCode;
@@ -91,7 +96,7 @@ public class Settings
 				keyCode = keyCodeField.getInt(null);
 			} catch (Exception e) {
 				System.err.println("Error finding key with name of "
-						+ keyCodeFieldName);
+						+ keyCodeFieldName + " (" + settingName + ")");
 				e.printStackTrace();
 				continue;
 			}
@@ -116,6 +121,86 @@ public class Settings
 	public static String getString(SettingName settingName) {
 		Object obj = getObject(settingName);
 		return (String) obj;
+	}
+
+	private static Wini ini;
+
+	public static void init() {
+		boolean noSettingsFile = !Ref.SETTINGS_FILE.exists();
+
+		if (noSettingsFile) {
+			createNewINI();
+			connectINI();
+			saveINI();
+			return;
+		}
+
+		connectINI();
+		loadINI();
+	}
+
+	private static void loadINI() {
+		try {
+			ini.load();
+		} catch (Exception e) {
+			System.err.println("Error loading settings file.");
+			e.printStackTrace();
+		}
+
+		for (SettingName settingName : SettingName.values()) {
+			String strValue = ini.get(SECTION_NAME, settingName.toString());
+
+			if (strValue == null) {
+				continue;
+			}
+
+			settings.put(settingName,
+					StringUtilities.inferStringAsType(strValue));
+		}
+	}
+
+	private static void connectINI() {
+		try {
+			ini = new Wini(Ref.SETTINGS_FILE);
+		} catch (Exception e) {
+			System.err.println("Error connecting to settings file.");
+			e.printStackTrace();
+			return;
+		}
+	}
+
+	private static void createNewINI() {
+		try {
+			Ref.SETTINGS_FILE.createNewFile();
+		} catch (IOException e) {
+			System.err.println("Error creating new settings file.");
+			e.printStackTrace();
+		}
+	}
+
+	private static final String SECTION_NAME = "Settings";
+
+	public static void saveINI() {
+		if (ini == null) {
+			connectINI();
+			if (ini == null) {
+				System.err
+						.println("Could not save settings to file. (INI connection failed)");
+			}
+			return;
+		}
+
+		for (SettingName settingName : settings.keySet()) {
+			ini.put(SECTION_NAME, settingName.toString(),
+					settings.get(settingName));
+		}
+
+		try {
+			ini.store();
+		} catch (IOException e) {
+			System.err.println("Error saving settings file.");
+			e.printStackTrace();
+		}
 	}
 
 }
