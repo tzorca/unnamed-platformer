@@ -72,7 +72,7 @@ public class Dialog_EditMenu extends Dialog
 		btnModeSwitch.addActionListener(new btnModeSwitch_Click());
 		btnExit.addActionListener(new btnExit_Click());
 		GUIHelper.removeButtonPadding(buttonList);
-		GUIHelper.styleButtons(buttonList, 0);
+		GUIHelper.styleButtons(buttonList, 0, GUIManager.COLOR_DARK_BLUE_2);
 
 		// SETUP CURRENT LEVEL LABEL
 		lblCurrentLevel.setText("Level "

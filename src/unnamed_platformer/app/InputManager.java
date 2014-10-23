@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map.Entry;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -16,6 +17,7 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.geom.Vector2f;
 
+import unnamed_platformer.app.InputManager.GameKey;
 import unnamed_platformer.globals.Ref;
 import unnamed_platformer.view.ViewManager;
 
@@ -302,10 +304,8 @@ public final class InputManager
 		}
 
 		/***
-		 * 
 		 * @param source
 		 *            PLR{playerNo}_{gameKey}
-		 * @return
 		 */
 		public static PlrGameKey fromString(String source) {
 			try {
@@ -328,6 +328,15 @@ public final class InputManager
 
 	public static boolean mouseIntersects(Rectangle box) {
 		return mouseBox.intersects(box);
+	}
+
+	public static int getAssociatedKeyCode(PlrGameKey plrGameKey) {
+		for (Entry<Integer, PlrGameKey> entry : gameKeyMappings.entries()) {
+			if (entry.getValue().equals(plrGameKey)) {
+				return entry.getKey();
+			}
+		}
+		return -1;
 	}
 
 }

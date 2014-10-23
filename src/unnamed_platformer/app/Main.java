@@ -47,7 +47,7 @@ public final class Main
 
 	private static void handleHotkeys() {
 		if (InputManager.keyPressOccurred(GameKey.RESTART, 1)) {
-			GUIManager.changeScreen(ScreenType.SelectWorld);
+			GUIManager.changeScreen(ScreenType.Title);
 		}
 
 		else if (InputManager.keyPressOccurred(GameKey.SAVE_SCREENSHOT, 1)) {
@@ -86,7 +86,7 @@ public final class Main
 		TimeManager.init();
 		ViewManager.init();
 		ResManager.init();
-		GUIManager.changeScreen(ScreenType.SelectWorld);
+		GUIManager.changeScreen(ScreenType.Title);
 		SQLiteStuff.init();
 		EntityCreator.init();
 	}

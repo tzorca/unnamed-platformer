@@ -22,24 +22,24 @@ import unnamed_platformer.view.gui.screens.Screen;
 public final class GUIManager
 {
 	public static enum ScreenType {
-		Edit, Play, SelectWorld, Start, Transition
+		Title, Edit, Play, SelectWorld, Transition, Options
 	}
 
-	public static final Color COLOR_WHITE = Color.white;
-	public static final Color COLOR_LIGHT_GREY = new Color(0xee, 0xee, 0xee);
-	public static final Color COLOR_DARK_BLUE_1 = new Color(0x10, 0x10, 0x20);
-	public static final Color COLOR_DARK_BLUE_2 = new Color(0x20, 0x20, 0x30);
-	public static final Color COLOR_DARK_BLUE_3 = new Color(0x30, 0x30, 0x40);
-	public static final Color COLOR_DARK_BLUE_4 = new Color(0x40, 0x40, 0x50);
-	public static final Color COLOR_HIGHLIGHT_BLUE = new Color(0x30, 0x30, 0x70);
+	public static final Color COLOR_WHITE = Color.white,
+			COLOR_LIGHT_GREY = new Color(0xee, 0xee, 0xee),
+			COLOR_DARK_BLUE_1 = new Color(0x10, 0x10, 0x20),
+			COLOR_DARK_BLUE_2 = new Color(0x20, 0x20, 0x30),
+			COLOR_DARK_BLUE_3 = new Color(0x30, 0x30, 0x40),
+			COLOR_DARK_BLUE_4 = new Color(0x40, 0x40, 0x50),
+			COLOR_HIGHLIGHT_BLUE = GUIHelper.highlight(COLOR_DARK_BLUE_2.brighter()),
+			COLOR_ORANGE = new Color(0xbb, 0x60, 0x20);
 
 	public static final String CENTER_LAYOUT = "pushx, alignx center, wrap";
 
-	public static final Font FONT_HEADING = new Font("Tahoma", Font.PLAIN, 36);
-	public static final Font FONT_SUB_HEADING = new Font("Tahoma", Font.PLAIN,
-			24);
-	public static final Font FONT_NORMAL = new Font("Tahoma", Font.PLAIN, 16);
-	public static final Font FONT_NORMAL_STRIKETHROUGH;
+	public static final Font FONT_HEADING = new Font("Tahoma", Font.PLAIN, 36),
+			FONT_SUB_HEADING = new Font("Tahoma", Font.PLAIN, 24),
+			FONT_NORMAL = new Font("Tahoma", Font.PLAIN, 16),
+			FONT_NORMAL_STRIKETHROUGH;
 	static {
 		@SuppressWarnings("rawtypes")
 		Map attributes = FONT_NORMAL.getAttributes();

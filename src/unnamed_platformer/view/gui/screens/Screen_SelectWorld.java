@@ -31,7 +31,6 @@ import unnamed_platformer.app.InputManager;
 import unnamed_platformer.app.InputManager.GameKey;
 import unnamed_platformer.app.InputManager.PlrGameKey;
 import unnamed_platformer.app.Main;
-import unnamed_platformer.app.SQLiteStuff;
 import unnamed_platformer.app.Settings;
 import unnamed_platformer.app.Settings.SettingName;
 import unnamed_platformer.game.other.World;
@@ -56,16 +55,16 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 	JButton btnEdit = new JButton("Edit");
 	JButton btnCopy = new JButton("Copy");
 	JButton btnDelete = new JButton("Delete");
-	JButton btnExit = new JButton("Exit");
+	JButton btnTitle = new JButton("Back");
 
 	// Collect buttons
 	List<JButton> buttons = Lists.newArrayList(btnPlay, btnEdit, btnNew,
-			btnRename, btnCopy, btnDelete, btnExit);
+			btnRename, btnCopy, btnDelete, btnTitle);
 
 	// Collect all components
 	@SuppressWarnings("unchecked")
 	List<? extends JComponent> components = Lists.newArrayList(lstWorlds,
-			btnNew, btnPlay, btnRename, btnEdit, btnCopy, btnDelete, btnExit);
+			btnNew, btnPlay, btnRename, btnEdit, btnCopy, btnDelete, btnTitle);
 
 	public Screen_SelectWorld() {
 		super();
@@ -90,8 +89,8 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 
 		// SETUP WORLD LIST SCROLL PANE
 		JScrollPane scrlWorlds = new JScrollPane(lstWorlds);
-		GUIHelper.styleComponentColors(scrlWorlds, false);
-		GUIHelper.styleBorder(scrlWorlds, 0, false);
+		GUIHelper.styleComponentColors(scrlWorlds, GUIManager.COLOR_DARK_BLUE_3);
+		GUIHelper.styleComponentBorder(scrlWorlds, 0, false);
 		scrlWorlds.getViewport().setBackground(GUIManager.COLOR_DARK_BLUE_2);
 
 		// SETUP BUTTONS
@@ -101,13 +100,13 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 		btnEdit.addActionListener(new btnEdit_Click());
 		btnCopy.addActionListener(new btnCopy_Click());
 		btnDelete.addActionListener(new btnDelete_Click());
-		btnExit.addActionListener(new btnExit_Click());
+		btnTitle.addActionListener(new btnTitle_Click());
 		for (JButton btn : buttons) {
 			btn.addFocusListener(new btn_FocusListener());
 			btn.setFont(GUIManager.FONT_NORMAL);
 			btn.setIconTextGap(0);
 		}
-		GUIHelper.styleButtons(buttons, 6);
+		GUIHelper.styleButtons(buttons, 6, GUIManager.COLOR_DARK_BLUE_2);
 
 		// ADD GLOBAL LISTENER FOR ARROW NAVIGATION
 		for (JComponent c : components) {
@@ -124,7 +123,7 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 		pnlButtons.add(btnCopy);
 		pnlButtons.add(btnDelete);
 		pnlButtons.add(Box.createRigidArea(new Dimension(16, 0)));
-		pnlButtons.add(btnExit);
+		pnlButtons.add(btnTitle);
 
 		// SETUP BUTTON PANEL
 		pnlButtons.setBackground(GUIManager.COLOR_DARK_BLUE_3);
@@ -143,7 +142,8 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 	private String gameName;
 
 	private boolean currentGameIsLocked() {
-		return gameName.equals(Settings.getString(SettingName.OFFICIAL_LEVELSET_NAME));
+		return gameName.equals(Settings
+				.getString(SettingName.OFFICIAL_LEVELSET_NAME));
 	}
 
 	// ================================================================
@@ -351,14 +351,10 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 		}
 	}
 
-	private class btnExit_Click implements ActionListener
+	private class btnTitle_Click implements ActionListener
 	{
 		public void actionPerformed(final ActionEvent event) {
-			if (SQLiteStuff.isInitialized()) {
-				SQLiteStuff.finish();
-			}
-
-			Main.doExit();
+			GUIManager.changeScreen(ScreenType.Title);
 		}
 	}
 

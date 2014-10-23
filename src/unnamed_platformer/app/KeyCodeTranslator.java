@@ -11,6 +11,7 @@ import org.lwjgl.input.Keyboard;
  */
 public class KeyCodeTranslator
 {
+
 	private final static HashMap<Integer, Integer> translationTable = new HashMap<Integer, Integer>();
 	static {
 		translationTable.put(KeyEvent.VK_0, Keyboard.KEY_0);
