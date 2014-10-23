@@ -341,7 +341,7 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 	private static final String NAV_TIME_PERIOD_STRING = "EditorLevelNavigation";
 	private static final float NAV_RATE = 0.01f;
 	private static final int NAV_SPEED = 6;
-	private static final float NAV_EDGE_SPEED_MULTIPLIER = 3f;
+	private static final float NAV_EDGE_SPEED_MULTIPLIER = 2f;
 
 	private void processNavigationControls() {
 		if (!TimeManager.periodElapsed(this, NAV_TIME_PERIOD_STRING, NAV_RATE)) {
