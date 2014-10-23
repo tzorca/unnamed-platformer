@@ -27,6 +27,7 @@ import unnamed_platformer.app.InputManager.PlrGameKey;
 import unnamed_platformer.app.Main;
 import unnamed_platformer.view.gui.GUIHelper;
 import unnamed_platformer.view.gui.GUIManager;
+import unnamed_platformer.view.gui.GUIManager.ScreenType;
 import unnamed_platformer.view.gui.objects.ListCellRenderer_PlrGameKey;
 
 import com.google.common.collect.Lists;
@@ -39,16 +40,14 @@ public class Screen_Options extends BaseScreen_GUI
 	JLabel lblTitle = new JLabel("Input Setup");
 	JList<PlrGameKey> lstKeys = new JList<PlrGameKey>();
 	JPanel pnlButtons = new JPanel();
-	JButton btnSave = new JButton("Save");
-	JButton btnCancel = new JButton("Cancel");
+	JButton btnBack = new JButton("Back");
 
-	// Collect buttons
-	List<JButton> buttons = Lists.newArrayList(btnSave, btnCancel);
+	List<JButton> buttons = Lists.newArrayList(btnBack);
 
 	// Collect all components
 	@SuppressWarnings("unchecked")
-	List<? extends JComponent> components = Lists.newArrayList(lstKeys,
-			btnSave, btnCancel);
+	List<? extends JComponent> components = Lists
+			.newArrayList(lstKeys, btnBack);
 
 	public Screen_Options() {
 		super();
@@ -79,24 +78,22 @@ public class Screen_Options extends BaseScreen_GUI
 		scrlList.getViewport().setBackground(GUIManager.COLOR_DARK_BLUE_2);
 
 		// SETUP BUTTONS
-		btnSave.addActionListener(new btnSave_Click());
-		btnCancel.addActionListener(new btnCancel_Click());
+		btnBack.addActionListener(new btnSave_Click());
 
 		for (JButton btn : buttons) {
-			btn.addFocusListener(new btn_FocusListener());
 			btn.setFont(GUIManager.FONT_NORMAL);
 			btn.setIconTextGap(0);
 		}
 		GUIHelper.styleButtons(buttons, 6, GUIManager.COLOR_DARK_BLUE_2);
 
-		// ADD GLOBAL LISTENER FOR ARROW NAVIGATION
+		// ADD GLOBAL LISTENERS FOR ARROW NAVIGATION
 		for (JComponent c : components) {
 			c.addKeyListener(new Global_KeyListener());
+			c.addFocusListener(new component_FocusListener());
 		}
 
 		// ADD BUTTONS TO PANEL
-		pnlButtons.add(btnSave);
-		pnlButtons.add(btnCancel);
+		pnlButtons.add(btnBack);
 
 		// SETUP BUTTON PANEL
 		pnlButtons.setBackground(GUIManager.COLOR_DARK_BLUE_3);
@@ -109,24 +106,25 @@ public class Screen_Options extends BaseScreen_GUI
 
 	}
 
-	private int buttonIndex = 0;
+	private int componentIndex = 0;
 	private PlrGameKey currentPlrGameKey = null;
+	
 
 	// ================================================================
 	// NAVIGATION
 	// ================================================================
 
-	private void changeButton(int delta) {
-		int newIndex = buttonIndex + delta;
-		if (newIndex >= buttons.size()) {
+	private void changeComponent(int delta) {
+		int newIndex = componentIndex + delta;
+		if (newIndex >= components.size()) {
 			newIndex = 0;
 		}
 		if (newIndex < 0) {
-			newIndex = buttons.size() - 1;
+			newIndex = components.size() - 1;
 		}
 
-		buttonIndex = newIndex;
-		buttons.get(buttonIndex).requestFocus();
+		componentIndex = newIndex;
+		components.get(componentIndex).requestFocus();
 	}
 
 	private void changeListSelectedIndex(int delta) {
@@ -138,8 +136,6 @@ public class Screen_Options extends BaseScreen_GUI
 			newIndex = mdlKeys.size() - 1;
 		}
 		lstKeys.setSelectedIndex(newIndex);
-
-		buttons.get(buttonIndex).requestFocus();
 	}
 
 	// =================================================================
@@ -151,10 +147,10 @@ public class Screen_Options extends BaseScreen_GUI
 
 		// LWJGL JInput Keys
 		if (InputManager.keyPressOccurred(GameKey.LEFT, 1)) {
-			changeButton(-1);
+			changeComponent(-1);
 		}
 		if (InputManager.keyPressOccurred(GameKey.RIGHT, 1)) {
-			changeButton(1);
+			changeComponent(1);
 		}
 		if (InputManager.keyPressOccurred(GameKey.UP, 1)) {
 			changeListSelectedIndex(-1);
@@ -163,20 +159,26 @@ public class Screen_Options extends BaseScreen_GUI
 			changeListSelectedIndex(1);
 		}
 		if (InputManager.keyPressOccurred(GameKey.A, 1)) {
-			JButton btn = buttons.get(buttonIndex);
-			if (btn != null) {
-				btn.doClick();
-			}
+			doComponentAction();
 		}
 
 		// Default button selection
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				if (!buttons.get(buttonIndex).hasFocus()) {
-					buttons.get(buttonIndex).requestFocus();
+				if (!components.get(componentIndex).hasFocus()) {
+					components.get(componentIndex).requestFocus();
 				}
 			}
 		});
+	}
+
+	private void doComponentAction() {
+		JComponent component = components.get(componentIndex);
+		if (component != null) {
+			if (component instanceof JButton) {
+				((JButton) component).doClick();
+			}
+		}
 	}
 
 	// Java VK KeyEvents
@@ -196,16 +198,13 @@ public class Screen_Options extends BaseScreen_GUI
 					changeListSelectedIndex(1);
 					break;
 				case LEFT:
-					changeButton(-1);
+					changeComponent(-1);
 					break;
 				case RIGHT:
-					changeButton(1);
+					changeComponent(1);
 					break;
 				case A:
-					JButton btn = buttons.get(buttonIndex);
-					if (btn != null) {
-						btn.doClick();
-					}
+					doComponentAction();
 					break;
 				case EXIT:
 					Main.doHalt();
@@ -213,6 +212,7 @@ public class Screen_Options extends BaseScreen_GUI
 					break;
 				}
 			}
+			e.consume();
 		}
 
 	}
@@ -220,7 +220,8 @@ public class Screen_Options extends BaseScreen_GUI
 	private class lstKeys_SelectionListener implements ListSelectionListener
 	{
 		public void valueChanged(ListSelectionEvent e) {
-			buttons.get(buttonIndex).requestFocus();
+			components.get(componentIndex).requestFocus();
+
 			currentPlrGameKey = lstKeys.getSelectedValue();
 			JList<?> source = (JList<?>) e.getSource();
 			source.ensureIndexIsVisible(lstKeys.getSelectedIndex());
@@ -228,33 +229,22 @@ public class Screen_Options extends BaseScreen_GUI
 
 	}
 
-	private class btnCancel_Click implements ActionListener
-	{
-		public void actionPerformed(final ActionEvent event) {
-			// if (SQLiteStuff.isInitialized()) {
-			// SQLiteStuff.finish();
-			// }
-			//
-			// Main.doExit();
-		}
-	}
-
 	public class btnSave_Click implements ActionListener
 	{
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
+			GUIManager.changeScreen(ScreenType.Title);
 
 		}
 
 	}
 
-	private class btn_FocusListener implements FocusListener
+	private class component_FocusListener implements FocusListener
 	{
 		public void focusGained(FocusEvent e) {
-			for (int index = 0; index < buttons.size(); index++) {
-				JButton btn = buttons.get(index);
-				if (btn.equals(e.getSource())) {
-					buttonIndex = index;
+			for (int index = 0; index < components.size(); index++) {
+				JComponent c = components.get(index);
+				if (c.equals(e.getSource())) {
+					componentIndex = index;
 				}
 			}
 		}
