@@ -40,7 +40,7 @@ public final class InputManager
 
 	private static HashMap<Integer, Boolean> rawKeyStates = Maps.newHashMap(),
 			lastRawKeyStates = Maps.newHashMap(), rawKeyPressEvents = Maps
-					.newHashMap();;
+					.newHashMap();
 
 	private static HashMap<PlrGameKey, Boolean> playerGameKeyStates = Maps
 			.newHashMap(), lastPlayerGameKeyStates = Maps.newHashMap(),
@@ -169,7 +169,7 @@ public final class InputManager
 
 	static {
 		// load game key mappings from settings
-		gameKeyMappings = Settings.generateGameKeyMappings();
+		loadMappingsFromSettings();
 
 		// setup event handlers to be non-null initially
 		resetEvents();
@@ -196,6 +196,10 @@ public final class InputManager
 			lastRawKeyStates.put(keyCode, false);
 			rawKeyPressEvents.put(keyCode, false);
 		}
+	}
+
+	public static void loadMappingsFromSettings() {
+		gameKeyMappings = Settings.generateGameKeyMappings();
 	}
 
 	public static void setEventHandler(InputEventType inputEventType,

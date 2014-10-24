@@ -21,12 +21,17 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import org.lwjgl.input.Keyboard;
+
 import unnamed_platformer.app.InputManager;
 import unnamed_platformer.app.InputManager.GameKey;
 import unnamed_platformer.app.InputManager.PlrGameKey;
+import unnamed_platformer.app.KeyCodeTranslator;
 import unnamed_platformer.app.Main;
+import unnamed_platformer.app.Settings;
 import unnamed_platformer.view.ViewManager;
 import unnamed_platformer.view.gui.GUIHelper;
+import unnamed_platformer.view.gui.GUIHelper.ParamRunnable;
 import unnamed_platformer.view.gui.GUIManager;
 import unnamed_platformer.view.gui.GUIManager.ScreenType;
 import unnamed_platformer.view.gui.dialogs.Dialog_KeyAssignment;
@@ -110,7 +115,6 @@ public class Screen_Options extends BaseScreen_GUI
 
 	private int componentIndex = 0;
 	private PlrGameKey currentPlrGameKey = null;
-	
 
 	// ================================================================
 	// NAVIGATION
@@ -138,6 +142,28 @@ public class Screen_Options extends BaseScreen_GUI
 			newIndex = mdlKeys.size() - 1;
 		}
 		lstKeys.setSelectedIndex(newIndex);
+	}
+	
+	// =================================================================
+	// ACTIONS
+	// =================================================================
+
+	private void tryAssignKey(Integer keyCode) {
+		if (currentPlrGameKey == null) {
+			return;
+		}
+
+		Integer jinputKeyCode = KeyCodeTranslator.translateJavaVKToJInputCode(keyCode);
+		if (jinputKeyCode == null) {
+			System.err.println("Error: No JInput translation found for " + KeyEvent.getKeyText(keyCode));
+			return;
+		}
+		
+		String jinputKeyText = Keyboard.getKeyName(jinputKeyCode);
+		
+		Settings.setString(currentPlrGameKey.toString(), jinputKeyText);
+		
+		InputManager.loadMappingsFromSettings();
 	}
 
 	// =================================================================
@@ -186,9 +212,17 @@ public class Screen_Options extends BaseScreen_GUI
 	}
 
 	private void showKeyChangeDialog() {
-		GUIManager.showDialog(new Dialog_KeyAssignment(ViewManager.getFrame()));
-		
+		ParamRunnable assignKeyCallback = new ParamRunnable() {
+			public void run(Object param) {
+				Integer keyCode = (Integer) param;
+				tryAssignKey(keyCode);
+			}
+
+		};
+		GUIManager.showDialog(new Dialog_KeyAssignment(ViewManager.getFrame(),
+				assignKeyCallback));
 	}
+
 
 	// Java VK KeyEvents
 	private class Global_KeyListener extends KeyAdapter
@@ -201,27 +235,33 @@ public class Screen_Options extends BaseScreen_GUI
 				GameKey gameKey = plrGameKey.getGameKey();
 				switch (gameKey) {
 				case UP:
+					e.consume();
 					changeListSelectedIndex(-1);
 					break;
 				case DOWN:
+					e.consume();
 					changeListSelectedIndex(1);
 					break;
 				case LEFT:
+					e.consume();
 					changeComponent(-1);
 					break;
 				case RIGHT:
+					e.consume();
 					changeComponent(1);
 					break;
 				case A:
+					e.consume();
 					doComponentAction();
 					break;
 				case EXIT:
+					e.consume();
 					Main.doHalt();
+					break;
 				default:
 					break;
 				}
 			}
-			e.consume();
 		}
 
 	}

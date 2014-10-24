@@ -203,4 +203,17 @@ public class Settings
 		}
 	}
 
+	public static void setString(String key, String value) {
+		SettingName settingName = SettingName.valueOf(key);
+
+		if (settingName == null) {
+			System.err.println("Invalid setting name " + key);
+			return;
+		}
+
+		settings.put(settingName, value);
+		saveINI();
+
+	}
+
 }

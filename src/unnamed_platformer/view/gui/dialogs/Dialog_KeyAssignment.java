@@ -1,51 +1,45 @@
 package unnamed_platformer.view.gui.dialogs;
 
 import java.awt.Frame;
-import java.util.List;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JLabel;
 import javax.swing.border.EmptyBorder;
 
-import unnamed_platformer.app.InputManager;
+import unnamed_platformer.view.gui.GUIHelper.ParamRunnable;
 import unnamed_platformer.view.gui.GUIManager;
 
 public class Dialog_KeyAssignment extends Dialog
 {
 	private static final long serialVersionUID = 1396852545275302025L;
 	final JLabel lblMessage = new JLabel("Press a key");
+	ParamRunnable callback = null;
 
-	public Dialog_KeyAssignment(Frame owner) {
-		super(owner, "Key Assignment");
+	public Dialog_KeyAssignment(Frame owner, ParamRunnable callback) {
+		super(owner, "New Key");
 
 		// SETUP LABEL
 		lblMessage.setForeground(GUIManager.COLOR_WHITE);
-		lblMessage.setBorder(new EmptyBorder(8, 8, 8, 8));
+		lblMessage.setFont(GUIManager.FONT_NORMAL);
+		lblMessage.setBorder(new EmptyBorder(24, 32, 24, 32));
 
+		this.setUndecorated(true);
 		this.add(lblMessage);
+
+		this.addKeyListener(new Global_KeyListener());
 
 		this.pack();
 		this.setLocationRelativeTo(owner);
+
+		this.callback = callback;
 	}
 
-	@Override
-	public void update() {
-
-		// LWJGL JInput Keys
-		List<Integer> keyCodes = InputManager.getRawKeyPresses();
-
-		
-		if (keyCodes.isEmpty()) {
-			return;
+	private class Global_KeyListener extends KeyAdapter
+	{
+		public void keyPressed(KeyEvent e) {
+			callback.run(e.getKeyCode());
+			Dialog_KeyAssignment.this.setVisible(false);
 		}
-
-		if (keyCodes.size() > 2) {
-			System.out.println("> 2");
-			return;
-		}
-
-		lblMessage.setText(String.valueOf(keyCodes.get(0)));
-
-		// Dialog_KeyAssignment.this.setVisible(false);
 	}
-
 }
