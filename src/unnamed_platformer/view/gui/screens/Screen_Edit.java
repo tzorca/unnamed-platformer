@@ -25,8 +25,10 @@ import org.newdawn.slick.opengl.Texture;
 
 import unnamed_platformer.app.ImageHelper;
 import unnamed_platformer.app.InputManager;
+import unnamed_platformer.app.Settings;
 import unnamed_platformer.app.InputManager.GameKey;
 import unnamed_platformer.app.InputManager.InputEventType;
+import unnamed_platformer.app.Settings.SettingName;
 import unnamed_platformer.app.MathHelper;
 import unnamed_platformer.app.TimeManager;
 import unnamed_platformer.game.other.Editor;
@@ -392,7 +394,11 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 	// ===============================================================================
 
 	public boolean onFinish(final ScreenType plannedNextScreen) {
-
+		if (Settings.getBoolean(SettingName.AUTO_SAVE_ON_EXIT)) {
+			editor.save();
+			return true;
+		}
+		
 		if (!editor.unsavedChangesExist()) {
 			return true;
 		}

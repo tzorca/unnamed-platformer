@@ -16,7 +16,7 @@ import com.google.common.collect.Multimap;
 public class Settings
 {
 	public enum SettingName {
-		OFFICIAL_LEVELSET_NAME, DEFAULTS_TO_FULLSCREEN, /* */
+		OFFICIAL_LEVELSET_NAME, DEFAULTS_TO_FULLSCREEN, AUTO_SAVE_ON_EXIT, /* */
 		PLR1_UP, PLR1_LEFT, PLR1_DOWN, PLR1_RIGHT, /* */
 		PLR2_UP, PLR2_LEFT, PLR2_DOWN, PLR2_RIGHT, /* */
 		PLR3_UP, PLR3_LEFT, PLR3_DOWN, PLR3_RIGHT, /* */
@@ -46,6 +46,7 @@ public class Settings
 	static {
 		settings.put(SettingName.OFFICIAL_LEVELSET_NAME, "Example Levels");
 		settings.put(SettingName.DEFAULTS_TO_FULLSCREEN, false);
+		settings.put(SettingName.AUTO_SAVE_ON_EXIT, false);
 		settings.put(SettingName.PLR1_UP, "UP");
 		settings.put(SettingName.PLR1_LEFT, "LEFT");
 		settings.put(SettingName.PLR1_DOWN, "DOWN");
