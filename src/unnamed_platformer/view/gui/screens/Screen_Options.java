@@ -76,7 +76,6 @@ public class Screen_Options extends BaseScreen_GUI
 		lstKeys.setForeground(GUIManager.COLOR_WHITE);
 		lstKeys.setSelectionBackground(GUIManager.COLOR_HIGHLIGHT_BLUE);
 		lstKeys.addListSelectionListener(new lstKeys_SelectionListener());
-		lstKeys.setSelectedIndex(0);
 
 		// SETUP LIST SCROLL PANE
 		JScrollPane scrlList = new JScrollPane(lstKeys);
@@ -113,7 +112,7 @@ public class Screen_Options extends BaseScreen_GUI
 
 	}
 
-	private int componentIndex = 0;
+	private int componentIndex = 1;
 	private PlrGameKey currentPlrGameKey = null;
 
 	// ================================================================
