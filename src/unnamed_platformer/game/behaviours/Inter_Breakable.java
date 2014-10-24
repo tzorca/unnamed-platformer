@@ -17,7 +17,8 @@ public class Inter_Breakable extends Interaction
 
 	@Override
 	protected boolean performInteraction(Entity source, Entity target) {
-		source.setFlag(Flag.OUT_OF_PLAY, true);
+		source.setFlag(Flag.INACTIVE_UNTIL_PLAYER_DEATH, true);
+		source.setFlag(Flag.INVISIBLE, true);
 		return true;
 	}
 

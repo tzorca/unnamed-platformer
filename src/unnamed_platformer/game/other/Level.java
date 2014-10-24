@@ -170,6 +170,11 @@ public class Level
 		while (entityIterator.hasNext()) {
 			Entity entity = entityIterator.next();
 
+			// Don't do logic on entities that are temporarily inactive
+			if (entity.isFlagSet(Flag.INACTIVE_UNTIL_PLAYER_DEATH)) {
+				continue;
+			}
+
 			// don't do logic on entities outside the view
 			if (!ViewManager.rectInView(entity.getOriginalBox())) {
 				continue;
@@ -306,5 +311,15 @@ public class Level
 		}
 
 		return (int) TimeManager.secondsSince(startTime);
+	}
+
+	public void signalPlayerDeath() {
+		for (Entity e : entities) {
+			if (e.isFlagSet(Flag.INACTIVE_UNTIL_PLAYER_DEATH)) {
+				e.setFlag(Flag.INACTIVE_UNTIL_PLAYER_DEATH, false);
+				e.setFlag(Flag.INVISIBLE, false);
+			}
+		}
+
 	}
 }

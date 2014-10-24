@@ -91,6 +91,7 @@ public class PlatformPlayer extends ActiveEntity
 		health = GameRef.DEFAULT_MAX_HEALTH;
 		flashStatus = false;
 		invulnerable = false;
+		World.getCurrentLevel().signalPlayerDeath();
 	}
 
 	public int getHealth() {
