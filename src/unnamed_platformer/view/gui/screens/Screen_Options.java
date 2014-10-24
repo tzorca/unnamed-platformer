@@ -25,9 +25,11 @@ import unnamed_platformer.app.InputManager;
 import unnamed_platformer.app.InputManager.GameKey;
 import unnamed_platformer.app.InputManager.PlrGameKey;
 import unnamed_platformer.app.Main;
+import unnamed_platformer.view.ViewManager;
 import unnamed_platformer.view.gui.GUIHelper;
 import unnamed_platformer.view.gui.GUIManager;
 import unnamed_platformer.view.gui.GUIManager.ScreenType;
+import unnamed_platformer.view.gui.dialogs.Dialog_KeyAssignment;
 import unnamed_platformer.view.gui.objects.ListCellRenderer_PlrGameKey;
 
 import com.google.common.collect.Lists;
@@ -177,8 +179,15 @@ public class Screen_Options extends BaseScreen_GUI
 		if (component != null) {
 			if (component instanceof JButton) {
 				((JButton) component).doClick();
+			} else if (component.equals(lstKeys)) {
+				showKeyChangeDialog();
 			}
 		}
+	}
+
+	private void showKeyChangeDialog() {
+		GUIManager.showDialog(new Dialog_KeyAssignment(ViewManager.getFrame()));
+		
 	}
 
 	// Java VK KeyEvents

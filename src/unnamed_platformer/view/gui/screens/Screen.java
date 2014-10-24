@@ -22,7 +22,7 @@ public abstract class Screen
 	public Screen() {
 		super();
 
-		InputManager.resetEventHandlers();
+		InputManager.resetEvents();
 		pnlSurface.setBackground(GUIManager.COLOR_DARK_BLUE_3);
 	}
 

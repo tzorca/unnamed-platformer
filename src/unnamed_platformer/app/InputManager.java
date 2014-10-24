@@ -4,10 +4,12 @@ import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map.Entry;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -17,7 +19,6 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.geom.Vector2f;
 
-import unnamed_platformer.app.InputManager.GameKey;
 import unnamed_platformer.globals.Ref;
 import unnamed_platformer.view.ViewManager;
 
@@ -37,7 +38,10 @@ public final class InputManager
 		SCROLL_IN, SCROLL_OUT /* */,
 	}
 
-	private static HashMap<Integer, Boolean> rawKeyStates = Maps.newHashMap();
+	private static HashMap<Integer, Boolean> rawKeyStates = Maps.newHashMap(),
+			lastRawKeyStates = Maps.newHashMap(), rawKeyPressEvents = Maps
+					.newHashMap();;
+
 	private static HashMap<PlrGameKey, Boolean> playerGameKeyStates = Maps
 			.newHashMap(), lastPlayerGameKeyStates = Maps.newHashMap(),
 			playerGameKeyPressEvents = Maps.newHashMap();
@@ -168,15 +172,29 @@ public final class InputManager
 		gameKeyMappings = Settings.generateGameKeyMappings();
 
 		// setup event handlers to be non-null initially
-		resetEventHandlers();
+		resetEvents();
 	}
 
-	public static void resetEventHandlers() {
+	/**
+	 * Prevents previous key events from being passed into new frames.
+	 */
+	public static void resetEvents() {
 		for (InputEventType iet : InputEventType.values()) {
 			eventHandlers.put(iet, new Runnable() {
 				public void run() {
 				}
 			});
+		}
+		for (PlrGameKey pgk : playerGameKeyStates.keySet()) {
+			playerGameKeyStates.put(pgk, false);
+			lastPlayerGameKeyStates.put(pgk, false);
+			playerGameKeyPressEvents.put(pgk, false);
+
+		}
+		for (Integer keyCode : rawKeyStates.keySet()) {
+			rawKeyStates.put(keyCode, false);
+			lastRawKeyStates.put(keyCode, false);
+			rawKeyPressEvents.put(keyCode, false);
 		}
 	}
 
@@ -190,15 +208,23 @@ public final class InputManager
 			int keycode = Keyboard.getEventKey();
 			Keyboard.getEventCharacter();
 			boolean state = Keyboard.getEventKeyState();
-			assignKeyState(keycode, state);
+			linkKeyState(keycode, state);
 		}
 	}
 
-	private static void assignKeyState(int keycode, boolean state) {
+	private static void linkKeyState(int keycode, boolean state) {
 		rawKeyStates.put(keycode, state);
 		if (gameKeyMappings.containsKey(keycode)) {
 			Collection<PlrGameKey> mappings = gameKeyMappings.get(keycode);
 
+			if (!lastRawKeyStates.containsKey(keycode)) {
+				lastRawKeyStates.put(keycode, false);
+			}
+
+			if (state && !lastRawKeyStates.containsKey(keycode)) {
+				rawKeyPressEvents.put(keycode, true);
+
+			}
 			for (PlrGameKey mapping : mappings) {
 				playerGameKeyStates.put(mapping, state);
 				if (!lastPlayerGameKeyStates.containsKey(mapping)) {
@@ -337,6 +363,17 @@ public final class InputManager
 			}
 		}
 		return -1;
+	}
+
+	public static List<Integer> getRawKeyPresses() {
+		List<Integer> pressedKeyCodes = new ArrayList<Integer>();
+		for (Integer keyCode : rawKeyPressEvents.keySet()) {
+			if (rawKeyPressEvents.get(keyCode)) {
+				pressedKeyCodes.add(keyCode);
+			}
+		}
+
+		return pressedKeyCodes;
 	}
 
 }

@@ -12,7 +12,6 @@ import org.lwjgl.input.Keyboard;
 
 import unnamed_platformer.app.InputManager;
 import unnamed_platformer.app.InputManager.PlrGameKey;
-import unnamed_platformer.view.gui.GUIManager;
 
 public class ListCellRenderer_PlrGameKey extends JLabel implements
 		ListCellRenderer<PlrGameKey>
