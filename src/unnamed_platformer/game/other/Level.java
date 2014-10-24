@@ -278,8 +278,14 @@ public class Level
 		}
 	}
 
+	TreeMap<Integer, List<Entity>> zIndexBuckets = new TreeMap<Integer, List<Entity>>();
+
 	public void drawForeground() {
-		TreeMap<Integer, List<Entity>> zIndexBuckets = new TreeMap<Integer, List<Entity>>();
+
+		// clear previous buckets
+		for (List<Entity> entities : zIndexBuckets.values()) {
+			entities.clear();
+		}
 
 		for (final Entity entity : entities) {
 			if (!zIndexBuckets.containsKey(entity.zIndex)) {
