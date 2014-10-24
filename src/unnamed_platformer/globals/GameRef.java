@@ -23,7 +23,7 @@ public final class GameRef
 	public static final float DEFAULT_ORBIT_HAZARD_SPEED = 5f;
 
 	public static final int DEFAULT_MAX_HEALTH = 4;
-	public static final int MAX_PLR_HEALTH = 8;
+	public static final int MAX_PLR_HEALTH = 16;
 
 	public static final float TEMP_INVULNERABILITY_SECONDS = 1.5f;
 
