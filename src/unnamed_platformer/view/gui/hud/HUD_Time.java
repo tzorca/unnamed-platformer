@@ -1,18 +1,19 @@
 package unnamed_platformer.view.gui.hud;
 
+import java.sql.Time;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.geom.Vector2f;
 
-import unnamed_platformer.game.entities.PlatformPlayer;
 import unnamed_platformer.game.other.Level;
 import unnamed_platformer.game.other.World;
 import unnamed_platformer.view.gui.GUIManager;
 
-public class HUD_PlayerHealth extends HUDComponent
+public class HUD_Time extends HUDComponent
 {
-	public HUD_PlayerHealth() {
-		super(new Vector2f(8,32));
-		this.setColor(new Color(16,16,16));
+	public HUD_Time() {
+		super(new Vector2f(8, 8));
+		this.setColor(new Color(16, 16, 16));
 		this.setFont(GUIManager.FONT_HUD);
 	}
 
@@ -24,16 +25,13 @@ public class HUD_PlayerHealth extends HUDComponent
 			return;
 		}
 
-		PlatformPlayer player = (PlatformPlayer) currentLevel.getPlayer();
+		int totalSeconds = currentLevel.getElapsedSeconds();
 
-		if (player == null) {
-			setText("");
-			return;
-		}
+		int minutes = totalSeconds / 60;
+		int seconds = totalSeconds - minutes * 60;
 
-		int playerHealth = player.getHealth();
-
-		setText("Energy    " + String.format("% 2d",playerHealth));
+		setText("Time   " + String.format("%02d", minutes) + ":"
+				+ String.format("%02d", seconds));
 	}
 
 }

@@ -11,6 +11,7 @@ import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 
 import unnamed_platformer.app.MathHelper;
+import unnamed_platformer.app.TimeManager;
 import unnamed_platformer.game.entities.ActiveEntity;
 import unnamed_platformer.game.entities.Entity;
 import unnamed_platformer.globals.GameRef.Flag;
@@ -104,10 +105,10 @@ public class Level
 		resetTo(entitySetups);
 	}
 
-	private void resetTo(LinkedList<EntitySetup> setups) {		
+	private void resetTo(LinkedList<EntitySetup> setups) {
 		// get rid of old pointer to player entity (no longer valid)
 		playerEntity = null;
-		
+
 		entitySetups = setups;
 		entities = EntityCreator.buildFromSetupCollection(entitySetups);
 		onStart();
@@ -154,6 +155,11 @@ public class Level
 		// find player (if not already found)
 		if (playerEntity == null) {
 			setupPlayer();
+		}
+
+		// set start time if not yet set
+		if (startTime == null && playerEntity != null) {
+			startTime = TimeManager.time();
 		}
 
 		// clear previous update's quad tree
@@ -290,5 +296,15 @@ public class Level
 			setupPlayer();
 		}
 		return playerEntity;
+	}
+
+	Long startTime = null;
+
+	public int getElapsedSeconds() {
+		if (startTime == null) {
+			return 0;
+		}
+
+		return (int) TimeManager.secondsSince(startTime);
 	}
 }

@@ -14,6 +14,7 @@ public class HeadsUpDisplay
 
 	static {
 		hudComponents.add(new HUD_PlayerHealth());
+		hudComponents.add(new HUD_Time());
 	}
 
 	public static void updateAndDraw() {

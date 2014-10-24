@@ -51,10 +51,12 @@ public final class GUIManager
 	/* */FONT_HEADING = new Font(FONT_NAME, Font.PLAIN, LARGEST_FONT_SIZE),
 	/* */FONT_SUB_HEADING = new Font(FONT_NAME, Font.PLAIN, LARGER_FONT_SIZE),
 	/* */FONT_NORMAL = new Font(FONT_NAME, Font.PLAIN, BASE_FONT_SIZE),
-	/* */FONT_SMALL = new Font(FONT_NAME, Font.PLAIN, SMALLER_FONT_SIZE);
+	/* */FONT_SMALL = new Font(FONT_NAME, Font.PLAIN, SMALLER_FONT_SIZE),
+	/* */FONT_HUD = new Font("Lucida Console", Font.PLAIN, BASE_FONT_SIZE);
 
 	public static final String SCREEN_PACKAGE_NAME = Ref.BASE_PACKAGE_NAME
 			+ ".view.gui.screens";
+
 
 
 	private static Screen screen;
