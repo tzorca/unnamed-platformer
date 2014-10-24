@@ -18,6 +18,7 @@ import unnamed_platformer.app.InputManager.GameKey;
 import unnamed_platformer.app.Settings.SettingName;
 import unnamed_platformer.game.other.World;
 import unnamed_platformer.globals.Ref;
+import unnamed_platformer.view.gui.ColorHelper;
 import unnamed_platformer.view.gui.GUIHelper;
 import unnamed_platformer.view.gui.GUIManager;
 import unnamed_platformer.view.gui.GUIManager.ScreenType;
@@ -36,7 +37,9 @@ public class Screen_Title extends BaseScreen_GUI
 
 	public Screen_Title() {
 		super();
-
+		
+		pnlSurface.setBackground(GUIManager.COLOR_MAIN_PLUS);
+		
 		Label lblGameTitle = new Label(Ref.APP_TITLE);
 		lblGameTitle.setFont(GUIManager.FONT_HEADING);
 		lblGameTitle.setForeground(GUIManager.COLOR_LIGHT_GREY);
@@ -73,18 +76,18 @@ public class Screen_Title extends BaseScreen_GUI
 
 		for (JButton btn : buttons) {
 			btn.addFocusListener(new btn_FocusListener());
-			btn.setFont(GUIManager.FONT_SUB_HEADING);
+			btn.setFont(GUIManager.FONT_NORMAL);
 			btn.setIconTextGap(0);
 		}
-		GUIHelper.styleButton(btnPlay, 10, Color.GREEN.darker());
-		GUIHelper.styleButton(btnEdit, 10, GUIManager.COLOR_ORANGE);
-		GUIHelper.styleButton(btnOptions, 10, Color.GRAY.darker());
+		GUIHelper.styleButton(btnPlay, 10, GUIManager.COLOR_MAIN);
+		GUIHelper.styleButton(btnEdit, 10, GUIManager.COLOR_MAIN);
+		GUIHelper.styleButton(btnOptions, 10, GUIManager.COLOR_MAIN);
 
 		GUIHelper.addDirectionalNavigation(buttons, null, true);
 
 		// ADD COMPONENTS TO MAIN PANEL
 		pnlSurface.add(lblGameTitle, GUIManager.CENTER_LAYOUT
-				+ ", gapbottom 20%, ");
+				+ ", gapbottom 40%, ");
 		pnlSurface.add(btnPlay, GUIManager.CENTER_LAYOUT);
 		pnlSurface.add(btnEdit, GUIManager.CENTER_LAYOUT);
 		pnlSurface.add(btnOptions, GUIManager.CENTER_LAYOUT);

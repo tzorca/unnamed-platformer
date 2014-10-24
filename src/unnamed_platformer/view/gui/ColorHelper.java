@@ -10,9 +10,9 @@ public class ColorHelper
 				.getBlue()) / 3 / 255f;
 
 		float[] newColors = new float[3];
-		newColors[0] = original.getRed() / 255f * 2.2f - greyAvg;
-		newColors[1] = original.getGreen() / 255f * 2.2f - greyAvg;
-		newColors[2] = original.getBlue() / 255f * 2.2f - greyAvg;
+		newColors[0] = original.getRed() / 255f * 2.5f - greyAvg;
+		newColors[1] = original.getGreen() / 255f * 2.5f - greyAvg;
+		newColors[2] = original.getBlue() / 255f * 2.5f - greyAvg;
 
 		// limit to valid range
 		for (int i = 0; i < 3; i++) {
@@ -28,8 +28,12 @@ public class ColorHelper
 
 	private final static int BRIGHTNESS_INC = 0x25;
 
+
 	public static Color darken(Color color) {
 		return brighten(color, -1f);
+	}
+	public static Color darken(Color color, float mul) {
+		return brighten(color, -mul);
 	}
 
 	public static Color brighten(Color color) {
@@ -65,4 +69,5 @@ public class ColorHelper
 
 		return new Color(r, g, b);
 	}
+
 }

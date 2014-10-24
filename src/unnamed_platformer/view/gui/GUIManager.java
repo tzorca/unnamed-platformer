@@ -45,10 +45,15 @@ public final class GUIManager
 
 	public static final String CENTER_LAYOUT = "pushx, alignx center, wrap";
 
-	public static final Font FONT_HEADING = new Font("Tahoma", Font.PLAIN, 36),
-			FONT_SUB_HEADING = new Font("Tahoma", Font.PLAIN, 24),
-			FONT_NORMAL = new Font("Tahoma", Font.PLAIN, 16),
-			FONT_NORMAL_STRIKETHROUGH;
+	private static final int BASE_FONT_SIZE = 20,
+			LARGER_FONT_SIZE = (int) (BASE_FONT_SIZE * 1.5),
+			LARGEST_FONT_SIZE = (int) (BASE_FONT_SIZE * 2.0);
+
+	public static final Font
+	/* */FONT_HEADING = new Font("Tahoma", Font.PLAIN, LARGEST_FONT_SIZE),
+	/* */FONT_SUB_HEADING = new Font("Tahoma", Font.PLAIN, LARGER_FONT_SIZE),
+	/* */FONT_NORMAL = new Font("Tahoma", Font.PLAIN, BASE_FONT_SIZE),
+	/* */FONT_NORMAL_STRIKETHROUGH;
 	static {
 		@SuppressWarnings("rawtypes")
 		Map attributes = FONT_NORMAL.getAttributes();
@@ -56,8 +61,6 @@ public final class GUIManager
 				TextAttribute.STRIKETHROUGH_ON);
 		FONT_NORMAL_STRIKETHROUGH = new Font(attributes);
 	}
-	
-	
 
 	public static final String SCREEN_PACKAGE_NAME = Ref.BASE_PACKAGE_NAME
 			+ ".view.gui.screens";
