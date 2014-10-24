@@ -22,6 +22,7 @@ public class Screen_Transition extends BaseScreen_GUI
 
 	public Screen_Transition() {
 		super();
+		
 
 		Label lblInfo;
 
@@ -51,7 +52,6 @@ public class Screen_Transition extends BaseScreen_GUI
 			});
 		}
 
-		pnlSurface.setBackground(GUIManager.COLOR_MAIN);
 		lblInfo.setFont(GUIManager.FONT_HEADING);
 		lblInfo.setForeground(GUIManager.COLOR_LIGHT_GREY);
 		btnNext.setFont(GUIManager.FONT_SUB_HEADING);
