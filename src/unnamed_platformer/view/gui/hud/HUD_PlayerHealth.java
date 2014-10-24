@@ -8,13 +8,14 @@ import org.newdawn.slick.geom.Vector2f;
 import unnamed_platformer.game.entities.PlatformPlayer;
 import unnamed_platformer.game.other.Level;
 import unnamed_platformer.game.other.World;
+import unnamed_platformer.view.gui.GUIManager;
 
 public class HUD_PlayerHealth extends HUDComponent
 {
 	public HUD_PlayerHealth() {
-		super(new Vector2f(24, 48));
-		this.setColor(Color.lightGray);
-		this.setFont(new Font("Tahoma", 0, 24));
+		super(new Vector2f(8,8));
+		this.setColor(new Color(16,16,16));
+		this.setFont(GUIManager.FONT_NORMAL);
 	}
 
 	@Override
@@ -34,7 +35,7 @@ public class HUD_PlayerHealth extends HUDComponent
 
 		int playerHealth = player.getHealth();
 
-		setText(String.valueOf(playerHealth));
+		setText("Energy: " + String.valueOf(playerHealth));
 	}
 
 }
