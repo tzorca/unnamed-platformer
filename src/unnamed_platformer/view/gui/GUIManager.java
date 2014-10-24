@@ -25,21 +25,22 @@ public final class GUIManager
 		Title, Edit, Play, SelectWorld, Transition, Options
 	}
 
-	public static final Color COLOR_LIGHT_GREY = new Color(0xee, 0xee, 0xee),
-			COLOR_MAIN = new Color(0x20, 0x20, 0x30), COLOR_MAIN_MINUS,
-			COLOR_MAIN_PLUS, COLOR_MAIN_PLUS_PLUS, COLOR_MAIN_HIGHLIGHT,
-			COLOR_ORANGE = new Color(0xbb, 0x60, 0x20);
+	public static final Color
+	/* */COLOR_LIGHT_GREY = new Color(0xee, 0xee, 0xee),
+	/* */COLOR_ORANGE = new Color(0xbb, 0x60, 0x40),
+	/* */COLOR_MAIN = new Color(0x20, 0x20, 0x40),
+	/* */COLOR_MAIN_MINUS, COLOR_MAIN_PLUS, COLOR_MAIN_PLUS_PLUS,
+			COLOR_MAIN_HIGHLIGHT;
 
 	// Dynamically generate other colors from main color
 	static {
-		int r = COLOR_MAIN.getRed();
-		int g = COLOR_MAIN.getGreen();
-		int b = COLOR_MAIN.getBlue();
 
-		COLOR_MAIN_MINUS = new Color(r - 0x10, g - 0x10, b - 0x10);
-		COLOR_MAIN_PLUS = new Color(r + 0x10, g + 0x10, b + 0x10);
-		COLOR_MAIN_PLUS_PLUS = new Color(r + 0x20, g + 0x20, b + 0x20);
-		COLOR_MAIN_HIGHLIGHT = GUIHelper.highlight(COLOR_MAIN.brighter());
+		COLOR_MAIN_MINUS = ColorHelper.darken(COLOR_MAIN);
+
+		COLOR_MAIN_PLUS = ColorHelper.brighten(COLOR_MAIN);
+
+		COLOR_MAIN_PLUS_PLUS = ColorHelper.brighten(COLOR_MAIN, 2);
+		COLOR_MAIN_HIGHLIGHT = ColorHelper.highlight(COLOR_MAIN_PLUS);
 	}
 
 	public static final String CENTER_LAYOUT = "pushx, alignx center, wrap";
@@ -55,6 +56,8 @@ public final class GUIManager
 				TextAttribute.STRIKETHROUGH_ON);
 		FONT_NORMAL_STRIKETHROUGH = new Font(attributes);
 	}
+	
+	
 
 	public static final String SCREEN_PACKAGE_NAME = Ref.BASE_PACKAGE_NAME
 			+ ".view.gui.screens";

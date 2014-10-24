@@ -85,13 +85,6 @@ public final class GUIHelper
 		button.setOpaque(true);
 	}
 
-	// COLOR_LIGHT_GREY = new Color(0xee, 0xee, 0xee),
-	// COLOR_DARK_BLUE_1 = new Color(0x10, 0x10, 0x20),
-	// COLOR_DARK_BLUE_2 = new Color(0x20, 0x20, 0x30),
-	// COLOR_DARK_BLUE_3 = new Color(0x30, 0x30, 0x40),
-	// COLOR_DARK_BLUE_4 = new Color(0x40, 0x40, 0x50),
-	// COLOR_HIGHLIGHT_BLUE = new Color(0x30, 0x30, 0x70);
-
 	public static void styleComponentColors(final JComponent component,
 			final Color backgroundColor) {
 
@@ -107,8 +100,7 @@ public final class GUIHelper
 
 				@Override
 				public void focusGained(FocusEvent e) {
-					component.setBackground(highlight(backgroundColor
-							.brighter()));
+					component.setBackground(ColorHelper.highlight(ColorHelper.brighten(backgroundColor)));
 				}
 
 				@Override
@@ -163,26 +155,6 @@ public final class GUIHelper
 		}
 	}
 
-	public static Color highlight(Color original) {
-		float greyAvg = (original.getRed() + original.getGreen() + original
-				.getBlue()) / 3 / 255f;
-
-		float[] newColors = new float[3];
-		newColors[0] = original.getRed() / 255f * 2.5f - greyAvg;
-		newColors[1] = original.getGreen() / 255f * 2.5f - greyAvg;
-		newColors[2] = original.getBlue() / 255f * 2.5f - greyAvg;
-
-		// limit to valid range
-		for (int i = 0; i < 3; i++) {
-			if (newColors[i] > 1) {
-				newColors[i] = 1;
-			} else if (newColors[i] < 0) {
-				newColors[i] = 0;
-			}
-		}
-
-		return new Color(newColors[0], newColors[1], newColors[2]);
-	}
 
 	public static void toWidest(List<? extends JComponent> components) {
 		int maxWidth = 0;
@@ -279,5 +251,7 @@ public final class GUIHelper
 			});
 		}
 	}
+	
+
 
 }
