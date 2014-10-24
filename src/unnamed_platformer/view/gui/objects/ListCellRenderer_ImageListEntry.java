@@ -17,9 +17,9 @@ public class ListCellRenderer_ImageListEntry extends JLabel implements
 		setOpaque(true);
 		setHorizontalAlignment(SwingConstants.LEFT);
 		setHorizontalTextPosition(JLabel.RIGHT);
-		setVerticalTextPosition(JLabel.BOTTOM);
-		setIconTextGap(4);
-		setBorder(new EmptyBorder(2, 8, 2, 0));
+		setVerticalTextPosition(JLabel.CENTER);
+		setIconTextGap(8);
+		setBorder(new EmptyBorder(4, 8, 4, 0));
 	}
 
 //	private static final int MAX_TEXT_LENGTH = 12;
@@ -33,6 +33,7 @@ public class ListCellRenderer_ImageListEntry extends JLabel implements
 //			text = text.substring(0, MAX_TEXT_LENGTH - 3) + "...";
 //		}
 
+		setFont(list.getFont());
 		setText(text);
 		setIcon(value.getImage());
 

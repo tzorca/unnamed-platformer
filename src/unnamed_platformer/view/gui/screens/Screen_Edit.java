@@ -82,8 +82,9 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 
 		// SETUP ENTITY LIST
 		lstEntities.setCellRenderer(new ListCellRenderer_ImageListEntry());
-		lstEntities.setSelectionBackground(java.awt.Color.DARK_GRAY);
-		lstEntities.setBackground(toolbars.get(Side.left).getBackground());
+		lstEntities.setSelectionBackground(GUIManager.COLOR_MAIN_HIGHLIGHT);
+		lstEntities.setBackground(GUIManager.COLOR_MAIN_PLUS);
+		lstEntities.setFont(GUIManager.FONT_SMALL);
 		lstEntities.setForeground(java.awt.Color.white);
 		DefaultListModel<ImageListEntry> lstEntitiesModel = new DefaultListModel<ImageListEntry>();
 		for (final ImageListEntry entry : imageListEntries) {

@@ -1,6 +1,5 @@
 package unnamed_platformer.view.gui.screens;
 
-import java.awt.Color;
 import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,12 +12,11 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
 import unnamed_platformer.app.InputManager;
-import unnamed_platformer.app.Settings;
 import unnamed_platformer.app.InputManager.GameKey;
+import unnamed_platformer.app.Settings;
 import unnamed_platformer.app.Settings.SettingName;
 import unnamed_platformer.game.other.World;
 import unnamed_platformer.globals.Ref;
-import unnamed_platformer.view.gui.ColorHelper;
 import unnamed_platformer.view.gui.GUIHelper;
 import unnamed_platformer.view.gui.GUIManager;
 import unnamed_platformer.view.gui.GUIManager.ScreenType;
