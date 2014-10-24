@@ -11,8 +11,8 @@ import unnamed_platformer.view.gui.GUIManager;
 public class HUD_PlayerHealth extends HUDComponent
 {
 	public HUD_PlayerHealth() {
-		super(new Vector2f(8,32));
-		this.setColor(new Color(16,16,16));
+		super(new Vector2f(8, 32));
+		this.setColor(new Color(16, 16, 16));
 		this.setFont(GUIManager.FONT_HUD);
 	}
 
@@ -33,7 +33,12 @@ public class HUD_PlayerHealth extends HUDComponent
 
 		int playerHealth = player.getHealth();
 
-		setText("Energy    " + String.format("% 2d",playerHealth));
+		String playerHealthString = String.valueOf(playerHealth);
+		if (playerHealthString.length() < 2) {
+			playerHealthString = " " + playerHealthString;
+		}
+
+		setText("Energy    " + playerHealthString);
 	}
 
 }
