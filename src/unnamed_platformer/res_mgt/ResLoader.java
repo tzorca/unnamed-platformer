@@ -9,6 +9,8 @@ public abstract class ResLoader<T> {
 	private HashMap<String, T> cache = new HashMap<String, T>();
 
 	private String dir, ext;
+	
+	private static final String FALLBACK_RESOURCE = "default";
 
 	protected ResLoader(String dir, String ext) {
 		this.dir = dir;
@@ -31,8 +33,13 @@ public abstract class ResLoader<T> {
 		try {
 			res = load(name);
 		} catch (Exception e) {
-			System.out.println("Error loading resource '" + name + "': " + e.toString());
-			return null;
+			System.out.println("Resource '" + name + "' not found. Defaulting to fallback.");
+			try {
+				res = load(FALLBACK_RESOURCE);
+			} catch (Exception e1) {
+				System.err.println("Could not load fallback resource.");
+				e1.printStackTrace();
+			}
 		}
 		
 		if (res == null) {
