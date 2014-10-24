@@ -59,7 +59,7 @@ public class Ctrl_PathMovement extends ControlMechanism
 		double distanceForThisTic = speed * multiplier;
 
 		int timeout = 100;
-		while (distanceForThisTic > 1 || timeout <= 0) {
+		while (distanceForThisTic > 0.5 || timeout <= 0) {
 			timeout--;
 
 			Vector2f posBeforeMove = new Vector2f(actor.getPos());

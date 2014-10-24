@@ -46,6 +46,14 @@ public final class MathHelper
 		return path;
 	}
 
+	public static List<Vector2f> createRightLeftPath(final float dist) {
+		final List<Vector2f> path = new ArrayList<Vector2f>();
+		path.add(new Vector2f(0, 0));
+		path.add(new Vector2f(dist, 0));
+		path.add(new Vector2f(0, 0));
+		return path;
+	}
+
 	public static double getArea(final Rectangle rect) {
 		return rect.getWidth() * rect.getHeight();
 	}

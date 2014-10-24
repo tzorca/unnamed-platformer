@@ -17,9 +17,9 @@ public final class GameRef
 	public final static float DEFAULT_WATER_SPEED_FACTOR = 0.5f;
 	public final static float DEFAULT_FAST_REGION_SPEED_FACTOR = 1.8f;
 
-	public static final float DEFAULT_FLAME_JUMP_INTERVAL = 3;
-	public static final float DEFAULT_FLAME_SPEED = 4f;
-	public static final float DEFAULT_FLAME_JUMP_HEIGHT = 160;
+	public static final float DEFAULT_FLAME_JUMP_INTERVAL = 4;
+	public static final float DEFAULT_FLAME_SPEED = 5f;
+	public static final float DEFAULT_FLAME_JUMP_HEIGHT = 256;
 	public static final float DEFAULT_ORBIT_HAZARD_SPEED = 5f;
 
 	public static final int DEFAULT_MAX_HEALTH = 4;
@@ -28,6 +28,9 @@ public final class GameRef
 	public static final float TEMP_INVULNERABILITY_SECONDS = 1.5f;
 
 	public static final float FLASH_INTERVAL = 0.05f;
+
+	public static final float DEFAULT_MOTION_BOX_DIST = 192;
+	public static final float DEFAULT_MOTION_BOX_SPEED = 2f;
 
 	public enum Flag {
 		SOLID, HURTS_OTHERS, OBEYS_GRAVITY, OUT_OF_PLAY, TANGIBLE, PLAYER, INVISIBLE, FOLLOWS_SLOPES, ALWAYS_INTERACT, INACTIVE_UNTIL_PLAYER_DEATH
