@@ -1,5 +1,6 @@
 package unnamed_platformer.view.gui.dialogs;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
@@ -72,12 +73,12 @@ public class Dialog_EditMenu extends Dialog
 		btnModeSwitch.addActionListener(new btnModeSwitch_Click());
 		btnExit.addActionListener(new btnExit_Click());
 		GUIHelper.removeButtonPadding(buttonList);
-		GUIHelper.styleButtons(buttonList, 0, GUIManager.COLOR_DARK_BLUE_2);
+		GUIHelper.styleButtons(buttonList, 0, GUIManager.COLOR_MAIN);
 
 		// SETUP CURRENT LEVEL LABEL
 		lblCurrentLevel.setText("Level "
 				+ String.valueOf(World.getCurrentLevelIndex() + 1));
-		lblCurrentLevel.setForeground(GUIManager.COLOR_WHITE);
+		lblCurrentLevel.setForeground(Color.white);
 		lblCurrentLevel.setBorder(new EmptyBorder(8, 8, 8, 8));
 
 		// ADD COMPONENTS

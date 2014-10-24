@@ -51,11 +51,11 @@ public class Screen_Transition extends BaseScreen_GUI
 			});
 		}
 
-		pnlSurface.setBackground(GUIManager.COLOR_DARK_BLUE_2);
+		pnlSurface.setBackground(GUIManager.COLOR_MAIN);
 		lblInfo.setFont(GUIManager.FONT_HEADING);
 		lblInfo.setForeground(GUIManager.COLOR_LIGHT_GREY);
 		btnNext.setFont(GUIManager.FONT_SUB_HEADING);
-		GUIHelper.styleButton(btnNext, 6, GUIManager.COLOR_DARK_BLUE_3);
+		GUIHelper.styleButton(btnNext, 6, GUIManager.COLOR_MAIN_PLUS);
 
 		pnlSurface.add(lblInfo, GUIManager.CENTER_LAYOUT + ", gaptop 10%, ");
 		pnlSurface.add(btnNext, GUIManager.CENTER_LAYOUT + ", pushy");

@@ -1,5 +1,6 @@
 package unnamed_platformer.view.gui.screens;
 
+import java.awt.Color;
 import java.awt.Panel;
 import java.util.EnumMap;
 
@@ -24,8 +25,8 @@ public class BaseScreen_Hybrid extends Screen {
 
 		for (Side side : Side.values()) {
 			Panel panel = new Panel(new MigLayout());
-			panel.setBackground(GUIManager.COLOR_DARK_BLUE_2);
-			panel.setForeground(GUIManager.COLOR_WHITE);
+			panel.setBackground(GUIManager.COLOR_MAIN);
+			panel.setForeground(Color.WHITE);
 			toolbars.put(side, panel);
 
 			setToolbarSize(side, INITIAL_TOOLBAR_SIZE);

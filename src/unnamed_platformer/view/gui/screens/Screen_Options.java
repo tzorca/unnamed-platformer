@@ -1,5 +1,6 @@
 package unnamed_platformer.view.gui.screens;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -72,16 +73,16 @@ public class Screen_Options extends BaseScreen_GUI
 		lstKeys.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		lstKeys.setCellRenderer(new ListCellRenderer_PlrGameKey());
 		lstKeys.setFont(GUIManager.FONT_NORMAL);
-		lstKeys.setBackground(GUIManager.COLOR_DARK_BLUE_2);
-		lstKeys.setForeground(GUIManager.COLOR_WHITE);
-		lstKeys.setSelectionBackground(GUIManager.COLOR_HIGHLIGHT_BLUE);
+		lstKeys.setBackground(GUIManager.COLOR_MAIN);
+		lstKeys.setForeground(Color.WHITE);
+		lstKeys.setSelectionBackground(GUIManager.COLOR_MAIN_HIGHLIGHT);
 		lstKeys.addListSelectionListener(new lstKeys_SelectionListener());
 
 		// SETUP LIST SCROLL PANE
 		JScrollPane scrlList = new JScrollPane(lstKeys);
-		GUIHelper.styleComponentColors(scrlList, GUIManager.COLOR_DARK_BLUE_3);
+		GUIHelper.styleComponentColors(scrlList, GUIManager.COLOR_MAIN_PLUS);
 		GUIHelper.styleComponentBorder(scrlList, 0, false);
-		scrlList.getViewport().setBackground(GUIManager.COLOR_DARK_BLUE_2);
+		scrlList.getViewport().setBackground(GUIManager.COLOR_MAIN);
 
 		// SETUP BUTTONS
 		btnBack.addActionListener(new btnSave_Click());
@@ -90,7 +91,7 @@ public class Screen_Options extends BaseScreen_GUI
 			btn.setFont(GUIManager.FONT_NORMAL);
 			btn.setIconTextGap(0);
 		}
-		GUIHelper.styleButtons(buttons, 6, GUIManager.COLOR_DARK_BLUE_2);
+		GUIHelper.styleButtons(buttons, 6, GUIManager.COLOR_MAIN);
 
 		// ADD GLOBAL LISTENERS FOR ARROW NAVIGATION
 		for (JComponent c : components) {
@@ -102,12 +103,12 @@ public class Screen_Options extends BaseScreen_GUI
 		pnlButtons.add(btnBack);
 
 		// SETUP BUTTON PANEL
-		pnlButtons.setBackground(GUIManager.COLOR_DARK_BLUE_3);
+		pnlButtons.setBackground(GUIManager.COLOR_MAIN_PLUS);
 
 		// ADD COMPONENTS TO MAIN PANEL
 		pnlSurface.add(lblTitle, "gapx 8px 8px, pushx, wrap");
 		pnlSurface.add(scrlList, "gapx 8px 8px, gapy 16px, grow, pushy, wrap");
-		pnlSurface.setBackground(GUIManager.COLOR_DARK_BLUE_3);
+		pnlSurface.setBackground(GUIManager.COLOR_MAIN_PLUS);
 		pnlSurface.add(pnlButtons, "gapx 8px 8px, gapy 4px");
 
 	}

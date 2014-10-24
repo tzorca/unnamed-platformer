@@ -23,7 +23,7 @@ public abstract class Screen
 		super();
 
 		InputManager.resetEvents();
-		pnlSurface.setBackground(GUIManager.COLOR_DARK_BLUE_3);
+		pnlSurface.setBackground(GUIManager.COLOR_MAIN_PLUS);
 	}
 
 	final public boolean canExit() {

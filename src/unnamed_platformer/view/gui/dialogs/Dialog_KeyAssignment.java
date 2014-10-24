@@ -1,5 +1,6 @@
 package unnamed_platformer.view.gui.dialogs;
 
+import java.awt.Color;
 import java.awt.Frame;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -20,7 +21,7 @@ public class Dialog_KeyAssignment extends Dialog
 		super(owner, "New Key");
 
 		// SETUP LABEL
-		lblMessage.setForeground(GUIManager.COLOR_WHITE);
+		lblMessage.setForeground(Color.WHITE);
 		lblMessage.setFont(GUIManager.FONT_NORMAL);
 		lblMessage.setBorder(new EmptyBorder(24, 32, 24, 32));
 

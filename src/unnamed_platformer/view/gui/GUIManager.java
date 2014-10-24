@@ -25,14 +25,22 @@ public final class GUIManager
 		Title, Edit, Play, SelectWorld, Transition, Options
 	}
 
-	public static final Color COLOR_WHITE = Color.white,
-			COLOR_LIGHT_GREY = new Color(0xee, 0xee, 0xee),
-			COLOR_DARK_BLUE_1 = new Color(0x10, 0x10, 0x20),
-			COLOR_DARK_BLUE_2 = new Color(0x20, 0x20, 0x30),
-			COLOR_DARK_BLUE_3 = new Color(0x30, 0x30, 0x40),
-			COLOR_DARK_BLUE_4 = new Color(0x40, 0x40, 0x50),
-			COLOR_HIGHLIGHT_BLUE = GUIHelper.highlight(COLOR_DARK_BLUE_2.brighter()),
+	public static final Color COLOR_LIGHT_GREY = new Color(0xee, 0xee, 0xee),
+			COLOR_MAIN = new Color(0x20, 0x20, 0x30), COLOR_MAIN_MINUS,
+			COLOR_MAIN_PLUS, COLOR_MAIN_PLUS_PLUS, COLOR_MAIN_HIGHLIGHT,
 			COLOR_ORANGE = new Color(0xbb, 0x60, 0x20);
+
+	// Dynamically generate other colors from main color
+	static {
+		int r = COLOR_MAIN.getRed();
+		int g = COLOR_MAIN.getGreen();
+		int b = COLOR_MAIN.getBlue();
+
+		COLOR_MAIN_MINUS = new Color(r - 0x10, g - 0x10, b - 0x10);
+		COLOR_MAIN_PLUS = new Color(r + 0x10, g + 0x10, b + 0x10);
+		COLOR_MAIN_PLUS_PLUS = new Color(r + 0x20, g + 0x20, b + 0x20);
+		COLOR_MAIN_HIGHLIGHT = GUIHelper.highlight(COLOR_MAIN.brighter());
+	}
 
 	public static final String CENTER_LAYOUT = "pushx, alignx center, wrap";
 

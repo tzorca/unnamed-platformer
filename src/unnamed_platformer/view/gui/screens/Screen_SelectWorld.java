@@ -81,17 +81,17 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 		lstWorlds.setModel(mdlWorlds);
 		lstWorlds.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		lstWorlds.setFont(GUIManager.FONT_NORMAL);
-		lstWorlds.setBackground(GUIManager.COLOR_DARK_BLUE_2);
-		lstWorlds.setForeground(GUIManager.COLOR_WHITE);
-		lstWorlds.setSelectionBackground(GUIManager.COLOR_HIGHLIGHT_BLUE);
+		lstWorlds.setBackground(GUIManager.COLOR_MAIN);
+		lstWorlds.setForeground(Color.WHITE);
+		lstWorlds.setSelectionBackground(GUIManager.COLOR_MAIN_HIGHLIGHT);
 		lstWorlds.addListSelectionListener(new lstWorlds_SelectionListener());
 		lstWorlds.setSelectedIndex(0);
 
 		// SETUP WORLD LIST SCROLL PANE
 		JScrollPane scrlWorlds = new JScrollPane(lstWorlds);
-		GUIHelper.styleComponentColors(scrlWorlds, GUIManager.COLOR_DARK_BLUE_3);
+		GUIHelper.styleComponentColors(scrlWorlds, GUIManager.COLOR_MAIN_PLUS);
 		GUIHelper.styleComponentBorder(scrlWorlds, 0, false);
-		scrlWorlds.getViewport().setBackground(GUIManager.COLOR_DARK_BLUE_2);
+		scrlWorlds.getViewport().setBackground(GUIManager.COLOR_MAIN);
 
 		// SETUP BUTTONS
 		btnNew.addActionListener(new btnNew_Click());
@@ -106,7 +106,7 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 			btn.setFont(GUIManager.FONT_NORMAL);
 			btn.setIconTextGap(0);
 		}
-		GUIHelper.styleButtons(buttons, 6, GUIManager.COLOR_DARK_BLUE_2);
+		GUIHelper.styleButtons(buttons, 6, GUIManager.COLOR_MAIN);
 
 		// ADD GLOBAL LISTENER FOR ARROW NAVIGATION
 		for (JComponent c : components) {
@@ -126,13 +126,13 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 		pnlButtons.add(btnTitle);
 
 		// SETUP BUTTON PANEL
-		pnlButtons.setBackground(GUIManager.COLOR_DARK_BLUE_3);
+		pnlButtons.setBackground(GUIManager.COLOR_MAIN_PLUS);
 
 		// ADD COMPONENTS TO MAIN PANEL
 		pnlSurface.add(lblTitle, "gapx 8px 8px, pushx, wrap");
 		pnlSurface
 				.add(scrlWorlds, "gapx 8px 8px, gapy 16px, grow, pushy, wrap");
-		pnlSurface.setBackground(GUIManager.COLOR_DARK_BLUE_3);
+		pnlSurface.setBackground(GUIManager.COLOR_MAIN_PLUS);
 		pnlSurface.add(pnlButtons, "gapx 8px 8px, gapy 4px");
 
 		updateButtonVisualDisableStatus();

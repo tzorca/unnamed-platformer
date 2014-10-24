@@ -30,7 +30,7 @@ public class Dialog extends JDialog
 
 	private void initStandardProperties() {
 
-		getContentPane().setBackground(GUIManager.COLOR_DARK_BLUE_3);
+		getContentPane().setBackground(GUIManager.COLOR_MAIN_PLUS);
 
 		this.addWindowFocusListener(new WindowFocusListener() {
 			public void windowLostFocus(WindowEvent e) {
