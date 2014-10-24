@@ -8,18 +8,16 @@ import org.newdawn.slick.geom.Vector2f;
 import unnamed_platformer.app.MathHelper;
 import unnamed_platformer.game.entities.ActiveEntity;
 
-public class Ctrl_PathMovement extends ControlMechanism {
+public class Ctrl_PathMovement extends ControlMechanism
+{
 	private List<Vector2f> relativePath = new ArrayList<Vector2f>();
 	private double speed = 0;
 	private int pathIndex = 0;
-	boolean loop = false;
-	Vector2f targetPoint = new Vector2f();
+	boolean doLoop = false;
 
 	private Vector2f origin = null;
 
 	private boolean finished;
-
-	private int lastPathIndex;
 
 	public Vector2f getOrigin() {
 		return origin;
@@ -30,7 +28,7 @@ public class Ctrl_PathMovement extends ControlMechanism {
 	}
 
 	public void setLoop(boolean loop) {
-		this.loop = loop;
+		this.doLoop = loop;
 	}
 
 	public Ctrl_PathMovement(ActiveEntity actor, Vector2f startPos,
@@ -42,9 +40,10 @@ public class Ctrl_PathMovement extends ControlMechanism {
 		reset();
 	}
 
+	@Override
 	public void reset() {
-		setPathIndex(0);
 		actor.setPos(origin);
+		pathIndex = 0;
 		finished = false;
 	}
 
@@ -54,44 +53,35 @@ public class Ctrl_PathMovement extends ControlMechanism {
 			return;
 		}
 
-		Vector2f origPoint = actor.getPos();
-		Vector2f newPoint = actor.getPos();
+		Vector2f nextLocation = new Vector2f(origin).add(relativePath
+				.get(pathIndex));
 
-		double requiredDist = speed * multiplier;
-		do {
-			newPoint = MathHelper.moveTowards(actor.getPos(), targetPoint,
-					requiredDist);
-			requiredDist -= newPoint.distance(origPoint);
+		double distanceForThisTic = speed * multiplier;
 
-			actor.setPos(newPoint);
+		int timeout = 100;
+		while (distanceForThisTic > 1 || timeout <= 0) {
+			timeout--;
 
-			if (newPoint.x == targetPoint.x && newPoint.y == targetPoint.y) {
-				if (pathIndex == 0 && lastPathIndex == relativePath.size() - 1
-						&& !loop) { 
-					finished = true;
-					return;
+			Vector2f posBeforeMove = new Vector2f(actor.getPos());
+			actor.setPos(MathHelper.moveTowards(actor.getPos(), nextLocation,
+					(float) (speed * multiplier)));
+			distanceForThisTic -= posBeforeMove.distance(actor.getPos());
+
+			if (actor.getPos().distance(nextLocation) < speed * multiplier) {
+				pathIndex++;
+				if (pathIndex >= relativePath.size()) {
+				
+					pathIndex = 0;
+					if (!doLoop) {
+						finished = true;
+						break;
+					}
 				}
-
-				setPathIndex(pathIndex + 1);
+				nextLocation = new Vector2f(origin).add(relativePath
+						.get(pathIndex));
 			}
-
-		} while (requiredDist > 0);
-
-	}
-
-	private void setPathIndex(int index) {
-		if (index >= relativePath.size()) {
-			index = 0;
 		}
-		lastPathIndex = pathIndex;
-		pathIndex = index;
-		targetPoint = new Vector2f(origin);
-		targetPoint.x += relativePath.get(pathIndex).getX();
-		targetPoint.y += relativePath.get(pathIndex).getY();
-	}
 
-	public double getSpeed() {
-		return speed;
 	}
 
 	public void setSpeed(double speed) {

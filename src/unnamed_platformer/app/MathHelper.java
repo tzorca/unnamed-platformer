@@ -40,11 +40,9 @@ public final class MathHelper
 
 	public static List<Vector2f> createUpDownPath(final float dist) {
 		final List<Vector2f> path = new ArrayList<Vector2f>();
-		// targeting a line straight down causes problems
-		// for now, use 3,3
-		path.add(new Vector2f(3, 3));
-
+		path.add(new Vector2f(0, 0));
 		path.add(new Vector2f(0, -dist));
+		path.add(new Vector2f(0, 0));
 		return path;
 	}
 
@@ -91,25 +89,11 @@ public final class MathHelper
 
 	// Move in a direction towards a point (but not past it)
 	public static Vector2f moveTowards(final Vector2f startPoint,
-			final Vector2f targetPoint, final double speed) {
+			final Vector2f targetPoint, final float speed) {
 
-		final float initialDist = startPoint.distance(targetPoint);
-		final double theta = Math.atan2(targetPoint.y - startPoint.y,
-				targetPoint.x - startPoint.x);
-		final float movX = (float) (speed * Math.cos(theta));
-		final float movY = (float) (speed * Math.sin(theta));
+		return new Vector2f(startPoint).add(new Vector2f(targetPoint)
+				.sub(new Vector2f(startPoint)).normalise().scale(speed));
 
-		Vector2f newPoint = new Vector2f(startPoint.getX() + movX,
-				startPoint.getY() + movY);
-
-		final double newDist = newPoint.distance(targetPoint);
-
-		// don't move past the point
-		if (newDist >= initialDist) {
-			newPoint = targetPoint;
-		}
-
-		return newPoint;
 	}
 
 	public static Object randInArray(final Object[] array) {

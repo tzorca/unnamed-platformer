@@ -19,8 +19,7 @@ public class PeriodicJumpingEnemy extends Hazard {
 		pathMovement = new Ctrl_PathMovement(this, this.startPos,
 				MathHelper.createUpDownPath(GameRef.DEFAULT_FLAME_JUMP_HEIGHT),
 				GameRef.DEFAULT_FLAME_SPEED);
-		pathMovement.setLoop(true);
-//		pathMovement.disable();
+		pathMovement.setLoop(false);
 		this.getPhysics().addControlMechanism(pathMovement);
 	}
 
@@ -30,8 +29,7 @@ public class PeriodicJumpingEnemy extends Hazard {
 
 		if (TimeManager.periodElapsed(this, "flameJump",
 				GameRef.DEFAULT_FLAME_JUMP_INTERVAL)) {
-//			pathMovement.enable();
-//			pathMovement.reset();
+			pathMovement.reset();
 		}
 
 	}
