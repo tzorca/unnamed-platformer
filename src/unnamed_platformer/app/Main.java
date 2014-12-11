@@ -1,7 +1,5 @@
 package unnamed_platformer.app;
 
-import org.lwjgl.LWJGLException;
-import org.lwjgl.openal.AL;
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.opengl.Texture;
 
@@ -21,7 +19,6 @@ import com.rits.cloning.Cloner;
 
 public final class Main
 {
-
 	private static long accumulator = 0;
 
 	private static void gameLoop() {

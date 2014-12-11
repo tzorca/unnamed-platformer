@@ -52,8 +52,8 @@ public final class ViewManager
 	private static boolean fullscreenValue;
 
 	private static Rectangle viewport = new Rectangle(0, 0,
-			ViewManager.DEFAULT_RESOLUTION.width,
-			ViewManager.DEFAULT_RESOLUTION.height);
+			DEFAULT_RESOLUTION.width,
+			DEFAULT_RESOLUTION.height);
 
 	public static class WindowEventHandler extends WindowAdapter
 	{
@@ -69,15 +69,11 @@ public final class ViewManager
 		final float xPos = location.x;
 		final float yPos = location.y;
 
-		final int left = (int) (xPos - ViewManager.currentResolution.width
-				/ ViewManager.SCALE / 2);
-		final int top = (int) (yPos - ViewManager.currentResolution.height
-				/ ViewManager.SCALE / 2);
+		final int left = (int) (xPos - currentResolution.width / SCALE / 2);
+		final int top = (int) (yPos - currentResolution.height / SCALE / 2);
 
-		final int right = (int) (ViewManager.currentResolution.width
-				/ ViewManager.SCALE / 2 + xPos);
-		final int bottom = (int) (ViewManager.currentResolution.height
-				/ ViewManager.SCALE / 2 + yPos);
+		final int right = (int) (currentResolution.width / SCALE / 2 + xPos);
+		final int bottom = (int) (currentResolution.height / SCALE / 2 + yPos);
 
 		viewport.setBounds(left, top, right - left, bottom - top);
 
@@ -310,7 +306,7 @@ public final class ViewManager
 	}
 
 	public static void resetRenderCanvasBounds() {
-		renderCanvas.setSize(ViewManager.currentResolution);
+		renderCanvas.setSize(currentResolution);
 		renderCanvas.setLocation(0, 0);
 	}
 
@@ -338,7 +334,7 @@ public final class ViewManager
 	public static void setRenderCanvasVisibility(final boolean visibility) {
 		renderCanvas.setVisible(visibility);
 		if (visibility) {
-			renderCanvas.requestFocus();
+			renderCanvas.requestFocusInWindow();
 		} else {
 			// Workaround to prevent opengl from stealing view when not supposed
 			// to
@@ -362,7 +358,7 @@ public final class ViewManager
 		parentFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
 		// should be able to handle close events as early as possible
-		parentFrame.addWindowListener(new ViewManager.WindowEventHandler());
+		parentFrame.addWindowListener(new WindowEventHandler());
 
 		if (fullscreenValue) {
 			parentFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -460,7 +456,7 @@ public final class ViewManager
 		GUIManager.drawForeground();
 		HeadsUpDisplay.updateAndDraw();
 
-		Display.sync(ViewManager.FPS);
+		Display.sync(FPS);
 		Display.update();
 	}
 

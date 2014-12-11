@@ -223,22 +223,22 @@ public final class GUIHelper
 							break;
 						case LEFT:
 							if (!vertical) {
-								prevButton.requestFocus();
+								prevButton.requestFocusInWindow();
 							}
 							break;
 						case RIGHT:
 							if (!vertical) {
-								nextButton.requestFocus();
+								nextButton.requestFocusInWindow();
 							}
 							break;
 						case UP:
 							if (vertical) {
-								prevButton.requestFocus();
+								prevButton.requestFocusInWindow();
 							}
 							break;
 						case DOWN:
 							if (vertical) {
-								nextButton.requestFocus();
+								nextButton.requestFocusInWindow();
 							}
 							break;
 						case EXIT:

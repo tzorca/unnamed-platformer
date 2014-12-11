@@ -108,7 +108,7 @@ public class Screen_Title extends BaseScreen_GUI
 		}
 
 		buttonIndex = newIndex;
-		buttons.get(buttonIndex).requestFocus();
+		buttons.get(buttonIndex).requestFocusInWindow();
 	}
 
 	@Override
@@ -133,7 +133,7 @@ public class Screen_Title extends BaseScreen_GUI
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				if (!buttons.get(buttonIndex).hasFocus()) {
-					buttons.get(buttonIndex).requestFocus();
+					buttons.get(buttonIndex).requestFocusInWindow();
 
 				}
 			}

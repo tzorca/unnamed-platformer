@@ -160,7 +160,7 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 		}
 
 		buttonIndex = newIndex;
-		buttons.get(buttonIndex).requestFocus();
+		buttons.get(buttonIndex).requestFocusInWindow();
 	}
 
 	private void changeListSelectedIndex(int delta) {
@@ -174,7 +174,7 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 		lstWorlds.setSelectedIndex(newIndex);
 		updateButtonVisualDisableStatus();
 
-		buttons.get(buttonIndex).requestFocus();
+		buttons.get(buttonIndex).requestFocusInWindow();
 	}
 
 	private void updateButtonVisualDisableStatus() {
@@ -220,7 +220,7 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				if (!buttons.get(buttonIndex).hasFocus()) {
-					buttons.get(buttonIndex).requestFocus();
+					buttons.get(buttonIndex).requestFocusInWindow();
 				}
 			}
 		});
@@ -267,7 +267,7 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 	private class lstWorlds_SelectionListener implements ListSelectionListener
 	{
 		public void valueChanged(ListSelectionEvent e) {
-			buttons.get(buttonIndex).requestFocus();
+			buttons.get(buttonIndex).requestFocusInWindow();
 			gameName = lstWorlds.getSelectedValue();
 
 			if (gameName == null) {

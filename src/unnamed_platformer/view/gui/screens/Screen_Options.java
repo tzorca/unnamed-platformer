@@ -130,7 +130,7 @@ public class Screen_Options extends BaseScreen_GUI
 		}
 
 		componentIndex = newIndex;
-		components.get(componentIndex).requestFocus();
+		components.get(componentIndex).requestFocusInWindow();
 	}
 
 	private void changeListSelectedIndex(int delta) {
@@ -194,7 +194,7 @@ public class Screen_Options extends BaseScreen_GUI
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				if (!components.get(componentIndex).hasFocus()) {
-					components.get(componentIndex).requestFocus();
+					components.get(componentIndex).requestFocusInWindow();
 				}
 			}
 		});
@@ -269,7 +269,7 @@ public class Screen_Options extends BaseScreen_GUI
 	private class lstKeys_SelectionListener implements ListSelectionListener
 	{
 		public void valueChanged(ListSelectionEvent e) {
-			components.get(componentIndex).requestFocus();
+			components.get(componentIndex).requestFocusInWindow();
 
 			currentPlrGameKey = lstKeys.getSelectedValue();
 			JList<?> source = (JList<?>) e.getSource();

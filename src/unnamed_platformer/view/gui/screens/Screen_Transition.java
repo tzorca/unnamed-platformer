@@ -64,7 +64,7 @@ public class Screen_Transition extends BaseScreen_GUI
 
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				btnNext.requestFocus();
+				btnNext.requestFocusInWindow();
 			}
 		});
 	}
