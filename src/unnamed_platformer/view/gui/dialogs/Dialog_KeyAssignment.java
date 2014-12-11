@@ -14,13 +14,11 @@ import unnamed_platformer.view.gui.GUIManager;
 public class Dialog_KeyAssignment extends Dialog
 {
 	private static final long serialVersionUID = 1396852545275302025L;
-	final JLabel lblMessage = new JLabel("Press a key");
-	ParamRunnable callback = null;
 
-	public Dialog_KeyAssignment(Frame owner, ParamRunnable callback) {
+	public Dialog_KeyAssignment(Frame owner, final ParamRunnable callback) {
 		super(owner, "New Key");
 
-		// SETUP LABEL
+		final JLabel lblMessage = new JLabel("Press a key");
 		lblMessage.setForeground(Color.WHITE);
 		lblMessage.setFont(GUIManager.FONT_NORMAL);
 		lblMessage.setBorder(new EmptyBorder(24, 32, 24, 32));
@@ -28,19 +26,14 @@ public class Dialog_KeyAssignment extends Dialog
 		this.setUndecorated(true);
 		this.add(lblMessage);
 
-		this.addKeyListener(new Global_KeyListener());
-
 		this.pack();
 		this.setLocationRelativeTo(owner);
 
-		this.callback = callback;
-	}
-
-	private class Global_KeyListener extends KeyAdapter
-	{
-		public void keyPressed(KeyEvent e) {
-			callback.run(e.getKeyCode());
-			Dialog_KeyAssignment.this.setVisible(false);
-		}
+		this.addKeyListener(new KeyAdapter() {
+			public void keyPressed(KeyEvent e) {
+				callback.run(e.getKeyCode());
+				Dialog_KeyAssignment.this.setVisible(false);
+			}
+		});
 	}
 }
