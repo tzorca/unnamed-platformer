@@ -186,10 +186,10 @@ public class Dialog_EditMenu extends Dialog
 	private class btnRemoveLevel_Click implements ActionListener
 	{
 		public void actionPerformed(final ActionEvent event) {
-			final String deleteMessage = "Delete level "
+			final String deleteMessage = "Delete "
 					+ lblCurrentLevel.getText() + "?";
 			final String cancelText = "Cancel";
-			final List<String> choices = Lists.newArrayList("Delete", cancelText);
+			final List<String> choices = Lists.newArrayList(cancelText, "Delete");
 
 			final ParamRunnable afterChoice = new ParamRunnable() {
 				public void run(Object param) {
