@@ -35,9 +35,12 @@ import unnamed_platformer.app.Settings;
 import unnamed_platformer.app.Settings.SettingName;
 import unnamed_platformer.game.other.World;
 import unnamed_platformer.res_mgt.ResManager;
+import unnamed_platformer.view.ViewManager;
 import unnamed_platformer.view.gui.GUIHelper;
+import unnamed_platformer.view.gui.GUIHelper.ParamRunnable;
 import unnamed_platformer.view.gui.GUIManager;
 import unnamed_platformer.view.gui.GUIManager.ScreenType;
+import unnamed_platformer.view.gui.dialogs.Dialog_ChoiceSelection;
 
 import com.google.common.collect.Lists;
 
@@ -341,13 +344,30 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 				return;
 			}
 
-			File gameFile = getGameFile();
+			final File gameFile = getGameFile();
 			if (!gameFile.exists()) {
 				return;
 			}
-			if (confirmDelete()) {
-				delete(gameFile);
-			}
+
+			// Confirm delete
+			String message = "Really delete `" + gameName + "`?";
+			final String cancelText = "Cancel";
+			final List<String> choices = Lists.newArrayList("Delete",
+					cancelText);
+			final ParamRunnable afterChoice = new ParamRunnable() {
+				public void run(Object param) {
+					final String choice = (String) param;
+
+					if (choice.equals(cancelText)) {
+						return;
+					}
+					delete(gameFile);
+				}
+			};
+			Dialog_ChoiceSelection dlgConfirmDelete = new Dialog_ChoiceSelection(
+					ViewManager.getFrame(), message, choices, cancelText,
+					afterChoice);
+			dlgConfirmDelete.setVisible(true);
 		}
 	}
 
@@ -409,11 +429,6 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 			System.out.println("Could not delete '" + gameName + "'");
 			// TODO: Show error in GUI
 		}
-	}
-
-	private boolean confirmDelete() {
-		return GUIHelper.confirmDangerous("Are you sure you want to delete "
-				+ gameName + "?");
 	}
 
 	private void copy(File gameFile) {

@@ -15,6 +15,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
+import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -25,11 +26,11 @@ import org.newdawn.slick.opengl.Texture;
 
 import unnamed_platformer.app.ImageHelper;
 import unnamed_platformer.app.InputManager;
-import unnamed_platformer.app.Settings;
 import unnamed_platformer.app.InputManager.GameKey;
 import unnamed_platformer.app.InputManager.InputEventType;
-import unnamed_platformer.app.Settings.SettingName;
 import unnamed_platformer.app.MathHelper;
+import unnamed_platformer.app.Settings;
+import unnamed_platformer.app.Settings.SettingName;
 import unnamed_platformer.app.TimeManager;
 import unnamed_platformer.game.other.Editor;
 import unnamed_platformer.game.other.EntityCreator;
@@ -39,10 +40,10 @@ import unnamed_platformer.globals.Ref;
 import unnamed_platformer.res_mgt.ResManager;
 import unnamed_platformer.view.Graphic;
 import unnamed_platformer.view.ViewManager;
-import unnamed_platformer.view.gui.GUIHelper;
 import unnamed_platformer.view.gui.GUIHelper.ParamRunnable;
 import unnamed_platformer.view.gui.GUIManager;
 import unnamed_platformer.view.gui.GUIManager.ScreenType;
+import unnamed_platformer.view.gui.dialogs.Dialog_ChoiceSelection;
 import unnamed_platformer.view.gui.dialogs.Dialog_EditMenu;
 import unnamed_platformer.view.gui.objects.ImageListEntry;
 import unnamed_platformer.view.gui.objects.ListCellRenderer_ImageListEntry;
@@ -50,7 +51,8 @@ import unnamed_platformer.view.gui.objects.ListCellRenderer_ImageListEntry;
 import com.google.common.collect.Lists;
 
 @SuppressWarnings("unchecked")
-public class Screen_Edit extends BaseScreen_Hybrid {
+public class Screen_Edit extends BaseScreen_Hybrid
+{
 	public static final int LEFT_TOOLBAR_SIZE = 160;
 	public static final int ROW_HEIGHT = 56;
 	public static final int ENTITY_ICON_SIZE = 48;
@@ -60,6 +62,8 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 
 	private final Map<ImageListEntry, Graphic> entityGraphics = new HashMap<ImageListEntry, Graphic>();
 
+	// TODO: Make it more obvious the user can scroll past the edges of the
+	// screens
 	private final List<ImageListEntry> imageListEntries = new ArrayList<ImageListEntry>();
 	private final JList<ImageListEntry> lstEntities = new JList<ImageListEntry>();
 
@@ -161,6 +165,7 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 		if (InputManager.keyPressOccurred(GameKey.START, 1)) {
 			Dialog_EditMenu dialogEditMenu = new Dialog_EditMenu(
 					ViewManager.getFrame(), editor, this);
+
 			GUIManager.showDialog(dialogEditMenu);
 		}
 
@@ -378,12 +383,13 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 		if (MathHelper.rectExitingOrOutsideRect(cursorRect,
 				getNavigationBounds())) {
 			// Scroll across level faster than inside frame
-			Vector2f cursorEdgeDelta = cursorDelta.scale(NAV_EDGE_SPEED_MULTIPLIER);
-			
+			Vector2f cursorEdgeDelta = cursorDelta
+					.scale(NAV_EDGE_SPEED_MULTIPLIER);
+
 			newPos = originalPos.add(cursorEdgeDelta);
 			newPos = MathHelper.snapToGrid(newPos, NAV_SPEED);
 			cursorRect.setLocation(newPos);
-			
+
 			editor.moveCamera(cursorEdgeDelta);
 			editor.update();
 		}
@@ -398,7 +404,7 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 			editor.save();
 			return true;
 		}
-		
+
 		if (!editor.unsavedChangesExist()) {
 			return true;
 		}
@@ -407,18 +413,35 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 			return true;
 		}
 
-		// this has to be done with a callback
-		// (a deadlock occurs if not invoked with SwingUtils.invokeLater)
-		String message = "Are you sure you want to exit? Your game has unsaved changes.";
-		GUIHelper.confirmDangerousWithCallback(message, new ParamRunnable() {
-			public void run(final Object param) {
-				if (!(boolean) param) {
-					return;
-				}
-				editor.overrideSavedChanges();
-				GUIManager.changeScreen(plannedNextScreen);
+		String message = "Really exit? You haven't saved your last changes.";
+		final String cancelText = "Cancel";
+		final List<String> choices = Lists.newArrayList("Exit", cancelText);
+
+		// This has to be done with a callback
+		// (A deadlock occurs if not invoked with SwingUtils.invokeLater)
+		final ParamRunnable afterChoice = new ParamRunnable() {
+			public void run(Object param) {
+				final String choice = (String) param;
+
+				SwingUtilities.invokeLater(new Runnable() {
+					public void run() {
+						if (choice.equals(cancelText)) {
+							return;
+						}
+						editor.overrideSavedChanges();
+						GUIManager.changeScreen(plannedNextScreen);
+					}
+				});
+
 			}
-		});
+		};
+
+		Dialog_ChoiceSelection dlgConfirmExit = new Dialog_ChoiceSelection(
+				ViewManager.getFrame(), message, choices, cancelText,
+				afterChoice);
+
+		dlgConfirmExit.setVisible(true);
+
 		return false;
 	}
 
@@ -430,20 +453,23 @@ public class Screen_Edit extends BaseScreen_Hybrid {
 		return lstEntities.getSelectedValue();
 	}
 
-	private class RenderCanvas_LeftClick implements Runnable {
+	private class RenderCanvas_LeftClick implements Runnable
+	{
 		public void run() {
 			editor.placeObject(InputManager.getGameMousePos(),
 					getSelectedEntry());
 		}
 	}
 
-	private class RenderCanvas_RightClick implements Runnable {
+	private class RenderCanvas_RightClick implements Runnable
+	{
 		public void run() {
 			editor.removeObject(InputManager.getGameMousePos());
 		}
 	}
 
-	private class EntityList_SelectionChanged implements ListSelectionListener {
+	private class EntityList_SelectionChanged implements ListSelectionListener
+	{
 		public void valueChanged(ListSelectionEvent e) {
 			ViewManager.focusRenderCanvas();
 		}

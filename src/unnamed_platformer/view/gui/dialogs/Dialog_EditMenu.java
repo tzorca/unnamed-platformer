@@ -6,6 +6,7 @@ import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
+import java.util.Set;
 
 import javax.swing.Box;
 import javax.swing.ImageIcon;
@@ -21,11 +22,12 @@ import unnamed_platformer.game.other.World;
 import unnamed_platformer.view.ViewManager;
 import unnamed_platformer.view.gui.GUIHelper;
 import unnamed_platformer.view.gui.GUIHelper.ParamRunnable;
-import unnamed_platformer.view.gui.GUIManager.ScreenType;
 import unnamed_platformer.view.gui.GUIManager;
+import unnamed_platformer.view.gui.GUIManager.ScreenType;
 import unnamed_platformer.view.gui.screens.Screen_Edit;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 public class Dialog_EditMenu extends Dialog
 {
@@ -184,25 +186,31 @@ public class Dialog_EditMenu extends Dialog
 	private class btnRemoveLevel_Click implements ActionListener
 	{
 		public void actionPerformed(final ActionEvent event) {
-			GUIHelper.confirmDangerousWithCallback(
-					"Are you sure you want to delete "
-							+ lblCurrentLevel.getText() + "?",
-					new ParamRunnable() {
-						public void run(Object param) {
-							final boolean choice = (boolean) param;
+			final String deleteMessage = "Delete level "
+					+ lblCurrentLevel.getText() + "?";
+			final String cancelText = "Cancel";
+			final List<String> choices = Lists.newArrayList("Delete", cancelText);
 
-							SwingUtilities.invokeLater(new Runnable() {
-								public void run() {
-									Dialog_EditMenu.this.setVisible(false);
-									if (choice) {
-										editor.removeLevel();
-									}
-									ViewManager.focusRenderCanvas();
-								}
-							});
+			final ParamRunnable afterChoice = new ParamRunnable() {
+				public void run(Object param) {
+					final String choice = (String) param;
+
+					SwingUtilities.invokeLater(new Runnable() {
+						public void run() {
+							if (!choice.equals(cancelText)) {
+								editor.removeLevel();
+							}
 						}
 					});
 
+				}
+			};
+
+			Dialog_ChoiceSelection dlgConfirmDeletion = new Dialog_ChoiceSelection(
+					ViewManager.getFrame(), deleteMessage, choices, cancelText,
+					afterChoice);
+
+			dlgConfirmDeletion.setVisible(true);
 		}
 	}
 

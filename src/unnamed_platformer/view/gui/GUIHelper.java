@@ -16,8 +16,8 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
@@ -25,8 +25,6 @@ import javax.swing.border.EmptyBorder;
 import unnamed_platformer.app.InputManager;
 import unnamed_platformer.app.InputManager.PlrGameKey;
 import unnamed_platformer.app.Main;
-import unnamed_platformer.globals.Ref;
-import unnamed_platformer.view.ViewManager;
 
 public final class GUIHelper
 {
@@ -36,27 +34,6 @@ public final class GUIHelper
 		public void run(Object param);
 	}
 
-	public static boolean confirmDangerousWithCallback(final String msg,
-			final ParamRunnable paramRunnable) {
-		Runnable dialogRunnable = new Runnable() {
-			public void run() {
-				boolean returnValue = confirmDangerous(msg);
-				paramRunnable.run(returnValue);
-			}
-		};
-
-		SwingUtilities.invokeLater(dialogRunnable);
-		return false;
-	}
-
-	public static boolean confirmDangerous(final String msg) {
-		Object[] options = { "Yes", "No" };
-		boolean returnValue = JOptionPane.showOptionDialog(
-				ViewManager.getFrame(), msg, Ref.APP_TITLE,
-				JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE, null,
-				options, options[1]) == 0;
-		return returnValue;
-	}
 
 	// TODO: Change box's title from "Input" to something that makes sense
 	public static String getInput(String msg, String defaultVal) {
@@ -110,6 +87,23 @@ public final class GUIHelper
 
 			});
 		}
+	}
+	
+	public static void styleDialogPanelBorder(JPanel panel, int paddingSize) {
+		Border raisedBevelBorder = BorderFactory
+				.createSoftBevelBorder(BevelBorder.RAISED);
+		Border loweredBevelBorder = BorderFactory
+				.createSoftBevelBorder(BevelBorder.LOWERED);
+		
+
+		Border paddingBorder = new EmptyBorder(paddingSize,
+				(int) (paddingSize * 2.5), paddingSize,
+				(int) (paddingSize * 2.5));
+		
+		final Border compoundRaisedBorder = BorderFactory.createCompoundBorder(
+				raisedBevelBorder, paddingBorder);
+		
+		panel.setBorder(compoundRaisedBorder);
 	}
 
 	public static void styleComponentBorder(JComponent component,
