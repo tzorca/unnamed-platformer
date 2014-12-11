@@ -92,9 +92,6 @@ public final class GUIHelper
 	public static void styleDialogPanelBorder(JPanel panel, int paddingSize) {
 		Border raisedBevelBorder = BorderFactory
 				.createSoftBevelBorder(BevelBorder.RAISED);
-		Border loweredBevelBorder = BorderFactory
-				.createSoftBevelBorder(BevelBorder.LOWERED);
-		
 
 		Border paddingBorder = new EmptyBorder(paddingSize,
 				(int) (paddingSize * 2.5), paddingSize,

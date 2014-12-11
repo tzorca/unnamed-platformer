@@ -7,11 +7,16 @@ import java.awt.event.KeyEvent;
 import java.util.Collection;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
 import javax.swing.ListSelectionModel;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.Border;
+import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -20,9 +25,9 @@ import net.miginfocom.swing.MigLayout;
 import unnamed_platformer.app.InputManager;
 import unnamed_platformer.app.InputManager.PlrGameKey;
 import unnamed_platformer.view.ViewManager;
-import unnamed_platformer.view.gui.GUIHelper;
 import unnamed_platformer.view.gui.GUIHelper.ParamRunnable;
 import unnamed_platformer.view.gui.GUIManager;
+import unnamed_platformer.view.gui.objects.ListCellRenderer_CustomBorder;
 
 /**
  * Saves the string of the selected choice in the callback parameter
@@ -43,15 +48,19 @@ public class Dialog_ChoiceSelection extends Dialog
 			final ParamRunnable choiceCallback) {
 		super(owner);
 		this.add(pnlMain);
+		this.setUndecorated(true);
+		
 		pnlMain.setLayout(new MigLayout());
 		pnlMain.setBackground(GUIManager.COLOR_MAIN_PLUS);
-		GUIHelper.styleDialogPanelBorder(pnlMain, 4);
+		pnlMain.setBorder(BorderFactory
+				.createSoftBevelBorder(BevelBorder.RAISED));
 
 		final JLabel lblMessage = new JLabel(message);
 		lblMessage.setForeground(Color.WHITE);
 		lblMessage.setFont(GUIManager.FONT_NORMAL);
-		lblMessage.setBorder(new EmptyBorder(8, 16, 8, 16));
-		pnlMain.add(lblMessage, GUIManager.CENTER_LAYOUT);
+		lblMessage.setBorder(new EmptyBorder(0, 0, 0, 0));
+		pnlMain.add(lblMessage, "wrap, growx, pushx, span");
+		pnlMain.add(new JSeparator(), "wrap, growx, span");
 
 		this.choiceCallback = choiceCallback;
 		this.cancelChoice = cancelChoice;
@@ -61,21 +70,29 @@ public class Dialog_ChoiceSelection extends Dialog
 			mdlChoices.addElement(choice);
 		}
 
+		Border bottomLineBorder = BorderFactory.createMatteBorder(0, 0, 1, 0,
+				Color.GRAY);
+		Border paddingBorder = new EmptyBorder(4, 8, 4, 8);
+
+		Border paddedBorderWithBottomLine = new CompoundBorder(
+				bottomLineBorder, paddingBorder);
+
 		lstChoices = new JList<String>();
 		lstChoices.setModel(mdlChoices);
 		lstChoices.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		lstChoices.setFont(GUIManager.FONT_NORMAL);
-		lstChoices.setBackground(GUIManager.COLOR_MAIN);
+		lstChoices.setFont(GUIManager.FONT_SMALL);
+		lstChoices.setBackground(GUIManager.COLOR_MAIN_PLUS);
 		lstChoices.setForeground(Color.WHITE);
 		lstChoices.setSelectionBackground(GUIManager.COLOR_MAIN_HIGHLIGHT);
+		lstChoices.setCellRenderer(new ListCellRenderer_CustomBorder(
+				paddedBorderWithBottomLine));
 		lstChoices.addListSelectionListener(new lstChoices_SelectionListener());
 		lstChoices.addKeyListener(new Global_KeyListener());
 		lstChoices.setSelectedIndex(0);
-		pnlMain.add(lstChoices, GUIManager.CENTER_LAYOUT);
+		pnlMain.add(lstChoices, "wrap, growx, span");
 
 		this.addKeyListener(new Global_KeyListener());
 
-		this.setUndecorated(true);
 		this.pack();
 		this.setLocationRelativeTo(owner);
 	}
@@ -112,7 +129,7 @@ public class Dialog_ChoiceSelection extends Dialog
 					break;
 				}
 			}
-			
+
 			if (consumeEvent) {
 				e.consume();
 			}
@@ -122,7 +139,7 @@ public class Dialog_ChoiceSelection extends Dialog
 	private void choose(int choiceIndex) {
 		choose(lstChoices.getModel().getElementAt(choiceIndex));
 	}
-	
+
 	private void choose(String choice) {
 		choiceCallback.run(choice);
 		Dialog_ChoiceSelection.this.setVisible(false);
