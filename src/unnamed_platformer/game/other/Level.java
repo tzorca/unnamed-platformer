@@ -171,7 +171,14 @@ public class Level
 
 			if (World.playing()) {
 				// perform entity logic
+				Vector2f pos = entity.getPos();
 				entity.update();
+				
+				// if no spatial hash exists or position changed, update spatial hash
+				boolean posChanged = !pos.equals(entity.getPos());
+				if (!SpatialHash.has(entity) || posChanged) {
+					SpatialHash.insert(entity);
+				}
 
 				if (entity.isFlagSet(Flag.PLAYER)) {
 					playerEntity = (ActiveEntity) entity;
@@ -181,19 +188,20 @@ public class Level
 			
 			// Don't do logic on entities that are temporarily inactive
 			if (entity.isFlagSet(Flag.INACTIVE_UNTIL_PLAYER_DEATH)) {
+				SpatialHash.remove(entity);
 				continue;
 			}
 
 			// remove entities that have been flagged to be removed
 			if (entity.isFlagSet(Flag.OUT_OF_PLAY)) {
 				entityIterator.remove();
+				SpatialHash.remove(entity);
 				continue;
 			}
 
-			// add existing entities to quadtree
-			if (World.playing()) {
-				SpatialHash.insert(entity);
-			}
+//			if (World.playing()) {
+//				SpatialHash.insert(entity);
+//			}
 		}
 
 		if (World.playing()) {
