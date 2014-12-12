@@ -6,6 +6,7 @@ import org.newdawn.slick.opengl.Texture;
 
 import unnamed_platformer.app.InputManager.GameKey;
 import unnamed_platformer.game.other.EntityCreator;
+import unnamed_platformer.game.other.EntityInfoDB;
 import unnamed_platformer.game.other.World;
 import unnamed_platformer.globals.Ref;
 import unnamed_platformer.res_mgt.ResManager;
@@ -87,7 +88,7 @@ public final class Main
 		ResManager.init();
 		SoundManager.preload();
 		ViewManager.init();
-		SQLiteStuff.init();
+		EntityInfoDB.init();
 		GUIManager.changeScreen(ScreenType.Title);
 	}
 
@@ -112,8 +113,8 @@ public final class Main
 	}
 
 	public static void deinit() {
-		if (SQLiteStuff.isInitialized()) {
-			SQLiteStuff.finish();
+		if (EntityInfoDB.isInitialized()) {
+			EntityInfoDB.finish();
 		}
 		SoundManager.finish();
 
