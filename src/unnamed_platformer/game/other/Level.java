@@ -164,11 +164,6 @@ public class Level
 		while (entityIterator.hasNext()) {
 			Entity entity = entityIterator.next();
 
-			// Don't do logic on entities that are temporarily inactive
-			if (entity.isFlagSet(Flag.INACTIVE_UNTIL_PLAYER_DEATH)) {
-				continue;
-			}
-
 			// don't do logic on entities outside the view
 			if (!ViewManager.rectInView(entity.getOriginalBox())) {
 				continue;
@@ -182,6 +177,11 @@ public class Level
 					playerEntity = (ActiveEntity) entity;
 
 				}
+			}
+			
+			// Don't do logic on entities that are temporarily inactive
+			if (entity.isFlagSet(Flag.INACTIVE_UNTIL_PLAYER_DEATH)) {
+				continue;
 			}
 
 			// remove entities that have been flagged to be removed

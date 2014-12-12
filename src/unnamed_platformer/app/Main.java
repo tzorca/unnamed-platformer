@@ -1,6 +1,7 @@
 package unnamed_platformer.app;
 
 import org.lwjgl.opengl.Display;
+import org.newdawn.slick.geom.Triangulator;
 import org.newdawn.slick.opengl.Texture;
 
 import unnamed_platformer.app.InputManager.GameKey;
@@ -82,16 +83,17 @@ public final class Main
 
 		Settings.init();
 		TimeManager.init();
-		ViewManager.init();
-		ResManager.init();
-		GUIManager.changeScreen(ScreenType.Title);
-		SQLiteStuff.init();
 		EntityCreator.init();
+		ResManager.init();
+		ViewManager.init();
+		SQLiteStuff.init();
+		GUIManager.changeScreen(ScreenType.Title);
 	}
 
 	private static Cloner cloner = new Cloner();
 	static {
 		cloner.dontClone(Texture.class);
+		cloner.dontClone(Triangulator.class);
 	}
 
 	public static <T> T deepClone(T o) {

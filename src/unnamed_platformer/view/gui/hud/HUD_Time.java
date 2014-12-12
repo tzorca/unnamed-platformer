@@ -1,7 +1,5 @@
 package unnamed_platformer.view.gui.hud;
 
-import java.sql.Time;
-
 import org.newdawn.slick.Color;
 import org.newdawn.slick.geom.Vector2f;
 

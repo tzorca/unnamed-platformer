@@ -6,7 +6,6 @@ import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
-import java.util.Set;
 
 import javax.swing.Box;
 import javax.swing.ImageIcon;
@@ -27,7 +26,6 @@ import unnamed_platformer.view.gui.GUIManager.ScreenType;
 import unnamed_platformer.view.gui.screens.Screen_Edit;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 
 public class Dialog_EditMenu extends Dialog
 {
