@@ -17,7 +17,6 @@ import unnamed_platformer.globals.EntityRef;
 import unnamed_platformer.globals.GameRef.Flag;
 import unnamed_platformer.game.other.PhysicsInstance;
 
-
 public final class PhysicsProcessor
 {
 	public static final Vector2f GRAVITY = new Vector2f(0, 0.2f);
@@ -54,11 +53,8 @@ public final class PhysicsProcessor
 	public static void checkForInteractionsWithRegisteredEntities() {
 		final List<Entity> possibleInteractors = new ArrayList<Entity>();
 		for (final ActiveEntity registeredEntity : registeredEntities) {
-			// only check entities in nearby regions
-			
-			possibleInteractors.addAll(SpatialHash.getNearbyEntities(registeredEntity)); 
-//			World.populateFromQuadTree(possibleInteractors,
-//					registeredEntity.getCollisionRect());
+			possibleInteractors.addAll(SpatialHash
+					.getNearbyEntities(registeredEntity));
 
 			processInteractions(registeredEntity, possibleInteractors);
 			possibleInteractors.clear();
@@ -160,13 +156,9 @@ public final class PhysicsProcessor
 			final Axis[] axisCheckingOrder;
 
 			if (velocity.x > velocity.y) {
-				axisCheckingOrder = new Axis[] {
-						Axis.HORIZONTAL, Axis.VERTICAL
-				};
+				axisCheckingOrder = new Axis[] { Axis.HORIZONTAL, Axis.VERTICAL };
 			} else {
-				axisCheckingOrder = new Axis[] {
-						Axis.VERTICAL, Axis.HORIZONTAL
-				};
+				axisCheckingOrder = new Axis[] { Axis.VERTICAL, Axis.HORIZONTAL };
 			}
 
 			List<Entity> solidEntities = EntityRef.selectEntitiesWithFlag(
@@ -182,7 +174,7 @@ public final class PhysicsProcessor
 
 				performInteractions(actor, axis, velocity,
 						alwaysInteractEntities);
-				
+
 				if (actorPhysics.isZero()) {
 					break;
 				}

@@ -215,71 +215,7 @@ public class Level
 		// add new entities
 		materializeNewEntities();
 	}
-	// perform entity logic and update quadtree
-//	public void update() {
-//
-//		// find player (if not already found)
-//		if (playerEntity == null) {
-//			setupPlayer();
-//		}
-//
-//		// set start time if not yet set
-//		if (startTime == null && playerEntity != null) {
-//			startTime = TimeManager.time();
-//		}
-//
-//		// clear previous update's quad tree
-//		quadTree.clear();
-//
-//		Iterator<Entity> entityIterator = entities.iterator();
-//
-//		while (entityIterator.hasNext()) {
-//			Entity entity = entityIterator.next();
-//
-//			// Don't do logic on entities that are temporarily inactive
-//			if (entity.isFlagSet(Flag.INACTIVE_UNTIL_PLAYER_DEATH)) {
-//				continue;
-//			}
-//
-//			// don't do logic on entities outside the view
-//			if (!ViewManager.rectInView(entity.getOriginalBox())) {
-//				continue;
-//			}
-//
-//			if (World.playing()) {
-//				// perform entity logic
-//				entity.update();
-//
-//				if (entity.isFlagSet(Flag.PLAYER)) {
-//					playerEntity = (ActiveEntity) entity;
-//
-//				}
-//			}
-//
-//			// remove entities that have been flagged to be removed
-//			if (entity.isFlagSet(Flag.OUT_OF_PLAY)) {
-//				entityIterator.remove();
-//				continue;
-//			}
-//
-//			// add existing entities to quadtree
-//			if (World.playing()) {
-//				quadTree.insert(entity,
-//						QuadTree.increaseRect(entity.getCollisionRect()));
-//			}
-//		}
-//
-//		if (World.playing()) {
-//			PhysicsProcessor.checkForInteractionsWithRegisteredEntities();
-//
-//			if (playerEntity != null) {
-//				ViewManager.centerCamera(playerEntity.getCenter());
-//			}
-//		}
-//
-//		// add new entities
-//		materializeNewEntities();
-//	}
+
 
 	public Entity findEntityByFlag(Flag flag) {
 		Iterator<Entity> entityIterator = entities.iterator();

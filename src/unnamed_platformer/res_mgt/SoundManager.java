@@ -1,7 +1,6 @@
 package unnamed_platformer.res_mgt;
 
 import java.util.Collection;
-import java.util.List;
 
 import org.lwjgl.openal.AL;
 import org.newdawn.slick.openal.Audio;
