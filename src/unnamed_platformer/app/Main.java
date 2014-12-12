@@ -85,6 +85,7 @@ public final class Main
 		TimeManager.init();
 		EntityCreator.init();
 		ResManager.init();
+		SoundManager.preload();
 		ViewManager.init();
 		SQLiteStuff.init();
 		GUIManager.changeScreen(ScreenType.Title);

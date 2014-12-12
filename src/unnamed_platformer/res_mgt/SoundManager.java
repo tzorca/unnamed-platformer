@@ -1,5 +1,8 @@
 package unnamed_platformer.res_mgt;
 
+import java.util.Collection;
+import java.util.List;
+
 import org.lwjgl.openal.AL;
 import org.newdawn.slick.openal.Audio;
 import org.newdawn.slick.openal.SoundStore;
@@ -23,5 +26,13 @@ public class SoundManager {
 
 	public static void finish() {
 		AL.destroy();
+	}
+
+	public static void preload() {
+		Collection<String> audioNames = ResManager.list(Audio.class, true);
+		
+		for (String audioName : audioNames) {
+			ResManager.get(Audio.class, audioName);
+		}
 	}
 }
