@@ -55,8 +55,10 @@ public final class PhysicsProcessor
 		final List<Entity> possibleInteractors = new ArrayList<Entity>();
 		for (final ActiveEntity registeredEntity : registeredEntities) {
 			// only check entities in nearby regions
-			World.populateFromQuadTree(possibleInteractors,
-					registeredEntity.getCollisionRect());
+			
+			possibleInteractors.addAll(SpatialHash.getNearbyEntities(registeredEntity)); 
+//			World.populateFromQuadTree(possibleInteractors,
+//					registeredEntity.getCollisionRect());
 
 			processInteractions(registeredEntity, possibleInteractors);
 			possibleInteractors.clear();

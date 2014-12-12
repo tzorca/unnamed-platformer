@@ -48,10 +48,6 @@ public final class World
 		GUIManager.changeScreen(ScreenType.Play);
 	}
 
-	public static void populateFromQuadTree(List<Entity> entities, Rectangle box) {
-		getCurrentLevel().retrieveFromQuadTree(entities, box);
-	}
-
 	public static boolean saveCurrentGame() {
 		return save(getName());
 	}
