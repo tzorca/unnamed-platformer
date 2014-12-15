@@ -1,0 +1,3 @@
+License
+
+sqlite4java is licensed under Apache License 2.0. Contact info@almworks.com if you'd like to have it licensed under different terms. 

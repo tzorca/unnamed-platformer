@@ -1,0 +1,1 @@
+Refer to documents in /docs/licenses/ directory for dependency licenses.

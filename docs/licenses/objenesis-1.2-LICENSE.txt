@@ -1,0 +1,1 @@
+Objenesis is open source, under the Apache 2.0 license.
