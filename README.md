@@ -2,6 +2,8 @@
 A 2D platform game with a built-in level editor.  
 Programmed in Java with LWJGL and Swing.
 
+![Screenshot](scr/scr0002.png "Screenshot")
+
 ### Features
 - Ability to create, edit, and save levels
 - Variable jump height
@@ -22,6 +24,5 @@ Programmed in Java with LWJGL and Swing.
 - Improve UI appearance and functionality
 
 ### Misc
-
 Graphics and sound are all CC0-licensed. Most are from opengameart.org.  
 License information for library dependencies can be found in /docs/licenses/
