@@ -266,7 +266,8 @@ public final class ViewManager
 
 		return new Dimension(displayMode.getWidth(), displayMode.getHeight());
 	}
-
+	
+	// Coordinate out of bounds?
 	public static BufferedImage getScreenshot() {
 		GL11.glReadBuffer(GL11.GL_FRONT);
 		final int width = Display.getDisplayMode().getWidth();
@@ -285,7 +286,7 @@ public final class ViewManager
 				final int red = buffer.get(index) & 0xFF;
 				final int green = buffer.get(index + 1) & 0xFF;
 				final int blue = buffer.get(index + 2) & 0xFF;
-				image.setRGB(x, height - y + 1, (0xFF << 24) | (red << 16)
+				image.setRGB(x, height - (y + 1), (0xFF << 24) | (red << 16)
 						| (green << 8) | blue);
 			}
 		}
