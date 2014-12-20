@@ -1,6 +1,5 @@
 package unnamed_platformer.view.gui;
 
-import java.awt.Color;
 import java.awt.Font;
 import java.util.LinkedList;
 
@@ -9,6 +8,7 @@ import javax.swing.UIManager;
 import unnamed_platformer.app.Main;
 import unnamed_platformer.globals.Ref;
 import unnamed_platformer.res_mgt.ClassLookup;
+import unnamed_platformer.view.FluidColor;
 import unnamed_platformer.view.ViewManager;
 import unnamed_platformer.view.gui.dialogs.Dialog;
 import unnamed_platformer.view.gui.screens.Screen;
@@ -20,22 +20,22 @@ public final class GUIManager
 		Title, Edit, Play, SelectWorld, Transition, Options
 	}
 
-	public static final Color
-	/* */COLOR_LIGHT_GREY = new Color(0xee, 0xee, 0xee),
-	/* */COLOR_ORANGE = new Color(0xbb, 0x60, 0x40),
-	/* */COLOR_MAIN = new Color(0x20, 0x20, 0x40),
+	public static final FluidColor
+	/* */COLOR_LIGHT_GREY = new FluidColor(0xee, 0xee, 0xee),
+	/* */COLOR_ORANGE = new FluidColor(0xbb, 0x60, 0x40),
+	/* */COLOR_MAIN = new FluidColor(0x20, 0x20, 0x40).incrementHue(-0.1f),
 	/* */COLOR_MAIN_MINUS, COLOR_MAIN_PLUS, COLOR_MAIN_PLUS_PLUS,
 			COLOR_MAIN_HIGHLIGHT;
 
 	// Dynamically generate other colors from main color
 	static {
 
-		COLOR_MAIN_MINUS = ColorHelper.darken(COLOR_MAIN);
+		COLOR_MAIN_MINUS = COLOR_MAIN.darker();
 
-		COLOR_MAIN_PLUS = ColorHelper.brighten(COLOR_MAIN);
+		COLOR_MAIN_PLUS = COLOR_MAIN.brighter();
 
-		COLOR_MAIN_PLUS_PLUS = ColorHelper.brighten(COLOR_MAIN, 2);
-		COLOR_MAIN_HIGHLIGHT = ColorHelper.highlight(COLOR_MAIN_PLUS);
+		COLOR_MAIN_PLUS_PLUS = COLOR_MAIN.brighter(2);
+		COLOR_MAIN_HIGHLIGHT = COLOR_MAIN_PLUS.highlight();
 	}
 
 	public static final String CENTER_LAYOUT = "pushx, alignx center, wrap";

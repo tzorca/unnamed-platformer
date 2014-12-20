@@ -25,6 +25,7 @@ import javax.swing.border.EmptyBorder;
 import unnamed_platformer.app.InputManager;
 import unnamed_platformer.app.InputManager.PlrGameKey;
 import unnamed_platformer.app.Main;
+import unnamed_platformer.view.FluidColor;
 
 public final class GUIHelper
 {
@@ -33,7 +34,6 @@ public final class GUIHelper
 	{
 		public void run(Object param);
 	}
-
 
 	// TODO: Change box's title from "Input" to something that makes sense
 	public static String getInput(String msg, String defaultVal) {
@@ -77,7 +77,8 @@ public final class GUIHelper
 
 				@Override
 				public void focusGained(FocusEvent e) {
-					component.setBackground(ColorHelper.highlight(ColorHelper.brighten(backgroundColor)));
+					component.setBackground(((FluidColor) backgroundColor)
+							.brighter().highlight());
 				}
 
 				@Override
@@ -88,7 +89,7 @@ public final class GUIHelper
 			});
 		}
 	}
-	
+
 	public static void styleDialogPanelBorder(JPanel panel, int paddingSize) {
 		Border raisedBevelBorder = BorderFactory
 				.createSoftBevelBorder(BevelBorder.RAISED);
@@ -96,10 +97,10 @@ public final class GUIHelper
 		Border paddingBorder = new EmptyBorder(paddingSize,
 				(int) (paddingSize * 2.5), paddingSize,
 				(int) (paddingSize * 2.5));
-		
+
 		final Border compoundRaisedBorder = BorderFactory.createCompoundBorder(
 				raisedBevelBorder, paddingBorder);
-		
+
 		panel.setBorder(compoundRaisedBorder);
 	}
 
@@ -145,7 +146,6 @@ public final class GUIHelper
 			styleButton(button, paddingSize, backgroundColor);
 		}
 	}
-
 
 	public static void toWidest(List<? extends JComponent> components) {
 		int maxWidth = 0;
@@ -242,7 +242,5 @@ public final class GUIHelper
 			});
 		}
 	}
-	
-
 
 }

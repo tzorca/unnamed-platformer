@@ -40,8 +40,8 @@ import unnamed_platformer.view.gui.objects.ListCellRenderer_PlrGameKey;
 
 import com.google.common.collect.Lists;
 
-public class Screen_Options extends BaseScreen_GUI
-{
+public class Screen_Options extends BaseScreen_GUI {
+
 	DefaultListModel<PlrGameKey> mdlKeys = new DefaultListModel<PlrGameKey>();
 
 	// Instantiate GUI components
@@ -58,7 +58,7 @@ public class Screen_Options extends BaseScreen_GUI
 			.newArrayList(lstKeys, btnBack);
 
 	public Screen_Options() {
-		super();
+		super();	
 
 		// SETUP TITLE
 		lblTitle.setFont(GUIManager.FONT_SUB_HEADING);
