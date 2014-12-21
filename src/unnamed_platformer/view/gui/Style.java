@@ -10,6 +10,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.AbstractButton;
 import javax.swing.JComponent;
 import javax.swing.JList;
+import javax.swing.JScrollPane;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
@@ -17,15 +18,13 @@ import javax.swing.border.EmptyBorder;
 public class Style
 {
 	private Font font;
-	private Color backcolor;
-	private Color forecolor;
-	private Color selectionForecolor;
-	private Color selectionBackcolor;
+	private Color backcolor, forecolor, selectionForecolor, selectionBackcolor;
 	private int paddingTop = 0, paddingBottom = 0;
 	private int paddingLeft = 0, paddingRight = 0;
 	private Border border, clickedBorder;
 	private Integer verticalTextPosition, horizontalTextPosition;
 	private Integer horizontalAlignment;
+	private Boolean opaque;
 
 	public Style(Style style) {
 		this.font = style.font;
@@ -42,6 +41,7 @@ public class Style
 		this.verticalTextPosition = style.verticalTextPosition;
 		this.horizontalTextPosition = style.horizontalTextPosition;
 		this.horizontalAlignment = style.horizontalAlignment;
+		this.opaque = style.opaque;
 	}
 
 	public Style() {
@@ -56,6 +56,10 @@ public class Style
 		}
 		if (forecolor != null) {
 			c.setForeground(forecolor);
+		}
+
+		if (opaque != null) {
+			c.setOpaque(false);
 		}
 
 		EmptyBorder paddingBorder = new EmptyBorder(paddingTop, paddingLeft,
@@ -82,6 +86,7 @@ public class Style
 			});
 		}
 
+
 		if (c instanceof AbstractButton) {
 			final AbstractButton ab = (AbstractButton) c;
 			if (verticalTextPosition != null) {
@@ -90,9 +95,6 @@ public class Style
 			if (horizontalAlignment != null) {
 				ab.setHorizontalAlignment(horizontalAlignment);
 			}
-			if (horizontalTextPosition != null) {
-				ab.setHorizontalTextPosition(horizontalTextPosition);
-			}
 
 			if (selectionBackcolor == null) {
 				selectionBackcolor = backcolor;
@@ -100,11 +102,16 @@ public class Style
 			if (selectionForecolor == null) {
 				selectionForecolor = forecolor;
 			}
+
+			if (horizontalTextPosition != null) {
+				ab.setHorizontalTextPosition(horizontalTextPosition);
+			}
 			ab.addFocusListener(new FocusListener() {
 				public void focusGained(FocusEvent e) {
 					ab.setBackground(selectionBackcolor);
 					ab.setForeground(selectionForecolor);
 				}
+
 				public void focusLost(FocusEvent e) {
 					ab.setBackground(backcolor);
 					ab.setForeground(forecolor);
@@ -114,11 +121,14 @@ public class Style
 
 		if (c instanceof JList) {
 			JList<?> jl = (JList<?>) c;
-			if (selectionBackcolor != null) {
-				jl.setSelectionBackground(selectionBackcolor);
-			}
-			if (selectionForecolor != null) {
-				jl.setSelectionBackground(selectionForecolor);
+			jl.setSelectionBackground(selectionBackcolor);
+			jl.setSelectionForeground(selectionForecolor);
+		}
+
+		if (c instanceof JScrollPane) {
+			if (backcolor != null) {
+				JScrollPane jsp = (JScrollPane) c;
+				jsp.setBackground(backcolor);
 			}
 		}
 	}
@@ -180,6 +190,10 @@ public class Style
 
 	public void setClickedBorder(Border clickedBorder) {
 		this.clickedBorder = clickedBorder;
+	}
+
+	public void setOpaque(Boolean opaque) {
+		this.opaque = opaque;
 	}
 
 }

@@ -47,7 +47,8 @@ public class StyleRef
 	/* */STYLE_HEADING,
 	/* */STYLE_ABSTRACT_BUTTON,
 	/* */STYLE_NORMAL_BUTTON,
-	/* */STYLE_GENERIC_LIST;
+	/* */STYLE_LIST_WORLD_SELECT,
+	/* */STYLE_SCROLLPANE_WORLD_SELECT;
 
 	static {
 		STYLE_HEADING = new Style();
@@ -65,10 +66,16 @@ public class StyleRef
 		STYLE_NORMAL_BUTTON.setPadding(10, 20, 10, 20);
 		STYLE_NORMAL_BUTTON.setFont(StyleRef.FONT_NORMAL);
 		
-		STYLE_GENERIC_LIST = new Style();
-		STYLE_GENERIC_LIST.setFont(StyleRef.FONT_NORMAL);
-		STYLE_GENERIC_LIST.setBackcolor(StyleRef.COLOR_MAIN);
-		STYLE_GENERIC_LIST.setForecolor(Color.WHITE);
-		STYLE_GENERIC_LIST.setSelectionBackcolor(StyleRef.COLOR_MAIN_HIGHLIGHT);
+		STYLE_LIST_WORLD_SELECT = new Style();
+		STYLE_LIST_WORLD_SELECT.setFont(StyleRef.FONT_NORMAL);
+		STYLE_LIST_WORLD_SELECT.setBackcolor(StyleRef.COLOR_MAIN);
+		STYLE_LIST_WORLD_SELECT.setForecolor(Color.WHITE);
+		STYLE_LIST_WORLD_SELECT.setSelectionBackcolor(StyleRef.COLOR_MAIN_HIGHLIGHT);
+		STYLE_LIST_WORLD_SELECT.setSelectionForecolor(Color.WHITE);
+		
+		STYLE_SCROLLPANE_WORLD_SELECT = new Style();
+		STYLE_SCROLLPANE_WORLD_SELECT.setFont(StyleRef.FONT_NORMAL);
+		STYLE_SCROLLPANE_WORLD_SELECT.setBackcolor(StyleRef.COLOR_MAIN_MINUS);
+		STYLE_SCROLLPANE_WORLD_SELECT.setBorder(BorderFactory.createLoweredBevelBorder());
 	}
 }

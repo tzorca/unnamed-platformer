@@ -84,18 +84,13 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 		}
 		lstWorlds.setModel(mdlWorlds);
 		lstWorlds.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		lstWorlds.setFont(StyleRef.FONT_NORMAL);
-		lstWorlds.setBackground(StyleRef.COLOR_MAIN);
-		lstWorlds.setForeground(Color.WHITE);
-		lstWorlds.setSelectionBackground(StyleRef.COLOR_MAIN_HIGHLIGHT);
+		StyleRef.STYLE_LIST_WORLD_SELECT.apply(lstWorlds);
 		lstWorlds.addListSelectionListener(new lstWorlds_SelectionListener());
 		lstWorlds.setSelectedIndex(0);
 
 		// SETUP WORLD LIST SCROLL PANE
 		JScrollPane scrlWorlds = new JScrollPane(lstWorlds);
-		GUIHelper.styleComponentColors(scrlWorlds, StyleRef.COLOR_MAIN_PLUS);
-		GUIHelper.styleComponentBorder(scrlWorlds, 0, false);
-		scrlWorlds.getViewport().setBackground(StyleRef.COLOR_MAIN);
+		StyleRef.STYLE_SCROLLPANE_WORLD_SELECT.apply(scrlWorlds);
 
 		// SETUP BUTTONS
 		btnNew.addActionListener(new btnNew_Click());
