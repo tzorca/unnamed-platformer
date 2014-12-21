@@ -18,6 +18,7 @@ import net.miginfocom.swing.MigLayout;
 import unnamed_platformer.app.ImageHelper;
 import unnamed_platformer.game.other.Editor;
 import unnamed_platformer.game.other.World;
+import unnamed_platformer.globals.StyleRef;
 import unnamed_platformer.view.ViewManager;
 import unnamed_platformer.view.gui.GUIHelper;
 import unnamed_platformer.view.gui.GUIHelper.ParamRunnable;
@@ -73,7 +74,7 @@ public class Dialog_EditMenu extends Dialog
 		btnModeSwitch.addActionListener(new btnModeSwitch_Click());
 		btnExit.addActionListener(new btnExit_Click());
 		GUIHelper.removeButtonPadding(buttonList);
-		GUIHelper.styleButtons(buttonList, 0, GUIManager.COLOR_MAIN);
+		GUIHelper.styleButtons(buttonList, 0, StyleRef.COLOR_MAIN);
 
 		// SETUP CURRENT LEVEL LABEL
 		lblCurrentLevel.setText("Level "

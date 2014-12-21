@@ -34,6 +34,7 @@ import unnamed_platformer.app.Main;
 import unnamed_platformer.app.Settings;
 import unnamed_platformer.app.Settings.SettingName;
 import unnamed_platformer.game.other.World;
+import unnamed_platformer.globals.StyleRef;
 import unnamed_platformer.res_mgt.ResManager;
 import unnamed_platformer.view.ViewManager;
 import unnamed_platformer.view.gui.GUIHelper;
@@ -74,8 +75,8 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 
 		// SETUP TITLE
 		JLabel lblTitle = new JLabel("Select a World");
-		lblTitle.setFont(GUIManager.FONT_SUB_HEADING);
-		lblTitle.setForeground(GUIManager.COLOR_LIGHT_GREY);
+		lblTitle.setFont(StyleRef.FONT_SUB_HEADING);
+		lblTitle.setForeground(StyleRef.COLOR_LIGHT_GREY);
 
 		// SETUP WORLD LIST
 		for (String worldName : ResManager.list(World.class, true)) {
@@ -83,18 +84,18 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 		}
 		lstWorlds.setModel(mdlWorlds);
 		lstWorlds.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		lstWorlds.setFont(GUIManager.FONT_NORMAL);
-		lstWorlds.setBackground(GUIManager.COLOR_MAIN);
+		lstWorlds.setFont(StyleRef.FONT_NORMAL);
+		lstWorlds.setBackground(StyleRef.COLOR_MAIN);
 		lstWorlds.setForeground(Color.WHITE);
-		lstWorlds.setSelectionBackground(GUIManager.COLOR_MAIN_HIGHLIGHT);
+		lstWorlds.setSelectionBackground(StyleRef.COLOR_MAIN_HIGHLIGHT);
 		lstWorlds.addListSelectionListener(new lstWorlds_SelectionListener());
 		lstWorlds.setSelectedIndex(0);
 
 		// SETUP WORLD LIST SCROLL PANE
 		JScrollPane scrlWorlds = new JScrollPane(lstWorlds);
-		GUIHelper.styleComponentColors(scrlWorlds, GUIManager.COLOR_MAIN_PLUS);
+		GUIHelper.styleComponentColors(scrlWorlds, StyleRef.COLOR_MAIN_PLUS);
 		GUIHelper.styleComponentBorder(scrlWorlds, 0, false);
-		scrlWorlds.getViewport().setBackground(GUIManager.COLOR_MAIN);
+		scrlWorlds.getViewport().setBackground(StyleRef.COLOR_MAIN);
 
 		// SETUP BUTTONS
 		btnNew.addActionListener(new btnNew_Click());
@@ -106,10 +107,10 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 		btnTitle.addActionListener(new btnTitle_Click());
 		for (JButton btn : buttons) {
 			btn.addFocusListener(new btn_FocusListener());
-			btn.setFont(GUIManager.FONT_NORMAL);
+			btn.setFont(StyleRef.FONT_NORMAL);
 			btn.setIconTextGap(0);
 		}
-		GUIHelper.styleButtons(buttons, 6, GUIManager.COLOR_MAIN);
+		GUIHelper.styleButtons(buttons, 6, StyleRef.COLOR_MAIN);
 
 		// ADD GLOBAL LISTENER FOR ARROW NAVIGATION
 		for (JComponent c : components) {
@@ -129,13 +130,13 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 		pnlButtons.add(btnTitle);
 
 		// SETUP BUTTON PANEL
-		pnlButtons.setBackground(GUIManager.COLOR_MAIN_PLUS);
+		pnlButtons.setBackground(StyleRef.COLOR_MAIN_PLUS);
 
 		// ADD COMPONENTS TO MAIN PANEL
 		pnlSurface.add(lblTitle, "gapx 8px 8px, pushx, wrap");
 		pnlSurface
 				.add(scrlWorlds, "gapx 8px 8px, gapy 16px, grow, pushy, wrap");
-		pnlSurface.setBackground(GUIManager.COLOR_MAIN_PLUS);
+		pnlSurface.setBackground(StyleRef.COLOR_MAIN_PLUS);
 		pnlSurface.add(pnlButtons, "gapx 8px 8px, gapy 4px");
 
 		updateButtonVisualDisableStatus();

@@ -37,6 +37,7 @@ import unnamed_platformer.game.other.EntityCreator;
 import unnamed_platformer.game.other.Level;
 import unnamed_platformer.game.other.World;
 import unnamed_platformer.globals.Ref;
+import unnamed_platformer.globals.StyleRef;
 import unnamed_platformer.res_mgt.ResManager;
 import unnamed_platformer.view.Graphic;
 import unnamed_platformer.view.ViewManager;
@@ -88,9 +89,9 @@ public class Screen_Edit extends BaseScreen_Hybrid
 
 		// SETUP ENTITY LIST
 		lstEntities.setCellRenderer(new ListCellRenderer_ImageListEntry());
-		lstEntities.setSelectionBackground(GUIManager.COLOR_MAIN_HIGHLIGHT);
-		lstEntities.setBackground(GUIManager.COLOR_MAIN_PLUS);
-		lstEntities.setFont(GUIManager.FONT_SMALL);
+		lstEntities.setSelectionBackground(StyleRef.COLOR_MAIN_HIGHLIGHT);
+		lstEntities.setBackground(StyleRef.COLOR_MAIN_PLUS);
+		lstEntities.setFont(StyleRef.FONT_SMALL);
 		lstEntities.setForeground(java.awt.Color.white);
 		DefaultListModel<ImageListEntry> lstEntitiesModel = new DefaultListModel<ImageListEntry>();
 		for (final ImageListEntry entry : imageListEntries) {

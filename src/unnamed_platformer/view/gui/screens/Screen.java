@@ -4,7 +4,7 @@ import java.awt.Panel;
 
 import net.miginfocom.swing.MigLayout;
 import unnamed_platformer.app.InputManager;
-import unnamed_platformer.view.gui.GUIManager;
+import unnamed_platformer.globals.StyleRef;
 import unnamed_platformer.view.gui.GUIManager.ScreenType;
 
 public abstract class Screen
@@ -23,7 +23,7 @@ public abstract class Screen
 		super();
 
 		InputManager.resetEvents();
-		pnlSurface.setBackground(GUIManager.COLOR_MAIN_PLUS);
+		pnlSurface.setBackground(StyleRef.COLOR_MAIN_PLUS);
 	}
 
 	final public boolean canExit() {

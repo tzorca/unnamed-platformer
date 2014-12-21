@@ -8,8 +8,8 @@ import java.awt.event.KeyEvent;
 import javax.swing.JLabel;
 import javax.swing.border.EmptyBorder;
 
+import unnamed_platformer.globals.StyleRef;
 import unnamed_platformer.view.gui.GUIHelper.ParamRunnable;
-import unnamed_platformer.view.gui.GUIManager;
 
 public class Dialog_KeyAssignment extends Dialog
 {
@@ -20,7 +20,7 @@ public class Dialog_KeyAssignment extends Dialog
 
 		final JLabel lblMessage = new JLabel("Press a key");
 		lblMessage.setForeground(Color.WHITE);
-		lblMessage.setFont(GUIManager.FONT_NORMAL);
+		lblMessage.setFont(StyleRef.FONT_NORMAL);
 		lblMessage.setBorder(new EmptyBorder(24, 32, 24, 32));
 
 		this.setUndecorated(true);

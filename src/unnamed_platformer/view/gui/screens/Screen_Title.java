@@ -18,6 +18,7 @@ import unnamed_platformer.app.Settings;
 import unnamed_platformer.app.Settings.SettingName;
 import unnamed_platformer.game.other.World;
 import unnamed_platformer.globals.Ref;
+import unnamed_platformer.globals.StyleRef;
 import unnamed_platformer.view.gui.GUIHelper;
 import unnamed_platformer.view.gui.GUIManager;
 import unnamed_platformer.view.gui.GUIManager.ScreenType;
@@ -33,16 +34,16 @@ public class Screen_Title extends BaseScreen_GUI
 	public Screen_Title() {
 		super();
 
-		pnlSurface.setBackground(GUIManager.COLOR_MAIN_PLUS);
+		pnlSurface.setBackground(StyleRef.COLOR_MAIN_PLUS);
 
 		Label lblGameTitle = new Label(Ref.APP_TITLE);
-		lblGameTitle.setFont(GUIManager.FONT_HEADING);
-		lblGameTitle.setForeground(GUIManager.COLOR_LIGHT_GREY);
+		lblGameTitle.setFont(StyleRef.FONT_HEADING);
+		lblGameTitle.setForeground(StyleRef.COLOR_LIGHT_GREY);
 
 		JButton btnPlay = new JButton("Play");
-		btnPlay.setFont(GUIManager.FONT_SUB_HEADING);
+		btnPlay.setFont(StyleRef.FONT_SUB_HEADING);
 		btnPlay.setBorder(new EmptyBorder(15, 20, 15, 20));
-		GUIHelper.styleButton(btnPlay, 10, GUIManager.COLOR_MAIN);
+		GUIHelper.styleButton(btnPlay, 10, StyleRef.COLOR_MAIN);
 		btnPlay.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String officialLevelsetName = Settings
@@ -56,9 +57,9 @@ public class Screen_Title extends BaseScreen_GUI
 		});
 
 		JButton btnOptions = new JButton("Options");
-		btnOptions.setFont(GUIManager.FONT_SUB_HEADING);
+		btnOptions.setFont(StyleRef.FONT_SUB_HEADING);
 		btnOptions.setBorder(new EmptyBorder(15, 20, 15, 20));
-		GUIHelper.styleButton(btnOptions, 10, GUIManager.COLOR_MAIN);
+		GUIHelper.styleButton(btnOptions, 10, StyleRef.COLOR_MAIN);
 		btnOptions.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				GUIManager.changeScreen(ScreenType.Options);
@@ -66,9 +67,9 @@ public class Screen_Title extends BaseScreen_GUI
 		});
 
 		JButton btnExit = new JButton("Exit");
-		btnOptions.setFont(GUIManager.FONT_SUB_HEADING);
+		btnOptions.setFont(StyleRef.FONT_SUB_HEADING);
 		btnOptions.setBorder(new EmptyBorder(15, 20, 15, 20));
-		GUIHelper.styleButton(btnExit, 10, GUIManager.COLOR_MAIN);
+		GUIHelper.styleButton(btnExit, 10, StyleRef.COLOR_MAIN);
 		btnExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Main.doExit();
@@ -78,18 +79,18 @@ public class Screen_Title extends BaseScreen_GUI
 		buttons = Lists.newArrayList(btnPlay, btnOptions, btnExit);
 		for (JButton btn : buttons) {
 			btn.addFocusListener(new btn_FocusListener());
-			btn.setFont(GUIManager.FONT_NORMAL);
+			btn.setFont(StyleRef.FONT_NORMAL);
 			btn.setIconTextGap(0);
 		}
 
 		GUIHelper.addDirectionalNavigation(buttons, null, true);
 
 		// ADD COMPONENTS TO MAIN PANEL
-		pnlSurface.add(lblGameTitle, GUIManager.CENTER_LAYOUT
+		pnlSurface.add(lblGameTitle, StyleRef.CENTER_LAYOUT
 				+ ", gapbottom 40%, ");
-		pnlSurface.add(btnPlay, GUIManager.CENTER_LAYOUT);
-		pnlSurface.add(btnOptions, GUIManager.CENTER_LAYOUT);
-		pnlSurface.add(btnExit, GUIManager.CENTER_LAYOUT);
+		pnlSurface.add(btnPlay, StyleRef.CENTER_LAYOUT);
+		pnlSurface.add(btnOptions, StyleRef.CENTER_LAYOUT);
+		pnlSurface.add(btnExit, StyleRef.CENTER_LAYOUT);
 
 		GUIHelper.toWidest(buttons);
 

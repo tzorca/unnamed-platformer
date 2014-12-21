@@ -5,14 +5,14 @@ import org.newdawn.slick.geom.Vector2f;
 
 import unnamed_platformer.game.other.Level;
 import unnamed_platformer.game.other.World;
-import unnamed_platformer.view.gui.GUIManager;
+import unnamed_platformer.globals.StyleRef;
 
 public class HUD_Time extends HUDComponent
 {
 	public HUD_Time() {
 		super(new Vector2f(8, 8));
 		this.setColor(new Color(16, 16, 16));
-		this.setFont(GUIManager.FONT_HUD);
+		this.setFont(StyleRef.FONT_HUD);
 	}
 
 	@Override

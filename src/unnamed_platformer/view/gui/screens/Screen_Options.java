@@ -30,6 +30,7 @@ import unnamed_platformer.app.InputManager.PlrGameKey;
 import unnamed_platformer.app.KeyCodeTranslator;
 import unnamed_platformer.app.Main;
 import unnamed_platformer.app.Settings;
+import unnamed_platformer.globals.StyleRef;
 import unnamed_platformer.view.ViewManager;
 import unnamed_platformer.view.gui.GUIHelper;
 import unnamed_platformer.view.gui.GUIHelper.ParamRunnable;
@@ -61,8 +62,8 @@ public class Screen_Options extends BaseScreen_GUI {
 		super();	
 
 		// SETUP TITLE
-		lblTitle.setFont(GUIManager.FONT_SUB_HEADING);
-		lblTitle.setForeground(GUIManager.COLOR_LIGHT_GREY);
+		lblTitle.setFont(StyleRef.FONT_SUB_HEADING);
+		lblTitle.setForeground(StyleRef.COLOR_LIGHT_GREY);
 
 		// SETUP KEY LIST
 		for (GameKey gk : InputManager.GameKey.values()) {
@@ -72,26 +73,26 @@ public class Screen_Options extends BaseScreen_GUI {
 		lstKeys.setModel(mdlKeys);
 		lstKeys.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		lstKeys.setCellRenderer(new ListCellRenderer_PlrGameKey());
-		lstKeys.setFont(GUIManager.FONT_NORMAL);
-		lstKeys.setBackground(GUIManager.COLOR_MAIN);
+		lstKeys.setFont(StyleRef.FONT_NORMAL);
+		lstKeys.setBackground(StyleRef.COLOR_MAIN);
 		lstKeys.setForeground(Color.WHITE);
-		lstKeys.setSelectionBackground(GUIManager.COLOR_MAIN_HIGHLIGHT);
+		lstKeys.setSelectionBackground(StyleRef.COLOR_MAIN_HIGHLIGHT);
 		lstKeys.addListSelectionListener(new lstKeys_SelectionListener());
 
 		// SETUP LIST SCROLL PANE
 		JScrollPane scrlList = new JScrollPane(lstKeys);
-		GUIHelper.styleComponentColors(scrlList, GUIManager.COLOR_MAIN_PLUS);
+		GUIHelper.styleComponentColors(scrlList, StyleRef.COLOR_MAIN_PLUS);
 		GUIHelper.styleComponentBorder(scrlList, 0, false);
-		scrlList.getViewport().setBackground(GUIManager.COLOR_MAIN);
+		scrlList.getViewport().setBackground(StyleRef.COLOR_MAIN);
 
 		// SETUP BUTTONS
 		btnBack.addActionListener(new btnSave_Click());
 
 		for (JButton btn : buttons) {
-			btn.setFont(GUIManager.FONT_NORMAL);
+			btn.setFont(StyleRef.FONT_NORMAL);
 			btn.setIconTextGap(0);
 		}
-		GUIHelper.styleButtons(buttons, 6, GUIManager.COLOR_MAIN);
+		GUIHelper.styleButtons(buttons, 6, StyleRef.COLOR_MAIN);
 
 		// ADD GLOBAL LISTENERS FOR ARROW NAVIGATION
 		for (JComponent c : components) {
@@ -103,12 +104,12 @@ public class Screen_Options extends BaseScreen_GUI {
 		pnlButtons.add(btnBack);
 
 		// SETUP BUTTON PANEL
-		pnlButtons.setBackground(GUIManager.COLOR_MAIN_PLUS);
+		pnlButtons.setBackground(StyleRef.COLOR_MAIN_PLUS);
 
 		// ADD COMPONENTS TO MAIN PANEL
 		pnlSurface.add(lblTitle, "gapx 8px 8px, pushx, wrap");
 		pnlSurface.add(scrlList, "gapx 8px 8px, gapy 16px, grow, pushy, wrap");
-		pnlSurface.setBackground(GUIManager.COLOR_MAIN_PLUS);
+		pnlSurface.setBackground(StyleRef.COLOR_MAIN_PLUS);
 		pnlSurface.add(pnlButtons, "gapx 8px 8px, gapy 4px");
 
 	}

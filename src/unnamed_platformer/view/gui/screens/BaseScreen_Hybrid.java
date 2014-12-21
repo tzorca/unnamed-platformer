@@ -7,8 +7,8 @@ import java.util.EnumMap;
 import javax.swing.SwingUtilities;
 
 import net.miginfocom.swing.MigLayout;
+import unnamed_platformer.globals.StyleRef;
 import unnamed_platformer.view.ViewManager;
-import unnamed_platformer.view.gui.GUIManager;
 
 public class BaseScreen_Hybrid extends Screen {
 	private static final int INITIAL_TOOLBAR_SIZE = 48;
@@ -25,7 +25,7 @@ public class BaseScreen_Hybrid extends Screen {
 
 		for (Side side : Side.values()) {
 			Panel panel = new Panel(new MigLayout());
-			panel.setBackground(GUIManager.COLOR_MAIN);
+			panel.setBackground(StyleRef.COLOR_MAIN);
 			panel.setForeground(Color.WHITE);
 			toolbars.put(side, panel);
 

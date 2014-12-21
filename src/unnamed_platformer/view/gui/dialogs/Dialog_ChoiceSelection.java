@@ -24,9 +24,9 @@ import javax.swing.event.ListSelectionListener;
 import net.miginfocom.swing.MigLayout;
 import unnamed_platformer.app.InputManager;
 import unnamed_platformer.app.InputManager.PlrGameKey;
+import unnamed_platformer.globals.StyleRef;
 import unnamed_platformer.view.ViewManager;
 import unnamed_platformer.view.gui.GUIHelper.ParamRunnable;
-import unnamed_platformer.view.gui.GUIManager;
 import unnamed_platformer.view.gui.objects.ListCellRenderer_CustomBorder;
 
 /**
@@ -51,13 +51,13 @@ public class Dialog_ChoiceSelection extends Dialog
 		this.setUndecorated(true);
 		
 		pnlMain.setLayout(new MigLayout());
-		pnlMain.setBackground(GUIManager.COLOR_MAIN_PLUS);
+		pnlMain.setBackground(StyleRef.COLOR_MAIN_PLUS);
 		pnlMain.setBorder(BorderFactory
 				.createSoftBevelBorder(BevelBorder.RAISED));
 
 		final JLabel lblMessage = new JLabel(message);
 		lblMessage.setForeground(Color.WHITE);
-		lblMessage.setFont(GUIManager.FONT_NORMAL);
+		lblMessage.setFont(StyleRef.FONT_NORMAL);
 		lblMessage.setBorder(new EmptyBorder(0, 0, 0, 0));
 		pnlMain.add(lblMessage, "wrap, growx, pushx, span");
 		pnlMain.add(new JSeparator(), "wrap, growx, span");
@@ -80,10 +80,10 @@ public class Dialog_ChoiceSelection extends Dialog
 		lstChoices = new JList<String>();
 		lstChoices.setModel(mdlChoices);
 		lstChoices.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		lstChoices.setFont(GUIManager.FONT_SMALL);
-		lstChoices.setBackground(GUIManager.COLOR_MAIN_PLUS);
+		lstChoices.setFont(StyleRef.FONT_SMALL);
+		lstChoices.setBackground(StyleRef.COLOR_MAIN_PLUS);
 		lstChoices.setForeground(Color.WHITE);
-		lstChoices.setSelectionBackground(GUIManager.COLOR_MAIN_HIGHLIGHT);
+		lstChoices.setSelectionBackground(StyleRef.COLOR_MAIN_HIGHLIGHT);
 		lstChoices.setCellRenderer(new ListCellRenderer_CustomBorder(
 				paddedBorderWithBottomLine));
 		lstChoices.addListSelectionListener(new lstChoices_SelectionListener());

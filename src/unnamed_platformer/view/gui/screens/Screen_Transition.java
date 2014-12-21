@@ -8,6 +8,7 @@ import javax.swing.JButton;
 import javax.swing.SwingUtilities;
 
 import unnamed_platformer.game.other.World;
+import unnamed_platformer.globals.StyleRef;
 import unnamed_platformer.res_mgt.SoundManager;
 import unnamed_platformer.view.gui.GUIHelper;
 import unnamed_platformer.view.gui.GUIManager;
@@ -52,13 +53,13 @@ public class Screen_Transition extends BaseScreen_GUI
 			});
 		}
 
-		lblInfo.setFont(GUIManager.FONT_HEADING);
-		lblInfo.setForeground(GUIManager.COLOR_LIGHT_GREY);
-		btnNext.setFont(GUIManager.FONT_SUB_HEADING);
-		GUIHelper.styleButton(btnNext, 6, GUIManager.COLOR_MAIN_PLUS);
+		lblInfo.setFont(StyleRef.FONT_HEADING);
+		lblInfo.setForeground(StyleRef.COLOR_LIGHT_GREY);
+		btnNext.setFont(StyleRef.FONT_SUB_HEADING);
+		GUIHelper.styleButton(btnNext, 6, StyleRef.COLOR_MAIN_PLUS);
 
-		pnlSurface.add(lblInfo, GUIManager.CENTER_LAYOUT + ", gaptop 10%, ");
-		pnlSurface.add(btnNext, GUIManager.CENTER_LAYOUT + ", pushy");
+		pnlSurface.add(lblInfo, StyleRef.CENTER_LAYOUT + ", gaptop 10%, ");
+		pnlSurface.add(btnNext, StyleRef.CENTER_LAYOUT + ", pushy");
 
 		GUIHelper.addDirectionalNavigation(Lists.newArrayList(btnNext), null);
 

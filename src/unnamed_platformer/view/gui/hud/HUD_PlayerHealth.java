@@ -6,14 +6,14 @@ import org.newdawn.slick.geom.Vector2f;
 import unnamed_platformer.game.entities.PlatformPlayer;
 import unnamed_platformer.game.other.Level;
 import unnamed_platformer.game.other.World;
-import unnamed_platformer.view.gui.GUIManager;
+import unnamed_platformer.globals.StyleRef;
 
 public class HUD_PlayerHealth extends HUDComponent
 {
 	public HUD_PlayerHealth() {
 		super(new Vector2f(8, 32));
 		this.setColor(new Color(16, 16, 16));
-		this.setFont(GUIManager.FONT_HUD);
+		this.setFont(StyleRef.FONT_HUD);
 	}
 
 	@Override
