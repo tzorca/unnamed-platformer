@@ -74,18 +74,13 @@ public final class GUIHelper
 		if (component instanceof JButton) {
 
 			component.addFocusListener(new FocusListener() {
-
-				@Override
 				public void focusGained(FocusEvent e) {
 					component.setBackground(((FluidColor) backgroundColor)
 							.brighter().highlight());
 				}
-
-				@Override
 				public void focusLost(FocusEvent e) {
 					component.setBackground(backgroundColor);
 				}
-
 			});
 		}
 	}

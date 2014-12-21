@@ -10,7 +10,6 @@ import unnamed_platformer.view.gui.Style;
 
 public class StyleRef
 {
-
 	public static final FluidColor
 	/* */COLOR_LIGHT_GREY = new FluidColor(0xee, 0xee, 0xee),
 	/* */COLOR_ORANGE = new FluidColor(0xbb, 0x60, 0x40),
@@ -47,7 +46,8 @@ public class StyleRef
 	public static final Style
 	/* */STYLE_HEADING,
 	/* */STYLE_ABSTRACT_BUTTON,
-	/* */STYLE_NORMAL_BUTTON;
+	/* */STYLE_NORMAL_BUTTON,
+	/* */STYLE_GENERIC_LIST;
 
 	static {
 		STYLE_HEADING = new Style();
@@ -65,6 +65,10 @@ public class StyleRef
 		STYLE_NORMAL_BUTTON.setPadding(10, 20, 10, 20);
 		STYLE_NORMAL_BUTTON.setFont(StyleRef.FONT_NORMAL);
 		
-		
+		STYLE_GENERIC_LIST = new Style();
+		STYLE_GENERIC_LIST.setFont(StyleRef.FONT_NORMAL);
+		STYLE_GENERIC_LIST.setBackcolor(StyleRef.COLOR_MAIN);
+		STYLE_GENERIC_LIST.setForecolor(Color.WHITE);
+		STYLE_GENERIC_LIST.setSelectionBackcolor(StyleRef.COLOR_MAIN_HIGHLIGHT);
 	}
 }

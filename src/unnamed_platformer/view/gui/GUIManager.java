@@ -21,21 +21,12 @@ public final class GUIManager
 	public static final String SCREEN_PACKAGE_NAME = Ref.BASE_PACKAGE_NAME
 			+ ".view.gui.screens";
 
-
-
 	private static Screen screen;
 	private static Dialog dialog;
 
 	private static LinkedList<ScreenType> screenStateStack = new LinkedList<ScreenType>();
 
 	static {
-		// enable native look and feel
-		try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
 		// enable anti-aliased text:
 		System.setProperty("awt.useSystemAAFontSettings", "on");
 		System.setProperty("swing.aatext", "true");
