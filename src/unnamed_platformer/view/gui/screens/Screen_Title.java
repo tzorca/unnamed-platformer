@@ -1,6 +1,5 @@
 package unnamed_platformer.view.gui.screens;
 
-import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -8,8 +7,8 @@ import java.awt.event.FocusListener;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
-import javax.swing.border.EmptyBorder;
 
 import unnamed_platformer.app.InputManager;
 import unnamed_platformer.app.InputManager.GameKey;
@@ -36,14 +35,11 @@ public class Screen_Title extends BaseScreen_GUI
 
 		pnlSurface.setBackground(StyleRef.COLOR_MAIN_PLUS);
 
-		Label lblGameTitle = new Label(Ref.APP_TITLE);
-		lblGameTitle.setFont(StyleRef.FONT_HEADING);
-		lblGameTitle.setForeground(StyleRef.COLOR_LIGHT_GREY);
+		JLabel lblGameTitle = new JLabel(Ref.APP_TITLE);
+		StyleRef.STYLE_HEADING.apply(lblGameTitle);
 
 		JButton btnPlay = new JButton("Play");
-		btnPlay.setFont(StyleRef.FONT_SUB_HEADING);
-		btnPlay.setBorder(new EmptyBorder(15, 20, 15, 20));
-		GUIHelper.styleButton(btnPlay, 10, StyleRef.COLOR_MAIN);
+		StyleRef.STYLE_NORMAL_BUTTON.apply(btnPlay);
 		btnPlay.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String officialLevelsetName = Settings
@@ -57,9 +53,7 @@ public class Screen_Title extends BaseScreen_GUI
 		});
 
 		JButton btnOptions = new JButton("Options");
-		btnOptions.setFont(StyleRef.FONT_SUB_HEADING);
-		btnOptions.setBorder(new EmptyBorder(15, 20, 15, 20));
-		GUIHelper.styleButton(btnOptions, 10, StyleRef.COLOR_MAIN);
+		StyleRef.STYLE_NORMAL_BUTTON.apply(btnOptions);
 		btnOptions.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				GUIManager.changeScreen(ScreenType.Options);
@@ -67,9 +61,7 @@ public class Screen_Title extends BaseScreen_GUI
 		});
 
 		JButton btnExit = new JButton("Exit");
-		btnOptions.setFont(StyleRef.FONT_SUB_HEADING);
-		btnOptions.setBorder(new EmptyBorder(15, 20, 15, 20));
-		GUIHelper.styleButton(btnExit, 10, StyleRef.COLOR_MAIN);
+		StyleRef.STYLE_NORMAL_BUTTON.apply(btnExit);
 		btnExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Main.doExit();
@@ -79,8 +71,6 @@ public class Screen_Title extends BaseScreen_GUI
 		buttons = Lists.newArrayList(btnPlay, btnOptions, btnExit);
 		for (JButton btn : buttons) {
 			btn.addFocusListener(new btn_FocusListener());
-			btn.setFont(StyleRef.FONT_NORMAL);
-			btn.setIconTextGap(0);
 		}
 
 		GUIHelper.addDirectionalNavigation(buttons, null, true);
