@@ -1,6 +1,5 @@
 package unnamed_platformer.view.gui.dialogs;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
@@ -12,7 +11,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
-import javax.swing.border.EmptyBorder;
 
 import net.miginfocom.swing.MigLayout;
 import unnamed_platformer.app.ImageHelper;
@@ -73,14 +71,15 @@ public class Dialog_EditMenu extends Dialog
 		btnSaveLevel.addActionListener(new btnSaveLevel_Click());
 		btnModeSwitch.addActionListener(new btnModeSwitch_Click());
 		btnExit.addActionListener(new btnExit_Click());
-		GUIHelper.removeButtonPadding(buttonList);
-		GUIHelper.styleButtons(buttonList, 0, StyleRef.COLOR_MAIN);
+		
+		for (JButton btn : buttonList) {
+			StyleRef.STYLE_ABSTRACT_BUTTON.apply(btn);
+		}
 
 		// SETUP CURRENT LEVEL LABEL
 		lblCurrentLevel.setText("Level "
 				+ String.valueOf(World.getCurrentLevelIndex() + 1));
-		lblCurrentLevel.setForeground(Color.white);
-		lblCurrentLevel.setBorder(new EmptyBorder(8, 8, 8, 8));
+		StyleRef.STYLE_PADDED_MESSAGE.apply(lblCurrentLevel);
 
 		// ADD COMPONENTS
 		final boolean currentlyEditing = !World.playing();

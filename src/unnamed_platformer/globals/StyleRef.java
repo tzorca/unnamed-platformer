@@ -51,7 +51,7 @@ public class StyleRef
 	public static final Style STYLE_HEADING, STYLE_SUB_HEADING,
 			STYLE_ABSTRACT_BUTTON, STYLE_NORMAL_BUTTON, STYLE_TYPICAL_LIST,
 			STYLE_TYPICAL_SCROLLPANE, STYLE_ENTITY_LIST, STYLE_CHOICE_LIST,
-			STYLE_MESSAGE;
+			STYLE_MESSAGE, STYLE_PADDED_MESSAGE, STYLE_PRESS_KEY_MESSAGE;
 
 	static {
 		STYLE_HEADING = new Style();
@@ -60,9 +60,16 @@ public class StyleRef
 
 		STYLE_SUB_HEADING = new Style(STYLE_HEADING);
 		STYLE_SUB_HEADING.setFont(StyleRef.FONT_SUB_HEADING);
-		
+
 		STYLE_MESSAGE = new Style(STYLE_HEADING);
 		STYLE_MESSAGE.setFont(StyleRef.FONT_NORMAL);
+
+		STYLE_PADDED_MESSAGE = new Style(STYLE_MESSAGE);
+		STYLE_PADDED_MESSAGE.setPadding(8, 8, 8, 8);
+
+		STYLE_PRESS_KEY_MESSAGE = new Style(STYLE_MESSAGE);
+		STYLE_PRESS_KEY_MESSAGE.setForecolor(Color.WHITE);
+		STYLE_PRESS_KEY_MESSAGE.setPadding(24, 32, 24, 32);
 
 		STYLE_ABSTRACT_BUTTON = new Style();
 		STYLE_ABSTRACT_BUTTON.setForecolor(Color.WHITE);
@@ -101,6 +108,7 @@ public class StyleRef
 		STYLE_CHOICE_LIST.setForecolor(java.awt.Color.white);
 		STYLE_CHOICE_LIST.setBackcolor(StyleRef.COLOR_MAIN);
 		STYLE_CHOICE_LIST.setFont(StyleRef.FONT_SMALL);
-		STYLE_CHOICE_LIST.setBorder(new MatteBorder(1,0,0,0, Color.LIGHT_GRAY));
+		STYLE_CHOICE_LIST.setBorder(new MatteBorder(1, 0, 0, 0,
+				Color.LIGHT_GRAY));
 	}
 }

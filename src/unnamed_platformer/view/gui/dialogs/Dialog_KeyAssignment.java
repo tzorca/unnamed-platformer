@@ -1,12 +1,10 @@
 package unnamed_platformer.view.gui.dialogs;
 
-import java.awt.Color;
 import java.awt.Frame;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 import javax.swing.JLabel;
-import javax.swing.border.EmptyBorder;
 
 import unnamed_platformer.globals.StyleRef;
 import unnamed_platformer.view.gui.GUIHelper.ParamRunnable;
@@ -19,10 +17,8 @@ public class Dialog_KeyAssignment extends Dialog
 		super(owner, "New Key");
 
 		final JLabel lblMessage = new JLabel("Press a key");
-		lblMessage.setForeground(Color.WHITE);
-		lblMessage.setFont(StyleRef.FONT_NORMAL);
-		lblMessage.setBorder(new EmptyBorder(24, 32, 24, 32));
-
+		StyleRef.STYLE_PRESS_KEY_MESSAGE.apply(lblMessage);
+		
 		this.setUndecorated(true);
 		this.add(lblMessage);
 
