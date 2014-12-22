@@ -1,6 +1,5 @@
 package unnamed_platformer.view.gui.screens;
 
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -32,7 +31,6 @@ import unnamed_platformer.app.Main;
 import unnamed_platformer.app.Settings;
 import unnamed_platformer.globals.StyleRef;
 import unnamed_platformer.view.ViewManager;
-import unnamed_platformer.view.gui.GUIHelper;
 import unnamed_platformer.view.gui.GUIHelper.ParamRunnable;
 import unnamed_platformer.view.gui.GUIManager;
 import unnamed_platformer.view.gui.GUIManager.ScreenType;

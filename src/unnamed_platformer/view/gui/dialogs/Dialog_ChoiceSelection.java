@@ -12,7 +12,6 @@ import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JSeparator;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
@@ -49,19 +48,17 @@ public class Dialog_ChoiceSelection extends Dialog
 		super(owner);
 		this.add(pnlMain);
 		this.setUndecorated(true);
-		
+
 		pnlMain.setLayout(new MigLayout());
 		pnlMain.setBackground(StyleRef.COLOR_MAIN_PLUS);
 		pnlMain.setBorder(BorderFactory
 				.createSoftBevelBorder(BevelBorder.RAISED));
 
 		final JLabel lblMessage = new JLabel(message);
-		lblMessage.setForeground(Color.WHITE);
-		lblMessage.setFont(StyleRef.FONT_NORMAL);
-		lblMessage.setBorder(new EmptyBorder(0, 0, 0, 0));
-		pnlMain.add(lblMessage, "wrap, growx, pushx, span");
-		pnlMain.add(new JSeparator(), "wrap, growx, span");
+		StyleRef.STYLE_MESSAGE.apply(lblMessage);
 
+		pnlMain.add(lblMessage, "wrap, growx, pushx, span");
+		
 		this.choiceCallback = choiceCallback;
 		this.cancelChoice = cancelChoice;
 
@@ -80,10 +77,7 @@ public class Dialog_ChoiceSelection extends Dialog
 		lstChoices = new JList<String>();
 		lstChoices.setModel(mdlChoices);
 		lstChoices.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		lstChoices.setFont(StyleRef.FONT_SMALL);
-		lstChoices.setBackground(StyleRef.COLOR_MAIN_PLUS);
-		lstChoices.setForeground(Color.WHITE);
-		lstChoices.setSelectionBackground(StyleRef.COLOR_MAIN_HIGHLIGHT);
+		StyleRef.STYLE_CHOICE_LIST.apply(lstChoices);
 		lstChoices.setCellRenderer(new ListCellRenderer_CustomBorder(
 				paddedBorderWithBottomLine));
 		lstChoices.addListSelectionListener(new lstChoices_SelectionListener());

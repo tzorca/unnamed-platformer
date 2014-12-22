@@ -1,10 +1,10 @@
 package unnamed_platformer.view.gui.screens;
 
-import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 
 import unnamed_platformer.game.other.World;
@@ -23,9 +23,8 @@ public class Screen_Transition extends BaseScreen_GUI
 
 	public Screen_Transition() {
 		super();
-		
 
-		Label lblInfo;
+		JLabel lblInfo;
 
 		// This will already have been set by the end level object
 		int nextLevelIndex = World.getCurrentLevelIndex();
@@ -33,8 +32,8 @@ public class Screen_Transition extends BaseScreen_GUI
 		if (World.hasLevelIndex(nextLevelIndex)) {
 			// Play a sound for completing the level!
 			SoundManager.playSample("level-complete");
-			
-			lblInfo = new Label("Level "
+
+			lblInfo = new JLabel("Level "
 					+ String.valueOf(World.getCurrentLevelIndex() + 1));
 
 			btnNext.addActionListener(new ActionListener() {
@@ -43,7 +42,7 @@ public class Screen_Transition extends BaseScreen_GUI
 				}
 			});
 		} else {
-			lblInfo = new Label("You finished all the levels! Good job!");
+			lblInfo = new JLabel("You finished all the levels! Good job!");
 
 			btnNext = new JButton("Ok");
 			btnNext.addActionListener(new ActionListener() {
@@ -53,11 +52,9 @@ public class Screen_Transition extends BaseScreen_GUI
 			});
 		}
 
-		lblInfo.setFont(StyleRef.FONT_HEADING);
-		lblInfo.setForeground(StyleRef.COLOR_LIGHT_GREY);
-		btnNext.setFont(StyleRef.FONT_SUB_HEADING);
-		GUIHelper.styleButton(btnNext, 6, StyleRef.COLOR_MAIN_PLUS);
-
+		StyleRef.STYLE_SUB_HEADING.apply(lblInfo);
+		StyleRef.STYLE_NORMAL_BUTTON.apply(btnNext);
+		
 		pnlSurface.add(lblInfo, StyleRef.CENTER_LAYOUT + ", gaptop 10%, ");
 		pnlSurface.add(btnNext, StyleRef.CENTER_LAYOUT + ", pushy");
 

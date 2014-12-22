@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 
 import javax.swing.BorderFactory;
+import javax.swing.border.MatteBorder;
 
 import unnamed_platformer.view.FluidColor;
 import unnamed_platformer.view.gui.Style;
@@ -37,56 +38,69 @@ public class StyleRef
 	private static final String NORMAL_FONT_NAME = "Trebuchet MS";
 
 	public static final Font
-	/* */FONT_HEADING = new Font(NORMAL_FONT_NAME, Font.PLAIN, LARGEST_FONT_SIZE),
-	/* */FONT_SUB_HEADING = new Font(NORMAL_FONT_NAME, Font.PLAIN, LARGER_FONT_SIZE),
+	/* */FONT_HEADING = new Font(NORMAL_FONT_NAME, Font.PLAIN,
+			LARGEST_FONT_SIZE),
+	/* */FONT_SUB_HEADING = new Font(NORMAL_FONT_NAME, Font.PLAIN,
+			LARGER_FONT_SIZE),
 	/* */FONT_NORMAL = new Font(NORMAL_FONT_NAME, Font.PLAIN, BASE_FONT_SIZE),
-	/* */FONT_SMALL = new Font(NORMAL_FONT_NAME, Font.PLAIN, SMALLER_FONT_SIZE),
-	/* */FONT_HUD = new Font("Lucida Console", Font.PLAIN, BASE_FONT_SIZE);
+			/* */FONT_SMALL = new Font(NORMAL_FONT_NAME, Font.PLAIN,
+					SMALLER_FONT_SIZE),
+			/* */FONT_HUD = new Font("Lucida Console", Font.PLAIN,
+					BASE_FONT_SIZE);
 
-	public static final Style
-	/* */STYLE_HEADING,
-	/* */STYLE_SUB_HEADING,
-	/* */STYLE_ABSTRACT_BUTTON,
-	/* */STYLE_NORMAL_BUTTON,
-	/* */STYLE_TYPICAL_LIST,
-	/* */STYLE_TYPICAL_SCROLLPANE,
-	/* */STYLE_ENTITY_LIST;
+	public static final Style STYLE_HEADING, STYLE_SUB_HEADING,
+			STYLE_ABSTRACT_BUTTON, STYLE_NORMAL_BUTTON, STYLE_TYPICAL_LIST,
+			STYLE_TYPICAL_SCROLLPANE, STYLE_ENTITY_LIST, STYLE_CHOICE_LIST,
+			STYLE_MESSAGE;
 
 	static {
 		STYLE_HEADING = new Style();
 		STYLE_HEADING.setFont(StyleRef.FONT_HEADING);
 		STYLE_HEADING.setForecolor(StyleRef.COLOR_LIGHT_GREY);
-		
+
 		STYLE_SUB_HEADING = new Style(STYLE_HEADING);
 		STYLE_SUB_HEADING.setFont(StyleRef.FONT_SUB_HEADING);
 		
+		STYLE_MESSAGE = new Style(STYLE_HEADING);
+		STYLE_MESSAGE.setFont(StyleRef.FONT_NORMAL);
+
 		STYLE_ABSTRACT_BUTTON = new Style();
 		STYLE_ABSTRACT_BUTTON.setForecolor(Color.WHITE);
 		STYLE_ABSTRACT_BUTTON.setSelectionBackcolor(COLOR_MAIN_HIGHLIGHT);
 		STYLE_ABSTRACT_BUTTON.setBackcolor(COLOR_MAIN);
-		STYLE_ABSTRACT_BUTTON.setBorder(BorderFactory.createRaisedBevelBorder());
-		STYLE_ABSTRACT_BUTTON.setClickedBorder(BorderFactory.createLoweredBevelBorder());
-		
+		STYLE_ABSTRACT_BUTTON
+				.setBorder(BorderFactory.createRaisedBevelBorder());
+		STYLE_ABSTRACT_BUTTON.setClickedBorder(BorderFactory
+				.createLoweredBevelBorder());
+
 		STYLE_NORMAL_BUTTON = new Style(STYLE_ABSTRACT_BUTTON);
 		STYLE_NORMAL_BUTTON.setPadding(10, 20, 10, 20);
 		STYLE_NORMAL_BUTTON.setFont(StyleRef.FONT_NORMAL);
-		
+
 		STYLE_TYPICAL_LIST = new Style();
 		STYLE_TYPICAL_LIST.setFont(StyleRef.FONT_NORMAL);
 		STYLE_TYPICAL_LIST.setBackcolor(StyleRef.COLOR_MAIN);
 		STYLE_TYPICAL_LIST.setForecolor(Color.WHITE);
 		STYLE_TYPICAL_LIST.setSelectionBackcolor(StyleRef.COLOR_MAIN_HIGHLIGHT);
 		STYLE_TYPICAL_LIST.setSelectionForecolor(Color.WHITE);
-		
+
 		STYLE_TYPICAL_SCROLLPANE = new Style();
 		STYLE_TYPICAL_SCROLLPANE.setFont(StyleRef.FONT_NORMAL);
 		STYLE_TYPICAL_SCROLLPANE.setBackcolor(StyleRef.COLOR_MAIN_MINUS);
-		STYLE_TYPICAL_SCROLLPANE.setBorder(BorderFactory.createLoweredBevelBorder());
-		
+		STYLE_TYPICAL_SCROLLPANE.setBorder(BorderFactory
+				.createLoweredBevelBorder());
+
 		STYLE_ENTITY_LIST = new Style();
 		STYLE_ENTITY_LIST.setSelectionBackcolor(StyleRef.COLOR_MAIN_HIGHLIGHT);
 		STYLE_ENTITY_LIST.setBackcolor(StyleRef.COLOR_MAIN_PLUS);
 		STYLE_ENTITY_LIST.setFont(StyleRef.FONT_SMALL);
 		STYLE_ENTITY_LIST.setForecolor(java.awt.Color.white);
+
+		STYLE_CHOICE_LIST = new Style();
+		STYLE_CHOICE_LIST.setSelectionBackcolor(StyleRef.COLOR_MAIN_HIGHLIGHT);
+		STYLE_CHOICE_LIST.setForecolor(java.awt.Color.white);
+		STYLE_CHOICE_LIST.setBackcolor(StyleRef.COLOR_MAIN);
+		STYLE_CHOICE_LIST.setFont(StyleRef.FONT_SMALL);
+		STYLE_CHOICE_LIST.setBorder(new MatteBorder(1,0,0,0, Color.LIGHT_GRAY));
 	}
 }
