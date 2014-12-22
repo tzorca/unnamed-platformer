@@ -62,8 +62,7 @@ public class Screen_Options extends BaseScreen_GUI {
 		super();	
 
 		// SETUP TITLE
-		lblTitle.setFont(StyleRef.FONT_SUB_HEADING);
-		lblTitle.setForeground(StyleRef.COLOR_LIGHT_GREY);
+		StyleRef.STYLE_SUB_HEADING.apply(lblTitle);
 
 		// SETUP KEY LIST
 		for (GameKey gk : InputManager.GameKey.values()) {
@@ -73,26 +72,19 @@ public class Screen_Options extends BaseScreen_GUI {
 		lstKeys.setModel(mdlKeys);
 		lstKeys.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		lstKeys.setCellRenderer(new ListCellRenderer_PlrGameKey());
-		lstKeys.setFont(StyleRef.FONT_NORMAL);
-		lstKeys.setBackground(StyleRef.COLOR_MAIN);
-		lstKeys.setForeground(Color.WHITE);
-		lstKeys.setSelectionBackground(StyleRef.COLOR_MAIN_HIGHLIGHT);
 		lstKeys.addListSelectionListener(new lstKeys_SelectionListener());
+		StyleRef.STYLE_TYPICAL_LIST.apply(lstKeys);
 
 		// SETUP LIST SCROLL PANE
 		JScrollPane scrlList = new JScrollPane(lstKeys);
-		GUIHelper.styleComponentColors(scrlList, StyleRef.COLOR_MAIN_PLUS);
-		GUIHelper.styleComponentBorder(scrlList, 0, false);
-		scrlList.getViewport().setBackground(StyleRef.COLOR_MAIN);
+		StyleRef.STYLE_TYPICAL_SCROLLPANE.apply(scrlList);
 
 		// SETUP BUTTONS
 		btnBack.addActionListener(new btnSave_Click());
 
 		for (JButton btn : buttons) {
-			btn.setFont(StyleRef.FONT_NORMAL);
-			btn.setIconTextGap(0);
+			StyleRef.STYLE_NORMAL_BUTTON.apply(btn);
 		}
-		GUIHelper.styleButtons(buttons, 6, StyleRef.COLOR_MAIN);
 
 		// ADD GLOBAL LISTENERS FOR ARROW NAVIGATION
 		for (JComponent c : components) {

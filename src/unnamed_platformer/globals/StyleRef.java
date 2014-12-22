@@ -45,15 +45,20 @@ public class StyleRef
 
 	public static final Style
 	/* */STYLE_HEADING,
+	/* */STYLE_SUB_HEADING,
 	/* */STYLE_ABSTRACT_BUTTON,
 	/* */STYLE_NORMAL_BUTTON,
-	/* */STYLE_LIST_WORLD_SELECT,
-	/* */STYLE_SCROLLPANE_WORLD_SELECT;
+	/* */STYLE_TYPICAL_LIST,
+	/* */STYLE_TYPICAL_SCROLLPANE,
+	/* */STYLE_ENTITY_LIST;
 
 	static {
 		STYLE_HEADING = new Style();
 		STYLE_HEADING.setFont(StyleRef.FONT_HEADING);
 		STYLE_HEADING.setForecolor(StyleRef.COLOR_LIGHT_GREY);
+		
+		STYLE_SUB_HEADING = new Style(STYLE_HEADING);
+		STYLE_SUB_HEADING.setFont(StyleRef.FONT_SUB_HEADING);
 		
 		STYLE_ABSTRACT_BUTTON = new Style();
 		STYLE_ABSTRACT_BUTTON.setForecolor(Color.WHITE);
@@ -66,16 +71,22 @@ public class StyleRef
 		STYLE_NORMAL_BUTTON.setPadding(10, 20, 10, 20);
 		STYLE_NORMAL_BUTTON.setFont(StyleRef.FONT_NORMAL);
 		
-		STYLE_LIST_WORLD_SELECT = new Style();
-		STYLE_LIST_WORLD_SELECT.setFont(StyleRef.FONT_NORMAL);
-		STYLE_LIST_WORLD_SELECT.setBackcolor(StyleRef.COLOR_MAIN);
-		STYLE_LIST_WORLD_SELECT.setForecolor(Color.WHITE);
-		STYLE_LIST_WORLD_SELECT.setSelectionBackcolor(StyleRef.COLOR_MAIN_HIGHLIGHT);
-		STYLE_LIST_WORLD_SELECT.setSelectionForecolor(Color.WHITE);
+		STYLE_TYPICAL_LIST = new Style();
+		STYLE_TYPICAL_LIST.setFont(StyleRef.FONT_NORMAL);
+		STYLE_TYPICAL_LIST.setBackcolor(StyleRef.COLOR_MAIN);
+		STYLE_TYPICAL_LIST.setForecolor(Color.WHITE);
+		STYLE_TYPICAL_LIST.setSelectionBackcolor(StyleRef.COLOR_MAIN_HIGHLIGHT);
+		STYLE_TYPICAL_LIST.setSelectionForecolor(Color.WHITE);
 		
-		STYLE_SCROLLPANE_WORLD_SELECT = new Style();
-		STYLE_SCROLLPANE_WORLD_SELECT.setFont(StyleRef.FONT_NORMAL);
-		STYLE_SCROLLPANE_WORLD_SELECT.setBackcolor(StyleRef.COLOR_MAIN_MINUS);
-		STYLE_SCROLLPANE_WORLD_SELECT.setBorder(BorderFactory.createLoweredBevelBorder());
+		STYLE_TYPICAL_SCROLLPANE = new Style();
+		STYLE_TYPICAL_SCROLLPANE.setFont(StyleRef.FONT_NORMAL);
+		STYLE_TYPICAL_SCROLLPANE.setBackcolor(StyleRef.COLOR_MAIN_MINUS);
+		STYLE_TYPICAL_SCROLLPANE.setBorder(BorderFactory.createLoweredBevelBorder());
+		
+		STYLE_ENTITY_LIST = new Style();
+		STYLE_ENTITY_LIST.setSelectionBackcolor(StyleRef.COLOR_MAIN_HIGHLIGHT);
+		STYLE_ENTITY_LIST.setBackcolor(StyleRef.COLOR_MAIN_PLUS);
+		STYLE_ENTITY_LIST.setFont(StyleRef.FONT_SMALL);
+		STYLE_ENTITY_LIST.setForecolor(java.awt.Color.white);
 	}
 }

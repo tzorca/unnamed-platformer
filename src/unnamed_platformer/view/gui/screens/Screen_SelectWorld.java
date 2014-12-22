@@ -75,8 +75,7 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 
 		// SETUP TITLE
 		JLabel lblTitle = new JLabel("Select a World");
-		lblTitle.setFont(StyleRef.FONT_SUB_HEADING);
-		lblTitle.setForeground(StyleRef.COLOR_LIGHT_GREY);
+		StyleRef.STYLE_SUB_HEADING.apply(lblTitle);
 
 		// SETUP WORLD LIST
 		for (String worldName : ResManager.list(World.class, true)) {
@@ -84,13 +83,13 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 		}
 		lstWorlds.setModel(mdlWorlds);
 		lstWorlds.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		StyleRef.STYLE_LIST_WORLD_SELECT.apply(lstWorlds);
+		StyleRef.STYLE_TYPICAL_LIST.apply(lstWorlds);
 		lstWorlds.addListSelectionListener(new lstWorlds_SelectionListener());
 		lstWorlds.setSelectedIndex(0);
 
 		// SETUP WORLD LIST SCROLL PANE
 		JScrollPane scrlWorlds = new JScrollPane(lstWorlds);
-		StyleRef.STYLE_SCROLLPANE_WORLD_SELECT.apply(scrlWorlds);
+		StyleRef.STYLE_TYPICAL_SCROLLPANE.apply(scrlWorlds);
 
 		// SETUP BUTTONS
 		btnNew.addActionListener(new btnNew_Click());
@@ -102,10 +101,9 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 		btnTitle.addActionListener(new btnTitle_Click());
 		for (JButton btn : buttons) {
 			btn.addFocusListener(new btn_FocusListener());
-			btn.setFont(StyleRef.FONT_NORMAL);
-			btn.setIconTextGap(0);
+			// btn.setIconTextGap(0);
+			StyleRef.STYLE_NORMAL_BUTTON.apply(btn);
 		}
-		GUIHelper.styleButtons(buttons, 6, StyleRef.COLOR_MAIN);
 
 		// ADD GLOBAL LISTENER FOR ARROW NAVIGATION
 		for (JComponent c : components) {
