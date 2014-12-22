@@ -13,9 +13,6 @@ import javax.swing.SwingUtilities;
 import unnamed_platformer.app.InputManager;
 import unnamed_platformer.app.InputManager.GameKey;
 import unnamed_platformer.app.Main;
-import unnamed_platformer.app.Settings;
-import unnamed_platformer.app.Settings.SettingName;
-import unnamed_platformer.game.other.World;
 import unnamed_platformer.globals.Ref;
 import unnamed_platformer.globals.StyleRef;
 import unnamed_platformer.view.gui.GUIHelper;
@@ -39,21 +36,13 @@ public class Screen_Title extends BaseScreen_GUI
 		StyleRef.STYLE_HEADING.apply(lblGameTitle);
 
 		JButton btnPlay = new JButton("Play");
-		StyleRef.STYLE_NORMAL_BUTTON.apply(btnPlay);
 		btnPlay.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String officialLevelsetName = Settings
-						.getString(SettingName.OFFICIAL_LEVELSET_NAME);
-				if (officialLevelsetName != null
-						&& !officialLevelsetName.isEmpty()) {
-					World.load(officialLevelsetName);
-					GUIManager.changeScreen(ScreenType.SelectWorld);
-				}
+				GUIManager.changeScreen(ScreenType.SelectWorld);
 			}
 		});
 
 		JButton btnOptions = new JButton("Options");
-		StyleRef.STYLE_NORMAL_BUTTON.apply(btnOptions);
 		btnOptions.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				GUIManager.changeScreen(ScreenType.Options);
@@ -61,7 +50,6 @@ public class Screen_Title extends BaseScreen_GUI
 		});
 
 		JButton btnExit = new JButton("Exit");
-		StyleRef.STYLE_NORMAL_BUTTON.apply(btnExit);
 		btnExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Main.doExit();
@@ -70,6 +58,7 @@ public class Screen_Title extends BaseScreen_GUI
 
 		buttons = Lists.newArrayList(btnPlay, btnOptions, btnExit);
 		for (JButton btn : buttons) {
+			StyleRef.STYLE_NORMAL_BUTTON.apply(btn);
 			btn.addFocusListener(new btn_FocusListener());
 		}
 
@@ -83,11 +72,6 @@ public class Screen_Title extends BaseScreen_GUI
 		pnlSurface.add(btnExit, StyleRef.CENTER_LAYOUT);
 
 		GUIHelper.toWidest(buttons);
-
-		// Default button selection
-		if (!btnPlay.hasFocus()) {
-			btnPlay.requestFocusInWindow();
-		}
 	}
 
 	private void changeButton(int delta) {
