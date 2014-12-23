@@ -79,8 +79,15 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 		StyleRef.STYLE_SUB_HEADING.apply(lblTitle);
 
 		// SETUP WORLD LIST
-		for (String worldName : ResManager.list(World.class, true)) {
-			mdlWorlds.addElement(worldName);
+		Collection<String> worldNames = ResManager.list(World.class, true);
+
+		for (String worldName : worldNames) {
+			if (worldName.equals(Settings
+					.getString(SettingName.OFFICIAL_LEVELSET_NAME))) {
+				mdlWorlds.add(0, worldName);
+			} else {
+				mdlWorlds.addElement(worldName);
+			}
 		}
 		lstWorlds.setModel(mdlWorlds);
 		lstWorlds.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
