@@ -16,10 +16,14 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 import org.lwjgl.BufferUtils;
@@ -32,6 +36,7 @@ import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.opengl.Texture;
 
+import unnamed_platformer.app.FileHelper;
 import unnamed_platformer.app.ImageHelper;
 import unnamed_platformer.app.Main;
 import unnamed_platformer.app.Settings;
@@ -262,8 +267,6 @@ public final class ViewManager
 	// Keep in mind that the internal render resolution should stay the same
 	// But it will not be equivalent to the renderCanvas resolution
 
-	// TODO: Implement working fullscreen/different window size functionality
-
 	public static Dimension getScreenResolution() {
 		final GraphicsDevice graphicsDevice = GraphicsEnvironment
 				.getLocalGraphicsEnvironment().getDefaultScreenDevice();
@@ -272,6 +275,30 @@ public final class ViewManager
 				.getDisplayMode();
 
 		return new Dimension(displayMode.getWidth(), displayMode.getHeight());
+	}
+
+	public static final Pattern PATTERN_SCREENSHOT_FILENAME = Pattern
+			.compile("scr\\d{4}\\.png");
+
+	public static void saveScreenshot() {
+		String newFilename = FileHelper
+				.getScreenshotFilename(PATTERN_SCREENSHOT_FILENAME);
+		if (newFilename == null) {
+			return;
+		}
+
+		BufferedImage image = ViewManager.getScreenshot();
+
+		File screenshotFile = new File(newFilename);
+		try {
+			ImageIO.write(image, "PNG", screenshotFile);
+		} catch (IOException e) {
+			System.out.println("Screenshot failed: " + e.getMessage());
+			e.printStackTrace();
+			return;
+		}
+
+		System.out.println("Saved screenshot to " + screenshotFile.getName());
 	}
 
 	public static BufferedImage getScreenshot() {
@@ -296,30 +323,31 @@ public final class ViewManager
 		return screenshot;
 	}
 
+	@SuppressWarnings("unused")
 	private static BufferedImage getScreenshotViaPrintscreenButton() {
-		 try {
-		 Robot robot;
-		
-		 robot = new Robot();
-		
-		 robot.keyPress(KeyEvent.VK_PRINTSCREEN);
-		 robot.delay(40);
-		 robot.keyRelease(KeyEvent.VK_PRINTSCREEN);
-		 robot.delay(40);
-		
-		 Transferable t = Toolkit.getDefaultToolkit().getSystemClipboard()
-		 .getContents(null);
-		
-		 if (t != null && t.isDataFlavorSupported(DataFlavor.imageFlavor)) {
-		 Image image = (Image) t.getTransferData(DataFlavor.imageFlavor);
-		 return ImageHelper.toBufferedImage(image);
-		 }
-		
-		 } catch (Exception e) {
-		 System.err.println("Could not get screenshot.");
-		 e.printStackTrace();
-		 }
-		 return null;
+		try {
+			Robot robot;
+
+			robot = new Robot();
+
+			robot.keyPress(KeyEvent.VK_PRINTSCREEN);
+			robot.delay(40);
+			robot.keyRelease(KeyEvent.VK_PRINTSCREEN);
+			robot.delay(40);
+
+			Transferable t = Toolkit.getDefaultToolkit().getSystemClipboard()
+					.getContents(null);
+
+			if (t != null && t.isDataFlavorSupported(DataFlavor.imageFlavor)) {
+				Image image = (Image) t.getTransferData(DataFlavor.imageFlavor);
+				return ImageHelper.toBufferedImage(image);
+			}
+
+		} catch (Exception e) {
+			System.err.println("Could not get screenshot.");
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	private static BufferedImage getScreenshotViaGLRead() {

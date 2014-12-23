@@ -51,7 +51,7 @@ public final class Main
 		}
 
 		else if (InputManager.keyPressOccurred(GameKey.SAVE_SCREENSHOT, 1)) {
-			ImageHelper.saveScreenshot();
+			ViewManager.saveScreenshot();
 		}
 
 		else if (InputManager.keyPressOccurred(GameKey.TOGGLE_FULLSCREEN, 1)) {

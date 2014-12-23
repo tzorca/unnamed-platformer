@@ -10,16 +10,13 @@ import java.awt.image.ColorModel;
 import java.awt.image.ConvolveOp;
 import java.awt.image.Kernel;
 import java.awt.image.WritableRaster;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.regex.Pattern;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 import unnamed_platformer.res_mgt.ResManager;
-import unnamed_platformer.view.ViewManager;
 
 public final class ImageHelper
 {
@@ -78,30 +75,6 @@ public final class ImageHelper
 
 		buffered.getGraphics().drawImage(scaled, startX, startY, null);
 		return buffered;
-	}
-
-	public static final Pattern PATTERN_SCREENSHOT_FILENAME = Pattern
-			.compile("scr\\d{4}\\.png");
-
-	public static void saveScreenshot() {
-		String newFilename = FileHelper
-				.getScreenshotFilename(PATTERN_SCREENSHOT_FILENAME);
-		if (newFilename == null) {
-			return;
-		}
-
-		BufferedImage image = ViewManager.getScreenshot();
-
-		File screenshotFile = new File(newFilename);
-		try {
-			ImageIO.write(image, "PNG", screenshotFile);
-		} catch (IOException e) {
-			System.out.println("Screenshot failed: " + e.getMessage());
-			e.printStackTrace();
-			return;
-		}
-
-		System.out.println("Saved screenshot to " + screenshotFile.getName());
 	}
 
 	public static ImageIcon getImageIconContent(String name) {
