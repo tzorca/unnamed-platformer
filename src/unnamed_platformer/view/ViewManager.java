@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
 import org.lwjgl.BufferUtils;
@@ -277,8 +278,10 @@ public final class ViewManager
 		return new Dimension(displayMode.getWidth(), displayMode.getHeight());
 	}
 
-	public static final Pattern PATTERN_SCREENSHOT_FILENAME = Pattern
+	private static final Pattern PATTERN_SCREENSHOT_FILENAME = Pattern
 			.compile("scr\\d{4}\\.png");
+
+	private static final int PREVIEW_IMAGE_WIDTH = 256;
 
 	public static void saveScreenshot() {
 		String newFilename = FileHelper
@@ -299,6 +302,36 @@ public final class ViewManager
 		}
 
 		System.out.println("Saved screenshot to " + screenshotFile.getName());
+
+		// Save screenshot as the world preview if none exists yet
+		savePreviewImage(image);
+	}
+
+	private static void savePreviewImage(BufferedImage originalImage) {
+		// Not currently playing
+		if (!World.playing()) {
+			return;
+		}
+
+		File previewImageFile = new File(ResManager.getFilename(
+				ImageIcon.class, World.getName()));
+
+		// Preview image already exists
+		if (previewImageFile.exists()) {
+			return;
+		}
+
+		BufferedImage previewImage = ImageHelper.resizeToWidth(originalImage,
+				PREVIEW_IMAGE_WIDTH);
+
+		try {
+			ImageIO.write(previewImage, "PNG", previewImageFile);
+		} catch (IOException e) {
+			System.out
+					.println("Saving preview image failed: " + e.getMessage());
+			e.printStackTrace();
+		}
+
 	}
 
 	public static BufferedImage getScreenshot() {

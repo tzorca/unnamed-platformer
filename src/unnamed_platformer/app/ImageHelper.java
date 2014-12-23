@@ -108,4 +108,20 @@ public final class ImageHelper
 
 		return bufferedImage;
 	}
+
+	public static BufferedImage resizeToWidth(BufferedImage image, int newWidth) {
+		int w = image.getWidth();
+		int h = image.getHeight();
+
+		float ratio = (w + 0f) / (h + 0f);
+
+		int newHeight = (int) (newWidth / ratio);
+
+		Image resizedImage = image.getScaledInstance(newWidth, newHeight,
+				BufferedImage.SCALE_SMOOTH);
+
+		BufferedImage resizedBufferedImage = toBufferedImage(resizedImage);
+
+		return resizedBufferedImage;
+	}
 }
