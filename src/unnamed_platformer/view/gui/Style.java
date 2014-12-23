@@ -25,6 +25,7 @@ public class Style
 	private Integer verticalTextPosition, horizontalTextPosition;
 	private Integer horizontalAlignment;
 	private Boolean opaque;
+	private Integer visibleRowCount, layoutOrientation; 
 
 	public Style(Style style) {
 		this.font = style.font;
@@ -42,6 +43,8 @@ public class Style
 		this.horizontalTextPosition = style.horizontalTextPosition;
 		this.horizontalAlignment = style.horizontalAlignment;
 		this.opaque = style.opaque;
+		this.visibleRowCount = style.visibleRowCount;
+		this.layoutOrientation = style.layoutOrientation;
 	}
 
 	public Style() {
@@ -123,6 +126,14 @@ public class Style
 			JList<?> jl = (JList<?>) c;
 			jl.setSelectionBackground(selectionBackcolor);
 			jl.setSelectionForeground(selectionForecolor);
+			
+			if (visibleRowCount != null) {
+				jl.setVisibleRowCount(visibleRowCount);
+			}
+			
+			if (layoutOrientation != null) {
+				jl.setLayoutOrientation(layoutOrientation);
+			}
 		}
 
 		if (c instanceof JScrollPane) {
@@ -194,6 +205,14 @@ public class Style
 
 	public void setOpaque(Boolean opaque) {
 		this.opaque = opaque;
+	}
+
+	public void setLayoutOrientation(Integer orientation) {
+		this.layoutOrientation = orientation;
+	}
+
+	public void setVisibleRowCount(Integer count) {
+		this.visibleRowCount = count;
 	}
 
 }

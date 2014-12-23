@@ -1,21 +1,27 @@
 package unnamed_platformer.game.other;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.TreeMap;
 
+import javax.swing.ImageIcon;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 
+import unnamed_platformer.app.ImageHelper;
 import unnamed_platformer.app.TimeManager;
 import unnamed_platformer.game.entities.ActiveEntity;
 import unnamed_platformer.game.entities.Entity;
 import unnamed_platformer.globals.GameRef.Flag;
 import unnamed_platformer.globals.Ref;
 import unnamed_platformer.globals.Ref.BlueprintField;
+import unnamed_platformer.res_mgt.ResManager;
 import unnamed_platformer.view.Graphic;
 import unnamed_platformer.view.ViewManager;
 
@@ -107,7 +113,6 @@ public class Level
 
 		entitySetups = setups;
 		entities = EntityCreator.buildFromSetupCollection(entitySetups);
-		onStart();
 	}
 
 	public void materializeNewEntities() {
@@ -158,7 +163,7 @@ public class Level
 		}
 
 		Iterator<Entity> entityIterator = entities.iterator();
-		
+
 		SpatialHash.clear();
 
 		while (entityIterator.hasNext()) {
@@ -170,11 +175,13 @@ public class Level
 			}
 
 			if (World.playing()) {
+
 				// perform entity logic
 				Vector2f pos = entity.getPos();
 				entity.update();
-				
-				// if no spatial hash exists or position changed, update spatial hash
+
+				// if no spatial hash exists or position changed, update spatial
+				// hash
 				boolean posChanged = !pos.equals(entity.getPos());
 				if (!SpatialHash.has(entity) || posChanged) {
 					SpatialHash.insert(entity);
@@ -185,7 +192,7 @@ public class Level
 
 				}
 			}
-			
+
 			// Don't do logic on entities that are temporarily inactive
 			if (entity.isFlagSet(Flag.INACTIVE_UNTIL_PLAYER_DEATH)) {
 				SpatialHash.remove(entity);
@@ -198,10 +205,6 @@ public class Level
 				SpatialHash.remove(entity);
 				continue;
 			}
-
-//			if (World.playing()) {
-//				SpatialHash.insert(entity);
-//			}
 		}
 
 		if (World.playing()) {
@@ -215,7 +218,6 @@ public class Level
 		// add new entities
 		materializeNewEntities();
 	}
-
 
 	public Entity findEntityByFlag(Flag flag) {
 		Iterator<Entity> entityIterator = entities.iterator();
@@ -234,31 +236,6 @@ public class Level
 
 	public void resetToCurrent() {
 		resetTo(EntityCreator.getSetupCollection(entities));
-	}
-
-	private void onStart() {
-		// // take screenshot on start of level 1
-		// if (World.currentGame == null ||
-		// World.currentGame.getLevelIndex() != 0
-		// || App.state != State.Play) {
-		// return;
-		// }
-		//
-		// try {
-		// SwingUtilities.invokeLater(new Runnable(){
-		//
-		// @Override
-		// public void run() {
-		// BufferedImage screenshot = ViewManager.getScreenshot();
-		// ImageIcon serializablePreviewImage = new ImageIcon(screenshot);
-		// if (screenshot != null) {
-		// World.currentGame.setPreviewImage(serializablePreviewImage);
-		// }
-		//
-		// }});
-		// } catch (Exception e) {
-		// e.printStackTrace();
-		// }
 	}
 
 	public Graphic getBackgroundGraphic() {

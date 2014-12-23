@@ -42,6 +42,7 @@ import unnamed_platformer.view.gui.GUIHelper.ParamRunnable;
 import unnamed_platformer.view.gui.GUIManager;
 import unnamed_platformer.view.gui.GUIManager.ScreenType;
 import unnamed_platformer.view.gui.dialogs.Dialog_ChoiceSelection;
+import unnamed_platformer.view.gui.objects.ListCellRenderer_World;
 
 import com.google.common.collect.Lists;
 
@@ -83,8 +84,9 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 		}
 		lstWorlds.setModel(mdlWorlds);
 		lstWorlds.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		StyleRef.STYLE_TYPICAL_LIST.apply(lstWorlds);
+		StyleRef.STYLE_WORLD_LIST.apply(lstWorlds);
 		lstWorlds.addListSelectionListener(new lstWorlds_SelectionListener());
+		lstWorlds.setCellRenderer(new ListCellRenderer_World());
 		lstWorlds.setSelectedIndex(0);
 
 		// SETUP WORLD LIST SCROLL PANE
@@ -272,9 +274,7 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 			}
 
 			updateButtonVisualDisableStatus();
-
 		}
-
 	}
 
 	private class btnNew_Click implements ActionListener

@@ -5,11 +5,12 @@ import java.util.HashMap;
 
 import unnamed_platformer.globals.Ref;
 
-public abstract class ResLoader<T> {
+public abstract class ResLoader<T>
+{
 	private HashMap<String, T> cache = new HashMap<String, T>();
 
 	private String dir, ext;
-	
+
 	private static final String FALLBACK_RESOURCE = "default";
 
 	protected ResLoader(String dir, String ext) {
@@ -33,7 +34,8 @@ public abstract class ResLoader<T> {
 		try {
 			res = load(name);
 		} catch (Exception e) {
-			System.out.println("Resource '" + name + "' not found. Defaulting to fallback.");
+			System.out.println("Resource '" + name
+					+ "' not found. Defaulting to fallback.");
 			try {
 				res = load(FALLBACK_RESOURCE);
 			} catch (Exception e1) {
@@ -41,7 +43,7 @@ public abstract class ResLoader<T> {
 				e1.printStackTrace();
 			}
 		}
-		
+
 		if (res == null) {
 			// Can't load yet. Will try again later. (But don't cache)
 			return null;
@@ -58,13 +60,19 @@ public abstract class ResLoader<T> {
 	protected abstract T load(String name) throws Exception;
 
 	public boolean contentExists(String name) {
-		return get(name) != null;
+		Object data = null;
+		try {
+			data = get(name);
+		} catch (Exception e) {
+			return false;
+		}
+		return data != null;
 	}
 
 	public String getExt() {
 		return ext;
 	}
-	
+
 	public String getMetaData(String type, String name) {
 		return "";
 	}

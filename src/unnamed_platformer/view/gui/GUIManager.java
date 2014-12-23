@@ -2,8 +2,6 @@ package unnamed_platformer.view.gui;
 
 import java.util.LinkedList;
 
-import javax.swing.UIManager;
-
 import unnamed_platformer.app.Main;
 import unnamed_platformer.globals.Ref;
 import unnamed_platformer.res_mgt.ClassLookup;

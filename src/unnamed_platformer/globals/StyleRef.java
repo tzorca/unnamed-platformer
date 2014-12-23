@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 
 import javax.swing.BorderFactory;
+import javax.swing.JList;
 import javax.swing.border.MatteBorder;
 
 import unnamed_platformer.view.FluidColor;
@@ -51,7 +52,8 @@ public class StyleRef
 	public static final Style STYLE_HEADING, STYLE_SUB_HEADING,
 			STYLE_ABSTRACT_BUTTON, STYLE_NORMAL_BUTTON, STYLE_TYPICAL_LIST,
 			STYLE_TYPICAL_SCROLLPANE, STYLE_ENTITY_LIST, STYLE_CHOICE_LIST,
-			STYLE_MESSAGE, STYLE_PADDED_MESSAGE, STYLE_PRESS_KEY_MESSAGE;
+			STYLE_MESSAGE, STYLE_PADDED_MESSAGE, STYLE_PRESS_KEY_MESSAGE,
+			STYLE_WORLD_LIST;
 
 	static {
 		STYLE_HEADING = new Style();
@@ -90,6 +92,10 @@ public class StyleRef
 		STYLE_TYPICAL_LIST.setForecolor(Color.WHITE);
 		STYLE_TYPICAL_LIST.setSelectionBackcolor(StyleRef.COLOR_MAIN_HIGHLIGHT);
 		STYLE_TYPICAL_LIST.setSelectionForecolor(Color.WHITE);
+
+		STYLE_WORLD_LIST = new Style(STYLE_TYPICAL_LIST); 
+		STYLE_WORLD_LIST.setLayoutOrientation(JList.HORIZONTAL_WRAP);
+		STYLE_WORLD_LIST.setVisibleRowCount(-1);
 
 		STYLE_TYPICAL_SCROLLPANE = new Style();
 		STYLE_TYPICAL_SCROLLPANE.setFont(StyleRef.FONT_NORMAL);

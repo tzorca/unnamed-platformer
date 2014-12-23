@@ -483,5 +483,9 @@ public final class ViewManager
 		parentFrame.validate();
 		parentFrame.repaint();
 	}
+	
+	public static boolean renderCanvasVisible() {
+		return renderCanvas.hasFocus();
+	}
 
 }

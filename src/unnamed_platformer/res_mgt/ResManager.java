@@ -4,6 +4,8 @@ import java.awt.image.BufferedImage;
 import java.util.Collection;
 import java.util.HashMap;
 
+import javax.swing.ImageIcon;
+
 import org.newdawn.slick.openal.Audio;
 import org.newdawn.slick.opengl.Texture;
 
@@ -50,6 +52,7 @@ public final class ResManager {
 		addResLoader(BufferedImage.class, new ImageResLoader());
 		addResLoader(CollisionData.class, new CollisionDataResLoader());
 		addResLoader(World.class, new GameResDummyLoader());
+		addResLoader(ImageIcon.class, new PreviewIconLoader());
 	}
 
 	public static String humanizeName(String internalName) {

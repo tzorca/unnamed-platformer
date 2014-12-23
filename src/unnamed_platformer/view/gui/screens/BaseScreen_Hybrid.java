@@ -10,14 +10,15 @@ import net.miginfocom.swing.MigLayout;
 import unnamed_platformer.globals.StyleRef;
 import unnamed_platformer.view.ViewManager;
 
-public class BaseScreen_Hybrid extends Screen {
+public class BaseScreen_Hybrid extends Screen
+{
 	private static final int INITIAL_TOOLBAR_SIZE = 48;
 
 	EnumMap<Side, Panel> toolbars = new EnumMap<Side, Panel>(Side.class);
 
 	public BaseScreen_Hybrid() {
 		super();
-		
+
 		ViewManager.resetRenderCanvasBounds();
 		ViewManager.setRenderCanvasVisibility(true);
 		pnlSurface.setVisible(true);
@@ -43,19 +44,16 @@ public class BaseScreen_Hybrid extends Screen {
 
 		int viewWidth = (int) ViewManager.currentResolution.getWidth();
 		int viewHeight = (int) ViewManager.currentResolution.getHeight();
-		
 
 		switch (side) {
 		case bottom:
-			toolbar.setBounds(0, viewHeight - newSize, viewWidth,
-					newSize);
+			toolbar.setBounds(0, viewHeight - newSize, viewWidth, newSize);
 			break;
 		case left:
 			toolbar.setBounds(0, 0, newSize, viewHeight);
 			break;
 		case right:
-			toolbar.setBounds(viewWidth - newSize, 0, newSize,
-					viewHeight);
+			toolbar.setBounds(viewWidth - newSize, 0, newSize, viewHeight);
 			break;
 		case top:
 			toolbar.setBounds(0, 0, viewWidth, newSize);
@@ -67,18 +65,13 @@ public class BaseScreen_Hybrid extends Screen {
 
 	private void compensateForToolbars() {
 		SwingUtilities.invokeLater(new Runnable() {
-			@Override
 			public void run() {
-				int left = (int) toolbars.get(Side.left).getBounds().getMaxX();
-				int right = (int) toolbars.get(Side.right).getBounds()
-						.getMinX();
-				int top = (int) toolbars.get(Side.top).getBounds().getMaxY();
-				int bottom = (int) toolbars.get(Side.bottom).getBounds()
-						.getMinY();
+				int l = (int) toolbars.get(Side.left).getBounds().getMaxX();
+				int r = (int) toolbars.get(Side.right).getBounds().getMinX();
+				int t = (int) toolbars.get(Side.top).getBounds().getMaxY();
+				int b = (int) toolbars.get(Side.bottom).getBounds().getMinY();
 
-				ViewManager.setRenderCanvasBounds(left, top, right - left,
-						bottom - top);
-
+				ViewManager.setRenderCanvasBounds(l, t, r - l, b - t);
 			}
 		});
 	}
