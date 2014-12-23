@@ -18,7 +18,6 @@ import com.google.common.collect.Lists;
 
 public class Screen_Transition extends BaseScreen_GUI
 {
-
 	JButton btnNext = new JButton("Start");
 
 	public Screen_Transition() {
@@ -52,7 +51,7 @@ public class Screen_Transition extends BaseScreen_GUI
 			});
 		}
 
-		StyleRef.STYLE_SUB_HEADING.apply(lblInfo);
+		StyleRef.STYLE_HEADING.apply(lblInfo);
 		StyleRef.STYLE_NORMAL_BUTTON.apply(btnNext);
 		
 		pnlSurface.add(lblInfo, StyleRef.CENTER_LAYOUT + ", gaptop 10%, ");
