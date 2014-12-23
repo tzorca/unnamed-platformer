@@ -1,11 +1,18 @@
 package unnamed_platformer.view;
 
+import java.awt.AWTException;
 import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Dimension;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+import java.awt.Image;
 import java.awt.Panel;
+import java.awt.Robot;
+import java.awt.Toolkit;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
@@ -25,6 +32,7 @@ import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.opengl.Texture;
 
+import unnamed_platformer.app.ImageHelper;
 import unnamed_platformer.app.Main;
 import unnamed_platformer.app.Settings;
 import unnamed_platformer.app.Settings.SettingName;
@@ -52,8 +60,7 @@ public final class ViewManager
 	private static boolean fullscreenValue;
 
 	private static Rectangle viewport = new Rectangle(0, 0,
-			DEFAULT_RESOLUTION.width,
-			DEFAULT_RESOLUTION.height);
+			DEFAULT_RESOLUTION.width, DEFAULT_RESOLUTION.height);
 
 	public static class WindowEventHandler extends WindowAdapter
 	{
@@ -266,9 +273,56 @@ public final class ViewManager
 
 		return new Dimension(displayMode.getWidth(), displayMode.getHeight());
 	}
-	
-	// Coordinate out of bounds?
+
 	public static BufferedImage getScreenshot() {
+		if (fullscreenValue) {
+			return getScreenshotViaRobotScreenCapture();
+		} else {
+			return getScreenshotViaGLRead();
+		}
+	}
+
+	private static BufferedImage getScreenshotViaRobotScreenCapture() {
+		java.awt.Rectangle displayRect = new java.awt.Rectangle(Display.getX(),
+				Display.getY(), Display.getWidth(), Display.getHeight());
+
+		BufferedImage screenshot = null;
+		try {
+			screenshot = new Robot().createScreenCapture(displayRect);
+		} catch (AWTException e) {
+			System.err.println("Could not get screenshot.");
+			e.printStackTrace();
+		}
+		return screenshot;
+	}
+
+	private static BufferedImage getScreenshotViaPrintscreenButton() {
+		 try {
+		 Robot robot;
+		
+		 robot = new Robot();
+		
+		 robot.keyPress(KeyEvent.VK_PRINTSCREEN);
+		 robot.delay(40);
+		 robot.keyRelease(KeyEvent.VK_PRINTSCREEN);
+		 robot.delay(40);
+		
+		 Transferable t = Toolkit.getDefaultToolkit().getSystemClipboard()
+		 .getContents(null);
+		
+		 if (t != null && t.isDataFlavorSupported(DataFlavor.imageFlavor)) {
+		 Image image = (Image) t.getTransferData(DataFlavor.imageFlavor);
+		 return ImageHelper.toBufferedImage(image);
+		 }
+		
+		 } catch (Exception e) {
+		 System.err.println("Could not get screenshot.");
+		 e.printStackTrace();
+		 }
+		 return null;
+	}
+
+	private static BufferedImage getScreenshotViaGLRead() {
 		GL11.glReadBuffer(GL11.GL_FRONT);
 		final int width = Display.getDisplayMode().getWidth();
 		final int height = Display.getDisplayMode().getHeight();
@@ -483,7 +537,7 @@ public final class ViewManager
 		parentFrame.validate();
 		parentFrame.repaint();
 	}
-	
+
 	public static boolean renderCanvasVisible() {
 		return renderCanvas.hasFocus();
 	}

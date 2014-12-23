@@ -1,27 +1,21 @@
 package unnamed_platformer.game.other;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.TreeMap;
 
-import javax.swing.ImageIcon;
-
 import org.newdawn.slick.Color;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 
-import unnamed_platformer.app.ImageHelper;
 import unnamed_platformer.app.TimeManager;
 import unnamed_platformer.game.entities.ActiveEntity;
 import unnamed_platformer.game.entities.Entity;
 import unnamed_platformer.globals.GameRef.Flag;
 import unnamed_platformer.globals.Ref;
 import unnamed_platformer.globals.Ref.BlueprintField;
-import unnamed_platformer.res_mgt.ResManager;
 import unnamed_platformer.view.Graphic;
 import unnamed_platformer.view.ViewManager;
 

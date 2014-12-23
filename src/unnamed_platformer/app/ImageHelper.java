@@ -2,6 +2,7 @@ package unnamed_platformer.app;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.awt.image.BufferedImageOp;
@@ -20,7 +21,8 @@ import javax.swing.ImageIcon;
 import unnamed_platformer.res_mgt.ResManager;
 import unnamed_platformer.view.ViewManager;
 
-public final class ImageHelper {
+public final class ImageHelper
+{
 	public static BufferedImage loadImage(InputStream input) throws IOException {
 		return ImageIO.read(input);
 	}
@@ -117,5 +119,20 @@ public final class ImageHelper {
 
 		return new ImageIcon(img.getScaledInstance(size, (int) (size / ratio),
 				java.awt.Image.SCALE_SMOOTH));
+	}
+
+	public static BufferedImage toBufferedImage(Image image) {
+		if (image instanceof BufferedImage) {
+			return (BufferedImage) image;
+		}
+
+		BufferedImage bufferedImage = new BufferedImage(image.getWidth(null),
+				image.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+
+		Graphics2D graphics2D = bufferedImage.createGraphics();
+		graphics2D.drawImage(image, 0, 0, null);
+		graphics2D.dispose();
+
+		return bufferedImage;
 	}
 }
