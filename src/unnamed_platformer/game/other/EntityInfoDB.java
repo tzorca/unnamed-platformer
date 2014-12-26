@@ -43,14 +43,13 @@ public class EntityInfoDB
 		initialized = true;
 		initTables();
 		insertNewTextureNames();
-		addTextureMappings();
 	}
 
 	public static boolean isInitialized() {
 		return initialized;
 	}
 
-	private static void addTextureMappings() {
+	public static void loadTextureMappings() {
 		try {
 			SQLiteStatement st = db.prepare("select * FROM "
 					+ Names.Tbl.TEXTURE_MAPPINGS + ";");
@@ -131,8 +130,8 @@ public class EntityInfoDB
 		try {
 			db.open(true);
 		} catch (SQLiteException e) {
-			System.out.println("Could not connect to database: "
-					+ e.toString());
+			System.out
+					.println("Could not connect to database: " + e.toString());
 			Main.doExit();
 		}
 	}

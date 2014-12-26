@@ -93,15 +93,15 @@ public final class Main
 		SoundManager.preload();
 		InputManager.init();
 		GUIManager.init();
-		ViewManager.init();
 		EntityInfoDB.init();
+		ViewManager.init();
+		EntityInfoDB.loadTextureMappings();
 		GUIManager.changeScreen(ScreenType.Title);
 	}
 
 	private static Cloner cloner = new Cloner();
 	private static void setupCloner() {
 		cloner.dontClone(Texture.class);
-		cloner.dontClone(Triangulator.class);
 	}
 
 	public static <T> T deepClone(T o) {
