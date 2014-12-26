@@ -61,7 +61,7 @@ public class Level
 			if (e.isFlagSet(Flag.PLAYER)) {
 				playerEntity = (ActiveEntity) e;
 
-				ViewManager.centerCamera(playerEntity.getCenter());
+				ViewManager.centerCamera(playerEntity.getCenter(), rect);
 			}
 		}
 	}
@@ -205,7 +205,7 @@ public class Level
 			PhysicsProcessor.checkForInteractionsWithRegisteredEntities();
 
 			if (playerEntity != null) {
-				ViewManager.centerCamera(playerEntity.getCenter());
+				ViewManager.centerCamera(playerEntity.getCenter(), rect);
 			}
 		}
 

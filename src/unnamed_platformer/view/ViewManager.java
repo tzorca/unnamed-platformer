@@ -78,17 +78,31 @@ public final class ViewManager
 		}
 	}
 
-	public static void centerCamera(final Vector2f location) {
-		final float xPos = location.x;
-		final float yPos = location.y;
+	public static void centerCamera(final Vector2f location,
+			Rectangle levelBounds) {
+		final float x = location.x;
+		final float y = location.y;
 
-		final int left = (int) (xPos - currentResolution.width / SCALE / 2);
-		final int top = (int) (yPos - currentResolution.height / SCALE / 2);
+		float scaledHalfWidth = currentResolution.width / SCALE / 2;
+		float scaledHalfHeight = currentResolution.height / SCALE / 2;
 
-		final int right = (int) (currentResolution.width / SCALE / 2 + xPos);
-		final int bottom = (int) (currentResolution.height / SCALE / 2 + yPos);
+		if (levelBounds == null) {
+			levelBounds = new Rectangle(Float.MIN_VALUE / 2,
+					Float.MIN_VALUE / 2, Float.MAX_VALUE / 2,
+					Float.MAX_VALUE / 2);
+		}
 
-		viewport.setBounds(left, top, right - left, bottom - top);
+		int left = (int) Math.max(x - scaledHalfWidth, levelBounds.getMinX());
+		int top = (int) Math.max(y - scaledHalfHeight, levelBounds.getMinY());
+		// int right = (int) Math.min(x + scaledHalfWidth,
+		// levelBounds.getMaxX());
+		// int bottom = (int) Math
+		// .min(y + scaledHalfHeight, levelBounds.getMaxY());
+
+		viewport.setBounds(left, top, scaledHalfWidth * 2, scaledHalfHeight * 2);
+
+		int right = (int) viewport.getMaxX();
+		int bottom = (int) viewport.getMaxY();
 
 		if (Display.isActive()) {
 			GL11.glMatrixMode(GL11.GL_PROJECTION);
@@ -459,7 +473,10 @@ public final class ViewManager
 	}
 
 	public static void init() {
+
 		setFullscreen(Settings.getBoolean(SettingName.DEFAULTS_TO_FULLSCREEN));
+
+		HeadsUpDisplay.init();
 	}
 
 	private static void reinitFrame() {

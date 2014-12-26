@@ -159,8 +159,7 @@ public class Editor
 	}
 
 	public void update() {
-		ViewManager.centerCamera(cameraPos);
-
+		ViewManager.centerCamera(cameraPos, null);
 	}
 
 	public boolean levelInc(final int increment) {
@@ -283,7 +282,7 @@ public class Editor
 		Entity playerEntity = World.getCurrentLevel().getPlayer();
 
 		if (playerEntity != null) {
-			ViewManager.centerCamera(playerEntity.getCenter());
+			ViewManager.centerCamera(playerEntity.getCenter(), null);
 		}
 	}
 }

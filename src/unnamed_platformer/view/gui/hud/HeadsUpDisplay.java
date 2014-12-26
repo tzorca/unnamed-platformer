@@ -12,11 +12,11 @@ public class HeadsUpDisplay
 {
 	protected static List<HUDComponent> hudComponents = new ArrayList<HUDComponent>();
 
-	static {
+	public static void init() {
 		hudComponents.add(new HUD_PlayerHealth());
 		hudComponents.add(new HUD_Time());
 	}
-
+	
 	public static void updateAndDraw() {
 		if (!World.playing()) {
 			return;
