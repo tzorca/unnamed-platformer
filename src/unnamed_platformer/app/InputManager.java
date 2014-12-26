@@ -2,6 +2,7 @@ package unnamed_platformer.app;
 
 import java.awt.MouseInfo;
 import java.awt.Point;
+import java.awt.PointerInfo;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -69,7 +70,7 @@ public final class InputManager
 	}
 
 	private static Point getMousePosInWindow() {
-		Point mousePos = MouseInfo.getPointerInfo().getLocation();
+		Point mousePos = pointerInfo.getLocation();
 		Point contentLocation = ViewManager.getFrame().getContentPane()
 				.getLocation();
 
@@ -167,12 +168,16 @@ public final class InputManager
 	private static EnumMap<InputEventType, Runnable> eventHandlers = new EnumMap<InputEventType, Runnable>(
 			InputEventType.class);
 
+	private static PointerInfo pointerInfo;
+	
 	static {
 		// load game key mappings from settings
 		loadMappingsFromSettings();
 
 		// setup event handlers to be non-null initially
 		resetEvents();
+		
+		 pointerInfo = MouseInfo.getPointerInfo();
 	}
 
 	/**
