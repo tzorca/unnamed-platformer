@@ -42,8 +42,7 @@ public class Settings
 	public static EnumMap<SettingName, Object> settings = new EnumMap<SettingName, Object>(
 			SettingName.class);
 
-	// Default settings
-	static {
+	private static void loadDefaultSettings() {
 		settings.put(SettingName.OFFICIAL_LEVELSET_NAME, "Example Levels");
 		settings.put(SettingName.DEFAULTS_TO_FULLSCREEN, false);
 		settings.put(SettingName.AUTO_SAVE_ON_EXIT, false);
@@ -127,6 +126,8 @@ public class Settings
 	private static Wini ini;
 
 	public static void init() {
+		loadDefaultSettings();
+		
 		boolean noSettingsFile = !Ref.SETTINGS_FILE.exists();
 
 		if (noSettingsFile) {

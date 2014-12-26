@@ -11,7 +11,8 @@ import com.google.common.collect.Multimap;
 import com.google.common.collect.Table;
 import com.google.common.reflect.ClassPath;
 
-public final class ClassLookup {
+public final class ClassLookup
+{
 
 	// Data structures for quick lookup
 	private static Multimap<String, Class<?>> classesInPackages = HashMultimap
@@ -22,7 +23,7 @@ public final class ClassLookup {
 			.create();
 
 	// Initialize quick lookup structures
-	static {
+	public static void init() {
 		ClassPath classpath = null;
 		try {
 			classpath = ClassPath.from(ClassLoader.getSystemClassLoader());
@@ -68,8 +69,8 @@ public final class ClassLookup {
 		try {
 			return clazz.getConstructor().newInstance();
 		} catch (Exception e) {
-			System.out.println("Error: Could not instantiate '" + clazz.getName()
-					+ "': " + e.getMessage());
+			System.out.println("Error: Could not instantiate '"
+					+ clazz.getName() + "': " + e.getMessage());
 		}
 		return null;
 	}

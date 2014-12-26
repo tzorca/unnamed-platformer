@@ -1,4 +1,4 @@
-package unnamed_platformer.app;
+package unnamed_platformer.app; 
 
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.geom.Triangulator;
@@ -9,6 +9,7 @@ import unnamed_platformer.game.other.EntityCreator;
 import unnamed_platformer.game.other.EntityInfoDB;
 import unnamed_platformer.game.other.World;
 import unnamed_platformer.globals.Ref;
+import unnamed_platformer.res_mgt.ClassLookup;
 import unnamed_platformer.res_mgt.ResManager;
 import unnamed_platformer.res_mgt.SoundManager;
 import unnamed_platformer.view.ViewManager;
@@ -25,7 +26,7 @@ public final class Main
 	private static void gameLoop() {
 		while (!Display.isCloseRequested()) {
 			long millisecDelta = TimeManager.tick();
-
+			
 			if (millisecDelta == 0) {
 				continue;
 			}
@@ -82,18 +83,23 @@ public final class Main
 		SQLite.setLibraryPath(Ref.NATIVE_LIB_DIR);
 		System.setProperty("org.lwjgl.librarypath", Ref.NATIVE_LIB_DIR);
 
+		setupCloner();
+	
+		ClassLookup.init();
 		Settings.init();
 		TimeManager.init();
 		EntityCreator.init();
 		ResManager.init();
 		SoundManager.preload();
+		InputManager.init();
+		GUIManager.init();
 		ViewManager.init();
 		EntityInfoDB.init();
 		GUIManager.changeScreen(ScreenType.Title);
 	}
 
 	private static Cloner cloner = new Cloner();
-	static {
+	private static void setupCloner() {
 		cloner.dontClone(Texture.class);
 		cloner.dontClone(Triangulator.class);
 	}

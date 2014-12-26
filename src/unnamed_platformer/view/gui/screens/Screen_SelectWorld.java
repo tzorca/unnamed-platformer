@@ -88,7 +88,7 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 			} else {
 				mdlWorlds.addElement(worldName);
 			}
-		}
+		}	
 		lstWorlds.setModel(mdlWorlds);
 		lstWorlds.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		StyleRef.STYLE_WORLD_LIST.apply(lstWorlds);

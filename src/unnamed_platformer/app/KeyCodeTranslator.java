@@ -13,7 +13,8 @@ public class KeyCodeTranslator
 {
 
 	private final static HashMap<Integer, Integer> translationTable = new HashMap<Integer, Integer>();
-	static {
+
+	public static void init() {
 		translationTable.put(KeyEvent.VK_0, Keyboard.KEY_0);
 		translationTable.put(KeyEvent.VK_1, Keyboard.KEY_1);
 		translationTable.put(KeyEvent.VK_2, Keyboard.KEY_2);

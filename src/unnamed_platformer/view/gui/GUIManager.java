@@ -24,7 +24,7 @@ public final class GUIManager
 
 	private static LinkedList<ScreenType> screenStateStack = new LinkedList<ScreenType>();
 
-	static {
+	public static void init() {
 		// enable anti-aliased text:
 		System.setProperty("awt.useSystemAAFontSettings", "on");
 		System.setProperty("swing.aatext", "true");

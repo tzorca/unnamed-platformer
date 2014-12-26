@@ -169,15 +169,19 @@ public final class InputManager
 			InputEventType.class);
 
 	private static PointerInfo pointerInfo;
-	
-	static {
+
+	public static void init() {
+		// set up key code translator
+		KeyCodeTranslator.init();
+		
 		// load game key mappings from settings
 		loadMappingsFromSettings();
 
 		// setup event handlers to be non-null initially
 		resetEvents();
-		
-		 pointerInfo = MouseInfo.getPointerInfo();
+
+		// get pointer info
+		pointerInfo = MouseInfo.getPointerInfo();
 	}
 
 	/**
