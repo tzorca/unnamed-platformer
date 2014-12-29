@@ -1,6 +1,7 @@
 package unnamed_platformer.globals;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -61,7 +62,13 @@ public final class EntityRef {
 		return textureNameToEntityClass.containsKey(texName);
 	}
 
-	public static List<Entity> selectEntitiesWithFlag(List<Entity> entities,
+	/**
+	 * Get a list of entities with a given flag turned on.
+	 * @param entities
+	 * @param flag
+	 * @return
+	 */
+	public static List<Entity> select(Collection<Entity> entities,
 			Flag flag) {
 		List<Entity> selectedEntities = new ArrayList<Entity>();
 		for (Entity entity : entities) {

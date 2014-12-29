@@ -8,6 +8,7 @@ import org.newdawn.slick.geom.Vector2f;
 import unnamed_platformer.app.MathHelper;
 import unnamed_platformer.game.behaviours.ControlMechanism;
 import unnamed_platformer.game.entities.ActiveEntity;
+import unnamed_platformer.game.other.DirectionalEnums.Axis;
 import unnamed_platformer.globals.GameRef.Flag;
 
 public class PhysicsInstance
@@ -153,7 +154,7 @@ public class PhysicsInstance
 		// clear out current force (no longer current next tic)
 		currentForces = new Vector2f(0, 0);
 
-		PhysicsProcessor.registerEntityForInteractionChecking(associatedActor);
+		PhysicsProcessor.registerForInteractionChecking(associatedActor);
 		forceMultiplier = PhysicsProcessor.FORCE_MULTIPLIER;
 	}
 
@@ -165,6 +166,17 @@ public class PhysicsInstance
 
 		resetControlMechanisms();
 		isZero = true;
+	}
+
+	public void handleCollision(Axis axis) {
+		if (axis == Axis.HORIZONTAL) {
+			setXVelocity(0);
+			lastMoveResult.setXCollision(true);
+		} else if (axis == Axis.VERTICAL) {
+			setInAir(false);
+			setYVelocity(0);
+			lastMoveResult.setYCollision(true);
+		}
 	}
 
 }

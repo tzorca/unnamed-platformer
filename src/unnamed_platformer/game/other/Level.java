@@ -202,7 +202,7 @@ public class Level
 		}
 
 		if (World.playing()) {
-			PhysicsProcessor.checkForInteractionsWithRegisteredEntities();
+			PhysicsProcessor.processInteractionsNearRegisteredEntities();
 
 			if (playerEntity != null) {
 				ViewManager.centerCamera(playerEntity.getCenter(), rect);
