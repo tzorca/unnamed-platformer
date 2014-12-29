@@ -39,7 +39,7 @@ public abstract class Interaction
 		if (!onActiveside(source, target)) {
 			return false;
 		}
-
+		
 		return performInteraction(source, target);
 	}
 

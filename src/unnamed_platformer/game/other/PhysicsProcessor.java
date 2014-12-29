@@ -44,30 +44,22 @@ public final class PhysicsProcessor
 		final Vector2f originalPos = actor.getPos();
 		final Vector2f velocity = actorPhysics.getVelocity();
 
-		// Saves the velocity before the speed limit is applied
-		actorPhysics.lastMoveResult = new MoveResult(velocity.x, velocity.y);
-
-		applyGlobalSpeedLimit(velocity);
-
 		if (actor.isFlagSet(Flag.TANGIBLE)) {
 			// if the actor is tangible, axes must be checked separately to
 			// determine a safe position before performing interactions
 
 			final Axis[] orderedAxes;
-			if (velocity.x > velocity.y) {
+			if (Math.abs(velocity.x) > Math.abs(velocity.y)) {
 				orderedAxes = new Axis[] { Axis.HORIZONTAL, Axis.VERTICAL };
 			} else {
 				orderedAxes = new Axis[] { Axis.VERTICAL, Axis.HORIZONTAL };
 			}
 
 			List<Entity> solidEntities = EntityRef.select(entities, Flag.SOLID);
-
 			List<Entity> alwaysInteractEntities = EntityRef.select(entities,
 					Flag.ALWAYS_INTERACT);
 
 			for (final Axis axis : orderedAxes) {
-				boolean intersectsSolid = wouldIntersect(actor, solidEntities,
-						axis, velocity);
 
 				doInteractions(actor, axis, velocity, alwaysInteractEntities);
 
@@ -75,6 +67,8 @@ public final class PhysicsProcessor
 					break;
 				}
 
+				boolean intersectsSolid = wouldIntersect(actor, solidEntities,
+						axis, velocity);
 				if (intersectsSolid) {
 					actorPhysics.handleCollision(axis);
 				} else {
@@ -161,7 +155,7 @@ public final class PhysicsProcessor
 		return false;
 	}
 
-	private static void applyGlobalSpeedLimit(final Vector2f velocity) {
+	public static void applyGlobalSpeedLimit(final Vector2f velocity) {
 		velocity.x = Math.min(velocity.x, SPEED_LIMIT);
 		velocity.x = Math.max(velocity.x, -SPEED_LIMIT);
 		velocity.y = Math.min(velocity.y, SPEED_LIMIT);

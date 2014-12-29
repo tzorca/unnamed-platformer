@@ -156,6 +156,11 @@ public class PhysicsInstance
 
 		PhysicsProcessor.registerForInteractionChecking(associatedActor);
 		forceMultiplier = PhysicsProcessor.FORCE_MULTIPLIER;
+		
+		// Saves the velocity before the speed limit is applied
+		lastMoveResult = new MoveResult(velocity.x, velocity.y);
+
+		PhysicsProcessor.applyGlobalSpeedLimit(velocity);
 	}
 
 	public void zero() {
