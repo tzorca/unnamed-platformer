@@ -29,6 +29,8 @@ import javax.swing.JFrame;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;
+import org.lwjgl.input.Cursor;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
@@ -473,10 +475,34 @@ public final class ViewManager
 	}
 
 	public static void init() {
-
 		setFullscreen(Settings.getBoolean(SettingName.DEFAULTS_TO_FULLSCREEN));
 
 		HeadsUpDisplay.init();
+
+		if (Settings.getBoolean(SettingName.HIDE_CURSOR)) {
+			hideCursor();
+		}
+	}
+
+	private static void hideCursor() {
+		// LWJGL
+		Cursor blankLWJGLCursor;
+		try {
+			blankLWJGLCursor = new Cursor(1, 1, 0, 0, 1,
+					BufferUtils.createIntBuffer(1), null);
+			Mouse.setNativeCursor(blankLWJGLCursor);
+		} catch (LWJGLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		// Swing
+		BufferedImage blankCursorImage = new BufferedImage(16, 16,
+				BufferedImage.TYPE_INT_ARGB);
+		java.awt.Cursor blankSwingCursor = Toolkit.getDefaultToolkit()
+				.createCustomCursor(blankCursorImage, new java.awt.Point(0, 0),
+						"blank cursor");
+		parentFrame.getContentPane().setCursor(blankSwingCursor);
 	}
 
 	private static void reinitFrame() {
