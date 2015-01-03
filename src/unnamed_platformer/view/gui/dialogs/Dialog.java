@@ -7,7 +7,6 @@ import java.awt.event.WindowFocusListener;
 import javax.swing.JDialog;
 
 import unnamed_platformer.globals.StyleRef;
-import unnamed_platformer.input.InputManager;
 
 public class Dialog extends JDialog
 {
@@ -18,13 +17,11 @@ public class Dialog extends JDialog
 
 	public Dialog(Frame owner) {
 		super(owner, false);
-		InputManager.resetEvents();
 		initStandardProperties();
 	}
 
 	public Dialog(Frame owner, String title) {
 		super(owner, title, false);
-		InputManager.resetEvents();
 		initStandardProperties();
 	}
 

@@ -3,6 +3,7 @@ package unnamed_platformer.view.gui.screens;
 import java.awt.Panel;
 
 import net.miginfocom.swing.MigLayout;
+import unnamed_platformer.app.Main;
 import unnamed_platformer.globals.StyleRef;
 import unnamed_platformer.input.InputManager;
 import unnamed_platformer.view.gui.GUIManager.ScreenType;
@@ -22,6 +23,7 @@ public abstract class Screen
 	public Screen() {
 		super();
 
+		Main.setHotKeysAllowed(true);
 		InputManager.resetEvents();
 		pnlSurface.setBackground(StyleRef.COLOR_MAIN_PLUS);
 	}

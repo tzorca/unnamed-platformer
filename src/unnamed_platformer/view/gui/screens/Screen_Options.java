@@ -21,15 +21,13 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import org.lwjgl.input.Keyboard;
-
 import unnamed_platformer.app.Main;
 import unnamed_platformer.app.Settings;
 import unnamed_platformer.globals.StyleRef;
 import unnamed_platformer.input.GameKey;
 import unnamed_platformer.input.InputManager;
 import unnamed_platformer.input.InputManager.PlrGameKey;
-import unnamed_platformer.input.KeyCodeTranslator;
+import unnamed_platformer.input.RawKey;
 import unnamed_platformer.view.ViewManager;
 import unnamed_platformer.view.gui.GUIHelper.ParamRunnable;
 import unnamed_platformer.view.gui.GUIManager;
@@ -39,7 +37,8 @@ import unnamed_platformer.view.gui.objects.ListCellRenderer_PlrGameKey;
 
 import com.google.common.collect.Lists;
 
-public class Screen_Options extends BaseScreen_GUI {
+public class Screen_Options extends BaseScreen_GUI
+{
 
 	DefaultListModel<PlrGameKey> mdlKeys = new DefaultListModel<PlrGameKey>();
 
@@ -57,7 +56,7 @@ public class Screen_Options extends BaseScreen_GUI {
 			.newArrayList(lstKeys, btnBack);
 
 	public Screen_Options() {
-		super();	
+		super();
 
 		// SETUP TITLE
 		StyleRef.STYLE_SUB_HEADING.apply(lblTitle);
@@ -134,29 +133,24 @@ public class Screen_Options extends BaseScreen_GUI {
 		}
 		lstKeys.setSelectedIndex(newIndex);
 	}
-	
+
 	// =================================================================
 	// ACTIONS
 	// =================================================================
 
-	private void tryAssignKey(Integer keyCode) {
+	private void tryAssignKey(RawKey key) {
 		if (currentPlrGameKey == null) {
 			return;
 		}
 
-		Integer jinputKeyCode = KeyCodeTranslator.awtCodeToJInputCode(keyCode);
-		if (jinputKeyCode == null) {
-			System.err.println("Error: No JInput translation found for " + KeyEvent.getKeyText(keyCode));
-			return;
-		}
-		
-		String jinputKeyText = Keyboard.getKeyName(jinputKeyCode);
-		
-		Settings.setString(currentPlrGameKey.toString(), jinputKeyText);
-		
+		Settings.setString(currentPlrGameKey.toString(), key.toString());
 		InputManager.loadMappingsFromSettings();
+		
+		// prevent new key from activating immediately
+		InputManager.ghost(currentPlrGameKey);
+		Main.setHotKeysAllowed(true);
 	}
- 
+
 	// =================================================================
 	// EVENTS
 	// =================================================================
@@ -205,15 +199,13 @@ public class Screen_Options extends BaseScreen_GUI {
 	private void showKeyChangeDialog() {
 		ParamRunnable assignKeyCallback = new ParamRunnable() {
 			public void run(Object param) {
-				Integer keyCode = (Integer) param;
-				tryAssignKey(keyCode);
+				RawKey key = (RawKey) param;
+				tryAssignKey(key);
 			}
-
 		};
 		GUIManager.showDialog(new Dialog_KeyAssignment(ViewManager.getFrame(),
 				assignKeyCallback));
 	}
-
 
 	// Java VK KeyEvents
 	private class Global_KeyListener extends KeyAdapter

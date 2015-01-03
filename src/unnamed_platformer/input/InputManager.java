@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.lwjgl.input.Controllers;
 import org.lwjgl.input.Keyboard;
 
 import unnamed_platformer.app.Settings;
@@ -75,6 +76,7 @@ public final class InputManager
 	 */
 	public static void resetEvents() {
 		MouseInputManager.resetEvents();
+		Controllers.clearEvents();
 
 		for (PlrGameKey pgk : gameKeyMappings.values()) {
 			playerGameKeyStates.put(pgk, false);
@@ -94,16 +96,17 @@ public final class InputManager
 			Keyboard.getEventCharacter();
 			boolean state = Keyboard.getEventKeyState();
 			RawKey key = new RawKey(KeyType.KEYBOARD_JINPUT, keycode);
-			
-			
-			if (gameKeyMappings.containsKey(key)) {
-				linkKeyState(gameKeyMappings.get(key), state);
-			}
+
+			linkKeyState(key, state);
 		}
 	}
 
-	private static void linkKeyState(Collection<PlrGameKey> mappings,
-			boolean state) {
+	public static void linkKeyState(RawKey key, boolean state) {
+		if (!gameKeyMappings.containsKey(key)) {
+			return;
+		}
+
+		Collection<PlrGameKey> mappings = gameKeyMappings.get(key);
 
 		for (PlrGameKey mapping : mappings) {
 			playerGameKeyStates.put(mapping, state);
@@ -220,14 +223,34 @@ public final class InputManager
 		}
 	}
 
-	public static RawKey getAssociatedKey(PlrGameKey plrGameKey) throws Exception {
+	public static RawKey getAssociatedKey(PlrGameKey plrGameKey)
+			throws Exception {
 		for (Entry<RawKey, PlrGameKey> entry : gameKeyMappings.entries()) {
 			if (entry.getValue().equals(plrGameKey)) {
 				return entry.getKey();
 			}
 		}
 		// Invalid key
-		throw new Exception("No associated game key for " + plrGameKey.toString());
+		throw new Exception("No associated game key for "
+				+ plrGameKey.toString());
+	}
+
+	public static void finish() {
+		GamepadInputManager.finish();
+	}
+
+	/**
+	 * Prevents a key from activating a press event
+	 */
+	public static void ghost(PlrGameKey pgk) {
+		lastPlayerGameKeyStates.put(pgk, true);
+
+	}
+
+	public static void ghostAll() {
+		for (PlrGameKey pgk : lastPlayerGameKeyStates.keySet()) {
+			ghost(pgk);
+		}
 	}
 
 }

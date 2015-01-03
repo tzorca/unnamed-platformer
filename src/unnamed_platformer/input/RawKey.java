@@ -19,10 +19,10 @@ public class RawKey
 		this.code = keyCode;
 	}
 
-	public RawKey(KeyType type, int keyCode, int controllerIndex) {
+	public RawKey(KeyType type, int controllerIndex, int keyCode) {
 		this.type = type;
-		this.code = keyCode;
 		this.controllerIndex = controllerIndex;
+		this.code = keyCode;
 	}
 
 	public static RawKey fromAWTKeyCode(int keycode) {

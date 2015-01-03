@@ -1,4 +1,4 @@
-package unnamed_platformer.app; 
+package unnamed_platformer.app;
 
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.opengl.Texture;
@@ -23,16 +23,20 @@ public final class Main
 {
 	private static long accumulator = 0;
 
+	private static boolean hotkeysAllowed = true;
+
 	private static void gameLoop() {
 		while (!Display.isCloseRequested()) {
 			long millisecDelta = TimeManager.tick();
-			
+
 			if (millisecDelta == 0) {
 				continue;
 			}
 
 			InputManager.update();
-			handleHotkeys();
+			if (hotkeysAllowed) {
+				handleHotkeys();
+			}
 
 			accumulator += millisecDelta;
 
@@ -78,10 +82,11 @@ public final class Main
 		// configuration
 		SQLite.setLibraryPath(Ref.NATIVE_LIB_DIR);
 		System.setProperty("org.lwjgl.librarypath", Ref.NATIVE_LIB_DIR);
-		System.setProperty("net.java.games.input.librarypath", Ref.NATIVE_LIB_DIR);
+		System.setProperty("net.java.games.input.librarypath",
+				Ref.NATIVE_LIB_DIR);
 
 		setupCloner();
-	
+
 		ClassLookup.init();
 		Settings.init();
 		TimeManager.init();
@@ -97,6 +102,7 @@ public final class Main
 	}
 
 	private static Cloner cloner = new Cloner();
+
 	private static void setupCloner() {
 		cloner.dontClone(Texture.class);
 	}
@@ -119,8 +125,13 @@ public final class Main
 		if (EntityInfoDB.isInitialized()) {
 			EntityInfoDB.finish();
 		}
+		InputManager.finish();
 		SoundManager.finish();
 
+	}
+
+	public static void setHotKeysAllowed(boolean value) {
+		hotkeysAllowed = value;
 	}
 
 }
