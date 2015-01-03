@@ -213,7 +213,7 @@ public class Screen_Edit extends BaseScreen_Hybrid
 
 	private void processPaintControls() {
 		// Multi-select
-		final boolean multiselectState = InputManager.keyPressOccurring(
+		final boolean multiselectState = InputManager.keyIsPressed(
 				GameKey.MULTI_SELECT, 1);
 		if (multiselectState && !lastMultiselectState) {
 			editor.startMultiselect(cursorRect.getLocation());
@@ -357,19 +357,19 @@ public class Screen_Edit extends BaseScreen_Hybrid
 		}
 
 		Vector2f cursorDelta = new Vector2f(0, 0);
-		if (InputManager.keyPressOccurring(GameKey.LEFT, 1)) {
+		if (InputManager.keyIsPressed(GameKey.LEFT, 1)) {
 			cursorDelta.x -= NAV_SPEED;
 		}
 
-		if (InputManager.keyPressOccurring(GameKey.RIGHT, 1)) {
+		if (InputManager.keyIsPressed(GameKey.RIGHT, 1)) {
 			cursorDelta.x += NAV_SPEED;
 		}
 
-		if (InputManager.keyPressOccurring(GameKey.UP, 1)) {
+		if (InputManager.keyIsPressed(GameKey.UP, 1)) {
 			cursorDelta.y -= NAV_SPEED;
 		}
 
-		if (InputManager.keyPressOccurring(GameKey.DOWN, 1)) {
+		if (InputManager.keyIsPressed(GameKey.DOWN, 1)) {
 			cursorDelta.y += NAV_SPEED;
 		}
 

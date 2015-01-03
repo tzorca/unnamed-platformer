@@ -30,14 +30,14 @@ public class Ctrl_Jump extends ControlMechanism
 		}
 
 		if (!jumping && physics.isOnGround()
-				&& InputManager.keyPressOccurring(GameKey.A, 1)
+				&& InputManager.keyIsPressed(GameKey.A, 1)
 				&& actor.isFlagSet(Flag.OBEYS_GRAVITY)) {
 
 			jump(multiplier);
 		}
 
 		if (jumping) {
-			if (!InputManager.keyPressOccurring(GameKey.A, 1)) {
+			if (!InputManager.keyIsPressed(GameKey.A, 1)) {
 
 				if (physics.getVelocity().y < 0) {
 					float yDiff = physics.getVelocity().y + jumpStrength;

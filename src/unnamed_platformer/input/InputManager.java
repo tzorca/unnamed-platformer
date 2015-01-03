@@ -56,14 +56,14 @@ public final class InputManager
 		// set up key code translator
 		KeyCodeTranslator.init();
 
+		// init mouse input manager
+		MouseInputManager.init();
+
 		// load game key mappings from settings
 		loadMappingsFromSettings();
 
 		// setup event handlers to be non-null initially
 		resetEvents();
-
-		// init mouse input manager
-		MouseInputManager.init();
 	}
 
 	/**
@@ -89,29 +89,28 @@ public final class InputManager
 			int keycode = Keyboard.getEventKey();
 			Keyboard.getEventCharacter();
 			boolean state = Keyboard.getEventKeyState();
-			linkKeyState(keycode, state);
-		}
-	}
-
-	private static void linkKeyState(int keycode, boolean state) {
-		if (gameKeyMappings.containsKey(keycode)) {
-			Collection<PlrGameKey> mappings = gameKeyMappings.get(keycode);
-
-			for (PlrGameKey mapping : mappings) {
-				playerGameKeyStates.put(mapping, state);
-
-				if (state && !lastPlayerGameKeyStates.get(mapping)) {
-					playerGameKeyPressEvents.put(mapping, true);
-				}
-				lastPlayerGameKeyStates.put(mapping, state);
-
+			if (gameKeyMappings.containsKey(keycode)) {
+				linkKeyState(gameKeyMappings.get(keycode), state);
 			}
 		}
 	}
 
-	public static boolean keyPressOccurring(GameKey gk, int playerNo) {
+	private static void linkKeyState(Collection<PlrGameKey> mappings,
+			boolean state) {
+
+		for (PlrGameKey mapping : mappings) {
+			playerGameKeyStates.put(mapping, state);
+
+			if (state && !lastPlayerGameKeyStates.get(mapping)) {
+				playerGameKeyPressEvents.put(mapping, true);
+			}
+			lastPlayerGameKeyStates.put(mapping, state);
+
+		}
+	}
+
+	public static boolean keyIsPressed(GameKey gk, int playerNo) {
 		PlrGameKey pgk = new PlrGameKey(playerNo, gk);
-		createPlrGameKeyEntry(pgk);
 
 		return playerGameKeyStates.get(pgk);
 	}
@@ -132,7 +131,6 @@ public final class InputManager
 	public static boolean keyPressOccurredOrRepeating(GameKey gk, int playerNo) {
 
 		PlrGameKey pgk = new PlrGameKey(playerNo, gk);
-		createPlrGameKeyEntry(pgk);
 
 		// Check if occurred
 		if (keyPressOccurred(gk, playerNo)) {
@@ -149,12 +147,6 @@ public final class InputManager
 		}
 
 		return false;
-	}
-
-	private static void createPlrGameKeyEntry(PlrGameKey pgk) {
-		if (!playerGameKeyStates.containsKey(pgk)) {
-			playerGameKeyStates.put(pgk, false);
-		}
 	}
 
 	public static class PlrGameKey
