@@ -1,11 +1,9 @@
 package unnamed_platformer.input;
 
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map.Entry;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -21,24 +19,12 @@ import com.google.common.collect.Multimap;
 
 public final class InputManager
 {
-	public enum GameKey {
-		LEFT, RIGHT, UP, DOWN, /* */
-		A, B, /* */
-		START, /* */
-		RESTART, SAVE_SCREENSHOT, EXIT, /* */
-		MULTI_SELECT, /* */
-		SECONDARY_LEFT, SECONDARY_RIGHT, SECONDARY_UP, SECONDARY_DOWN, /* */
-		SCROLL_IN, SCROLL_OUT /* */,
-	}
-
-	private static HashMap<Integer, Boolean> rawKeyStates = Maps.newHashMap(),
-			lastRawKeyStates = Maps.newHashMap(), rawKeyPressEvents = Maps
-					.newHashMap();
-
-	private static HashMap<PlrGameKey, Boolean> playerGameKeyStates = Maps
-			.newHashMap(), lastPlayerGameKeyStates = Maps.newHashMap(),
-			playerGameKeyPressEvents = Maps.newHashMap();
 	private static Multimap<Integer, PlrGameKey> gameKeyMappings;
+
+	private static HashMap<PlrGameKey, Boolean>
+	/* */playerGameKeyStates = Maps.newHashMap(),
+	/* */lastPlayerGameKeyStates = Maps.newHashMap(),
+	/* */playerGameKeyPressEvents = Maps.newHashMap();
 
 	public static Collection<PlrGameKey> getGameKeysMatchingKeyEvent(
 			KeyEvent keyEvent) {
@@ -86,21 +72,16 @@ public final class InputManager
 	public static void resetEvents() {
 		MouseInputManager.resetEvents();
 
-		for (PlrGameKey pgk : playerGameKeyStates.keySet()) {
+		for (PlrGameKey pgk : gameKeyMappings.values()) {
 			playerGameKeyStates.put(pgk, false);
 			lastPlayerGameKeyStates.put(pgk, false);
 			playerGameKeyPressEvents.put(pgk, false);
-
-		}
-		for (Integer keyCode : rawKeyStates.keySet()) {
-			rawKeyStates.put(keyCode, false);
-			lastRawKeyStates.put(keyCode, false);
-			rawKeyPressEvents.put(keyCode, false);
 		}
 	}
 
 	public static void loadMappingsFromSettings() {
 		gameKeyMappings = Settings.generateGameKeyMappings();
+
 	}
 
 	private static void readKeys() {
@@ -113,23 +94,11 @@ public final class InputManager
 	}
 
 	private static void linkKeyState(int keycode, boolean state) {
-		rawKeyStates.put(keycode, state);
 		if (gameKeyMappings.containsKey(keycode)) {
 			Collection<PlrGameKey> mappings = gameKeyMappings.get(keycode);
 
-			if (!lastRawKeyStates.containsKey(keycode)) {
-				lastRawKeyStates.put(keycode, false);
-			}
-
-			if (state && !lastRawKeyStates.containsKey(keycode)) {
-				rawKeyPressEvents.put(keycode, true);
-
-			}
 			for (PlrGameKey mapping : mappings) {
 				playerGameKeyStates.put(mapping, state);
-				if (!lastPlayerGameKeyStates.containsKey(mapping)) {
-					lastPlayerGameKeyStates.put(mapping, false);
-				}
 
 				if (state && !lastPlayerGameKeyStates.get(mapping)) {
 					playerGameKeyPressEvents.put(mapping, true);
@@ -259,17 +228,6 @@ public final class InputManager
 			}
 		}
 		return -1;
-	}
-
-	public static List<Integer> getRawKeyPresses() {
-		List<Integer> pressedKeyCodes = new ArrayList<Integer>();
-		for (Integer keyCode : rawKeyPressEvents.keySet()) {
-			if (rawKeyPressEvents.get(keyCode)) {
-				pressedKeyCodes.add(keyCode);
-			}
-		}
-
-		return pressedKeyCodes;
 	}
 
 }

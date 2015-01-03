@@ -4,8 +4,8 @@ import org.newdawn.slick.geom.Vector2f;
 
 import unnamed_platformer.game.entities.ActiveEntity;
 import unnamed_platformer.game.other.PhysicsInstance;
+import unnamed_platformer.input.GameKey;
 import unnamed_platformer.input.InputManager;
-import unnamed_platformer.input.InputManager.GameKey;
 
 public class Ctrl_HorizontalMove extends ControlMechanism {
 

@@ -26,10 +26,10 @@ import org.lwjgl.input.Keyboard;
 import unnamed_platformer.app.Main;
 import unnamed_platformer.app.Settings;
 import unnamed_platformer.globals.StyleRef;
+import unnamed_platformer.input.GameKey;
 import unnamed_platformer.input.InputManager;
-import unnamed_platformer.input.KeyCodeTranslator;
-import unnamed_platformer.input.InputManager.GameKey;
 import unnamed_platformer.input.InputManager.PlrGameKey;
+import unnamed_platformer.input.KeyCodeTranslator;
 import unnamed_platformer.view.ViewManager;
 import unnamed_platformer.view.gui.GUIHelper.ParamRunnable;
 import unnamed_platformer.view.gui.GUIManager;
@@ -63,7 +63,7 @@ public class Screen_Options extends BaseScreen_GUI {
 		StyleRef.STYLE_SUB_HEADING.apply(lblTitle);
 
 		// SETUP KEY LIST
-		for (GameKey gk : InputManager.GameKey.values()) {
+		for (GameKey gk : GameKey.values()) {
 			mdlKeys.addElement(new PlrGameKey(1, gk));
 		}
 

@@ -1,10 +1,10 @@
 package unnamed_platformer.tests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import unnamed_platformer.input.InputManager.GameKey;
+import unnamed_platformer.input.GameKey;
 import unnamed_platformer.input.InputManager.PlrGameKey;
 
 public class TestInputManager
