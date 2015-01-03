@@ -10,8 +10,8 @@ import javax.swing.border.EmptyBorder;
 
 import org.lwjgl.input.Keyboard;
 
-import unnamed_platformer.app.InputManager;
-import unnamed_platformer.app.InputManager.PlrGameKey;
+import unnamed_platformer.input.InputManager;
+import unnamed_platformer.input.InputManager.PlrGameKey;
 
 public class ListCellRenderer_PlrGameKey extends JLabel implements
 		ListCellRenderer<PlrGameKey>

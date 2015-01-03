@@ -1,13 +1,8 @@
-package unnamed_platformer.app;
+package unnamed_platformer.input;
 
-import java.awt.MouseInfo;
-import java.awt.Point;
-import java.awt.PointerInfo;
-import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -16,19 +11,16 @@ import java.util.Map.Entry;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.Display;
-import org.newdawn.slick.geom.Vector2f;
 
+import unnamed_platformer.app.Settings;
+import unnamed_platformer.app.TimeManager;
 import unnamed_platformer.globals.Ref;
-import unnamed_platformer.view.ViewManager;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 
 public final class InputManager
 {
-
 	public enum GameKey {
 		LEFT, RIGHT, UP, DOWN, /* */
 		A, B, /* */
@@ -69,106 +61,10 @@ public final class InputManager
 		gameKeyMappings.removeAll(key);
 	}
 
-	private static Point getMousePosInWindow() {
-		Point mousePos = pointerInfo.getLocation();
-		Point contentLocation = ViewManager.getFrame().getContentPane()
-				.getLocation();
-
-		Point windowLocation = ViewManager.getFrame().getLocation();
-
-		mousePos.x -= contentLocation.x + windowLocation.x;
-		mousePos.y -= contentLocation.y + windowLocation.y;
-
-		return mousePos;
-	}
-
-	public static Vector2f getGameMousePos() {
-		Point awtMousePoint = getMousePosInWindow();
-		Vector2f awtMouseVector = new Vector2f(awtMousePoint.x, awtMousePoint.y);
-
-		Vector2f gameMousePos = new Vector2f();
-
-		Vector2f cameraPos = ViewManager.getCameraPos();
-
-		gameMousePos.x = cameraPos.x - Display.getX() + awtMouseVector.x;
-		gameMousePos.y = cameraPos.y - Display.getY() + awtMouseVector.y;
-
-		return gameMousePos;
-	}
-
-	public boolean getMouseButtonState(MouseButton mb) {
-		return nowMouseButtonStates.get(mb);
-	}
-
-	public enum MouseButton {
-		left, right
-	}
-
-	private static Rectangle mouseBox = new Rectangle();
-
 	public static void update() {
-		detectMouseButtons();
-		detectMousePos();
+		MouseInputManager.update();
 		readKeys();
 	}
-
-	private static EnumMap<MouseButton, Boolean> nowMouseButtonStates = new EnumMap<MouseButton, Boolean>(
-			MouseButton.class);
-	private static EnumMap<MouseButton, Boolean> prevMouseButtonStates = new EnumMap<MouseButton, Boolean>(
-			MouseButton.class);
-	private static Point lastMousePos = new Point(0, 0);
-
-	private static void detectMouseButtons() {
-		nowMouseButtonStates.put(MouseButton.left, Mouse.isButtonDown(0));
-		nowMouseButtonStates.put(MouseButton.right, Mouse.isButtonDown(1));
-
-		if (!prevMouseButtonStates.isEmpty()) {
-			for (MouseButton button : MouseButton.values()) {
-				boolean nowState = nowMouseButtonStates.get(button);
-				boolean prevState = prevMouseButtonStates.get(button);
-
-				if (nowState) {
-					if (button == MouseButton.left) {
-						eventHandlers.get(InputEventType.leftMouseDown).run();
-					} else if (button == MouseButton.right) {
-						eventHandlers.get(InputEventType.rightMouseDown).run();
-					}
-				}
-
-				if (!nowState && prevState) {
-					if (button == MouseButton.left) {
-						eventHandlers.get(InputEventType.leftClick).run();
-					} else if (button == MouseButton.right) {
-						eventHandlers.get(InputEventType.rightClick).run();
-					}
-				}
-			}
-		}
-
-		prevMouseButtonStates.putAll(nowMouseButtonStates);
-	}
-
-	private static void detectMousePos() {
-		Vector2f vectMousePos = getGameMousePos();
-		Point mousePos = new Point((int) vectMousePos.x, (int) vectMousePos.y);
-
-		if (!mousePos.equals(lastMousePos)) {
-			eventHandlers.get(InputEventType.mouseMotion).run();
-		}
-
-		lastMousePos = mousePos;
-
-		mouseBox = new Rectangle(mousePos.x - 8, mousePos.y - 8, 16, 16);
-	}
-
-	public enum InputEventType {
-		leftClick, rightClick, leftMouseDown, rightMouseDown, mouseMotion
-	}
-
-	private static EnumMap<InputEventType, Runnable> eventHandlers = new EnumMap<InputEventType, Runnable>(
-			InputEventType.class);
-
-	private static PointerInfo pointerInfo;
 
 	public static void init() {
 		// set up key code translator
@@ -180,20 +76,16 @@ public final class InputManager
 		// setup event handlers to be non-null initially
 		resetEvents();
 
-		// get pointer info
-		pointerInfo = MouseInfo.getPointerInfo();
+		// init mouse input manager
+		MouseInputManager.init();
 	}
 
 	/**
-	 * Prevents previous key events from being passed into new frames.
+	 * Prevent previous key events from being passed into new frames.
 	 */
 	public static void resetEvents() {
-		for (InputEventType iet : InputEventType.values()) {
-			eventHandlers.put(iet, new Runnable() {
-				public void run() {
-				}
-			});
-		}
+		MouseInputManager.resetEvents();
+
 		for (PlrGameKey pgk : playerGameKeyStates.keySet()) {
 			playerGameKeyStates.put(pgk, false);
 			lastPlayerGameKeyStates.put(pgk, false);
@@ -209,11 +101,6 @@ public final class InputManager
 
 	public static void loadMappingsFromSettings() {
 		gameKeyMappings = Settings.generateGameKeyMappings();
-	}
-
-	public static void setEventHandler(InputEventType inputEventType,
-			Runnable runnable) {
-		eventHandlers.put(inputEventType, runnable);
 	}
 
 	private static void readKeys() {
@@ -363,10 +250,6 @@ public final class InputManager
 				return null;
 			}
 		}
-	}
-
-	public static boolean mouseIntersects(Rectangle box) {
-		return mouseBox.intersects(box);
 	}
 
 	public static int getAssociatedKeyCode(PlrGameKey plrGameKey) {

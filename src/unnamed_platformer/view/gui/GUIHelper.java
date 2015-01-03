@@ -22,9 +22,9 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
-import unnamed_platformer.app.InputManager;
-import unnamed_platformer.app.InputManager.PlrGameKey;
 import unnamed_platformer.app.Main;
+import unnamed_platformer.input.InputManager;
+import unnamed_platformer.input.InputManager.PlrGameKey;
 import unnamed_platformer.view.FluidColor;
 
 public final class GUIHelper

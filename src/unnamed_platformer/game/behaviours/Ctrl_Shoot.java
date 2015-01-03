@@ -2,14 +2,14 @@ package unnamed_platformer.game.behaviours;
 
 import org.newdawn.slick.geom.Vector2f;
 
-import unnamed_platformer.app.InputManager;
-import unnamed_platformer.app.InputManager.GameKey;
 import unnamed_platformer.app.MathHelper;
 import unnamed_platformer.app.TimeManager;
 import unnamed_platformer.game.entities.ActiveEntity;
 import unnamed_platformer.game.other.EntityCreator;
 import unnamed_platformer.game.other.World;
 import unnamed_platformer.globals.GameRef.Flag;
+import unnamed_platformer.input.InputManager;
+import unnamed_platformer.input.InputManager.GameKey;
 import unnamed_platformer.res_mgt.SoundManager;
 
 public class Ctrl_Shoot extends ControlMechanism {

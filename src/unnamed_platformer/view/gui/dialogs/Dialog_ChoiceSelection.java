@@ -21,9 +21,9 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import net.miginfocom.swing.MigLayout;
-import unnamed_platformer.app.InputManager;
-import unnamed_platformer.app.InputManager.PlrGameKey;
 import unnamed_platformer.globals.StyleRef;
+import unnamed_platformer.input.InputManager;
+import unnamed_platformer.input.InputManager.PlrGameKey;
 import unnamed_platformer.view.ViewManager;
 import unnamed_platformer.view.gui.GUIHelper.ParamRunnable;
 import unnamed_platformer.view.gui.objects.ListCellRenderer_CustomBorder;

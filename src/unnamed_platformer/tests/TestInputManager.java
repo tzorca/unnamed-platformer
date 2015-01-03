@@ -4,8 +4,8 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import unnamed_platformer.app.InputManager.GameKey;
-import unnamed_platformer.app.InputManager.PlrGameKey;
+import unnamed_platformer.input.InputManager.GameKey;
+import unnamed_platformer.input.InputManager.PlrGameKey;
 
 public class TestInputManager
 {

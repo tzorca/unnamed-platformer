@@ -7,8 +7,8 @@ import java.util.EnumMap;
 import org.ini4j.Wini;
 import org.newdawn.slick.Input;
 
-import unnamed_platformer.app.InputManager.PlrGameKey;
 import unnamed_platformer.globals.Ref;
+import unnamed_platformer.input.InputManager.PlrGameKey;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;

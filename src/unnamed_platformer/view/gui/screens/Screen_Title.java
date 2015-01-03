@@ -10,11 +10,11 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 
-import unnamed_platformer.app.InputManager;
-import unnamed_platformer.app.InputManager.GameKey;
 import unnamed_platformer.app.Main;
 import unnamed_platformer.globals.Ref;
 import unnamed_platformer.globals.StyleRef;
+import unnamed_platformer.input.InputManager;
+import unnamed_platformer.input.InputManager.GameKey;
 import unnamed_platformer.view.gui.GUIHelper;
 import unnamed_platformer.view.gui.GUIManager;
 import unnamed_platformer.view.gui.GUIManager.ScreenType;

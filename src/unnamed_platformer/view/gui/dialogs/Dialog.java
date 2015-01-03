@@ -6,8 +6,8 @@ import java.awt.event.WindowFocusListener;
 
 import javax.swing.JDialog;
 
-import unnamed_platformer.app.InputManager;
 import unnamed_platformer.globals.StyleRef;
+import unnamed_platformer.input.InputManager;
 
 public class Dialog extends JDialog
 {

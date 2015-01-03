@@ -3,11 +3,12 @@ package unnamed_platformer.app;
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.opengl.Texture;
 
-import unnamed_platformer.app.InputManager.GameKey;
 import unnamed_platformer.game.other.EntityCreator;
 import unnamed_platformer.game.other.EntityInfoDB;
 import unnamed_platformer.game.other.World;
 import unnamed_platformer.globals.Ref;
+import unnamed_platformer.input.InputManager;
+import unnamed_platformer.input.InputManager.GameKey;
 import unnamed_platformer.res_mgt.ClassLookup;
 import unnamed_platformer.res_mgt.ResManager;
 import unnamed_platformer.res_mgt.SoundManager;

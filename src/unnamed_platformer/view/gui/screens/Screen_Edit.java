@@ -25,9 +25,6 @@ import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.opengl.Texture;
 
 import unnamed_platformer.app.ImageHelper;
-import unnamed_platformer.app.InputManager;
-import unnamed_platformer.app.InputManager.GameKey;
-import unnamed_platformer.app.InputManager.InputEventType;
 import unnamed_platformer.app.MathHelper;
 import unnamed_platformer.app.Settings;
 import unnamed_platformer.app.Settings.SettingName;
@@ -38,6 +35,10 @@ import unnamed_platformer.game.other.Level;
 import unnamed_platformer.game.other.World;
 import unnamed_platformer.globals.Ref;
 import unnamed_platformer.globals.StyleRef;
+import unnamed_platformer.input.InputManager;
+import unnamed_platformer.input.InputManager.GameKey;
+import unnamed_platformer.input.MouseInputManager;
+import unnamed_platformer.input.MouseInputManager.MouseEventType;
 import unnamed_platformer.res_mgt.ResManager;
 import unnamed_platformer.view.Graphic;
 import unnamed_platformer.view.ViewManager;
@@ -107,9 +108,9 @@ public class Screen_Edit extends BaseScreen_Hybrid
 		leftToolbar.add(treeScroller, BorderLayout.CENTER);
 
 		// ADD CANVAS LISTENERS
-		InputManager.setEventHandler(InputEventType.leftClick,
+		MouseInputManager.setEventHandler(MouseEventType.leftClick,
 				new RenderCanvas_LeftClick());
-		InputManager.setEventHandler(InputEventType.rightClick,
+		MouseInputManager.setEventHandler(MouseEventType.rightClick,
 				new RenderCanvas_RightClick());
 
 		// SETUP TOP TOOLBAR
@@ -455,7 +456,7 @@ public class Screen_Edit extends BaseScreen_Hybrid
 	private class RenderCanvas_LeftClick implements Runnable
 	{
 		public void run() {
-			editor.placeObject(InputManager.getGameMousePos(),
+			editor.placeObject(MouseInputManager.getGameMousePos(),
 					getSelectedEntry());
 		}
 	}
@@ -463,9 +464,9 @@ public class Screen_Edit extends BaseScreen_Hybrid
 	private class RenderCanvas_RightClick implements Runnable
 	{
 		public void run() {
-			editor.removeObject(InputManager.getGameMousePos());
+			editor.removeObject(MouseInputManager.getGameMousePos());
 		}
-	}
+	}	
 
 	private class EntityList_SelectionChanged implements ListSelectionListener
 	{

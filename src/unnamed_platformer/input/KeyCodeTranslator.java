@@ -1,4 +1,4 @@
-package unnamed_platformer.app;
+package unnamed_platformer.input;
 
 import java.awt.event.KeyEvent;
 import java.util.HashMap;

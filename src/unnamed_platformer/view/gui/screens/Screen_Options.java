@@ -23,13 +23,13 @@ import javax.swing.event.ListSelectionListener;
 
 import org.lwjgl.input.Keyboard;
 
-import unnamed_platformer.app.InputManager;
-import unnamed_platformer.app.InputManager.GameKey;
-import unnamed_platformer.app.InputManager.PlrGameKey;
-import unnamed_platformer.app.KeyCodeTranslator;
 import unnamed_platformer.app.Main;
 import unnamed_platformer.app.Settings;
 import unnamed_platformer.globals.StyleRef;
+import unnamed_platformer.input.InputManager;
+import unnamed_platformer.input.KeyCodeTranslator;
+import unnamed_platformer.input.InputManager.GameKey;
+import unnamed_platformer.input.InputManager.PlrGameKey;
 import unnamed_platformer.view.ViewManager;
 import unnamed_platformer.view.gui.GUIHelper.ParamRunnable;
 import unnamed_platformer.view.gui.GUIManager;
