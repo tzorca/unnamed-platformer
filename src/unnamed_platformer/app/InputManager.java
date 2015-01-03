@@ -33,7 +33,7 @@ public final class InputManager
 		LEFT, RIGHT, UP, DOWN, /* */
 		A, B, /* */
 		START, /* */
-		RESTART, TOGGLE_FULLSCREEN, SAVE_SCREENSHOT, EXIT, /* */
+		RESTART, SAVE_SCREENSHOT, EXIT, /* */
 		MULTI_SELECT, /* */
 		SECONDARY_LEFT, SECONDARY_RIGHT, SECONDARY_UP, SECONDARY_DOWN, /* */
 		SCROLL_IN, SCROLL_OUT /* */,
@@ -173,7 +173,7 @@ public final class InputManager
 	public static void init() {
 		// set up key code translator
 		KeyCodeTranslator.init();
-		
+
 		// load game key mappings from settings
 		loadMappingsFromSettings();
 

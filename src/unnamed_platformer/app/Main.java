@@ -1,7 +1,6 @@
 package unnamed_platformer.app; 
 
 import org.lwjgl.opengl.Display;
-import org.newdawn.slick.geom.Triangulator;
 import org.newdawn.slick.opengl.Texture;
 
 import unnamed_platformer.app.InputManager.GameKey;
@@ -53,10 +52,6 @@ public final class Main
 
 		else if (InputManager.keyPressOccurred(GameKey.SAVE_SCREENSHOT, 1)) {
 			ViewManager.saveScreenshot();
-		}
-
-		else if (InputManager.keyPressOccurred(GameKey.TOGGLE_FULLSCREEN, 1)) {
-			ViewManager.toggleFullscreen();
 		}
 
 		else if (InputManager.keyPressOccurred(GameKey.EXIT, 1)) {
