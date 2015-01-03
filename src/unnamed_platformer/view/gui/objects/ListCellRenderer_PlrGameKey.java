@@ -8,8 +8,6 @@ import javax.swing.ListCellRenderer;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-import org.lwjgl.input.Keyboard;
-
 import unnamed_platformer.input.InputManager;
 import unnamed_platformer.input.InputManager.PlrGameKey;
 
@@ -36,12 +34,16 @@ public class ListCellRenderer_PlrGameKey extends JLabel implements
 
 		String playerNoStr = String.valueOf(value.getPlayerNo());
 
-		String assignedKey = Keyboard.getKeyName(InputManager
-				.getAssociatedKeyCode(value));
+		String assignedKeyString;
+		try {
+			assignedKeyString = InputManager.getAssociatedKey(value).toString();
+		} catch (Exception e) {
+			assignedKeyString = "Unassigned";
+		}
 
 		this.setFont(list.getFont());
-		
-		this.setText("P" + playerNoStr + " " + gameKeyStr + " : " + assignedKey);
+
+		this.setText("P" + playerNoStr + " " + gameKeyStr + " : " + assignedKeyString);
 
 		if (isSelected) {
 			setBackground(list.getSelectionBackground());

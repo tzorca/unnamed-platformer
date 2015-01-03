@@ -1,14 +1,13 @@
 package unnamed_platformer.app;
 
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.util.EnumMap;
 
 import org.ini4j.Wini;
-import org.newdawn.slick.Input;
 
 import unnamed_platformer.globals.Ref;
 import unnamed_platformer.input.InputManager.PlrGameKey;
+import unnamed_platformer.input.RawKey;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
@@ -53,7 +52,7 @@ public class Settings
 		settings.put(SettingName.PLR1_RIGHT, "RIGHT");
 		settings.put(SettingName.PLR1_A, "X");
 		settings.put(SettingName.PLR1_B, "Z");
-		settings.put(SettingName.PLR1_START, "ENTER");
+		settings.put(SettingName.PLR1_START, "RETURN");
 		settings.put(SettingName.PLR1_EXIT, "ESCAPE");
 		settings.put(SettingName.PLR1_RESTART, "F2");
 		settings.put(SettingName.PLR1_SAVE_SCREENSHOT, "F12");
@@ -66,42 +65,28 @@ public class Settings
 		settings.put(SettingName.PLR1_SCROLL_IN, "RBRACKET");
 	}
 
-	/**
-	 * Generates game key mappings multimap from settings map. Uses reflection
-	 * to get key codes from Input class.
-	 * 
-	 * @return
-	 */
-	private static String KEYCODE_FIELD_PREFIX = "KEY_";
+	public static Multimap<RawKey, PlrGameKey> generateGameKeyMappings() {
 
-	public static Multimap<Integer, PlrGameKey> generateGameKeyMappings() {
-
-		Multimap<Integer, PlrGameKey> gameKeys = HashMultimap.create();
+		Multimap<RawKey, PlrGameKey> gameKeys = HashMultimap.create();
 
 		for (SettingName settingName : settings.keySet()) {
 			if (!settingName.toString().startsWith("PLR")) {
+				// Not a key mappping
 				continue;
 			}
 
 			PlrGameKey plrGameKey = PlrGameKey.fromString(settingName
 					.toString());
 
-			String keyCodeFieldName = KEYCODE_FIELD_PREFIX
-					+ getString(settingName);
+			String rawKeyName = getString(settingName);
 
-			Field keyCodeField;
-			int keyCode;
+			RawKey key;
 			try {
-				keyCodeField = Input.class.getField(keyCodeFieldName);
-				keyCode = keyCodeField.getInt(null);
+				key = RawKey.fromString(rawKeyName);
+				gameKeys.put(key, plrGameKey);
 			} catch (Exception e) {
-				System.err.println("Error finding key with name of "
-						+ keyCodeFieldName + " (" + settingName + ")");
 				e.printStackTrace();
-				continue;
 			}
-
-			gameKeys.put(keyCode, plrGameKey);
 		}
 		return gameKeys;
 	}
@@ -127,7 +112,7 @@ public class Settings
 
 	public static void init() {
 		loadDefaultSettings();
-		
+
 		boolean noSettingsFile = !Ref.SETTINGS_FILE.exists();
 
 		if (noSettingsFile) {

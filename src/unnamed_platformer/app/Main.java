@@ -78,6 +78,7 @@ public final class Main
 		// configuration
 		SQLite.setLibraryPath(Ref.NATIVE_LIB_DIR);
 		System.setProperty("org.lwjgl.librarypath", Ref.NATIVE_LIB_DIR);
+		System.setProperty("net.java.games.input.librarypath", Ref.NATIVE_LIB_DIR);
 
 		setupCloner();
 	

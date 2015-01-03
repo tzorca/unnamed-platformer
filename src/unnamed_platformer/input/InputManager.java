@@ -13,13 +13,14 @@ import org.lwjgl.input.Keyboard;
 import unnamed_platformer.app.Settings;
 import unnamed_platformer.app.TimeManager;
 import unnamed_platformer.globals.Ref;
+import unnamed_platformer.input.RawKey.KeyType;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 
 public final class InputManager
 {
-	private static Multimap<Integer, PlrGameKey> gameKeyMappings;
+	private static Multimap<RawKey, PlrGameKey> gameKeyMappings;
 
 	private static HashMap<PlrGameKey, Boolean>
 	/* */playerGameKeyStates = Maps.newHashMap(),
@@ -29,26 +30,26 @@ public final class InputManager
 	public static Collection<PlrGameKey> getGameKeysMatchingKeyEvent(
 			KeyEvent keyEvent) {
 
-		int translatedKeyCode = KeyCodeTranslator
-				.translateJavaVKToJInputCode(keyEvent.getKeyCode());
+		RawKey key = RawKey.fromAWTKeyCode(keyEvent.getKeyCode());
 
-		if (gameKeyMappings.containsKey(translatedKeyCode)) {
-			return gameKeyMappings.get(translatedKeyCode);
+		if (gameKeyMappings.containsKey(key)) {
+			return gameKeyMappings.get(key);
+		} else {
+			return new HashSet<PlrGameKey>();
 		}
-
-		return new HashSet<PlrGameKey>();
 	}
 
-	public static void mapKey(int playerNo, GameKey gk, int key) {
+	public static void mapKey(RawKey key, int playerNo, GameKey gk) {
 		gameKeyMappings.put(key, new PlrGameKey(playerNo, gk));
 	}
 
-	public static void unmapAllKeyMappings(int key) {
+	public static void unmapAllKeyMappings(RawKey key) {
 		gameKeyMappings.removeAll(key);
 	}
 
 	public static void update() {
 		MouseInputManager.update();
+		GamepadInputManager.update();
 		readKeys();
 	}
 
@@ -58,6 +59,9 @@ public final class InputManager
 
 		// init mouse input manager
 		MouseInputManager.init();
+
+		// init gamepad input manager
+		GamepadInputManager.init();
 
 		// load game key mappings from settings
 		loadMappingsFromSettings();
@@ -89,8 +93,11 @@ public final class InputManager
 			int keycode = Keyboard.getEventKey();
 			Keyboard.getEventCharacter();
 			boolean state = Keyboard.getEventKeyState();
-			if (gameKeyMappings.containsKey(keycode)) {
-				linkKeyState(gameKeyMappings.get(keycode), state);
+			RawKey key = new RawKey(KeyType.KEYBOARD_JINPUT, keycode);
+			
+			
+			if (gameKeyMappings.containsKey(key)) {
+				linkKeyState(gameKeyMappings.get(key), state);
 			}
 		}
 	}
@@ -213,13 +220,14 @@ public final class InputManager
 		}
 	}
 
-	public static int getAssociatedKeyCode(PlrGameKey plrGameKey) {
-		for (Entry<Integer, PlrGameKey> entry : gameKeyMappings.entries()) {
+	public static RawKey getAssociatedKey(PlrGameKey plrGameKey) throws Exception {
+		for (Entry<RawKey, PlrGameKey> entry : gameKeyMappings.entries()) {
 			if (entry.getValue().equals(plrGameKey)) {
 				return entry.getKey();
 			}
 		}
-		return -1;
+		// Invalid key
+		throw new Exception("No associated game key for " + plrGameKey.toString());
 	}
 
 }

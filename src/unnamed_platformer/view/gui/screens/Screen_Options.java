@@ -144,7 +144,7 @@ public class Screen_Options extends BaseScreen_GUI {
 			return;
 		}
 
-		Integer jinputKeyCode = KeyCodeTranslator.translateJavaVKToJInputCode(keyCode);
+		Integer jinputKeyCode = KeyCodeTranslator.awtCodeToJInputCode(keyCode);
 		if (jinputKeyCode == null) {
 			System.err.println("Error: No JInput translation found for " + KeyEvent.getKeyText(keyCode));
 			return;
@@ -156,7 +156,7 @@ public class Screen_Options extends BaseScreen_GUI {
 		
 		InputManager.loadMappingsFromSettings();
 	}
-
+ 
 	// =================================================================
 	// EVENTS
 	// =================================================================
