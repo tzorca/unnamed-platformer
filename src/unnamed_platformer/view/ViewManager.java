@@ -88,18 +88,13 @@ public final class ViewManager
 		float scaledHalfWidth = currentResolution.width / SCALE / 2;
 		float scaledHalfHeight = currentResolution.height / SCALE / 2;
 
-		if (levelBounds == null) {
-			levelBounds = new Rectangle(Float.MIN_VALUE / 2,
-					Float.MIN_VALUE / 2, Float.MAX_VALUE / 2,
-					Float.MAX_VALUE / 2);
-		}
+		int left = (int) (x - scaledHalfWidth);
+		int top = (int) (y - scaledHalfHeight);
 
-		int left = (int) Math.max(x - scaledHalfWidth, levelBounds.getMinX());
-		int top = (int) Math.max(y - scaledHalfHeight, levelBounds.getMinY());
-		// int right = (int) Math.min(x + scaledHalfWidth,
-		// levelBounds.getMaxX());
-		// int bottom = (int) Math
-		// .min(y + scaledHalfHeight, levelBounds.getMaxY());
+		if (levelBounds != null) {
+			left = (int) Math.max(left, levelBounds.getMinX());
+			top = (int) Math.max(top, levelBounds.getMinY());
+		}
 
 		viewport.setBounds(left, top, scaledHalfWidth * 2, scaledHalfHeight * 2);
 
