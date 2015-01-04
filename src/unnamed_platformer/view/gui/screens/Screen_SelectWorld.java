@@ -79,15 +79,15 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 
 	private void changeState(WorldSelectState newState) {
 		state = newState;
-		for (JButton btn : buttons) {
-			btn.setVisible(state == WorldSelectState.ACTION_SELECT);
 
+		if (state == WorldSelectState.ACTION_SELECT) {
+			boolean lockedGame = currentGameIsLocked();
+			btnEdit.setVisible(lockedGame);
+			btnDelete.setVisible(lockedGame);
+			btnRename.setVisible(lockedGame);
 		}
-		if (state == WorldSelectState.ACTION_SELECT && currentGameIsLocked()) {
-			btnEdit.setVisible(false);
-			btnDelete.setVisible(false);
-			btnRename.setVisible(false);
-		}
+		
+		pnlButtons.setVisible(state == WorldSelectState.ACTION_SELECT);
 	}
 
 	public Screen_SelectWorld() {
