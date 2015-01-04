@@ -1,6 +1,5 @@
 package unnamed_platformer.view.gui.screens;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -60,16 +59,36 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 	JButton btnEdit = new JButton("Edit");
 	JButton btnCopy = new JButton("Copy");
 	JButton btnDelete = new JButton("Delete");
-	JButton btnTitle = new JButton("Back");
 
 	// Collect buttons
 	List<JButton> buttons = Lists.newArrayList(btnPlay, btnEdit, btnNew,
-			btnRename, btnCopy, btnDelete, btnTitle);
+			btnRename, btnCopy, btnDelete);
 
 	// Collect all components
 	@SuppressWarnings("unchecked")
 	List<? extends JComponent> components = Lists.newArrayList(lstWorlds,
-			btnNew, btnPlay, btnRename, btnEdit, btnCopy, btnDelete, btnTitle);
+			btnNew, btnPlay, btnRename, btnEdit, btnCopy, btnDelete);
+
+	private enum WorldSelectState {
+		WORLD_SELECT, ACTION_SELECT;
+	}
+
+	private int buttonIndex = 0;
+	private String gameName;
+	private WorldSelectState state;
+
+	private void changeState(WorldSelectState newState) {
+		state = newState;
+		for (JButton btn : buttons) {
+			btn.setVisible(state == WorldSelectState.ACTION_SELECT);
+
+		}
+		if (state == WorldSelectState.ACTION_SELECT && currentGameIsLocked()) {
+			btnEdit.setVisible(false);
+			btnDelete.setVisible(false);
+			btnRename.setVisible(false);
+		}
+	}
 
 	public Screen_SelectWorld() {
 		super();
@@ -88,7 +107,7 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 			} else {
 				mdlWorlds.addElement(worldName);
 			}
-		}	
+		}
 		lstWorlds.setModel(mdlWorlds);
 		lstWorlds.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		StyleRef.STYLE_WORLD_LIST.apply(lstWorlds);
@@ -107,12 +126,12 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 		btnEdit.addActionListener(new btnEdit_Click());
 		btnCopy.addActionListener(new btnCopy_Click());
 		btnDelete.addActionListener(new btnDelete_Click());
-		btnTitle.addActionListener(new btnTitle_Click());
 		for (JButton btn : buttons) {
 			btn.addFocusListener(new btn_FocusListener());
 			// btn.setIconTextGap(0);
 			StyleRef.STYLE_NORMAL_BUTTON.apply(btn);
 		}
+		changeState(WorldSelectState.WORLD_SELECT);
 
 		// ADD GLOBAL LISTENER FOR ARROW NAVIGATION
 		for (JComponent c : components) {
@@ -129,7 +148,6 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 		pnlButtons.add(btnCopy);
 		pnlButtons.add(btnDelete);
 		pnlButtons.add(Box.createRigidArea(new Dimension(16, 0)));
-		pnlButtons.add(btnTitle);
 
 		// SETUP BUTTON PANEL
 		pnlButtons.setBackground(StyleRef.COLOR_MAIN_PLUS);
@@ -140,12 +158,7 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 				.add(scrlWorlds, "gapx 8px 8px, gapy 16px, grow, pushy, wrap");
 		pnlSurface.setBackground(StyleRef.COLOR_MAIN_PLUS);
 		pnlSurface.add(pnlButtons, "gapx 8px 8px, gapy 4px");
-
-		updateButtonVisualDisableStatus();
 	}
-
-	private int buttonIndex = 0;
-	private String gameName;
 
 	private boolean currentGameIsLocked() {
 		return gameName.equals(Settings
@@ -166,7 +179,12 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 		}
 
 		buttonIndex = newIndex;
-		buttons.get(buttonIndex).requestFocusInWindow();
+
+		if (buttons.get(buttonIndex).isVisible()) {
+			buttons.get(buttonIndex).requestFocusInWindow();
+		} else {
+			changeButton(delta);
+		}
 	}
 
 	private void changeListSelectedIndex(int delta) {
@@ -178,21 +196,8 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 			newIndex = mdlWorlds.size() - 1;
 		}
 		lstWorlds.setSelectedIndex(newIndex);
-		updateButtonVisualDisableStatus();
 
 		buttons.get(buttonIndex).requestFocusInWindow();
-	}
-
-	private void updateButtonVisualDisableStatus() {
-		if (currentGameIsLocked()) {
-			btnEdit.setForeground(Color.DARK_GRAY);
-			btnDelete.setForeground(Color.DARK_GRAY);
-			btnRename.setForeground(Color.DARK_GRAY);
-		} else {
-			btnEdit.setForeground(Color.WHITE);
-			btnDelete.setForeground(Color.WHITE);
-			btnRename.setForeground(Color.WHITE);
-		}
 	}
 
 	// =================================================================
@@ -203,24 +208,7 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 		super.update();
 
 		// LWJGL JInput Keys
-		if (InputManager.keyPressOccurred(GameKey.LEFT, 1)) {
-			changeButton(-1);
-		}
-		if (InputManager.keyPressOccurred(GameKey.RIGHT, 1)) {
-			changeButton(1);
-		}
-		if (InputManager.keyPressOccurred(GameKey.UP, 1)) {
-			changeListSelectedIndex(-1);
-		}
-		if (InputManager.keyPressOccurred(GameKey.DOWN, 1)) {
-			changeListSelectedIndex(1);
-		}
-		if (InputManager.keyPressOccurred(GameKey.A, 1)) {
-			JButton btn = buttons.get(buttonIndex);
-			if (btn != null) {
-				btn.doClick();
-			}
-		}
+		processKeys(InputManager.getPressedGameKeys(), null);
 
 		// Default button selection
 		SwingUtilities.invokeLater(new Runnable() {
@@ -239,35 +227,86 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 			Collection<PlrGameKey> plrGameKeys = InputManager
 					.getGameKeysMatchingKeyEvent(e);
 
-			for (PlrGameKey plrGameKey : plrGameKeys) {
-				GameKey gameKey = plrGameKey.getGameKey();
-				switch (gameKey) {
-				case UP:
-					changeListSelectedIndex(-1);
-					break;
-				case DOWN:
-					changeListSelectedIndex(1);
-					break;
-				case LEFT:
-					changeButton(-1);
-					break;
-				case RIGHT:
-					changeButton(1);
-					break;
-				case A:
-					JButton btn = buttons.get(buttonIndex);
-					if (btn != null) {
-						btn.doClick();
-					}
-					break;
-				case EXIT:
-					Main.doHalt();
-				default:
-					break;
-				}
+			processKeys(plrGameKeys, e);
+		}
+	}
+
+	private void processKeys(Collection<PlrGameKey> plrGameKeys, KeyEvent e) {
+
+		boolean consume = (e != null);
+		for (PlrGameKey plrGameKey : plrGameKeys) {
+			GameKey gameKey = plrGameKey.getGameKey();
+			switch (gameKey) {
+			case LEFT:
+				leftPressed();
+				break;
+			case RIGHT:
+				rightPressed();
+				break;
+			case A:
+				aPressed();
+				break;
+			case B:
+				bPressed();
+				break;
+			case EXIT:
+				Main.doHalt();
+				break;
+			default:
+				consume = false;
+				break;
 			}
 		}
+		if (consume) {
+			e.consume();
+		}
+	}
 
+	private void leftPressed() {
+		switch (state) {
+		case ACTION_SELECT:
+			changeButton(-1);
+			break;
+		case WORLD_SELECT:
+			changeListSelectedIndex(-1);
+			break;
+		}
+	}
+
+	private void rightPressed() {
+		switch (state) {
+		case ACTION_SELECT:
+			changeButton(1);
+			break;
+		case WORLD_SELECT:
+			changeListSelectedIndex(1);
+			break;
+		}
+	}
+
+	private void aPressed() {
+		switch (state) {
+		case ACTION_SELECT:
+			JButton btn = buttons.get(buttonIndex);
+			if (btn != null) {
+				btn.doClick();
+			}
+			break;
+		case WORLD_SELECT:
+			changeState(WorldSelectState.ACTION_SELECT);
+			break;
+		}
+	}
+
+	private void bPressed() {
+		switch (state) {
+		case ACTION_SELECT:
+			changeState(WorldSelectState.WORLD_SELECT);
+			break;
+		case WORLD_SELECT:
+			GUIManager.changeScreen(ScreenType.Title);
+			break;
+		}
 	}
 
 	private class lstWorlds_SelectionListener implements ListSelectionListener
@@ -279,8 +318,6 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 			if (gameName == null) {
 				return;
 			}
-
-			updateButtonVisualDisableStatus();
 		}
 	}
 
