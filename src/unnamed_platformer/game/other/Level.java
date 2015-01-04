@@ -129,11 +129,11 @@ public class Level
 		return this.entities;
 	}
 
-	public Entity getTopmostEntity(Vector2f point) {
+	public Entity getTopmostEntity(Vector2f point, int range) {
 		ListIterator<Entity> entityIterator = entities.listIterator(entities
 				.size());
 
-		Rectangle rangeBox = new Rectangle(point.x - 3, point.y - 3, 6, 6);
+		Rectangle rangeBox = new Rectangle(point.x - range, point.y - range, range*2, range*2);
 
 		while (entityIterator.hasPrevious()) {
 			Entity entity = entityIterator.previous();

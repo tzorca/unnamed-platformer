@@ -103,13 +103,14 @@ public class Editor
 		unsavedChanges = true;
 	}
 
+	private static final int DELETE_RANGE = 8;
 	public void removeObject(final Vector2f location) {
 		if (World.playing()) {
 			return;
 		}
 
 		final Entity entityAtCursor = World.getCurrentLevel().getTopmostEntity(
-				location);
+				location, DELETE_RANGE);
 
 		if (entityAtCursor != null) {
 			World.getCurrentLevel().removeEntity(entityAtCursor);
