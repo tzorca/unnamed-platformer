@@ -6,15 +6,10 @@ import unnamed_platformer.input.InputManager.PlrGameKey;
 
 public class KeyState
 {
-	boolean state = false;
-	boolean prevState = false;
-	boolean pressed = false;
-
-	public void reset() {
-		state = false;
-		prevState = false;
-		pressed = false;
-	}
+	private boolean state = false;
+	private boolean prevState = false;
+	private boolean pressed = false;
+	private boolean disableNextPress = false;
 
 	public void update(boolean state) {
 		this.state = state;
@@ -32,11 +27,24 @@ public class KeyState
 		return prevState;
 	}
 
+	public void reset() {
+		pressed = false;
+	}
+
+	public void disableNextPress() {
+		disableNextPress = true;
+	}
+
 	// Pressed is a consumable boolean
 	public boolean pressed() {
 		if (pressed) {
 			pressed = false;
-			return true;
+			if (disableNextPress) {
+				disableNextPress = false;
+				return false;
+			} else {
+				return true;
+			}
 		} else {
 			return false;
 		}

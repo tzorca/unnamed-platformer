@@ -3,14 +3,11 @@ package unnamed_platformer.view.gui.dialogs;
 import java.awt.Frame;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import javax.swing.JLabel;
 
 import unnamed_platformer.app.Main;
 import unnamed_platformer.globals.StyleRef;
-import unnamed_platformer.input.GamepadInputManager;
 import unnamed_platformer.input.InputManager;
 import unnamed_platformer.input.RawKey;
 import unnamed_platformer.view.gui.GUIHelper.ParamRunnable;
@@ -50,19 +47,12 @@ public class Dialog_KeyAssignment extends Dialog
 		RawKey pressedKey = lastKeyboardKey;
 
 		// Prefer gamepad over keyboard keys if both pressed at the same time
-		Map<RawKey, Boolean> gamepadKeyStates = GamepadInputManager
-				.getGamepadKeyStates();
-		for (Entry<RawKey, Boolean> gamepadKeyState : gamepadKeyStates
-				.entrySet()) {
-			RawKey gamepadKey = gamepadKeyState.getKey();
-			boolean pressed = gamepadKeyState.getValue();
-
-			if (pressed) {
-				pressedKey = gamepadKey;
-				break;
-			}
+		// (LWJGL won't be sending keyboard keys while not focused on canvas)
+		RawKey gamepadKey = InputManager.getFirstPressedRawKey();
+		if (gamepadKey != null) {
+			pressedKey = gamepadKey;
 		}
-
+		
 		if (pressedKey != null) {
 			InputManager.resetEvents();
 			callback.run(pressedKey);

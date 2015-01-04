@@ -144,9 +144,12 @@ public class Screen_Options extends BaseScreen_GUI
 		}
 
 		Settings.setString(currentPlrGameKey.toString(), key.toString());
-		InputManager.loadMappingsFromSettings();
 		
+		InputManager.loadMappingsFromSettings();
+
 		// prevent new key from activating immediately
+		InputManager.disableNextPress(currentPlrGameKey);
+		
 		Main.setHotKeysAllowed(true);
 	}
 

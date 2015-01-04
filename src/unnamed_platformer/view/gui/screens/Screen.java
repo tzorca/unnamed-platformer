@@ -22,9 +22,8 @@ public abstract class Screen
 	// instance initializer
 	public Screen() {
 		super();
-
-		Main.setHotKeysAllowed(true);
 		InputManager.resetEvents();
+		Main.setHotKeysAllowed(true);
 		pnlSurface.setBackground(StyleRef.COLOR_MAIN_PLUS);
 	}
 

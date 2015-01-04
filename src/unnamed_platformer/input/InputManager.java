@@ -78,7 +78,12 @@ public final class InputManager
 		}
 
 		for (PlrGameKey pgk : gameKeyMappings.values()) {
-			plrGameKeyStates.put(pgk, new KeyState());
+			if (!plrGameKeyStates.containsKey(pgk)) {
+				plrGameKeyStates.put(pgk, new KeyState());
+			} else {
+				plrGameKeyStates.get(pgk).reset();
+			}
+
 		}
 	}
 
@@ -203,5 +208,18 @@ public final class InputManager
 
 	public static void finish() {
 		GamepadInputManager.finish();
+	}
+
+	public static RawKey getFirstPressedRawKey() {
+		for (Entry<RawKey, KeyState> rawKeyState : rawKeyStates.entrySet()) {
+			if (rawKeyState.getValue().pressed()) {
+				return rawKeyState.getKey();
+			}
+		}
+		return null;
+	}
+
+	public static void disableNextPress(PlrGameKey plrGameKey) {
+		plrGameKeyStates.get(plrGameKey).disableNextPress();
 	}
 }

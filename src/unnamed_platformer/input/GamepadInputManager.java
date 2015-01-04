@@ -13,19 +13,6 @@ import com.google.common.collect.Maps;
 
 public class GamepadInputManager
 {
-
-	public static void update() {
-		Controllers.poll();
-
-		Map<RawKey, Boolean> keyStates = getGamepadKeyStates();
-
-		for (Entry<RawKey, Boolean> keyState : keyStates.entrySet()) {
-			RawKey key = keyState.getKey();
-			Boolean state = keyState.getValue();
-			InputManager.updateKey(key, state);
-		}
-	}
-
 	private static final int DPAD_LEFT = 100;
 	private static final int DPAD_RIGHT = 101;
 	private static final int DPAD_UP = 102;
@@ -41,7 +28,19 @@ public class GamepadInputManager
 	private static Map<Integer, Float> axisInitialValues = Maps.newHashMap();
 	private static Map<Integer, Boolean> axisMoved = Maps.newHashMap();
 
-	public static Map<RawKey, Boolean> getGamepadKeyStates() {
+	public static void update() {
+		Controllers.poll();
+
+		Map<RawKey, Boolean> keyStates = getGamepadKeyStates();
+
+		for (Entry<RawKey, Boolean> keyState : keyStates.entrySet()) {
+			RawKey key = keyState.getKey();
+			Boolean state = keyState.getValue();
+			InputManager.updateKey(key, state);
+		}
+	}
+
+	private static Map<RawKey, Boolean> getGamepadKeyStates() {
 		Map<RawKey, Boolean> keyStates = Maps.newHashMap();
 
 		for (int idx = 0; idx < Controllers.getControllerCount(); idx++) {
@@ -75,7 +74,7 @@ public class GamepadInputManager
 				// We want to only notice axes values after first moved.
 				// On some systems, axes appear to be -1 at start and
 				// are corrected only after moving.
-				int axisID = axis + (idx*100);
+				int axisID = axis + (idx * 100);
 				if (!axisInitialValues.containsKey(axisID)) {
 					axisInitialValues.put(axisID, value);
 					axisMoved.put(axisID, false);
@@ -85,10 +84,12 @@ public class GamepadInputManager
 					if (axisInitialValues.get(axisID) != value) {
 						axisMoved.put(axisID, true);
 					}
-					
+
 					if (axisMoved.get(axisID)) {
-						keyStates.put(negativeAxis, value > ANALOG_DIGITAL_DEADZONE);
-						keyStates.put(positiveAxis, value < -ANALOG_DIGITAL_DEADZONE);
+						keyStates.put(negativeAxis,
+								value > ANALOG_DIGITAL_DEADZONE);
+						keyStates.put(positiveAxis,
+								value < -ANALOG_DIGITAL_DEADZONE);
 					}
 				}
 
