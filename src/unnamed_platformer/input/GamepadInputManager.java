@@ -22,9 +22,8 @@ public class GamepadInputManager
 		for (Entry<RawKey, Boolean> keyState : keyStates.entrySet()) {
 			RawKey key = keyState.getKey();
 			Boolean state = keyState.getValue();
-			InputManager.linkKeyState(key, state);
+			InputManager.updateKey(key, state);
 		}
-
 	}
 
 	private static final int DPAD_LEFT = 100;

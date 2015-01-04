@@ -4,7 +4,6 @@ import java.util.LinkedList;
 
 import unnamed_platformer.app.Main;
 import unnamed_platformer.globals.Ref;
-import unnamed_platformer.input.InputManager;
 import unnamed_platformer.res_mgt.ClassLookup;
 import unnamed_platformer.view.ViewManager;
 import unnamed_platformer.view.gui.dialogs.Dialog;

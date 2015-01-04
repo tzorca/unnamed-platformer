@@ -8,12 +8,9 @@ import java.util.Map.Entry;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.lwjgl.input.Controllers;
 import org.lwjgl.input.Keyboard;
 
 import unnamed_platformer.app.Settings;
-import unnamed_platformer.app.TimeManager;
-import unnamed_platformer.globals.Ref;
 import unnamed_platformer.input.RawKey.KeyType;
 
 import com.google.common.collect.Maps;
@@ -23,10 +20,9 @@ public final class InputManager
 {
 	private static Multimap<RawKey, PlrGameKey> gameKeyMappings;
 
-	private static HashMap<PlrGameKey, Boolean>
-	/* */playerGameKeyStates = Maps.newHashMap(),
-	/* */lastPlayerGameKeyStates = Maps.newHashMap(),
-	/* */playerGameKeyPressEvents = Maps.newHashMap();
+	private static HashMap<RawKey, KeyState> rawKeyStates = Maps.newHashMap();
+	private static HashMap<PlrGameKey, KeyState> plrGameKeyStates = Maps
+			.newHashMap();
 
 	public static Collection<PlrGameKey> getGameKeysMatchingKeyEvent(
 			KeyEvent keyEvent) {
@@ -76,12 +72,13 @@ public final class InputManager
 	 */
 	public static void resetEvents() {
 		MouseInputManager.resetEvents();
-		Controllers.clearEvents();
+
+		for (RawKey key : rawKeyStates.keySet()) {
+			rawKeyStates.get(key).reset();
+		}
 
 		for (PlrGameKey pgk : gameKeyMappings.values()) {
-			playerGameKeyStates.put(pgk, false);
-			lastPlayerGameKeyStates.put(pgk, false);
-			playerGameKeyPressEvents.put(pgk, false);
+			plrGameKeyStates.put(pgk, new KeyState());
 		}
 	}
 
@@ -92,71 +89,40 @@ public final class InputManager
 
 	private static void readKeys() {
 		while (Keyboard.next()) {
-			int keycode = Keyboard.getEventKey();
-			Keyboard.getEventCharacter();
+			RawKey key = new RawKey(KeyType.KEYBOARD_JINPUT,
+					Keyboard.getEventKey());
 			boolean state = Keyboard.getEventKeyState();
-			RawKey key = new RawKey(KeyType.KEYBOARD_JINPUT, keycode);
-
-			linkKeyState(key, state);
+			updateKey(key, state);
 		}
 	}
 
-	public static void linkKeyState(RawKey key, boolean state) {
-		if (!gameKeyMappings.containsKey(key)) {
-			return;
+	public static void updateKey(RawKey rawKey, boolean value) {
+		if (!rawKeyStates.containsKey(rawKey)) {
+			rawKeyStates.put(rawKey, new KeyState());
 		}
-
-		Collection<PlrGameKey> mappings = gameKeyMappings.get(key);
-
-		for (PlrGameKey mapping : mappings) {
-			playerGameKeyStates.put(mapping, state);
-
-			if (state && !lastPlayerGameKeyStates.get(mapping)) {
-				playerGameKeyPressEvents.put(mapping, true);
-			}
-			lastPlayerGameKeyStates.put(mapping, state);
-
+		rawKeyStates.get(rawKey).update(value);
+		Collection<PlrGameKey> plrGameKeys = gameKeyMappings.get(rawKey);
+		for (PlrGameKey plrGameKey : plrGameKeys) {
+			plrGameKeyStates.get(plrGameKey).update(value);
 		}
 	}
 
 	public static boolean keyIsPressed(GameKey gk, int playerNo) {
 		PlrGameKey pgk = new PlrGameKey(playerNo, gk);
 
-		return playerGameKeyStates.get(pgk);
+		return plrGameKeyStates.get(pgk).current();
 	}
 
 	public static boolean keyPressOccurred(GameKey gk, int playerNo) {
 		PlrGameKey pgk = new PlrGameKey(playerNo, gk);
-		if (playerGameKeyPressEvents.containsKey(pgk)) {
-			boolean returnValue = playerGameKeyPressEvents.get(pgk);
-			playerGameKeyPressEvents.put(pgk, false);
-
-			return returnValue;
-		}
-		return false;
+		return plrGameKeyStates.get(pgk).pressed();
 	}
-
-	private final static String REPETITION = "Repetition";
 
 	public static boolean keyPressOccurredOrRepeating(GameKey gk, int playerNo) {
 
 		PlrGameKey pgk = new PlrGameKey(playerNo, gk);
+		return plrGameKeyStates.get(pgk).occurredOrRepeating(pgk);
 
-		// Check if occurred
-		if (keyPressOccurred(gk, playerNo)) {
-			TimeManager.sample(pgk);
-			return true;
-		}
-
-		if (TimeManager.secondsSince(TimeManager.lastSample(pgk)) > Ref.INPUT_DELAY_TIME) {
-			// Check if repeating
-			if (TimeManager.periodElapsed(pgk, REPETITION,
-					Ref.INPUT_REPEAT_TIME)) {
-				return playerGameKeyStates.get(pgk);
-			}
-		}
-
-		return false;
 	}
 
 	public static class PlrGameKey
@@ -238,19 +204,4 @@ public final class InputManager
 	public static void finish() {
 		GamepadInputManager.finish();
 	}
-
-	/**
-	 * Prevents a key from activating a press event
-	 */
-	public static void ghost(PlrGameKey pgk) {
-		lastPlayerGameKeyStates.put(pgk, true);
-
-	}
-
-	public static void ghostAll() {
-		for (PlrGameKey pgk : lastPlayerGameKeyStates.keySet()) {
-			ghost(pgk);
-		}
-	}
-
 }

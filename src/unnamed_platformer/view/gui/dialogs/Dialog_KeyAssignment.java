@@ -65,7 +65,6 @@ public class Dialog_KeyAssignment extends Dialog
 
 		if (pressedKey != null) {
 			InputManager.resetEvents();
-			InputManager.ghostAll();
 			callback.run(pressedKey);
 			Dialog_KeyAssignment.this.setVisible(false);
 		}

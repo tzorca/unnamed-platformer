@@ -147,7 +147,6 @@ public class Screen_Options extends BaseScreen_GUI
 		InputManager.loadMappingsFromSettings();
 		
 		// prevent new key from activating immediately
-		InputManager.ghost(currentPlrGameKey);
 		Main.setHotKeysAllowed(true);
 	}
 
