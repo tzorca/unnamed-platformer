@@ -74,7 +74,6 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 	}
 
 	private int buttonIndex = 0;
-	private String gameName;
 	private WorldSelectState state;
 
 	private void changeState(WorldSelectState newState) {
@@ -86,7 +85,7 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 			btnDelete.setVisible(lockedGame);
 			btnRename.setVisible(lockedGame);
 		}
-		
+
 		pnlButtons.setVisible(state == WorldSelectState.ACTION_SELECT);
 	}
 
@@ -161,6 +160,10 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 	}
 
 	private boolean currentGameIsLocked() {
+		String gameName = getGameName();
+		if (gameName == null) {
+			return true;
+		}
 		return gameName.equals(Settings
 				.getString(SettingName.OFFICIAL_LEVELSET_NAME));
 	}
@@ -309,15 +312,14 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 		}
 	}
 
+	private String getGameName() {
+		return lstWorlds.getSelectedValue();
+	}
+
 	private class lstWorlds_SelectionListener implements ListSelectionListener
 	{
 		public void valueChanged(ListSelectionEvent e) {
 			buttons.get(buttonIndex).requestFocusInWindow();
-			gameName = lstWorlds.getSelectedValue();
-
-			if (gameName == null) {
-				return;
-			}
 		}
 	}
 
@@ -331,6 +333,10 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 	private class btnPlay_Click implements ActionListener
 	{
 		public void actionPerformed(final ActionEvent event) {
+			String gameName = getGameName();
+			if (gameName == null) {
+				return;
+			}
 			World.load(gameName);
 			GUIManager.changeScreen(ScreenType.Play);
 		}
@@ -340,6 +346,10 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 	{
 		public void actionPerformed(final ActionEvent event) {
 			if (currentGameIsLocked()) {
+				return;
+			}
+			String gameName = getGameName();
+			if (gameName == null) {
 				return;
 			}
 
@@ -387,6 +397,11 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 				return;
 			}
 
+			String gameName = getGameName();
+			if (gameName == null) {
+				return;
+			}
+
 			// Confirm delete
 			String message = "Really delete `" + gameName + "`?";
 			final String cancelText = "Cancel";
@@ -421,6 +436,11 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 	// =================================================================
 
 	private void tryRename(File gameFile) {
+		String gameName = getGameName();
+		if (gameName == null) {
+			return;
+		}
+
 		String newName = GUIHelper.getInput("New name:", gameName);
 		if (newName.length() > 0) {
 			rename(gameFile, newName);
@@ -450,11 +470,14 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 		try {
 			FileHelper.renameKeepExtension(gameFile, newName);
 			mdlWorlds.set(lstWorlds.getSelectedIndex(), newName);
-			updateGamename(newName);
 
 		} catch (Exception e) {
+			String gameName = getGameName();
+			if (gameName == null) {
+				gameName = "(null)";
+			}
+
 			// TODO: Show error in GUI
-			// TODO: Show a better e.getMessage() than null
 			System.out.println("Could not rename '" + gameName + "': "
 					+ e.getMessage());
 		}
@@ -464,22 +487,28 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 		if (gameFile.delete()) {
 			mdlWorlds.remove(lstWorlds.getSelectedIndex());
 		} else {
+			String gameName = getGameName();
+			if (gameName == null) {
+				gameName = "(null)";
+			}
+
 			System.out.println("Could not delete '" + gameName + "'");
 			// TODO: Show error in GUI
 		}
 	}
 
 	private void copy(File gameFile) {
+		String gameName = getGameName();
+		if (gameName == null) {
+			gameName = "(null)";
+		}
+
 		if (FileHelper.copyFileInSameDir(gameFile, " - Copy")) {
 			mdlWorlds.addElement(gameName + " - Copy");
 		} else {
 			System.out.println("Could not create copy of '" + gameName + "'");
 			// TODO: Show error in GUI
 		}
-	}
-
-	void updateGamename(String gameName) {
-		this.gameName = gameName;
 	}
 
 	private class btn_FocusListener implements FocusListener
@@ -498,6 +527,11 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 	}
 
 	private File getGameFile() {
+		String gameName = getGameName();
+		if (gameName == null) {
+			gameName = "Unknown";
+		}
+
 		String filename = ResManager.getFilename(World.class, gameName);
 		return new File(filename);
 	}
