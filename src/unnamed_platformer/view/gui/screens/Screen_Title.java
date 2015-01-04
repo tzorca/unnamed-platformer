@@ -52,7 +52,7 @@ public class Screen_Title extends BaseScreen_GUI
 		JButton btnExit = new JButton("Exit");
 		btnExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Main.doExit();
+				Main.doHalt();
 			}
 		});
 

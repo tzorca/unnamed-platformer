@@ -108,6 +108,7 @@ public class GamepadInputManager
 	}
 
 	public static void finish() {
+		Controllers.clearEvents();
 		Controllers.destroy();
 	}
 }

@@ -208,10 +208,6 @@ public final class InputManager
 				+ plrGameKey.toString());
 	}
 
-	public static void finish() {
-		GamepadInputManager.finish();
-	}
-
 	public static void disableNextPress(PlrGameKey plrGameKey) {
 		plrGameKeyStates.get(plrGameKey).disableNextPress();
 	}
@@ -236,4 +232,9 @@ public final class InputManager
 		}
 		return keys;
 	}
+
+	public static void finish() {
+		GamepadInputManager.finish();
+	}
+
 }

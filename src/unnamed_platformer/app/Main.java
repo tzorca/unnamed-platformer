@@ -127,6 +127,7 @@ public final class Main
 		}
 		InputManager.finish();
 		SoundManager.finish();
+		ViewManager.finish();
 
 	}
 
