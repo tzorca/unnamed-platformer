@@ -1,9 +1,11 @@
 package unnamed_platformer.input;
 
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map.Entry;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -210,16 +212,28 @@ public final class InputManager
 		GamepadInputManager.finish();
 	}
 
-	public static RawKey getFirstPressedRawKey() {
-		for (Entry<RawKey, KeyState> rawKeyState : rawKeyStates.entrySet()) {
-			if (rawKeyState.getValue().pressed()) {
-				return rawKeyState.getKey();
-			}
-		}
-		return null;
-	}
-
 	public static void disableNextPress(PlrGameKey plrGameKey) {
 		plrGameKeyStates.get(plrGameKey).disableNextPress();
+	}
+
+	public static List<PlrGameKey> getPressedGameKeys() {
+		List<PlrGameKey> keys = new ArrayList<PlrGameKey>();
+		for (Entry<PlrGameKey, KeyState> plrGameKeyState : plrGameKeyStates
+				.entrySet()) {
+			if (plrGameKeyState.getValue().pressed()) {
+				keys.add(plrGameKeyState.getKey());
+			}
+		}
+		return keys;
+	}
+
+	public static List<RawKey> getPessedRawKeys() {
+		List<RawKey> keys = new ArrayList<RawKey>();
+		for (Entry<RawKey, KeyState> rawKeyState : rawKeyStates.entrySet()) {
+			if (rawKeyState.getValue().pressed()) {
+				keys.add(rawKeyState.getKey());
+			}
+		}
+		return keys;
 	}
 }

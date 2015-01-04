@@ -55,20 +55,26 @@ public class Screen_Transition extends BaseScreen_GUI
 			public void keyPressed(KeyEvent e) {
 				Collection<PlrGameKey> plrGameKeys = InputManager
 						.getGameKeysMatchingKeyEvent(e);
-				for (PlrGameKey plrGameKey : plrGameKeys) {
-					switch (plrGameKey.getGameKey()) {
-					case A:
-						GUIManager.changeScreen(nextScreen);
-						break;
-					case B:
-						// TODO
-						break;
-					default:
-						break;
-					}
-				}
+				processGameKeys(plrGameKeys);
+
 			}
+
 		});
+	}
+
+	private void processGameKeys(Collection<PlrGameKey> plrGameKeys) {
+		for (PlrGameKey plrGameKey : plrGameKeys) {
+			switch (plrGameKey.getGameKey()) {
+			case A:
+				GUIManager.changeScreen(nextScreen);
+				break;
+			case B:
+				// TODO
+				break;
+			default:
+				break;
+			}
+		}
 	}
 
 	public void update() {
@@ -79,6 +85,8 @@ public class Screen_Transition extends BaseScreen_GUI
 				pnlSurface.requestFocusInWindow();
 			}
 		});
+		
+		processGameKeys(InputManager.getPressedGameKeys());
 
 		int timeElapsed = (int) TimeManager.secondsSince(timeStarted);
 		int timeLeft = TRANSITION_SECONDS - timeElapsed;
