@@ -46,7 +46,6 @@ public final class Main
 			}
 
 			ViewManager.update();
-
 		}
 	}
 
@@ -127,8 +126,6 @@ public final class Main
 		}
 		InputManager.finish();
 		SoundManager.finish();
-		ViewManager.finish();
-
 	}
 
 	public static void setHotKeysAllowed(boolean value) {

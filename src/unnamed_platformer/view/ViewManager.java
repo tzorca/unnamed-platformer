@@ -646,10 +646,4 @@ public final class ViewManager
 		return renderCanvas.hasFocus();
 	}
 
-	public static void finish() {
-		if (Display.isCreated()) {
-			Display.destroy();
-		}
-	}
-
 }
