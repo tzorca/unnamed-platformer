@@ -2,6 +2,7 @@ package unnamed_platformer.game.other;
 
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -18,21 +19,25 @@ import unnamed_platformer.res_mgt.ResManager;
 import unnamed_platformer.view.gui.GUIManager;
 import unnamed_platformer.view.gui.GUIManager.ScreenType;
 
-public final class World
+public final class World implements Serializable
 {
-	private static List<Level> levels = new LinkedList<Level>();
-	private static Level level; // current level
-	private static int levelIndex = 0;
-	private static String localName;
-	private static ImageIcon previewImage = null;
-	private static boolean playing;
+	private static final long serialVersionUID = 2605757003325366045L;
+
+	public transient static World current = new World();
+
+	private List<Level> levels = new LinkedList<Level>();
+	private transient Level level; // current level
+	private transient int levelIndex = 0;
+	private transient String localName;
+	private transient ImageIcon previewImage = null;
+	private transient boolean playing;
 
 	public static boolean playing() {
-		return playing;
+		return current.playing;
 	}
 
 	public static void setPlaying(boolean value) {
-		playing = value;
+		current.playing = value;
 	}
 
 	public static void playRandomGame() {
@@ -40,7 +45,7 @@ public final class World
 
 		BaseLevelGenerator generator = new ProceduralGenerator();
 		for (int i = 0; i < 10; i++) {
-			World.addPremadeLevel(generator.generate());
+			addPremadeLevel(generator.generate());
 		}
 
 		setLevelByIndex(0);
@@ -53,8 +58,8 @@ public final class World
 	}
 
 	public static void reset(final String name, final boolean addBlank) {
-		localName = name;
-		levels.clear();
+		current.localName = name;
+		current.levels.clear();
 		if (addBlank) {
 			addBlankLevel();
 		}
@@ -62,7 +67,7 @@ public final class World
 	}
 
 	public static boolean save(String name) {
-		localName = name;
+		current.localName = name;
 		String filename = ResManager.getFilename(World.class, name);
 		return toBlueprint().save(filename);
 	}
@@ -78,10 +83,10 @@ public final class World
 	public static Blueprint toBlueprint() {
 		Blueprint worldBlueprint = new Blueprint();
 
-		worldBlueprint.put(BlueprintField.PREVIEW_IMAGE, previewImage);
+		worldBlueprint.put(BlueprintField.PREVIEW_IMAGE, current.previewImage);
 
 		List<Blueprint> levelBlueprints = new LinkedList<Blueprint>();
-		for (Level lvl : levels) {
+		for (Level lvl : current.levels) {
 			levelBlueprints.add(lvl.toBlueprint());
 		}
 
@@ -105,13 +110,13 @@ public final class World
 		reset(name, false);
 
 		for (Blueprint lvlBlueprint : lBPs) {
-			levels.add(Level.fromBlueprint(lvlBlueprint));
+			current.levels.add(Level.fromBlueprint(lvlBlueprint));
 		}
 
 		setLevelByIndex(0);
 	}
 
-	public static Image getPreviewImage(Blueprint bp) {
+	public Image getPreviewImage(Blueprint bp) {
 
 		if (bp == null || !bp.containsKey(BlueprintField.PREVIEW_IMAGE)) {
 
@@ -121,13 +126,13 @@ public final class World
 	}
 
 	public static boolean hasLevelIndex(int destination) {
-		return levels.size() > destination && destination >= 0;
+		return current.levels.size() > destination && destination >= 0;
 	}
 
 	public static void setLevelByIndex(int destination) {
-		levelIndex = destination;
+		current.levelIndex = destination;
 		if (hasLevelIndex(destination)) {
-			level = levels.get(destination);
+			current.level = current.levels.get(destination);
 		} else {
 			// App.print("Level with index " + destination
 			// + " doesn't exist.");
@@ -136,12 +141,12 @@ public final class World
 	}
 
 	public static void update() {
-		if (level != null) {
-			level.update();
+		if (current.level != null) {
+			current.level.update();
 		}
 	}
 
-	public static List<Entity> getEntities() {
+	public List<Entity> getEntities() {
 		return level.getEntities();
 	}
 
@@ -150,7 +155,7 @@ public final class World
 				|| GUIManager.atScreen(ScreenType.Edit)) {
 			Display.setTitle(World.getName());
 
-			level.drawBackground();
+			current.level.drawBackground();
 		}
 	}
 
@@ -159,37 +164,37 @@ public final class World
 				|| GUIManager.atScreen(ScreenType.Edit)) {
 			Display.setTitle(World.getName());
 
-			level.drawForeground();
+			current.level.drawForeground();
 		}
 	}
 
 	public static void addEntity(final Entity entity) {
-		level.addEntity(entity);
+		current.level.addEntity(entity);
 	}
 
 	public static Rectangle getLevelRect() {
-		return level.getRect();
+		return current.level.getRect();
 	}
 
 	public static void addPremadeLevel(final Level lvl) {
-		levels.add(lvl);
+		current.levels.add(lvl);
 	}
 
 	public static Level getCurrentLevel() {
-		return level;
+		return current.level;
 	}
 
 	public static void addBlankLevel() {
-		levels.add(new Level(new LinkedList<Entity>()));
+		current.levels.add(new Level(new LinkedList<Entity>()));
 	}
 
 	public static int getLevelCount() {
-		return levels.size();
+		return current.levels.size();
 	}
 
 	public static void removeLevelByIndex(int index) {
 		if (hasLevelIndex(index)) {
-			levels.remove(index);
+			current.levels.remove(index);
 		} else {
 			System.out.println("Can't delete level #" + index
 					+ " -- it doesn't exist");
@@ -197,20 +202,20 @@ public final class World
 	}
 
 	public static String getName() {
-		return localName;
+		return current.localName;
 	}
 
 	public static void replaceCurrentLevel(final Level lvl) {
-		level = lvl;
-		levels.set(levelIndex, lvl);
+		current.level = lvl;
+		current.levels.set(current.levelIndex, lvl);
 	}
 
-	public static void setPreviewImage(ImageIcon previewImage) {
-		World.previewImage = previewImage;
+	public void setPreviewImage(ImageIcon previewImage) {
+		this.previewImage = previewImage;
 	}
 
 	public static int getCurrentLevelIndex() {
-		return levelIndex;
+		return current.levelIndex;
 	}
 
 }

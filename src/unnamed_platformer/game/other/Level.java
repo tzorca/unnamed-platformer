@@ -21,18 +21,15 @@ import unnamed_platformer.view.ViewManager;
 
 public class Level
 {
-	// private boolean bgStretch = false;
-	private Graphic bgGraphic = new Graphic("bg",
-			new Color(0x27, 0x27, 0x41, 1));
+	private transient Graphic bgGraphic = new Graphic("bg", new Color(0x27,
+			0x27, 0x41, 1));
 
-	public int gridSize = Ref.DEFAULT_LEVEL_GRIDSIZE;
-
-	private LinkedList<Entity> entities = new LinkedList<Entity>(),
-			newEntities = new LinkedList<Entity>();
+	private transient LinkedList<Entity> entities = new LinkedList<Entity>();
+	private transient LinkedList<Entity> newEntities = new LinkedList<Entity>();
 	private LinkedList<EntitySetup> entitySetups = new LinkedList<EntitySetup>();
 
-	private Rectangle rect = Ref.DEFAULT_LEVEL_RECTANGLE;
-	private ActiveEntity playerEntity;
+	private transient Rectangle rect = Ref.DEFAULT_LEVEL_RECTANGLE;
+	private transient ActiveEntity playerEntity;
 
 	private void setRect(final Rectangle rect) {
 		this.rect = rect;
@@ -72,7 +69,6 @@ public class Level
 		lBP.put(BlueprintField.LEVEL_BG, bgGraphic);
 		lBP.put(BlueprintField.LEVEL_RECT, getRect());
 		lBP.put(BlueprintField.LEVEL_ENTITIES, entitySetups);
-
 		return lBP;
 	}
 
@@ -133,7 +129,8 @@ public class Level
 		ListIterator<Entity> entityIterator = entities.listIterator(entities
 				.size());
 
-		Rectangle rangeBox = new Rectangle(point.x - range, point.y - range, range*2, range*2);
+		Rectangle rangeBox = new Rectangle(point.x - range, point.y - range,
+				range * 2, range * 2);
 
 		while (entityIterator.hasPrevious()) {
 			Entity entity = entityIterator.previous();
