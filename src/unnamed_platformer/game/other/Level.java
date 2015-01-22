@@ -10,8 +10,6 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 
-import com.google.gson.JsonElement;
-
 import unnamed_platformer.app.TimeManager;
 import unnamed_platformer.game.entities.ActiveEntity;
 import unnamed_platformer.game.entities.Entity;
@@ -33,13 +31,17 @@ public class Level
 	private transient Rectangle rect = Ref.DEFAULT_LEVEL_RECTANGLE;
 	private transient ActiveEntity playerEntity;
 
-	private void setRect(final Rectangle rect) {
+	void setRect(final Rectangle rect) {
 		this.rect = rect;
 	}
 
 	public Rectangle getRect() {
 		return new Rectangle(rect.getX(), rect.getY(), rect.getWidth(),
 				rect.getHeight());
+	}
+	
+	public Level() {
+		
 	}
 
 	public Level(LinkedList<Entity> origEntities, Rectangle levelRect) {
@@ -49,6 +51,7 @@ public class Level
 	public Level(LinkedList<Entity> origEntities) {
 		init(origEntities, Ref.DEFAULT_LEVEL_RECTANGLE);
 	}
+
 
 	private void init(LinkedList<Entity> origEntities, Rectangle levelRect) {
 		resetTo(EntityCreator.getSetupCollection(origEntities));
@@ -234,6 +237,9 @@ public class Level
 	public Graphic getBackgroundGraphic() {
 		return bgGraphic;
 	}
+	public void setBackgroundGraphic(Graphic graphic) {
+		bgGraphic = graphic;
+	}
 
 	public void setSize(Rectangle newRect) {
 		this.rect = newRect;
@@ -297,6 +303,8 @@ public class Level
 	}
 
 	public List<EntitySetup> getEntitySetups() {
-		return this.entitySetups;
+		return entitySetups;
 	}
+
+
 }

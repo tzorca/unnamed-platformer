@@ -14,6 +14,7 @@ import org.apache.commons.io.FileUtils;
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.geom.Rectangle;
 
+import unnamed_platformer.app.Main;
 import unnamed_platformer.game.entities.Entity;
 import unnamed_platformer.game.lvl_gen.BaseLevelGenerator;
 import unnamed_platformer.game.lvl_gen.ProceduralGenerator;
@@ -79,11 +80,10 @@ public final class World implements Serializable
 
 	public static boolean saveGson(String name) {
 		current.localName = name;
-		Gson gson = new Gson();
 		String data = null;
 
 		try {
-			data = gson.toJson(current.level.getEntitySetups());
+			data = Main.getGson().toJson(current);
 			System.out.println(data);
 		} catch (Exception e) {
 			System.out.println(e.toString());

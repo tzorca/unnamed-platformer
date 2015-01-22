@@ -5,6 +5,8 @@ import org.newdawn.slick.opengl.Texture;
 
 import unnamed_platformer.game.other.EntityCreator;
 import unnamed_platformer.game.other.EntityInfoDB;
+import unnamed_platformer.game.other.Level;
+import unnamed_platformer.game.other.LevelSerializer;
 import unnamed_platformer.game.other.World;
 import unnamed_platformer.globals.Ref;
 import unnamed_platformer.input.GameKey;
@@ -17,6 +19,8 @@ import unnamed_platformer.view.gui.GUIManager;
 import unnamed_platformer.view.gui.GUIManager.ScreenType;
 
 import com.almworks.sqlite4java.SQLite;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.rits.cloning.Cloner;
 
 public final class Main
@@ -89,6 +93,7 @@ public final class Main
 				Ref.NATIVE_LIB_DIR);
 
 		setupCloner();
+		setupGson();
 
 		ClassLookup.init();
 		Settings.init();
@@ -105,9 +110,20 @@ public final class Main
 	}
 
 	private static Cloner cloner = new Cloner();
+	private static Gson gson;
 
 	private static void setupCloner() {
 		cloner.dontClone(Texture.class);
+	}
+	
+	private static void setupGson() {
+		GsonBuilder builder = new GsonBuilder();
+		builder.registerTypeAdapter(Level.class, new LevelSerializer());
+		gson = builder.create();
+	}
+	
+	public static Gson getGson() {
+		return gson;
 	}
 
 	public static <T> T deepClone(T o) {
