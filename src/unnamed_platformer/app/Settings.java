@@ -36,6 +36,8 @@ public class Settings
 		PLR2_SCROLL_OUT, PLR2_SCROLL_IN, /* */
 		PLR3_SCROLL_OUT, PLR3_SCROLL_IN, /* */
 		PLR4_SCROLL_OUT, PLR4_SCROLL_IN, /* */
+		PLR1_TESTING, PLR2_TESTING, /* */
+		PLR3_TESTING, PLR4_TESTING /* */
 	}
 
 	public static EnumMap<SettingName, Object> settings = new EnumMap<SettingName, Object>(
@@ -63,6 +65,7 @@ public class Settings
 		settings.put(SettingName.PLR1_SECONDARY_RIGHT, "D");
 		settings.put(SettingName.PLR1_SCROLL_OUT, "LBRACKET");
 		settings.put(SettingName.PLR1_SCROLL_IN, "RBRACKET");
+		settings.put(SettingName.PLR1_TESTING, "F6");
 	}
 
 	public static Multimap<RawKey, PlrGameKey> generateGameKeyMappings() {

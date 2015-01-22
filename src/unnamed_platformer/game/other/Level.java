@@ -10,6 +10,8 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 
+import com.google.gson.JsonElement;
+
 import unnamed_platformer.app.TimeManager;
 import unnamed_platformer.game.entities.ActiveEntity;
 import unnamed_platformer.game.entities.Entity;
@@ -292,5 +294,9 @@ public class Level
 			}
 		}
 
+	}
+
+	public List<EntitySetup> getEntitySetups() {
+		return this.entitySetups;
 	}
 }

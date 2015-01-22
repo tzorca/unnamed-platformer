@@ -2,12 +2,15 @@ package unnamed_platformer.game.other;
 
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.ImageIcon;
 
+import org.apache.commons.io.FileUtils;
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.geom.Rectangle;
 
@@ -18,6 +21,8 @@ import unnamed_platformer.globals.Ref.BlueprintField;
 import unnamed_platformer.res_mgt.ResManager;
 import unnamed_platformer.view.gui.GUIManager;
 import unnamed_platformer.view.gui.GUIManager.ScreenType;
+
+import com.google.gson.Gson;
 
 public final class World implements Serializable
 {
@@ -53,10 +58,6 @@ public final class World implements Serializable
 		GUIManager.changeScreen(ScreenType.Play);
 	}
 
-	public static boolean saveCurrentGame() {
-		return save(getName());
-	}
-
 	public static void reset(final String name, final boolean addBlank) {
 		current.localName = name;
 		current.levels.clear();
@@ -66,10 +67,38 @@ public final class World implements Serializable
 		setLevelByIndex(0);
 	}
 
+	public static boolean save() {
+		return save(getName());
+	}
+
 	public static boolean save(String name) {
 		current.localName = name;
 		String filename = ResManager.getFilename(World.class, name);
 		return toBlueprint().save(filename);
+	}
+
+	public static boolean saveGson(String name) {
+		current.localName = name;
+		Gson gson = new Gson();
+		String data = null;
+
+		try {
+			data = gson.toJson(current.level.getEntitySetups());
+			System.out.println(data);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+			return false;
+		}
+//		String filename = ResManager.getFilename(World.class, name);
+//		File file = new File(filename);
+//		try {
+//			FileUtils.writeStringToFile(file, data);
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//			return false;
+//		}
+		return true;
 	}
 
 	public static void load(String name) {

@@ -5,7 +5,8 @@ import java.util.EnumMap;
 
 import unnamed_platformer.globals.EntityRef.EntityParam;
 
-public class EntitySetup implements Serializable {
+public class EntitySetup implements Serializable
+{
 	private static final long serialVersionUID = 5451535085901404848L;
 
 	private EnumMap<EntityParam, Object> data = new EnumMap<EntityParam, Object>(
@@ -31,5 +32,4 @@ public class EntitySetup implements Serializable {
 	public boolean has(EntityParam param) {
 		return data.containsKey(param);
 	}
-
 }

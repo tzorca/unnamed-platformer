@@ -422,13 +422,6 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 		}
 	}
 
-	private class btnTitle_Click implements ActionListener
-	{
-		public void actionPerformed(final ActionEvent event) {
-			GUIManager.changeScreen(ScreenType.Title);
-		}
-	}
-
 	// =================================================================
 	// ACTIONS
 	// =================================================================

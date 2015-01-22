@@ -19,7 +19,7 @@ import com.google.common.collect.Maps;
 public final class EntityRef {
 
 	public enum EntityParam {
-		GRAPHIC, LOCATION, ORIENTATION, POWER, SUBCLASS, SIZE_STRATEGY
+		GRAPHIC, LOCATION, ORIENTATION, UNUSED_A, UNUSED_B, SIZE_STRATEGY
 	}
 
 	private static Map<String, Class<?>> textureNameToEntityClass = Maps

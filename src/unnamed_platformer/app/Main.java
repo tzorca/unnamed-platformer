@@ -61,6 +61,10 @@ public final class Main
 		else if (InputManager.keyPressOccurred(GameKey.EXIT, 1)) {
 			doHalt();
 		}
+		
+		else if (InputManager.keyPressOccurred(GameKey.TESTING, 1)) {
+			World.saveGson("test-json");
+		}
 
 		// else if (InputManager.keyPressOccurred(GameKey.back, 1)) {
 		// GUIManager.back();

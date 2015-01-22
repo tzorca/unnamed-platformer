@@ -270,7 +270,7 @@ public class Editor
 
 	public void save() {
 		resetToEditPlacement();
-		if (World.saveCurrentGame()) {
+		if (World.save()) {
 			unsavedChanges = false;
 		}
 	}
