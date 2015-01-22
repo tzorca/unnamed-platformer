@@ -21,6 +21,11 @@
 	<classpathentry kind="lib" path="lib/sqlite4java.jar"/>
 	<classpathentry kind="lib" path="lib/objenesis-1.2.jar"/>
 	<classpathentry kind="lib" path="lib/jinput.jar"/>
+	<classpathentry kind="lib" path="lib/gson-2.3.1.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:platform:/resource/UnnamedPlatformer/lib/gson-2.3.1-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
