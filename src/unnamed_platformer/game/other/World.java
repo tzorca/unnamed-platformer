@@ -1,15 +1,10 @@
 package unnamed_platformer.game.other;
 
-import java.awt.Image;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
-
-import javax.swing.ImageIcon;
 
 import org.apache.commons.io.FileUtils;
 import org.lwjgl.opengl.Display;
@@ -19,7 +14,6 @@ import unnamed_platformer.app.Main;
 import unnamed_platformer.game.entities.Entity;
 import unnamed_platformer.game.lvl_gen.BaseLevelGenerator;
 import unnamed_platformer.game.lvl_gen.ProceduralGenerator;
-import unnamed_platformer.globals.Ref.BlueprintField;
 import unnamed_platformer.res_mgt.ResManager;
 import unnamed_platformer.view.gui.GUIManager;
 import unnamed_platformer.view.gui.GUIManager.ScreenType;
@@ -34,7 +28,6 @@ public final class World implements Serializable
 	private transient Level level; // current level
 	private transient int levelIndex = 0;
 	private transient String localName;
-	private transient ImageIcon previewImage = null;
 	private transient boolean playing;
 
 	public static boolean playing() {
@@ -109,53 +102,6 @@ public final class World implements Serializable
 		
 		setLevelByIndex(0);
 		
-//		Blueprint bp = Blueprint.load(filename, false);
-//		fromBlueprint(bp, name);
-	}
-
-	public static Blueprint toBlueprint() {
-		Blueprint worldBlueprint = new Blueprint();
-
-		worldBlueprint.put(BlueprintField.PREVIEW_IMAGE, current.previewImage);
-
-		List<Blueprint> levelBlueprints = new LinkedList<Blueprint>();
-		for (Level lvl : current.levels) {
-			levelBlueprints.add(lvl.toBlueprint());
-		}
-
-		worldBlueprint.put(BlueprintField.LEVEL_DATA, levelBlueprints);
-
-		return worldBlueprint;
-	}
-
-	@SuppressWarnings("unchecked")
-	private static void fromBlueprint(Blueprint bp, String name) {
-		if (bp == null) {
-			System.out
-					.println("Currently existing blueprint is invalid. Creating new game...");
-			reset(name, true);
-			return;
-		}
-
-		List<Blueprint> lBPs = (LinkedList<Blueprint>) bp
-				.get(BlueprintField.LEVEL_DATA);
-
-		reset(name, false);
-
-		for (Blueprint lvlBlueprint : lBPs) {
-			current.levels.add(Level.fromBlueprint(lvlBlueprint));
-		}
-
-		setLevelByIndex(0);
-	}
-
-	public Image getPreviewImage(Blueprint bp) {
-
-		if (bp == null || !bp.containsKey(BlueprintField.PREVIEW_IMAGE)) {
-
-			return new BufferedImage(32, 32, BufferedImage.TYPE_INT_RGB);
-		}
-		return ((ImageIcon) bp.get(BlueprintField.PREVIEW_IMAGE)).getImage();
 	}
 
 	public static boolean hasLevelIndex(int destination) {
@@ -241,10 +187,6 @@ public final class World implements Serializable
 	public static void replaceCurrentLevel(final Level lvl) {
 		current.level = lvl;
 		current.levels.set(current.levelIndex, lvl);
-	}
-
-	public void setPreviewImage(ImageIcon previewImage) {
-		this.previewImage = previewImage;
 	}
 
 	public static int getCurrentLevelIndex() {

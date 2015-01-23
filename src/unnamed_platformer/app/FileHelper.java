@@ -14,8 +14,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javassist.NotFoundException;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 
@@ -154,13 +152,13 @@ public final class FileHelper {
 
 	//
 	public static String findMatch(String text, Pattern pattern)
-			throws NotFoundException {
+			throws Exception {
 		Matcher matcher = pattern.matcher(text);
 
 		if (matcher.find()) {
 			return matcher.group();
 		} else {
-			throw new NotFoundException("No match found for "
+			throw new Exception("No match found for "
 					+ pattern.toString() + " in " + text);
 		}
 	}

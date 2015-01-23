@@ -23,10 +23,9 @@ public class SpatialHash
 {
 	private final static int BOX_SIZE = 96;
 	private final static int PADDING = 1;
-	
-	 private static HashMap<Entity, List<Pair<Integer, Integer>>>
-	 previousHashes = Maps
-	 .newHashMap();
+
+	private static HashMap<Entity, List<Pair<Integer, Integer>>> previousHashes = Maps
+			.newHashMap();
 
 	private static Multimap<Pair<Integer, Integer>, Entity> map = HashMultimap
 			.create();
@@ -38,9 +37,10 @@ public class SpatialHash
 	public static boolean has(Entity entity) {
 		return previousHashes.containsKey(entity);
 	}
-	
+
 	public static void insert(Entity entity) {
-		List<Pair<Integer, Integer>> entityHash = getEntityHashPoints(entity, PADDING);
+		List<Pair<Integer, Integer>> entityHash = getEntityHashPoints(entity,
+				PADDING);
 
 		removePreviousHash(entity);
 
@@ -49,7 +49,6 @@ public class SpatialHash
 		}
 		previousHashes.put(entity, entityHash);
 	}
-	
 
 	public static void clear() {
 		previousHashes.clear();
@@ -57,7 +56,8 @@ public class SpatialHash
 	}
 
 	public static Collection<Entity> getNearbyEntities(Entity entity) {
-		List<Pair<Integer, Integer>> entityHash = getEntityHashPoints(entity, PADDING);
+		List<Pair<Integer, Integer>> entityHash = getEntityHashPoints(entity,
+				PADDING);
 		Set<Entity> nearbyEntities = Sets.newHashSet();
 
 		for (Pair<Integer, Integer> hash : entityHash) {
@@ -110,8 +110,5 @@ public class SpatialHash
 		}
 		return hashes;
 	}
-
-
-
 
 }

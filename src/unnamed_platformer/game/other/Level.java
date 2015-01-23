@@ -15,7 +15,6 @@ import unnamed_platformer.game.entities.ActiveEntity;
 import unnamed_platformer.game.entities.Entity;
 import unnamed_platformer.globals.GameRef.Flag;
 import unnamed_platformer.globals.Ref;
-import unnamed_platformer.globals.Ref.BlueprintField;
 import unnamed_platformer.view.Graphic;
 import unnamed_platformer.view.ViewManager;
 
@@ -66,36 +65,6 @@ public class Level
 				ViewManager.centerCamera(playerEntity.getCenter(), rect);
 			}
 		}
-	}
-
-	public Blueprint toBlueprint() {
-		Blueprint lBP = new Blueprint();
-
-		lBP.put(BlueprintField.LEVEL_BG, bgGraphic);
-		lBP.put(BlueprintField.LEVEL_RECT, getRect());
-		lBP.put(BlueprintField.LEVEL_ENTITIES, entitySetups);
-		return lBP;
-	}
-
-	@SuppressWarnings("unchecked")
-	static Level fromBlueprint(final Blueprint levelBlueprint) {
-		if (levelBlueprint == null) {
-			System.out
-					.println("Error: Can't create a level from a null blueprint.");
-			return null;
-		}
-
-		LinkedList<EntitySetup> entitySetups = (LinkedList<EntitySetup>) levelBlueprint
-				.get(BlueprintField.LEVEL_ENTITIES);
-
-		Level newLevel = new Level(
-				EntityCreator.buildFromSetupCollection(entitySetups));
-		newLevel.bgGraphic = (Graphic) levelBlueprint
-				.get(BlueprintField.LEVEL_BG);
-		newLevel.setRect((Rectangle) levelBlueprint
-				.get(BlueprintField.LEVEL_RECT));
-
-		return newLevel;
 	}
 
 	public void resetToOriginal() {
