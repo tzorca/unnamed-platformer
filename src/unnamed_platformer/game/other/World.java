@@ -25,21 +25,22 @@ public final class World implements Serializable
 	public transient static World current = new World();
 
 	private List<Level> levels = new LinkedList<Level>();
-	private transient Level level; // current level
-	private transient int levelIndex = 0;
-	private transient String localName;
-	private transient boolean playing;
+	private static transient Level level; // current level
+	private static transient int levelIndex = 0;
+	private static transient String localName;
+	private static transient boolean playing;
 
 	public static boolean playing() {
-		return current.playing;
+		return playing;
 	}
 
 	public static void setPlaying(boolean value) {
-		current.playing = value;
+		playing = value;
 	}
 
 	public static void playRandomGame() {
-		reset("Randomly Generated Game", false);
+		localName = "Random Game";
+		reset(false);
 
 		BaseLevelGenerator generator = new ProceduralGenerator();
 		for (int i = 0; i < 10; i++) {
@@ -51,8 +52,7 @@ public final class World implements Serializable
 		GUIManager.changeScreen(ScreenType.Play);
 	}
 
-	public static void reset(final String name, final boolean addBlank) {
-		current.localName = name;
+	public static void reset(final boolean addBlank) {
 		current.levels.clear();
 		if (addBlank) {
 			addBlankLevel();
@@ -65,7 +65,7 @@ public final class World implements Serializable
 	}
 
 	public static boolean save(String name) {
-		current.localName = name;
+		localName = name;
 		
 		String data = Main.getGson().toJson(current);
 		String filename = ResManager.getFilename(World.class, name);
@@ -83,7 +83,8 @@ public final class World implements Serializable
 	private static final int MIN_WORLD_CHAR_LENGTH = 10;
 
 	public static void load(String name) {
-		reset(name, false);
+		localName = name;
+		reset(false);
 		
 		String filename = ResManager.getFilename(World.class, name);
 		File file = new File(filename);
@@ -102,12 +103,10 @@ public final class World implements Serializable
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
 		} else {
 			World.addBlankLevel();
 		}
 
-		
 		setLevelByIndex(0);
 		
 	}
@@ -117,9 +116,9 @@ public final class World implements Serializable
 	}
 
 	public static void setLevelByIndex(int destination) {
-		current.levelIndex = destination;
+		levelIndex = destination;
 		if (hasLevelIndex(destination)) {
-			current.level = current.levels.get(destination);
+			level = current.levels.get(destination);
 		} else {
 			// App.print("Level with index " + destination
 			// + " doesn't exist.");
@@ -128,8 +127,8 @@ public final class World implements Serializable
 	}
 
 	public static void update() {
-		if (current.level != null) {
-			current.level.update();
+		if (level != null) {
+			level.update();
 		}
 	}
 
@@ -142,7 +141,7 @@ public final class World implements Serializable
 				|| GUIManager.atScreen(ScreenType.Edit)) {
 			Display.setTitle(World.getName());
 
-			current.level.drawBackground();
+			level.drawBackground();
 		}
 	}
 
@@ -151,16 +150,16 @@ public final class World implements Serializable
 				|| GUIManager.atScreen(ScreenType.Edit)) {
 			Display.setTitle(World.getName());
 
-			current.level.drawForeground();
+			level.drawForeground();
 		}
 	}
 
 	public static void addEntity(final Entity entity) {
-		current.level.addEntity(entity);
+		level.addEntity(entity);
 	}
 
 	public static Rectangle getLevelRect() {
-		return current.level.getRect();
+		return level.getRect();
 	}
 
 	public static void addPremadeLevel(final Level lvl) {
@@ -168,7 +167,7 @@ public final class World implements Serializable
 	}
 
 	public static Level getCurrentLevel() {
-		return current.level;
+		return level;
 	}
 
 	public static void addBlankLevel() {
@@ -189,16 +188,16 @@ public final class World implements Serializable
 	}
 
 	public static String getName() {
-		return current.localName;
+		return localName;
 	}
 
 	public static void replaceCurrentLevel(final Level lvl) {
-		current.level = lvl;
-		current.levels.set(current.levelIndex, lvl);
+		level = lvl;
+		current.levels.set(levelIndex, lvl);
 	}
 
 	public static int getCurrentLevelIndex() {
-		return current.levelIndex;
+		return levelIndex;
 	}
 
 }
