@@ -80,6 +80,8 @@ public final class World implements Serializable
 		return true;
 	}
 
+	private static final int MIN_WORLD_CHAR_LENGTH = 10;
+
 	public static void load(String name) {
 		reset(name, false);
 		
@@ -92,13 +94,19 @@ public final class World implements Serializable
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		try {
-			current = Main.getGson().fromJson(data, World.class);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		
+		if (data.length() >= MIN_WORLD_CHAR_LENGTH) {
+			try {
+				current = Main.getGson().fromJson(data, World.class);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		} else {
+			World.addBlankLevel();
 		}
+
 		
 		setLevelByIndex(0);
 		
