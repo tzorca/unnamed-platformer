@@ -10,9 +10,11 @@ import unnamed_platformer.globals.Ref.BlueprintField;
 import unnamed_platformer.view.Graphic;
 
 import com.google.common.collect.Maps;
+import com.google.common.reflect.TypeToken;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
@@ -20,6 +22,9 @@ import com.google.gson.JsonSerializer;
 public class LevelSerializer implements JsonSerializer<Level>,
 		JsonDeserializer<Level>
 {
+	private static final Type ENTITY_SETUP_LIST_TYPE = new TypeToken<LinkedList<EntitySetup>>() {
+		private static final long serialVersionUID = -8307301960581307792L;
+	}.getType();
 
 	@Override
 	public JsonElement serialize(Level src, Type typeOfSrc,
@@ -33,21 +38,29 @@ public class LevelSerializer implements JsonSerializer<Level>,
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
 	public Level deserialize(JsonElement json, Type typeOfT,
 			JsonDeserializationContext context) throws JsonParseException {
-		EnumMap<BlueprintField, Object> map = context
-				.deserialize(json, typeOfT);
+		// TimeManager.sample(json);
+		JsonObject jsonObject = json.getAsJsonObject();
 
-		LinkedList<EntitySetup> entitySetups = (LinkedList<EntitySetup>) map
-				.get(BlueprintField.LEVEL_ENTITIES);
+		JsonElement jsonEntitySetups = jsonObject
+				.get(BlueprintField.LEVEL_ENTITIES.toString());
+
+		LinkedList<EntitySetup> entitySetups = context.deserialize(
+				jsonEntitySetups, ENTITY_SETUP_LIST_TYPE);
 
 		Level newLevel = new Level(
 				EntityCreator.buildFromSetupCollection(entitySetups));
-		newLevel.setBackgroundGraphic((Graphic) map.get(BlueprintField.LEVEL_BG));
-		newLevel.setRect((Rectangle) map.get(BlueprintField.LEVEL_RECT));
-		
+
+		newLevel.setBackgroundGraphic((Graphic) context.deserialize(
+				(jsonObject.get(BlueprintField.LEVEL_BG.toString())),
+				Graphic.class));
+		newLevel.setRect((Rectangle) context.deserialize(
+				(jsonObject.get(BlueprintField.LEVEL_RECT.toString())),
+				Rectangle.class));
+
+		// System.out.println(TimeManager.secondsSince(TimeManager
+		// .lastSample(json)));
 		return newLevel;
 	}
-
 }

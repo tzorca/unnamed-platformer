@@ -51,7 +51,7 @@ public final class ResManager {
 		addResLoader(Audio.class, new SoundLoader());
 		addResLoader(BufferedImage.class, new ImageResLoader());
 		addResLoader(CollisionData.class, new CollisionDataResLoader());
-		addResLoader(World.class, new GameResDummyLoader());
+		addResLoader(World.class, new WorldResDummyLoader());
 		addResLoader(ImageIcon.class, new PreviewIconLoader());
 	}
 

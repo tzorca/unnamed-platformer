@@ -2,6 +2,7 @@ package unnamed_platformer.game.other;
 
 import java.io.Serializable;
 import java.util.EnumMap;
+import java.util.Map;
 
 import unnamed_platformer.globals.EntityRef.EntityParam;
 
@@ -9,7 +10,7 @@ public class EntitySetup implements Serializable
 {
 	private static final long serialVersionUID = 5451535085901404848L;
 
-	private EnumMap<EntityParam, Object> data = new EnumMap<EntityParam, Object>(
+	private Map<EntityParam, Object> data = new EnumMap<EntityParam, Object>(
 			EntityParam.class);
 	private String className;
 

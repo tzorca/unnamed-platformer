@@ -5,6 +5,8 @@ import org.newdawn.slick.opengl.Texture;
 
 import unnamed_platformer.game.other.EntityCreator;
 import unnamed_platformer.game.other.EntityInfoDB;
+import unnamed_platformer.game.other.EntitySetup;
+import unnamed_platformer.game.other.EntitySetupDeserializer;
 import unnamed_platformer.game.other.Level;
 import unnamed_platformer.game.other.LevelSerializer;
 import unnamed_platformer.game.other.World;
@@ -66,9 +68,9 @@ public final class Main
 			doHalt();
 		}
 		
-		else if (InputManager.keyPressOccurred(GameKey.TESTING, 1)) {
-			World.saveGson("test-json");
-		}
+//		else if (InputManager.keyPressOccurred(GameKey.TESTING, 1)) {
+//			World.saveGson("test-json");
+//		}
 
 		// else if (InputManager.keyPressOccurred(GameKey.back, 1)) {
 		// GUIManager.back();
@@ -119,6 +121,7 @@ public final class Main
 	private static void setupGson() {
 		GsonBuilder builder = new GsonBuilder();
 		builder.registerTypeAdapter(Level.class, new LevelSerializer());
+		builder.registerTypeAdapter(EntitySetup.class, new EntitySetupDeserializer());
 		gson = builder.create();
 	}
 	

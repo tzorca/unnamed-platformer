@@ -246,7 +246,7 @@ public class Level
 	}
 
 	public void drawBackground() {
-		if (bgGraphic.hasTextureName()) {
+		if (bgGraphic != null && bgGraphic.hasTextureName()) {
 			ViewManager.drawBG(bgGraphic.getTexture());
 		}
 	}
