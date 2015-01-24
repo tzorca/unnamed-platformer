@@ -12,6 +12,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.ListCellRenderer;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
@@ -44,6 +45,11 @@ public class Dialog_OptionSelection<T> extends Dialog
 
 	public Dialog_OptionSelection(Frame owner, String message, List<T> choices,
 			final T cancelChoice, final ParamRunnable choiceCallback) {
+		this(owner, message, choices, cancelChoice, null, choiceCallback);
+	}
+	
+	public Dialog_OptionSelection(Frame owner, String message, List<T> choices,
+			final T cancelChoice, final ListCellRenderer<T> listCellRenderer, final ParamRunnable choiceCallback) {
 		super(owner);
 		this.add(pnlMain);
 		this.setUndecorated(true);
@@ -77,8 +83,12 @@ public class Dialog_OptionSelection<T> extends Dialog
 		lstChoices.setModel(listModel);
 		lstChoices.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		StyleRef.STYLE_CHOICE_LIST.apply(lstChoices);
+		if (listCellRenderer == null) {
 		lstChoices.setCellRenderer(new ListCellRenderer_CustomBorder(
 				paddedBorderWithBottomLine));
+		} else {
+			lstChoices.setCellRenderer(listCellRenderer);
+		}
 		lstChoices.addListSelectionListener(new lstChoices_SelectionListener());
 		lstChoices.addKeyListener(new Global_KeyListener());
 		lstChoices.setSelectedIndex(0);
