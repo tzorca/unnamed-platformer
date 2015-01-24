@@ -32,19 +32,18 @@ import unnamed_platformer.view.gui.objects.ListCellRenderer_CustomBorder;
  * Saves the string of the selected choice in the callback parameter
  * 
  */
-public class Dialog_ChoiceSelection extends Dialog
+public class Dialog_OptionSelection<T> extends Dialog
 {
 	private static final long serialVersionUID = -7867279766354367729L;
 
 	private ParamRunnable choiceCallback;
-	private String cancelChoice;
+	private T cancelChoice;
 
 	private JPanel pnlMain = new JPanel();
-	private JList<String> lstChoices;
+	private JList<T> lstChoices;
 
-	public Dialog_ChoiceSelection(Frame owner, String message,
-			List<String> choices, final String cancelChoice,
-			final ParamRunnable choiceCallback) {
+	public Dialog_OptionSelection(Frame owner, String message, List<T> choices,
+			final T cancelChoice, final ParamRunnable choiceCallback) {
 		super(owner);
 		this.add(pnlMain);
 		this.setUndecorated(true);
@@ -58,13 +57,13 @@ public class Dialog_ChoiceSelection extends Dialog
 		StyleRef.STYLE_MESSAGE.apply(lblMessage);
 
 		pnlMain.add(lblMessage, "wrap, growx, pushx, span");
-		
+
 		this.choiceCallback = choiceCallback;
 		this.cancelChoice = cancelChoice;
 
-		DefaultListModel<String> mdlChoices = new DefaultListModel<String>();
-		for (String choice : choices) {
-			mdlChoices.addElement(choice);
+		DefaultListModel<T> listModel = new DefaultListModel<T>();
+		for (T choice : choices) {
+			listModel.addElement(choice);
 		}
 
 		Border bottomLineBorder = BorderFactory.createMatteBorder(0, 0, 1, 0,
@@ -74,8 +73,8 @@ public class Dialog_ChoiceSelection extends Dialog
 		Border paddedBorderWithBottomLine = new CompoundBorder(
 				bottomLineBorder, paddingBorder);
 
-		lstChoices = new JList<String>();
-		lstChoices.setModel(mdlChoices);
+		lstChoices = new JList<T>();
+		lstChoices.setModel(listModel);
 		lstChoices.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		StyleRef.STYLE_CHOICE_LIST.apply(lstChoices);
 		lstChoices.setCellRenderer(new ListCellRenderer_CustomBorder(
@@ -134,9 +133,9 @@ public class Dialog_ChoiceSelection extends Dialog
 		choose(lstChoices.getModel().getElementAt(choiceIndex));
 	}
 
-	private void choose(String choice) {
+	private void choose(T choice) {
 		choiceCallback.run(choice);
-		Dialog_ChoiceSelection.this.setVisible(false);
+		Dialog_OptionSelection.this.setVisible(false);
 		ViewManager.focusRenderCanvas();
 	}
 

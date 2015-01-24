@@ -71,7 +71,7 @@ public class Dialog_EditMenu extends Dialog
 		btnSaveLevel.addActionListener(new btnSaveLevel_Click());
 		btnModeSwitch.addActionListener(new btnModeSwitch_Click());
 		btnExit.addActionListener(new btnExit_Click());
-		
+
 		for (JButton btn : buttonList) {
 			StyleRef.STYLE_ABSTRACT_BUTTON.apply(btn);
 		}
@@ -184,10 +184,11 @@ public class Dialog_EditMenu extends Dialog
 	private class btnRemoveLevel_Click implements ActionListener
 	{
 		public void actionPerformed(final ActionEvent event) {
-			final String deleteMessage = "Delete "
-					+ lblCurrentLevel.getText() + "?";
+			final String deleteMessage = "Delete " + lblCurrentLevel.getText()
+					+ "?";
 			final String cancelText = "Cancel";
-			final List<String> choices = Lists.newArrayList(cancelText, "Delete");
+			final List<String> choices = Lists.newArrayList(cancelText,
+					"Delete");
 
 			final ParamRunnable afterChoice = new ParamRunnable() {
 				public void run(Object param) {
@@ -204,7 +205,7 @@ public class Dialog_EditMenu extends Dialog
 				}
 			};
 
-			Dialog_ChoiceSelection dlgConfirmDeletion = new Dialog_ChoiceSelection(
+			Dialog_OptionSelection<String> dlgConfirmDeletion = new Dialog_OptionSelection<String>(
 					ViewManager.getFrame(), deleteMessage, choices, cancelText,
 					afterChoice);
 

@@ -45,7 +45,7 @@ import unnamed_platformer.view.ViewManager;
 import unnamed_platformer.view.gui.GUIHelper.ParamRunnable;
 import unnamed_platformer.view.gui.GUIManager;
 import unnamed_platformer.view.gui.GUIManager.ScreenType;
-import unnamed_platformer.view.gui.dialogs.Dialog_ChoiceSelection;
+import unnamed_platformer.view.gui.dialogs.Dialog_OptionSelection;
 import unnamed_platformer.view.gui.dialogs.Dialog_EditMenu;
 import unnamed_platformer.view.gui.objects.ImageListEntry;
 import unnamed_platformer.view.gui.objects.ListCellRenderer_ImageListEntry;
@@ -436,7 +436,7 @@ public class Screen_Edit extends BaseScreen_Hybrid
 			}
 		};
 
-		Dialog_ChoiceSelection dlgConfirmExit = new Dialog_ChoiceSelection(
+		Dialog_OptionSelection<String> dlgConfirmExit = new Dialog_OptionSelection<String>(
 				ViewManager.getFrame(), message, choices, cancelText,
 				afterChoice);
 
@@ -466,7 +466,7 @@ public class Screen_Edit extends BaseScreen_Hybrid
 		public void run() {
 			editor.removeObject(MouseInputManager.getGameMousePos());
 		}
-	}	
+	}
 
 	private class EntityList_SelectionChanged implements ListSelectionListener
 	{

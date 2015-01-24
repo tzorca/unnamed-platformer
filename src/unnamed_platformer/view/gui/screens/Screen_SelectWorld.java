@@ -40,7 +40,7 @@ import unnamed_platformer.view.gui.GUIHelper;
 import unnamed_platformer.view.gui.GUIHelper.ParamRunnable;
 import unnamed_platformer.view.gui.GUIManager;
 import unnamed_platformer.view.gui.GUIManager.ScreenType;
-import unnamed_platformer.view.gui.dialogs.Dialog_ChoiceSelection;
+import unnamed_platformer.view.gui.dialogs.Dialog_OptionSelection;
 import unnamed_platformer.view.gui.objects.ListCellRenderer_World;
 
 import com.google.common.collect.Lists;
@@ -415,7 +415,7 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 					delete(gameFile);
 				}
 			};
-			Dialog_ChoiceSelection dlgConfirmDelete = new Dialog_ChoiceSelection(
+			Dialog_OptionSelection<String> dlgConfirmDelete = new Dialog_OptionSelection<String>(
 					ViewManager.getFrame(), message, choices, cancelText,
 					afterChoice);
 			dlgConfirmDelete.setVisible(true);
