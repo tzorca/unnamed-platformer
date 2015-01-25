@@ -1,7 +1,6 @@
 package unnamed_platformer.view.gui.objects;
 
 import java.awt.Component;
-import java.awt.image.BufferedImage;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -49,7 +48,7 @@ public class ListCellRenderer_World extends JLabel implements
 		setText(humanReadableWorldName);
 
 		// include preview image if it exists
-		if (ResManager.contentExists(BufferedImage.class, value)) {
+		if (ResManager.contentExists(ImageIcon.class, value)) {
 			ImageIcon icon = ResManager.get(ImageIcon.class, value);
 			setIcon(icon);
 		}

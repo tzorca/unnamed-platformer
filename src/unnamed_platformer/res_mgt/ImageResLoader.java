@@ -5,14 +5,14 @@ import java.io.File;
 
 import javax.imageio.ImageIO;
 
-public class ImageResLoader extends ResLoader<BufferedImage> {
+public class ImageResLoader extends ResLoader {
 
-	protected ImageResLoader() {
-		super("img", ".png");
+	protected ImageResLoader(String directory) {
+		super(directory, ".png");
 	}
 
 	@Override
-	public BufferedImage load(String name) throws Exception {
+	public Object load(String name) throws Exception {
 		File file = new File(getFilename(name));
 		BufferedImage image = ImageIO.read(file);
 		return image;

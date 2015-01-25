@@ -5,9 +5,9 @@ import java.util.HashMap;
 
 import unnamed_platformer.globals.Ref;
 
-public abstract class ResLoader<T>
+public abstract class ResLoader
 {
-	private HashMap<String, T> cache = new HashMap<String, T>();
+	private HashMap<String, Object> cache = new HashMap<String, Object>();
 
 	private String dir, ext;
 
@@ -26,11 +26,11 @@ public abstract class ResLoader<T>
 		return Ref.RESOURCE_DIR + dir;
 	}
 
-	public T get(String name) {
+	public Object get(String name) {
 		if (cache.containsKey(name)) {
 			return cache.get(name);
 		}
-		T res = null;
+		Object res = null;
 		try {
 			res = load(name);
 		} catch (Exception e) {
@@ -53,11 +53,11 @@ public abstract class ResLoader<T>
 		return res;
 	}
 
-	protected void cache(String name, T res) {
+	protected void cache(String name, Object res) {
 		cache.put(name, res);
 	}
 
-	protected abstract T load(String name) throws Exception;
+	protected abstract Object load(String name) throws Exception;
 
 	public boolean contentExists(String name) {
 		Object data = null;

@@ -13,10 +13,11 @@ import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 
 import net.miginfocom.swing.MigLayout;
-import unnamed_platformer.app.ImageHelper;
 import unnamed_platformer.game.other.Editor;
 import unnamed_platformer.game.other.World;
 import unnamed_platformer.globals.StyleRef;
+import unnamed_platformer.res_mgt.ResManager;
+import unnamed_platformer.res_mgt.types.GUI_Image;
 import unnamed_platformer.view.ViewManager;
 import unnamed_platformer.view.gui.GUIHelper;
 import unnamed_platformer.view.gui.GUIHelper.ParamRunnable;
@@ -32,14 +33,14 @@ public class Dialog_EditMenu extends Dialog
 	private static final long serialVersionUID = -846612117309570380L;
 
 	private static final ImageIcon /* */
-	/*    */IMG_EDIT_MODE = ImageHelper.getImageIconContent("gui_modeEdit"),
-			IMG_PLAY_MODE = ImageHelper.getImageIconContent("gui_modePlay"),
-			IMG_ADD = ImageHelper.getImageIconContent("gui_add"),
-			IMG_NEXT = ImageHelper.getImageIconContent("gui_next"),
-			IMG_PREV = ImageHelper.getImageIconContent("gui_prev"),
-			IMG_REMOVE = ImageHelper.getImageIconContent("gui_remove"),
-			IMG_SAVE = ImageHelper.getImageIconContent("gui_save"),
-			IMG_EXIT = ImageHelper.getImageIconContent("gui_exit");
+	/*    */IMG_EDIT_MODE = new ImageIcon(ResManager.get(GUI_Image.class, "gui_modeEdit")),
+			IMG_PLAY_MODE = new ImageIcon(ResManager.get(GUI_Image.class, "gui_modePlay")),
+			IMG_ADD = new ImageIcon(ResManager.get(GUI_Image.class, "gui_add")),
+			IMG_NEXT = new ImageIcon(ResManager.get(GUI_Image.class, "gui_next")),
+			IMG_PREV = new ImageIcon(ResManager.get(GUI_Image.class, "gui_prev")),
+			IMG_REMOVE = new ImageIcon(ResManager.get(GUI_Image.class, "gui_remove")),
+			IMG_SAVE = new ImageIcon(ResManager.get(GUI_Image.class, "gui_save")),
+			IMG_EXIT = new ImageIcon(ResManager.get(GUI_Image.class, "gui_exit"));
 
 	private final JButton btnModeSwitch = new JButton(IMG_PLAY_MODE);
 	private final JButton btnPrevLevel = new JButton(IMG_PREV);

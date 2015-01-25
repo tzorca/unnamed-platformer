@@ -40,13 +40,14 @@ import unnamed_platformer.input.InputManager;
 import unnamed_platformer.input.MouseInputManager;
 import unnamed_platformer.input.MouseInputManager.MouseEventType;
 import unnamed_platformer.res_mgt.ResManager;
+import unnamed_platformer.res_mgt.types.ObjectImage;
 import unnamed_platformer.view.Graphic;
 import unnamed_platformer.view.ViewManager;
 import unnamed_platformer.view.gui.GUIHelper.ParamRunnable;
 import unnamed_platformer.view.gui.GUIManager;
 import unnamed_platformer.view.gui.GUIManager.ScreenType;
-import unnamed_platformer.view.gui.dialogs.Dialog_OptionSelection;
 import unnamed_platformer.view.gui.dialogs.Dialog_EditMenu;
+import unnamed_platformer.view.gui.dialogs.Dialog_OptionSelection;
 import unnamed_platformer.view.gui.objects.ImageListEntry;
 import unnamed_platformer.view.gui.objects.ListCellRenderer_ImageListEntry;
 
@@ -139,8 +140,9 @@ public class Screen_Edit extends BaseScreen_Hybrid
 		for (final String textureName : textureNames) {
 
 			final String displayName = ResManager.humanizeName(textureName);
-			final ImageIcon imageIcon = ImageHelper
-					.getImageIconContentScaleDown(textureName, ENTITY_ICON_SIZE);
+			final ImageIcon imageIcon = ImageHelper.scaleToImageIcon(
+					ResManager.get(ObjectImage.class, textureName),
+					ENTITY_ICON_SIZE);
 
 			final ImageListEntry entry = new ImageListEntry(imageIcon,
 					displayName, textureName);

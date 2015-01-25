@@ -47,6 +47,7 @@ import unnamed_platformer.app.Settings.SettingName;
 import unnamed_platformer.game.other.World;
 import unnamed_platformer.globals.Ref;
 import unnamed_platformer.res_mgt.ResManager;
+import unnamed_platformer.res_mgt.types.GUI_Texture;
 import unnamed_platformer.view.gui.GUIManager;
 import unnamed_platformer.view.gui.hud.HeadsUpDisplay;
 
@@ -177,7 +178,7 @@ public final class ViewManager
 			}
 		}
 
-		final Texture texture = ResManager.get(Texture.class, "gui_dot");
+		final Texture texture = ResManager.get(GUI_Texture.class, "gui_dot");
 		drawTexturesInBatch(texture, pointBuffer);
 		loadState();
 	}

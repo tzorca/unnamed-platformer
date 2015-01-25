@@ -9,6 +9,7 @@ import org.newdawn.slick.opengl.Texture;
 import unnamed_platformer.game.other.TextureSetup;
 import unnamed_platformer.globals.TextureRef;
 import unnamed_platformer.res_mgt.ResManager;
+import unnamed_platformer.res_mgt.types.ObjectImage;
 
 public class Graphic implements Serializable
 {
@@ -46,8 +47,17 @@ public class Graphic implements Serializable
 		return ResManager.get(Texture.class, textureName);
 	}
 
-	public BufferedImage getTextureImage() {
-		return ResManager.get(BufferedImage.class, textureName);
+	public <T> T getCustom(Class<T> clazz) {
+		if (textureName == null) {
+			System.out
+					.println("Warning: Unable to return custom from a null textureName");
+			return null;
+		}
+		return ResManager.get(clazz, textureName);
+	}
+
+	public BufferedImage getObjectImage() {
+		return ResManager.get(ObjectImage.class, textureName);
 	}
 
 	public boolean hasTextureName() {

@@ -50,7 +50,7 @@ public abstract class Entity
 		this.graphic = graphic;
 		setLocation(pos);
 
-		BufferedImage image = graphic.getTextureImage();
+		BufferedImage image = graphic.getObjectImage();
 
 		if (sizeStrategy == null) {
 			sizeStrategy = new SizeStrategy(Strategy.texture, 1);

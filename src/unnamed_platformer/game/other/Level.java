@@ -15,6 +15,7 @@ import unnamed_platformer.game.entities.ActiveEntity;
 import unnamed_platformer.game.entities.Entity;
 import unnamed_platformer.globals.GameRef.Flag;
 import unnamed_platformer.globals.Ref;
+import unnamed_platformer.res_mgt.types.BackgroundTexture;
 import unnamed_platformer.view.Graphic;
 import unnamed_platformer.view.ViewManager;
 
@@ -216,7 +217,7 @@ public class Level
 
 	public void drawBackground() {
 		if (bgGraphic != null && bgGraphic.hasTextureName()) {
-			ViewManager.drawBG(bgGraphic.getTexture());
+			ViewManager.drawBG(bgGraphic.getCustom(BackgroundTexture.class));
 		}
 	}
 

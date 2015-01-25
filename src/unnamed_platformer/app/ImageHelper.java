@@ -16,8 +16,6 @@ import java.io.InputStream;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
-import unnamed_platformer.res_mgt.ResManager;
-
 public final class ImageHelper
 {
 	public static BufferedImage loadImage(InputStream input) throws IOException {
@@ -77,12 +75,8 @@ public final class ImageHelper
 		return buffered;
 	}
 
-	public static ImageIcon getImageIconContent(String name) {
-		return new ImageIcon(ResManager.get(BufferedImage.class, name));
-	}
-
-	public static ImageIcon getImageIconContentScaleDown(String name, int size) {
-		BufferedImage img = ResManager.get(BufferedImage.class, name);
+	public static ImageIcon scaleToImageIcon(BufferedImage img, int size) {
+		//BufferedImage img = ResManager.get(BufferedImage.class, name);
 
 		if (img.getWidth() < size) {
 			return new ImageIcon(img);

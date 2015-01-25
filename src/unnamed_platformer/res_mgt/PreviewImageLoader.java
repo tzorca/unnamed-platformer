@@ -5,14 +5,14 @@ import java.io.File;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
-public class PreviewIconLoader extends ResLoader<ImageIcon>
+public class PreviewImageLoader extends ResLoader
 {
-	protected PreviewIconLoader() {
-		super("game-preview", ".png");
+	protected PreviewImageLoader() {
+		super("img-preview", ".png");
 	}
 
 	@Override
-	public ImageIcon load(String name) throws Exception {
+	public Object load(String name) throws Exception {
 		File file = new File(getFilename(name));
 		return new ImageIcon(ImageIO.read(file));
 	}

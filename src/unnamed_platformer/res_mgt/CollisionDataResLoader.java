@@ -1,12 +1,11 @@
 package unnamed_platformer.res_mgt;
 
-import java.awt.image.BufferedImage;
-
 import unnamed_platformer.app.ImageHelper;
 import unnamed_platformer.game.other.CollisionData;
 import unnamed_platformer.globals.Ref;
+import unnamed_platformer.res_mgt.types.ObjectImage;
 
-public class CollisionDataResLoader extends ResLoader<CollisionData> {
+public class CollisionDataResLoader extends ResLoader {
 
 	protected CollisionDataResLoader() {
 		super("img", ".png");
@@ -15,7 +14,7 @@ public class CollisionDataResLoader extends ResLoader<CollisionData> {
 	@Override
 	public CollisionData load(String name) throws Exception {
 		return new CollisionData(ImageHelper.resizeImageWithinCanvas(
-				ImageHelper.blurImage(ResManager.get(BufferedImage.class, name), Ref.MASK_BLUR_ITERATIONS),
+				ImageHelper.blurImage(ResManager.get(ObjectImage.class, name), Ref.MASK_BLUR_ITERATIONS),
 				Ref.MASK_SIZE_PERCENT));
 	}
 }
