@@ -4,6 +4,9 @@ import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.swing.Box;
@@ -13,16 +16,21 @@ import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 
 import net.miginfocom.swing.MigLayout;
+import unnamed_platformer.app.ImageHelper;
 import unnamed_platformer.game.other.Editor;
 import unnamed_platformer.game.other.World;
 import unnamed_platformer.globals.StyleRef;
 import unnamed_platformer.res_mgt.ResManager;
+import unnamed_platformer.res_mgt.types.BackgroundImage;
 import unnamed_platformer.res_mgt.types.GUI_Image;
+import unnamed_platformer.view.Graphic;
 import unnamed_platformer.view.ViewManager;
 import unnamed_platformer.view.gui.GUIHelper;
 import unnamed_platformer.view.gui.GUIHelper.ParamRunnable;
 import unnamed_platformer.view.gui.GUIManager;
 import unnamed_platformer.view.gui.GUIManager.ScreenType;
+import unnamed_platformer.view.gui.objects.ImageListEntry;
+import unnamed_platformer.view.gui.objects.ListCellRenderer_ImageListEntry;
 import unnamed_platformer.view.gui.screens.Screen_Edit;
 
 import com.google.common.collect.Lists;
@@ -33,14 +41,19 @@ public class Dialog_EditMenu extends Dialog
 	private static final long serialVersionUID = -846612117309570380L;
 
 	private static final ImageIcon /* */
-	/*    */IMG_EDIT_MODE = new ImageIcon(ResManager.get(GUI_Image.class, "gui_modeEdit")),
-			IMG_PLAY_MODE = new ImageIcon(ResManager.get(GUI_Image.class, "gui_modePlay")),
-			IMG_ADD = new ImageIcon(ResManager.get(GUI_Image.class, "gui_add")),
-			IMG_NEXT = new ImageIcon(ResManager.get(GUI_Image.class, "gui_next")),
-			IMG_PREV = new ImageIcon(ResManager.get(GUI_Image.class, "gui_prev")),
-			IMG_REMOVE = new ImageIcon(ResManager.get(GUI_Image.class, "gui_remove")),
-			IMG_SAVE = new ImageIcon(ResManager.get(GUI_Image.class, "gui_save")),
-			IMG_EXIT = new ImageIcon(ResManager.get(GUI_Image.class, "gui_exit"));
+	/*    */IMG_EDIT_MODE = new ImageIcon(ResManager.get(GUI_Image.class,
+			"gui_modeEdit")), IMG_PLAY_MODE = new ImageIcon(ResManager.get(
+			GUI_Image.class, "gui_modePlay")), IMG_ADD = new ImageIcon(
+			ResManager.get(GUI_Image.class, "gui_add")),
+			IMG_NEXT = new ImageIcon(
+					ResManager.get(GUI_Image.class, "gui_next")),
+			IMG_PREV = new ImageIcon(
+					ResManager.get(GUI_Image.class, "gui_prev")),
+			IMG_REMOVE = new ImageIcon(ResManager.get(GUI_Image.class,
+					"gui_remove")), IMG_SAVE = new ImageIcon(ResManager.get(
+					GUI_Image.class, "gui_save")), IMG_EXIT = new ImageIcon(
+					ResManager.get(GUI_Image.class, "gui_exit")),
+			IMG_BG = new ImageIcon(ResManager.get(GUI_Image.class, "gui_bg"));
 
 	private final JButton btnModeSwitch = new JButton(IMG_PLAY_MODE);
 	private final JButton btnPrevLevel = new JButton(IMG_PREV);
@@ -49,13 +62,14 @@ public class Dialog_EditMenu extends Dialog
 	private final JButton btnRemoveLevel = new JButton(IMG_REMOVE);
 	private final JButton btnSaveLevel = new JButton(IMG_SAVE);
 	private final JButton btnExit = new JButton(IMG_EXIT);
+	private final JButton btnChangeBG = new JButton(IMG_BG);
 
 	private Editor editor;
 	private Screen_Edit screenEdit;
 	private final JLabel lblCurrentLevel = new JLabel();
 
 	private List<JButton> buttonList = Lists.newArrayList(btnModeSwitch,
-			btnSaveLevel, btnPrevLevel, btnNextLevel, btnAddLevel,
+			btnSaveLevel, btnChangeBG, btnPrevLevel, btnNextLevel, btnAddLevel,
 			btnRemoveLevel, btnExit);
 
 	public Dialog_EditMenu(Frame owner, Editor editor, Screen_Edit screenEdit) {
@@ -65,6 +79,7 @@ public class Dialog_EditMenu extends Dialog
 		this.setLayout(new MigLayout());
 
 		// SETUP BUTTONS
+		btnChangeBG.addActionListener(new btnChangeBG_Click());
 		btnPrevLevel.addActionListener(new btnPrevLevel_Click());
 		btnNextLevel.addActionListener(new btnNextLevel_Click());
 		btnAddLevel.addActionListener(new btnAddLevel_Click());
@@ -87,6 +102,7 @@ public class Dialog_EditMenu extends Dialog
 		this.add(btnModeSwitch);
 		if (currentlyEditing) {
 			this.add(btnSaveLevel);
+			this.add(btnChangeBG);
 			this.add(Box.createRigidArea(new Dimension(24, 0)));
 			this.add(btnPrevLevel);
 			this.add(lblCurrentLevel);
@@ -140,6 +156,47 @@ public class Dialog_EditMenu extends Dialog
 			GUIManager.changeScreen(ScreenType.SelectWorld);
 		}
 	}
+
+	private class btnChangeBG_Click implements ActionListener
+	{
+		public void actionPerformed(final ActionEvent event) {
+			SwingUtilities.invokeLater(new Runnable() {
+				public void run() {
+					Dialog_EditMenu.this.setVisible(false);
+					showBackgroundSelect();
+
+				}
+			});
+		}
+	}
+
+	private void showBackgroundSelect() {
+		Dialog_OptionSelection<ImageListEntry> backgroundSelect;
+
+		// Get background images
+		List<ImageListEntry> backgrounds = new ArrayList<ImageListEntry>();
+		Collection<String> backgroundNames = ResManager.list(
+				BackgroundImage.class, true);
+		for (String backgroundName : backgroundNames) {
+			BufferedImage background = ResManager.get(BackgroundImage.class,
+					backgroundName);
+			backgrounds.add(new ImageListEntry(ImageHelper.scaleToImageIcon(
+					background, 48), backgroundName));
+		}
+
+		backgroundSelect = new Dialog_OptionSelection<ImageListEntry>(null,
+				"Select BG", backgrounds, backgrounds.get(0),
+				new ListCellRenderer_ImageListEntry(), runnable_SetBackground);
+		backgroundSelect.setVisible(true);
+	}
+
+	ParamRunnable runnable_SetBackground = new ParamRunnable() {
+		public void run(Object param) {
+			ImageListEntry imageListEntry = (ImageListEntry) param;
+			World.getCurrentLevel().setBackgroundGraphic(
+					new Graphic(imageListEntry.getInternalName()));
+		}
+	};
 
 	private class btnAddLevel_Click implements ActionListener
 	{
