@@ -18,7 +18,7 @@ public class PhysicsInstance
 
 	private boolean inAir = true;
 	private Vector2f lastMove = new Vector2f(0, 0),
-			lastHorizontalDirection = new Vector2f(0, 0);
+			lastHorizontalDirection = new Vector2f(1, 0);
 
 	Vector2f velocity = new Vector2f(0, 0);
 	Vector2f currentForces = new Vector2f();
@@ -182,6 +182,12 @@ public class PhysicsInstance
 			setYVelocity(0);
 			lastMoveResult.setYCollision(true);
 		}
+	}
+
+	public void setCurrentForce(Vector2f force) {
+		velocity.x = 0;
+		velocity.y = 0;
+		currentForces = force;
 	}
 
 }

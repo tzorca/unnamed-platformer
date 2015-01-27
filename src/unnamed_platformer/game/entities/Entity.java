@@ -111,7 +111,9 @@ public abstract class Entity
 	}
 
 	public Vector2f getCenter() {
-		return new Vector2f(box.getCenterX(), box.getCenterY());
+		Rectangle rect = getCollisionRect();
+		
+		return new Vector2f(rect.getCenterX(), rect.getCenterY());
 	}
 
 	public void setCenter(Vector2f p) {

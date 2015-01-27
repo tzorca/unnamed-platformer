@@ -12,18 +12,21 @@ import unnamed_platformer.input.GameKey;
 import unnamed_platformer.input.InputManager;
 import unnamed_platformer.res_mgt.SoundManager;
 
-public class Ctrl_Shoot extends ControlMechanism {
+public class Ctrl_Shoot extends ControlMechanism
+{
 
 	private ActiveEntity projectile = null;
 	private double projectileSpeed = 0;
 	private float fireDelay = 0;
+	private float variability = 0;
 
 	public Ctrl_Shoot(ActiveEntity actor, ActiveEntity projectile,
-			double speed, float fireDelay) {
+			double speed, float fireDelay, float variability) {
 		super(actor);
 		this.setProjectile(projectile);
 		this.projectileSpeed = speed;
 		this.fireDelay = fireDelay;
+		this.variability = variability;
 	}
 
 	@Override
@@ -42,10 +45,15 @@ public class Ctrl_Shoot extends ControlMechanism {
 				.buildFromSetup(projectile.getOriginalSetup());
 
 		Vector2f v = actor.getPhysics().getDirection();
-		v.y -= 0.1;
+
+		if (variability != 0) {
+			v.y = MathHelper.randRange((int) (-variability * 1000),
+					(int) (variability * 1000)) / 1000f;
+		}
+
 		movingProjectile.getPhysics().addControlMechanism(
 				new Ctrl_PersistentVectorMovement(movingProjectile,
-						projectileSpeed, MathHelper.angleFromVector(v)));
+						projectileSpeed, v));
 
 		movingProjectile.setCenter(actor.getCenter());
 

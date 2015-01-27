@@ -4,7 +4,6 @@ import java.awt.Point;
 
 import org.newdawn.slick.geom.Vector2f;
 
-import unnamed_platformer.app.MathHelper;
 import unnamed_platformer.app.TimeManager;
 import unnamed_platformer.game.entities.ActiveEntity;
 
@@ -23,9 +22,9 @@ public class Ctrl_PersistentVectorMovement extends ControlMechanism {
 		this.origin = origin;
 	}
 
-	public Ctrl_PersistentVectorMovement(ActiveEntity actor, double speed, double angle) {
+	public Ctrl_PersistentVectorMovement(ActiveEntity actor, double speed, Vector2f angle) {
 		super(actor);
-		this.vector = MathHelper.vectorFromAngleAndSpeed(speed, angle);
+		this.vector = new Vector2f(angle).getNormal().scale((float)speed);
 	}
 
 	public Ctrl_PersistentVectorMovement(ActiveEntity actor, Vector2f vector, long duration) {
@@ -37,7 +36,7 @@ public class Ctrl_PersistentVectorMovement extends ControlMechanism {
 	@Override
 	public void doUpdate(float multiplier) {
 		Vector2f vectorMul = new Vector2f(vector.x * multiplier, vector.y * multiplier);
-		actor.getPhysics().addForce(vectorMul);
+		actor.getPhysics().setCurrentForce(vectorMul);
 
 		if (endTime > 0 && TimeManager.time() > endTime) {
 			finish();

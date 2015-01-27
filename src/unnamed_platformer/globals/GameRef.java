@@ -11,8 +11,9 @@ public final class GameRef
 
 	public static final float DEFAULT_PLR_JUMP_STRENGTH = 8f;
 
-	public static final float DEFAULT_SHOOT_SPEED = 0.7f;
-	public static final float DEFAULT_SHOOT_DELAY = 150;
+	public static final float DEFAULT_SHOOT_SPEED = 8f;
+	public static final float DEFAULT_SHOOT_DELAY = 200;
+	public static final float DEFAULT_SHOOT_VARIABILITY = 0.05f;
 
 	public final static float DEFAULT_WATER_SPEED_FACTOR = 0.5f;
 	public final static float DEFAULT_FAST_REGION_SPEED_FACTOR = 1.8f;
@@ -31,6 +32,7 @@ public final class GameRef
 
 	public static final float DEFAULT_MOTION_BOX_DIST = 192;
 	public static final float DEFAULT_MOTION_BOX_SPEED = 2f;
+
 
 	public enum Flag {
 		SOLID, HURTS_OTHERS, OBEYS_GRAVITY, OUT_OF_PLAY, TANGIBLE, PLAYER, INVISIBLE, FOLLOWS_SLOPES, ALWAYS_INTERACT, INACTIVE_UNTIL_PLAYER_DEATH

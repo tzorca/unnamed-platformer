@@ -35,12 +35,13 @@ public class PlatformPlayer extends ActiveEntity
 
 		jumpBehaviour = new Ctrl_Jump(this, GameRef.DEFAULT_PLR_JUMP_STRENGTH);
 
-		EntitySetup setup = new EntitySetup();
-		setup.set(EntityParam.GRAPHIC, new Graphic("laser"));
-		setup.set(EntityParam.LOCATION, new Vector2f(0, 0));
+		EntitySetup projectileSetup = new EntitySetup();
+		projectileSetup.set(EntityParam.GRAPHIC, new Graphic("laser"));
+		projectileSetup.set(EntityParam.LOCATION, new Vector2f(0, 0));
 
-		shootBehaviour = new Ctrl_Shoot(this, new Beam(setup),
-				GameRef.DEFAULT_SHOOT_SPEED, GameRef.DEFAULT_SHOOT_DELAY);
+		shootBehaviour = new Ctrl_Shoot(this, new Beam(projectileSetup),
+				GameRef.DEFAULT_SHOOT_SPEED, GameRef.DEFAULT_SHOOT_DELAY,
+				GameRef.DEFAULT_SHOOT_VARIABILITY);
 
 		getPhysics();
 		physics.addControlMechanism(hzMoveBehaviour);
@@ -80,7 +81,7 @@ public class PlatformPlayer extends ActiveEntity
 			death();
 		} else if (healthDelta < 0) {
 			SoundManager.playSample("hit");
-		} else if (healthDelta > 0){
+		} else if (healthDelta > 0) {
 			SoundManager.playSample("energy");
 		}
 	}
