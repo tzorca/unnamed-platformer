@@ -9,7 +9,7 @@ public final class GameRef
 	public static final float DEFAULT_PLR_DECELERATION = 2.1f;
 	public static final float DEFAULT_PLR_MAX_SPEED = 6.0f;
 
-	public static final float DEFAULT_PLR_JUMP_STRENGTH = 8f;
+	public static final float DEFAULT_PLR_JUMP_STRENGTH = 8.25f;
 
 	public static final float DEFAULT_SHOOT_SPEED = 8f;
 	public static final float DEFAULT_SHOOT_DELAY = 200;
