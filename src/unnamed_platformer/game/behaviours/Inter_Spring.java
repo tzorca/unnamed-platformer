@@ -30,7 +30,7 @@ public class Inter_Spring extends Interaction
 
 		plr.getPhysics().setVerticalForce(v);
 		plr.getPhysics().setInAir(true);
-		plr.moveAbove(target);
+//		plr.moveAbove(target);
 
 		// TODO: Revisit this and think about how to deal with
 		// setting the jumping flag more intelligently.
