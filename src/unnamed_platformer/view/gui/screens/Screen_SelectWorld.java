@@ -87,6 +87,32 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 		pnlButtons.setVisible(state == WorldSelectState.ACTION_SELECT);
 	}
 
+	public void update() {
+		super.update();
+
+		// LWJGL JInput Keys
+		processKeys(InputManager.getPressedGameKeys(), null);
+
+		// Default button selection
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				switch (state) {
+				case ACTION_SELECT:
+					if (!buttons.get(buttonIndex).hasFocus()) {
+						buttons.get(buttonIndex).requestFocusInWindow();
+					}
+					break;
+				case WORLD_SELECT:
+					lstWorlds.requestFocusInWindow();
+					break;
+				default:
+					break;
+
+				}
+			}
+		});
+	}
+
 	public Screen_SelectWorld() {
 		super();
 
@@ -197,29 +223,12 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 			newIndex = mdlWorlds.size() - 1;
 		}
 		lstWorlds.setSelectedIndex(newIndex);
-
-		buttons.get(buttonIndex).requestFocusInWindow();
+		lstWorlds.requestFocusInWindow();
 	}
 
 	// =================================================================
 	// EVENTS
 	// =================================================================
-
-	public void update() {
-		super.update();
-
-		// LWJGL JInput Keys
-		processKeys(InputManager.getPressedGameKeys(), null);
-
-		// Default button selection
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				if (!buttons.get(buttonIndex).hasFocus()) {
-					buttons.get(buttonIndex).requestFocusInWindow();
-				}
-			}
-		});
-	}
 
 	// Java VK KeyEvents
 	private class Global_KeyListener extends KeyAdapter
