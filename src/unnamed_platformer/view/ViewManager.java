@@ -20,7 +20,9 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.regex.Pattern;
 
 import javax.imageio.ImageIO;
@@ -150,7 +152,6 @@ public final class ViewManager
 		if (gridSize < 1) {
 			return;
 		}
-
 		saveState();
 
 		if (color == null) {
@@ -315,17 +316,15 @@ public final class ViewManager
 
 		System.out.println("Saved screenshot to " + screenshotFile.getName());
 
-		// Save screenshot as the world preview if none exists yet
-		savePreviewImage(image);
 	}
 
-	private static void savePreviewImage(BufferedImage originalImage) {
+	public static void savePreviewImage() {
 		// Not currently playing
 		if (!World.playing()) {
 			return;
 		}
 
-		File previewImageFile = new File(ResManager.getFilename(
+		final File previewImageFile = new File(ResManager.getFilename(
 				ImageIcon.class, World.getName()));
 
 		// Preview image already exists
@@ -333,17 +332,36 @@ public final class ViewManager
 			return;
 		}
 
-		BufferedImage previewImage = ImageHelper.resizeToWidth(originalImage,
-				PREVIEW_IMAGE_WIDTH);
 
-		try {
-			ImageIO.write(previewImage, "PNG", previewImageFile);
-		} catch (IOException e) {
-			System.out
-					.println("Saving preview image failed: " + e.getMessage());
-			e.printStackTrace();
-		}
+		doWhenActive(new Runnable() {
+			public void run() {
+				try {
 
+					final BufferedImage previewImage = ImageHelper.resizeToWidth(
+							ViewManager.getScreenshot(), PREVIEW_IMAGE_WIDTH);
+
+					ImageIO.write(previewImage, "PNG", previewImageFile);
+					System.out.println("Saved preview image to "
+							+ previewImageFile.getName());
+				} catch (IOException e) {
+					System.out.println("Saving preview image failed: "
+							+ e.getMessage());
+					e.printStackTrace();
+				}
+			}
+		});
+
+	}
+
+	private static Queue<Runnable> displayActiveRunnables = new LinkedList<Runnable>();
+
+	/**
+	 * Schedules a method to be executed when display is next active
+	 * 
+	 * @param runnable
+	 */
+	private static void doWhenActive(Runnable runnable) {
+		displayActiveRunnables.add(runnable);
 	}
 
 	public static BufferedImage getScreenshot() {
@@ -613,6 +631,13 @@ public final class ViewManager
 
 		Display.sync(FPS);
 		Display.update();
+
+		if (Display.isActive() && Display.isVisible() && Display.getWidth() > 0
+				&& Display.getHeight() > 0) {
+			while (!displayActiveRunnables.isEmpty()) {
+				displayActiveRunnables.poll().run();
+			}
+		}
 	}
 
 	public static void clear() {

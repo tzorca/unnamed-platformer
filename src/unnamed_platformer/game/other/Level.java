@@ -39,9 +39,9 @@ public class Level
 		return new Rectangle(rect.getX(), rect.getY(), rect.getWidth(),
 				rect.getHeight());
 	}
-	
+
 	public Level() {
-		
+
 	}
 
 	public Level(LinkedList<Entity> origEntities, Rectangle levelRect) {
@@ -51,7 +51,6 @@ public class Level
 	public Level(LinkedList<Entity> origEntities) {
 		init(origEntities, Ref.DEFAULT_LEVEL_RECTANGLE);
 	}
-
 
 	private void init(LinkedList<Entity> origEntities, Rectangle levelRect) {
 		resetTo(EntityCreator.getSetupCollection(origEntities));
@@ -121,11 +120,17 @@ public class Level
 		// find player (if not already found)
 		if (playerEntity == null) {
 			setupPlayer();
-		}
+		} else {
 
-		// set start time if not yet set
-		if (startTime == null && playerEntity != null) {
-			startTime = TimeManager.time();
+			// The level has just started
+			if (startTime == null) {
+
+				// Set the start time if it hasn't yet been set
+				startTime = TimeManager.time();
+
+				// Save screenshot as the world preview if none exists yet
+				ViewManager.savePreviewImage();
+			}
 		}
 
 		Iterator<Entity> entityIterator = entities.iterator();
@@ -207,6 +212,7 @@ public class Level
 	public Graphic getBackgroundGraphic() {
 		return bgGraphic;
 	}
+
 	public void setBackgroundGraphic(Graphic graphic) {
 		bgGraphic = graphic;
 	}
@@ -275,6 +281,5 @@ public class Level
 	public List<EntitySetup> getEntitySetups() {
 		return entitySetups;
 	}
-
 
 }
