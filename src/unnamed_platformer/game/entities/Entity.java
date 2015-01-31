@@ -67,18 +67,17 @@ public abstract class Entity
 						.getSize().getY());
 				break;
 			case texture:
-				this.box.setSize(image.getWidth(), image.getHeight());
+				box.setSize(image.getWidth(), image.getHeight());
 				break;
 			case textureScale:
-				this.box.setWidth(image.getWidth()
-						* sizeStrategy.getSizeScale());
-				this.box.setHeight((int) (image.getHeight() * (this.box
-						.getWidth() / (image.getWidth() + 0.0f))));
+				box.setWidth(image.getWidth() * sizeStrategy.getSizeScale());
+				box.setHeight((int) (image.getHeight() * (this.box.getWidth() / (image
+						.getWidth() + 0.0f))));
 				break;
 			case absoluteWidth:
-				this.box.setWidth(sizeStrategy.getSizeScale());
-				this.box.setHeight((int) (image.getHeight() * (this.box
-						.getWidth() / (image.getWidth() + 0.0f))));
+				box.setWidth(sizeStrategy.getSizeScale());
+				box.setHeight((int) (image.getHeight() * (this.box.getWidth() / (image
+						.getWidth() + 0.0f))));
 				break;
 			default:
 				break;
@@ -112,7 +111,7 @@ public abstract class Entity
 
 	public Vector2f getCenter() {
 		Rectangle rect = getCollisionRect();
-		
+
 		return new Vector2f(rect.getCenterX(), rect.getCenterY());
 	}
 
@@ -129,10 +128,10 @@ public abstract class Entity
 	}
 
 	public void setFlag(Flag flag, boolean truthValue) {
-		if (!truthValue) {
-			flags.remove(flag);
-		} else {
+		if (truthValue) {
 			flags.add(flag);
+		} else {
+			flags.remove(flag);
 		}
 	}
 
@@ -211,10 +210,6 @@ public abstract class Entity
 	private Shape getCollisionShape(Rectangle entityBox) {
 		return getCollisionData().getScaledShape(entityBox,
 				graphic.getTextureSetup().getCollisionShape());
-	}
-
-	public void moveAbove(Entity otherEntity) {
-		box.setY(otherEntity.getCollisionRect().getMinY() - box.getHeight());
 	}
 
 }
