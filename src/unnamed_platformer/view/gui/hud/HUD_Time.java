@@ -7,7 +7,7 @@ import unnamed_platformer.game.other.Level;
 import unnamed_platformer.game.other.World;
 import unnamed_platformer.globals.StyleRef;
 
-public class HUD_Time extends HUDComponent
+public class HUD_Time extends HUD_Component
 {
 	public HUD_Time() {
 		super(new Vector2f(8, 8));

@@ -51,7 +51,7 @@ import unnamed_platformer.globals.Ref;
 import unnamed_platformer.res_mgt.ResManager;
 import unnamed_platformer.res_mgt.types.GUI_Texture;
 import unnamed_platformer.view.gui.GUIManager;
-import unnamed_platformer.view.gui.hud.HeadsUpDisplay;
+import unnamed_platformer.view.gui.hud.HUDController;
 
 public final class ViewManager
 {
@@ -491,7 +491,7 @@ public final class ViewManager
 	public static void init() {
 		setFullscreen(Settings.getBoolean(SettingName.DEFAULTS_TO_FULLSCREEN));
 
-		HeadsUpDisplay.init();
+		HUDController.init();
 
 		if (Settings.getBoolean(SettingName.HIDE_CURSOR)) {
 			hideCursor();
@@ -627,7 +627,7 @@ public final class ViewManager
 		GUIManager.drawBackground();
 		World.drawForeground();
 		GUIManager.drawForeground();
-		HeadsUpDisplay.updateAndDraw();
+		HUDController.updateAndDraw();
 
 		Display.sync(FPS);
 		Display.update();

@@ -8,7 +8,7 @@ import unnamed_platformer.game.other.Level;
 import unnamed_platformer.game.other.World;
 import unnamed_platformer.globals.StyleRef;
 
-public class HUD_PlayerHealth extends HUDComponent
+public class HUD_PlayerHealth extends HUD_Component
 {
 	public HUD_PlayerHealth() {
 		super(new Vector2f(8, 32));

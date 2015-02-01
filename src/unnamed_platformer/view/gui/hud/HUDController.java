@@ -8,9 +8,9 @@ import org.newdawn.slick.geom.Vector2f;
 import unnamed_platformer.game.other.World;
 import unnamed_platformer.view.ViewManager;
 
-public class HeadsUpDisplay
+public class HUDController
 {
-	protected static List<HUDComponent> hudComponents = new ArrayList<HUDComponent>();
+	protected static List<HUD_Component> hudComponents = new ArrayList<HUD_Component>();
 
 	public static void init() {
 		hudComponents.add(new HUD_PlayerHealth());
@@ -24,7 +24,7 @@ public class HeadsUpDisplay
 
 		Vector2f cameraPos = ViewManager.getCameraPos();
 
-		for (HUDComponent hudComponent : hudComponents) {
+		for (HUD_Component hudComponent : hudComponents) {
 			hudComponent.update();
 			hudComponent.draw(cameraPos);
 		}

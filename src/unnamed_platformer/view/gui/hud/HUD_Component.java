@@ -7,17 +7,17 @@ import org.newdawn.slick.geom.Vector2f;
 
 import unnamed_platformer.view.gui.objects.SlickLabel;
 
-public abstract class HUDComponent extends SlickLabel
+public abstract class HUD_Component extends SlickLabel
 {
-	public HUDComponent(Vector2f position) {
+	public HUD_Component(Vector2f position) {
 		super(position);
 	}
 
-	public HUDComponent(Font font, Vector2f position, Color color) {
+	public HUD_Component(Font font, Vector2f position, Color color) {
 		super(font, position, color);
 	}
 
-	public HUDComponent(Font font, Vector2f position) {
+	public HUD_Component(Font font, Vector2f position) {
 		super(font, position);
 	}
 
