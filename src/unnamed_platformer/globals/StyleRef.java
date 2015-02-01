@@ -46,8 +46,7 @@ public class StyleRef
 	/* */FONT_NORMAL = new Font(NORMAL_FONT_NAME, Font.PLAIN, BASE_FONT_SIZE),
 			/* */FONT_SMALL = new Font(NORMAL_FONT_NAME, Font.PLAIN,
 					SMALLER_FONT_SIZE),
-			/* */FONT_HUD = new Font("Lucida Console", Font.PLAIN,
-					BASE_FONT_SIZE);
+			/* */FONT_HUD = new Font("Lucida Console", Font.BOLD, BASE_FONT_SIZE);
 
 	public static final Style STYLE_HEADING, STYLE_SUB_HEADING,
 			STYLE_ABSTRACT_BUTTON, STYLE_NORMAL_BUTTON, STYLE_TYPICAL_LIST,
@@ -93,7 +92,7 @@ public class StyleRef
 		STYLE_TYPICAL_LIST.setSelectionBackcolor(StyleRef.COLOR_MAIN_HIGHLIGHT);
 		STYLE_TYPICAL_LIST.setSelectionForecolor(Color.WHITE);
 
-		STYLE_WORLD_LIST = new Style(STYLE_TYPICAL_LIST); 
+		STYLE_WORLD_LIST = new Style(STYLE_TYPICAL_LIST);
 		STYLE_WORLD_LIST.setLayoutOrientation(JList.HORIZONTAL_WRAP);
 		STYLE_WORLD_LIST.setVisibleRowCount(-1);
 
