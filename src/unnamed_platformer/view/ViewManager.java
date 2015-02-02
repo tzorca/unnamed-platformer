@@ -357,14 +357,19 @@ public final class ViewManager
 	private static Queue<Runnable> whileActiveRunnables = new LinkedList<Runnable>();
 
 	/**
-	 * Schedules a method to be executed when display is next active
+	 * Schedules a method to be executed while display is rendering
 	 * 
 	 * @param runnable
 	 */
 	public static void doWhenRendering(Runnable runnable) {
 		whileRenderingRunnables.add(runnable);
 	}
-
+	
+	/**
+	 * Schedules a method to be executed while display thread is active
+	 * 
+	 * @param runnable
+	 */
 	public static void doWhenActive(Runnable runnable) {
 		whileActiveRunnables.add(runnable);
 
