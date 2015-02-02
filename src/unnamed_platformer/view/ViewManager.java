@@ -332,13 +332,13 @@ public final class ViewManager
 			return;
 		}
 
-
-		doWhenActive(new Runnable() {
+		doWhenRendering(new Runnable() {
 			public void run() {
 				try {
 
-					final BufferedImage previewImage = ImageHelper.resizeToWidth(
-							ViewManager.getScreenshot(), PREVIEW_IMAGE_WIDTH);
+					final BufferedImage previewImage = ImageHelper
+							.resizeToWidth(ViewManager.getScreenshot(),
+									PREVIEW_IMAGE_WIDTH);
 
 					ImageIO.write(previewImage, "PNG", previewImageFile);
 					System.out.println("Saved preview image to "
@@ -353,15 +353,21 @@ public final class ViewManager
 
 	}
 
-	private static Queue<Runnable> displayActiveRunnables = new LinkedList<Runnable>();
+	private static Queue<Runnable> whileRenderingRunnables = new LinkedList<Runnable>();
+	private static Queue<Runnable> whileActiveRunnables = new LinkedList<Runnable>();
 
 	/**
 	 * Schedules a method to be executed when display is next active
 	 * 
 	 * @param runnable
 	 */
+	public static void doWhenRendering(Runnable runnable) {
+		whileRenderingRunnables.add(runnable);
+	}
+
 	public static void doWhenActive(Runnable runnable) {
-		displayActiveRunnables.add(runnable);
+		whileActiveRunnables.add(runnable);
+
 	}
 
 	public static BufferedImage getScreenshot() {
@@ -632,10 +638,15 @@ public final class ViewManager
 		Display.sync(FPS);
 		Display.update();
 
-		if (Display.isActive() && Display.isVisible() && Display.getWidth() > 0
-				&& Display.getHeight() > 0) {
-			while (!displayActiveRunnables.isEmpty()) {
-				displayActiveRunnables.poll().run();
+		if (Display.isActive()) {
+			while (!whileActiveRunnables.isEmpty()) {
+				whileActiveRunnables.poll().run();
+			}
+			if (Display.isVisible() && Display.getWidth() > 0
+					&& Display.getHeight() > 0) {
+				while (!whileRenderingRunnables.isEmpty()) {
+					whileRenderingRunnables.poll().run();
+				}
 			}
 		}
 	}

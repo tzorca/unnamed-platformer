@@ -41,7 +41,7 @@ public class GameConfig_Loader
 	public static void loadTextureMappings() {
 		for (final String textureName : gameDB.getTextureMappings().keySet()) {
 			TextureLinks links = gameDB.getTextureMappings().get(textureName);
-			String entityClassName = links.entityName;
+			final String entityClassName = links.entityName;
 
 			if (!entityClassName.equals("none")) {
 				final Class<?> entityClass = ClassLookup.getClass(
