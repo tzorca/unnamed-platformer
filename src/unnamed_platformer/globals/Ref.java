@@ -36,6 +36,9 @@ public final class Ref
 
 	public static final File SETTINGS_FILE = new File(APP_PATH, "settings.ini");
 
+	public static final File GAME_CONFIG_FILE = new File(RESOURCE_DIR,
+			"game-config.json");
+
 	public static final float INPUT_REPEAT_TIME = 0.1f;
 	public static final float INPUT_DELAY_TIME = 0.25f;
 

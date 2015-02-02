@@ -360,7 +360,7 @@ public final class ViewManager
 	 * 
 	 * @param runnable
 	 */
-	private static void doWhenActive(Runnable runnable) {
+	public static void doWhenActive(Runnable runnable) {
 		displayActiveRunnables.add(runnable);
 	}
 

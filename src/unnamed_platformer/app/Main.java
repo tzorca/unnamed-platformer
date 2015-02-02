@@ -3,8 +3,8 @@ package unnamed_platformer.app;
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.opengl.Texture;
 
+import unnamed_platformer.game.config.GameConfig_Loader;
 import unnamed_platformer.game.other.EntityCreator;
-import unnamed_platformer.game.other.EntityInfoDB;
 import unnamed_platformer.game.other.EntitySetup;
 import unnamed_platformer.game.other.EntitySetupDeserializer;
 import unnamed_platformer.game.other.Level;
@@ -105,9 +105,9 @@ public final class Main
 		SoundManager.preload();
 		InputManager.init();
 		GUIManager.init();
-		EntityInfoDB.init();
+		GameConfig_Loader.init();
 		ViewManager.init();
-		EntityInfoDB.loadTextureMappings();
+		GameConfig_Loader.loadTextureMappings();
 		GUIManager.changeScreen(ScreenType.Title);
 	}
 
@@ -144,9 +144,6 @@ public final class Main
 	}
 
 	public static void deinit() {
-		if (EntityInfoDB.isInitialized()) {
-			EntityInfoDB.finish();
-		}
 		InputManager.finish();
 		SoundManager.finish();
 	}
