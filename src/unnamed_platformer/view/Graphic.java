@@ -17,7 +17,7 @@ public class Graphic implements Serializable
 
 	public Color color;
 	private String textureName;
-	public TextureSetup cachedTextureSetup;
+	transient private TextureSetup cachedTextureSetup;
 
 	public Graphic(final Color color) {
 		this.color = color;
@@ -65,6 +65,9 @@ public class Graphic implements Serializable
 	}
 
 	public TextureSetup getTextureSetup() {
+		if (cachedTextureSetup == null) {
+			setTexture(textureName);
+		}
 		return cachedTextureSetup;
 	}
 
