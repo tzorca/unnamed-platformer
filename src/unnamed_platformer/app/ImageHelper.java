@@ -75,17 +75,16 @@ public final class ImageHelper
 		return buffered;
 	}
 
-	public static ImageIcon scaleToImageIcon(BufferedImage img, int size) {
-		//BufferedImage img = ResManager.get(BufferedImage.class, name);
-
-		if (img.getWidth() < size) {
+	public static ImageIcon scaleConvertToImageIcon(BufferedImage img, int width,
+			Integer hints) {
+		if (img.getWidth() < width) {
 			return new ImageIcon(img);
 		}
 
 		float ratio = (float) img.getWidth() / img.getHeight();
 
-		return new ImageIcon(img.getScaledInstance(size, (int) (size / ratio),
-				java.awt.Image.SCALE_SMOOTH));
+		return new ImageIcon(img.getScaledInstance(width,
+				(int) (width / ratio), hints));
 	}
 
 	public static BufferedImage toBufferedImage(Image image) {

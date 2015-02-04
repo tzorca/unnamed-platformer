@@ -5,11 +5,13 @@ import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.Panel;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
@@ -134,15 +136,13 @@ public class Screen_Edit extends BaseScreen_Hybrid
 
 	private void loadEntityPlaceholderGraphics() {
 
-		final List<String> textureNames = new ArrayList<String>(
-				EntityCreator.listTextureNames());
-		Collections.sort(textureNames);
+		final Set<String> textureNames = EntityCreator.listTextureNames();
 		for (final String textureName : textureNames) {
 
 			final String displayName = ResManager.humanizeName(textureName);
-			final ImageIcon imageIcon = ImageHelper.scaleToImageIcon(
+			final ImageIcon imageIcon = ImageHelper.scaleConvertToImageIcon(
 					ResManager.get(ObjectImage.class, textureName),
-					ENTITY_ICON_SIZE);
+					ENTITY_ICON_SIZE, BufferedImage.SCALE_SMOOTH);
 
 			final ImageListEntry entry = new ImageListEntry(imageIcon,
 					displayName, textureName);

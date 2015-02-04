@@ -180,8 +180,8 @@ public class Dialog_EditMenu extends Dialog
 		for (String backgroundName : backgroundNames) {
 			BufferedImage background = ResManager.get(BackgroundImage.class,
 					backgroundName);
-			backgrounds.add(new ImageListEntry(ImageHelper.scaleToImageIcon(
-					background, 48), backgroundName));
+			backgrounds.add(new ImageListEntry(ImageHelper.scaleConvertToImageIcon(
+					background, 48, BufferedImage.SCALE_FAST), backgroundName));
 		}
 
 		backgroundSelect = new Dialog_OptionSelection<ImageListEntry>(null,
