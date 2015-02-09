@@ -15,7 +15,6 @@ import unnamed_platformer.globals.GameRef.Flag;
 import unnamed_platformer.res_mgt.SoundManager;
 import unnamed_platformer.view.Graphic;
 
-//TODO: Fix launched projectiles to have constant speed
 public class PlatformPlayer extends ActiveEntity
 {
 	Ctrl_HorizontalMove hzMoveBehaviour;

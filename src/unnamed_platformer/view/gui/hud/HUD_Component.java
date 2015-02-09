@@ -64,15 +64,6 @@ public abstract class HUD_Component
 		return null;
 	}
 
-	private void loadGlyphs() {
-		try {
-			this.font.loadGlyphs();
-		} catch (SlickException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
 	public void setText(String text) {
 		this.text = text;
 	}
