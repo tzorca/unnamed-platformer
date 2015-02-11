@@ -65,7 +65,7 @@ public class Screen_Edit extends BaseScreen_Hybrid
 
 	private final Editor editor = new Editor(0);
 
-	private final Map<ImageListEntry, Graphic> entityGraphics = new HashMap<ImageListEntry, Graphic>();
+	private final Map<String, Graphic> entityGraphics = new HashMap<String, Graphic>();
 
 	// TODO: Make it more obvious the user can scroll past the edges of the
 	// screens
@@ -131,7 +131,15 @@ public class Screen_Edit extends BaseScreen_Hybrid
 	}
 
 	public Graphic getCurrentGraphic() {
-		return entityGraphics.get(getSelectedEntry());
+		
+		if (getSelectedEntry() == null){
+			return null;
+		}
+		String textureName = getSelectedEntry().getInternalName();
+		if (textureName == null){
+			return null;
+		}
+		return entityGraphics.get(textureName);
 	}
 
 	private void loadEntityPlaceholderGraphics() {
@@ -147,7 +155,7 @@ public class Screen_Edit extends BaseScreen_Hybrid
 			final ImageListEntry entry = new ImageListEntry(imageIcon,
 					displayName, textureName);
 			imageListEntries.add(entry);
-			entityGraphics.put(entry, new Graphic(textureName,
+			entityGraphics.put(entry.getInternalName(), new Graphic(textureName,
 					Ref.COLOR_75_PERCENT_TRANS));
 		}
 
