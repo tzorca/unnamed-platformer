@@ -39,6 +39,13 @@ public class BaseScreen_Hybrid extends Screen
 		left, right, top, bottom
 	}
 
+	protected void setToolbarSizes(int left, int right, int top, int bottom) {
+		setToolbarSize(Side.left, left);
+		setToolbarSize(Side.right, right);
+		setToolbarSize(Side.top, top);
+		setToolbarSize(Side.bottom, bottom);
+	}
+	
 	protected void setToolbarSize(Side side, int newSize) {
 		Panel toolbar = toolbars.get(side);
 

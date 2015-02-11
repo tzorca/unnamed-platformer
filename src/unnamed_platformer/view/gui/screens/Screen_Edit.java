@@ -58,17 +58,22 @@ import com.google.common.collect.Lists;
 @SuppressWarnings("unchecked")
 public class Screen_Edit extends BaseScreen_Hybrid
 {
+	// TODO: Make it more obvious the user can scroll past the edges of the
+	// current screen 
+
 	public static final int LEFT_TOOLBAR_SIZE = 160;
 	public static final int ROW_HEIGHT = 56;
 	public static final int ENTITY_ICON_SIZE = 48;
 	public static final int CURSOR_SIZE = 48;
+	private static final String NAV_TIME_PERIOD_STRING = "EditorLevelNavigation";
+	private static final float NAV_RATE = 0.01f;
+	private static final int NAV_SPEED = 6;
+	private static final float NAV_EDGE_SPEED_MULTIPLIER = 2f;
 
 	private final Editor editor = new Editor(0);
 
 	private final Map<String, Graphic> entityGraphics = new HashMap<String, Graphic>();
 
-	// TODO: Make it more obvious the user can scroll past the edges of the
-	// screens
 	private final List<ImageListEntry> imageListEntries = new ArrayList<ImageListEntry>();
 	private final JList<ImageListEntry> lstEntities = new JList<ImageListEntry>();
 
@@ -76,20 +81,18 @@ public class Screen_Edit extends BaseScreen_Hybrid
 
 	private transient boolean lastMultiselectState;
 
+	private Rectangle cursorRect;
+
+	private Graphic cursorGraphic = new Graphic("crosshair");
+
 	public Screen_Edit() {
 		super();
 
-		// ADD COMPONENTS TO EDIT MODE LIST
 		editModeComponents.addAll(Lists.newArrayList(lstEntities));
 
-		// LOAD ENTITY PLACEHOLDER GRAPHICS
 		loadEntityPlaceholderGraphics();
 
-		// SET TOOLBAR SIZES
-		setToolbarSize(Side.left, LEFT_TOOLBAR_SIZE);
-		setToolbarSize(Side.top, 0);
-		setToolbarSize(Side.right, 0);
-		setToolbarSize(Side.bottom, 0);
+		setToolbarSizes(LEFT_TOOLBAR_SIZE, 0, 0, 0);
 
 		// SETUP ENTITY LIST
 		lstEntities.setCellRenderer(new ListCellRenderer_ImageListEntry());
@@ -131,12 +134,12 @@ public class Screen_Edit extends BaseScreen_Hybrid
 	}
 
 	public Graphic getCurrentGraphic() {
-		
-		if (getSelectedEntry() == null){
+
+		if (getSelectedEntry() == null) {
 			return null;
 		}
 		String textureName = getSelectedEntry().getInternalName();
-		if (textureName == null){
+		if (textureName == null) {
 			return null;
 		}
 		return entityGraphics.get(textureName);
@@ -155,8 +158,8 @@ public class Screen_Edit extends BaseScreen_Hybrid
 			final ImageListEntry entry = new ImageListEntry(imageIcon,
 					displayName, textureName);
 			imageListEntries.add(entry);
-			entityGraphics.put(entry.getInternalName(), new Graphic(textureName,
-					Ref.COLOR_75_PERCENT_TRANS));
+			entityGraphics.put(entry.getInternalName(), new Graphic(
+					textureName, Ref.COLOR_75_PERCENT_TRANS));
 		}
 
 		Collections.sort(imageListEntries);
@@ -167,7 +170,7 @@ public class Screen_Edit extends BaseScreen_Hybrid
 
 		if (currentlyEditing) {
 			editor.update();
-			processControls();
+			handleUserInput();
 			keepCursorInView();
 		}
 
@@ -191,14 +194,14 @@ public class Screen_Edit extends BaseScreen_Hybrid
 		}
 	}
 
-	private void processControls() {
-		processNavigationControls();
-		processGridControls();
-		processEntitySelectionControls();
-		processPaintControls();
+	private void handleUserInput() {
+		handleNavigationControls();
+		handleGridControls();
+		handleEntitySelectionControls();
+		handlePaintControls();
 	}
 
-	private void processEntitySelectionControls() {
+	private void handleEntitySelectionControls() {
 		int currentIndex = lstEntities.getSelectedIndex();
 		int nextIndex = currentIndex;
 
@@ -221,7 +224,7 @@ public class Screen_Edit extends BaseScreen_Hybrid
 		}
 	}
 
-	private void processPaintControls() {
+	private void handlePaintControls() {
 		// Multi-select
 		final boolean multiselectState = InputManager.keyIsPressed(
 				GameKey.MULTI_SELECT, 1);
@@ -242,7 +245,7 @@ public class Screen_Edit extends BaseScreen_Hybrid
 
 	}
 
-	private void processGridControls() {
+	private void handleGridControls() {
 		int newGridSize = editor.gridSize;
 		if (InputManager.keyPressOccurred(GameKey.SCROLL_IN, 1)) {
 			newGridSize /= 2;
@@ -317,8 +320,6 @@ public class Screen_Edit extends BaseScreen_Hybrid
 		}
 	}
 
-	private Graphic cursorGraphic = new Graphic("crosshair");
-
 	private void drawCursor() {
 		Rectangle cursorDrawRect = new Rectangle(cursorRect.getX()
 				- cursorRect.getWidth() / 2, cursorRect.getY()
@@ -338,8 +339,6 @@ public class Screen_Edit extends BaseScreen_Hybrid
 		cursorRect = new Rectangle(x, y, CURSOR_SIZE, CURSOR_SIZE);
 	}
 
-	private Rectangle cursorRect;
-
 	private void keepCursorInView() {
 		// if cursor got lost, put it back in the center
 		if (!cursorRect.intersects(getNavigationBounds())) {
@@ -356,12 +355,7 @@ public class Screen_Edit extends BaseScreen_Hybrid
 		return rect;
 	}
 
-	private static final String NAV_TIME_PERIOD_STRING = "EditorLevelNavigation";
-	private static final float NAV_RATE = 0.01f;
-	private static final int NAV_SPEED = 6;
-	private static final float NAV_EDGE_SPEED_MULTIPLIER = 2f;
-
-	private void processNavigationControls() {
+	private void handleNavigationControls() {
 		if (!TimeManager.periodElapsed(this, NAV_TIME_PERIOD_STRING, NAV_RATE)) {
 			return;
 		}
@@ -423,6 +417,12 @@ public class Screen_Edit extends BaseScreen_Hybrid
 			return true;
 		}
 
+		showExitQuestionDialog(plannedNextScreen);
+
+		return false;
+	}
+
+	private void showExitQuestionDialog(final ScreenType plannedNextScreen) {
 		String message = "Really exit? You haven't saved your last changes.";
 		final String cancelText = "Cancel";
 		final List<String> choices = Lists.newArrayList("Exit", cancelText);
@@ -451,8 +451,6 @@ public class Screen_Edit extends BaseScreen_Hybrid
 				afterChoice);
 
 		dlgConfirmExit.setVisible(true);
-
-		return false;
 	}
 
 	private ImageListEntry getSelectedEntry() {
