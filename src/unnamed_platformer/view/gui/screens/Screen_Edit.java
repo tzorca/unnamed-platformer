@@ -73,16 +73,13 @@ public class Screen_Edit extends BaseScreen_Hybrid
 	private final Editor editor = new Editor(0);
 
 	private final Map<String, Graphic> entityGraphics = new HashMap<String, Graphic>();
-
 	private final List<ImageListEntry> imageListEntries = new ArrayList<ImageListEntry>();
+	
 	private final JList<ImageListEntry> lstEntities = new JList<ImageListEntry>();
-
 	private final List<Component> editModeComponents = new ArrayList<Component>();
 
 	private transient boolean lastMultiselectState;
-
 	private Rectangle cursorRect;
-
 	private Graphic cursorGraphic = new Graphic("crosshair");
 
 	public Screen_Edit() {
