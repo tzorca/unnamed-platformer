@@ -3,121 +3,135 @@
     {
         "motionUD":
         {
+            "category":"Physics",
             "entityName":"MotionBoxUpDown",
             "collisionShape":"rectangle"
         },
         "motionRL":
         {
+            "category":"Physics",
             "entityName":"MotionBoxRightLeft",
             "collisionShape":"rectangle"
         },
         "flame":
         {
+            "category":"Hazards",
             "entityName":"PeriodicJumpingEnemy",
             "collisionShape":"circle"
         },
         "default":
         {
-            "entityName":"none",
-            "collisionShape":"none"
+            "entityName":"none"
         },
         "laser":
         {
-            "entityName":"none",
+            "category":"Control",
+            "entityName":"Beam",
             "collisionShape":"rectangle"
         },
         "levelExit":
         {
+            "category":"Control",
             "entityName":"goal",
             "collisionShape":"rectangle"
         },
         "magma":
         {
+            "category":"Hazards",
             "entityName":"liquidHazard",
             "collisionShape":"rectangle"
         },
         "metalCircle":
         {
+            "category":"Blocks",
             "entityName":"solidBlock",
             "collisionShape":"circle"
         },
         "metalSquare":
         {
+            "category":"Blocks",
             "entityName":"solidBlock",
             "collisionShape":"rectangle"
         },
         "player":
         {
+            "category":"Control",
             "entityName":"platformPlayer",
             "collisionShape":"rectangle"
         },
         "woodCircle":
         {
+            "category":"Blocks",
             "entityName":"solidBlock",
             "collisionShape":"circle"
         },
         "woodSquare":
         {
+            "category":"Blocks",
             "entityName":"solidBlock",
             "collisionShape":"rectangle"
         },
         "spikes":
         {
+            "category":"Hazards",
             "entityName":"spikes",
             "collisionShape":"rectangle"
         },
         "water":
         {
+            "category":"Physics",
             "entityName":"water",
             "collisionShape":"rectangle"
         },
         "groundMid":
         {
+            "category":"Blocks",
             "entityName":"solidBlock",
             "collisionShape":"rectangle"
         },
         "groundTop":
         {
+            "category":"Blocks",
             "entityName":"solidBlock",
             "collisionShape":"rectangle"
         },
         "spring":
         {
+            "category":"Physics",
             "entityName":"springLike",
             "collisionShape":"rectangle"
         },
         "crosshair":
         {
-            "entityName":"none",
-            "collisionShape":"rectangle"
+            "entityName":"none"
         },
         "breakableBox":
         {
+            "category":"Blocks",
             "entityName":"breakableBlock",
             "collisionShape":"rectangle"
         },
         "speedZone":
         {
+            "category":"Physics",
             "entityName":"none",
             "collisionShape":"none"
         },
         "electricField":
         {
+            "category":"Physics",
             "entityName":"speedZone",
-            "collisionShape":"rectangle"
-        },
-        "gui_exit":
-        {
-            "entityName":"none",
             "collisionShape":"rectangle"
         },
         "spikesCeiling":
         {
+            "category":"Hazards",
             "entityName":"invertedSpikes",
             "collisionShape":"rectangle"
         },
         "energy":
         {
+            "category":"Powerups",
             "entityName":"healthPickup",
             "collisionShape":"rectangle"
         }

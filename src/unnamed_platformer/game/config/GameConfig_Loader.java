@@ -43,19 +43,22 @@ public class GameConfig_Loader
 			TextureLinks links = gameDB.getTextureMappings().get(textureName);
 			final String entityClassName = links.entityName;
 
-			if (!entityClassName.equals("none")) {
-				final Class<?> entityClass = ClassLookup.getClass(
-						EntityRef.PACKAGE_NAME, entityClassName);
-				
-				ViewManager.doWhenActive(new Runnable() {
-					public void run() {
-						EntityRef.addTextureNameToEntityClassMapping(
-								textureName, entityClass);
-					}
-				});
+			if (entityClassName.equals("none")) {
+				continue;
 			}
+			
+			final Class<?> entityClass = ClassLookup.getClass(
+					EntityRef.PACKAGE_NAME, entityClassName);
+
+			ViewManager.doWhenActive(new Runnable() {
+				public void run() {
+					EntityRef.addTextureNameToEntityClassMapping(textureName,
+							entityClass);
+				}
+			});
 			String collisionShape = links.collisionShape;
 			TextureRef.addSetup(textureName, new TextureSetup(collisionShape));
+
 		}
 	}
 
