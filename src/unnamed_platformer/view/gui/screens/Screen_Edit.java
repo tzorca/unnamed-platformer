@@ -61,9 +61,9 @@ public class Screen_Edit extends BaseScreen_Hybrid
 	// TODO: Make it more obvious the user can scroll past the edges of the
 	// current screen 
 
-	public static final int LEFT_TOOLBAR_SIZE = 160;
+	public static final int LEFT_TOOLBAR_SIZE = 200;
 	public static final int ROW_HEIGHT = 56;
-	public static final int ENTITY_ICON_SIZE = 48;
+	public static final int ENTITY_ICON_SIZE = 36;
 	public static final int CURSOR_SIZE = 48;
 	private static final String NAV_TIME_PERIOD_STRING = "EditorLevelNavigation";
 	private static final float NAV_RATE = 0.01f;
@@ -93,6 +93,8 @@ public class Screen_Edit extends BaseScreen_Hybrid
 
 		// SETUP ENTITY LIST
 		lstEntities.setCellRenderer(new ListCellRenderer_ImageListEntry());
+		lstEntities.setLayoutOrientation(JList.VERTICAL_WRAP);
+		lstEntities.setVisibleRowCount(-1); 
 		StyleRef.STYLE_ENTITY_LIST.apply(lstEntities);
 
 		DefaultListModel<ImageListEntry> lstEntitiesModel = new DefaultListModel<ImageListEntry>();

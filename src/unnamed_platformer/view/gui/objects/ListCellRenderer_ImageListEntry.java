@@ -16,25 +16,32 @@ public class ListCellRenderer_ImageListEntry extends JLabel implements
 	public ListCellRenderer_ImageListEntry() {
 		setOpaque(true);
 		setHorizontalAlignment(SwingConstants.LEFT);
-		setHorizontalTextPosition(JLabel.RIGHT);
-		setVerticalTextPosition(JLabel.CENTER);
-		setIconTextGap(8);
-		setBorder(new EmptyBorder(4, 8, 4, 0));
+		setHorizontalTextPosition(JLabel.CENTER);
+		setVerticalTextPosition(JLabel.BOTTOM);
+		setIconTextGap(4);
+		setBorder(new EmptyBorder(4, 4, 4, 4));
 	}
 
-//	private static final int MAX_TEXT_LENGTH = 12;
+//	private static final int DISPLAY_TEXT_LENGTH = 16;
 
 	@Override
 	public Component getListCellRendererComponent(
 			JList<? extends ImageListEntry> list, ImageListEntry value,
 			int index, boolean isSelected, boolean cellHasFocus) {
-		String text = value.getDisplayName();
-//		if (text.length() > MAX_TEXT_LENGTH) {
-//			text = text.substring(0, MAX_TEXT_LENGTH - 3) + "...";
+		
+		StringBuilder displayTextBuilder = new StringBuilder(value.getDisplayName());
+		
+//		if (displayTextBuilder.length() > DISPLAY_TEXT_LENGTH) {
+//			displayTextBuilder.setLength(displayTextBuilder.length()-2);
+//			displayTextBuilder.append("..");
+//		} else {
+//			while (displayTextBuilder.length() < DISPLAY_TEXT_LENGTH) {
+//				displayTextBuilder.append(' ');
+//			}
 //		}
 
 		setFont(list.getFont());
-		setText(text);
+		setText(displayTextBuilder.toString());
 		setIcon(value.getImage());
 
 		if (isSelected) {
