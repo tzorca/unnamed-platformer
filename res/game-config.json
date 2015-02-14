@@ -42,13 +42,13 @@
             "entityName":"liquidHazard",
             "collisionShape":"rectangle"
         },
-        "metalCircle":
+        "metalSphere":
         {
             "category":"Blocks",
             "entityName":"solidBlock",
             "collisionShape":"circle"
         },
-        "metalSquare":
+        "metalBox":
         {
             "category":"Blocks",
             "entityName":"solidBlock",
@@ -60,13 +60,13 @@
             "entityName":"platformPlayer",
             "collisionShape":"rectangle"
         },
-        "woodCircle":
+        "woodSphere":
         {
             "category":"Blocks",
             "entityName":"solidBlock",
             "collisionShape":"circle"
         },
-        "woodSquare":
+        "woodBox":
         {
             "category":"Blocks",
             "entityName":"solidBlock",
@@ -84,13 +84,13 @@
             "entityName":"water",
             "collisionShape":"rectangle"
         },
-        "groundMid":
+        "earth":
         {
             "category":"Blocks",
             "entityName":"solidBlock",
             "collisionShape":"rectangle"
         },
-        "groundTop":
+        "earthTop":
         {
             "category":"Blocks",
             "entityName":"solidBlock",
