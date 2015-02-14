@@ -13,7 +13,17 @@ public class ListCellRenderer_ImageListEntry extends JLabel implements
 {
 	private static final long serialVersionUID = 8631524682851129670L;
 
+	int lineWidth = 128;
+	
+	public ListCellRenderer_ImageListEntry(int lineWidth) {
+		this.lineWidth = lineWidth;
+		init();
+	}
 	public ListCellRenderer_ImageListEntry() {
+		init();
+	}
+		
+	private void init() {
 		setOpaque(true);
 		setHorizontalAlignment(SwingConstants.CENTER);
 		setHorizontalTextPosition(JLabel.CENTER);
@@ -22,15 +32,13 @@ public class ListCellRenderer_ImageListEntry extends JLabel implements
 		setBorder(new EmptyBorder(4, 4, 4, 4));
 	}
 
-	private static final int LINE_WIDTH = 12;
-
 	@Override
 	public Component getListCellRendererComponent(
 			JList<? extends ImageListEntry> list, ImageListEntry value,
 			int index, boolean isSelected, boolean cellHasFocus) {
 
 		String displayText = String.format(
-				"<html><div style=\"width:%dem;\">%s</div><html>", LINE_WIDTH,
+				"<html><div style=\"width:%dpx;\">%s</div><html>", lineWidth,
 				value.getDisplayName());
 
 		setFont(list.getFont());
