@@ -135,6 +135,42 @@
             "category":"Powerups",
             "entityName":"healthPickup",
             "collisionShape":"rectangle"
+        },
+        "sand":
+        {
+            "category":"Blocks",
+            "entityName":"solidBlock",
+            "collisionShape":"rectangle"
+        },
+        "sandTop":
+        {
+            "category":"Blocks",
+            "entityName":"solidBlock",
+            "collisionShape":"rectangle"
+        },
+        "castle":
+        {
+            "category":"Blocks",
+            "entityName":"solidBlock",
+            "collisionShape":"rectangle"
+        },
+        "castleTop":
+        {
+            "category":"Blocks",
+            "entityName":"solidBlock",
+            "collisionShape":"rectangle"
+        },
+        "snow":
+        {
+            "category":"Blocks",
+            "entityName":"solidBlock",
+            "collisionShape":"rectangle"
+        },
+        "snowTop":
+        {
+            "category":"Blocks",
+            "entityName":"solidBlock",
+            "collisionShape":"rectangle"
         }
     }
 }
