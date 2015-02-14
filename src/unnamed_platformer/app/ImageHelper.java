@@ -18,13 +18,13 @@ import javax.swing.ImageIcon;
 
 public final class ImageHelper
 {
-	public static BufferedImage loadImage(InputStream input) throws IOException {
+	public static BufferedImage load(InputStream input) throws IOException {
 		return ImageIO.read(input);
 	}
 
-	public static BufferedImage blurImage(BufferedImage originalImage,
+	public static BufferedImage blur(BufferedImage originalImage,
 			int repetitions) {
-		BufferedImage modImage = cloneBufferedImage(originalImage);
+		BufferedImage modImage = clone(originalImage);
 
 		for (int i = 0; i < repetitions; i++) {
 			BufferedImage filteredImage = new BufferedImage(
@@ -52,14 +52,14 @@ public final class ImageHelper
 		return modImage;
 	}
 
-	static BufferedImage cloneBufferedImage(BufferedImage bi) {
+	static BufferedImage clone(BufferedImage bi) {
 		ColorModel cm = bi.getColorModel();
 		boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
 		WritableRaster raster = bi.copyData(null);
 		return new BufferedImage(cm, raster, isAlphaPremultiplied, null);
 	}
 
-	public static BufferedImage resizeImageWithinCanvas(BufferedImage img,
+	public static BufferedImage resizeWithinCanvas(BufferedImage img,
 			double percent) {
 		int scaleX = (int) (img.getWidth() * percent);
 		int scaleY = (int) (img.getHeight() * percent);
@@ -75,16 +75,10 @@ public final class ImageHelper
 		return buffered;
 	}
 
-	public static ImageIcon scaleConvertToImageIcon(BufferedImage img, int width,
-			Integer hints) {
-		if (img.getWidth() < width) {
-			return new ImageIcon(img);
-		}
 
-		float ratio = (float) img.getWidth() / img.getHeight();
 
-		return new ImageIcon(img.getScaledInstance(width,
-				(int) (width / ratio), hints));
+	public static ImageIcon toImageIcon(Image image) {
+		return new ImageIcon(image);
 	}
 
 	public static BufferedImage toBufferedImage(Image image) {
@@ -101,20 +95,16 @@ public final class ImageHelper
 
 		return bufferedImage;
 	}
+	
+	public static BufferedImage scaleWidth(BufferedImage img, int width,
+			Integer hints) {
+		if (img.getWidth() < width) {
+			return img;
+		}
 
-	public static BufferedImage resizeToWidth(BufferedImage image, int newWidth) {
-		int w = image.getWidth();
-		int h = image.getHeight();
+		float ratio = (float) img.getWidth() / img.getHeight();
 
-		float ratio = (w + 0f) / (h + 0f);
-
-		int newHeight = (int) (newWidth / ratio);
-
-		Image resizedImage = image.getScaledInstance(newWidth, newHeight,
-				BufferedImage.SCALE_SMOOTH);
-
-		BufferedImage resizedBufferedImage = toBufferedImage(resizedImage);
-
-		return resizedBufferedImage;
+		return toBufferedImage(img.getScaledInstance(width,
+				(int) (width / ratio), hints));
 	}
 }

@@ -336,9 +336,9 @@ public final class ViewManager
 			public void run() {
 				try {
 
-					final BufferedImage previewImage = ImageHelper
-							.resizeToWidth(ViewManager.getScreenshot(),
-									PREVIEW_IMAGE_WIDTH);
+					final BufferedImage previewImage = ImageHelper.scaleWidth(
+							ViewManager.getScreenshot(), PREVIEW_IMAGE_WIDTH,
+							BufferedImage.SCALE_SMOOTH);
 
 					ImageIO.write(previewImage, "PNG", previewImageFile);
 					System.out.println("Saved preview image to "
@@ -364,7 +364,7 @@ public final class ViewManager
 	public static void doWhenRendering(Runnable runnable) {
 		whileRenderingRunnables.add(runnable);
 	}
-	
+
 	/**
 	 * Schedules a method to be executed while display thread is active
 	 * 

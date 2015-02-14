@@ -59,10 +59,9 @@ import com.google.common.collect.Lists;
 public class Screen_Edit extends BaseScreen_Hybrid
 {
 	// TODO: Make it more obvious the user can scroll past the edges of the
-	// current screen 
+	// current screen
 
-	public static final int LEFT_TOOLBAR_SIZE = 200;
-	public static final int ROW_HEIGHT = 56;
+	public static final int LEFT_TOOLBAR_SIZE = 224;
 	public static final int ENTITY_ICON_SIZE = 36;
 	public static final int CURSOR_SIZE = 48;
 	private static final String NAV_TIME_PERIOD_STRING = "EditorLevelNavigation";
@@ -74,7 +73,7 @@ public class Screen_Edit extends BaseScreen_Hybrid
 
 	private final Map<String, Graphic> entityGraphics = new HashMap<String, Graphic>();
 	private final List<ImageListEntry> imageListEntries = new ArrayList<ImageListEntry>();
-	
+
 	private final JList<ImageListEntry> lstEntities = new JList<ImageListEntry>();
 	private final List<Component> editModeComponents = new ArrayList<Component>();
 
@@ -94,7 +93,7 @@ public class Screen_Edit extends BaseScreen_Hybrid
 		// SETUP ENTITY LIST
 		lstEntities.setCellRenderer(new ListCellRenderer_ImageListEntry());
 		lstEntities.setLayoutOrientation(JList.VERTICAL_WRAP);
-		lstEntities.setVisibleRowCount(-1); 
+		lstEntities.setVisibleRowCount(-1);
 		StyleRef.STYLE_ENTITY_LIST.apply(lstEntities);
 
 		DefaultListModel<ImageListEntry> lstEntitiesModel = new DefaultListModel<ImageListEntry>();
@@ -102,7 +101,7 @@ public class Screen_Edit extends BaseScreen_Hybrid
 			lstEntitiesModel.addElement(entry);
 		}
 		lstEntities.setModel(lstEntitiesModel);
-		final JScrollPane treeScroller = new JScrollPane(lstEntities,
+		final JScrollPane listScroller = new JScrollPane(lstEntities,
 				JScrollPane.VERTICAL_SCROLLBAR_NEVER,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		lstEntities.addListSelectionListener(new EntityList_SelectionChanged());
@@ -110,7 +109,7 @@ public class Screen_Edit extends BaseScreen_Hybrid
 		// SETUP LEFT TOOLBAR
 		final Panel leftToolbar = toolbars.get(Side.left);
 		leftToolbar.setLayout(new BorderLayout());
-		leftToolbar.add(treeScroller, BorderLayout.CENTER);
+		leftToolbar.add(listScroller, BorderLayout.CENTER);
 
 		// ADD CANVAS LISTENERS
 		MouseInputManager.setEventHandler(MouseEventType.leftClick,
@@ -150,9 +149,13 @@ public class Screen_Edit extends BaseScreen_Hybrid
 		for (final String textureName : textureNames) {
 
 			final String displayName = ResManager.humanizeName(textureName);
-			final ImageIcon imageIcon = ImageHelper.scaleConvertToImageIcon(
-					ResManager.get(ObjectImage.class, textureName),
-					ENTITY_ICON_SIZE, BufferedImage.SCALE_SMOOTH);
+
+			BufferedImage originalImage = ResManager.get(ObjectImage.class,
+					textureName);
+
+			final ImageIcon imageIcon = new ImageIcon(
+					ImageHelper.scaleWidth(originalImage, ENTITY_ICON_SIZE,
+							BufferedImage.SCALE_SMOOTH));
 
 			final ImageListEntry entry = new ImageListEntry(imageIcon,
 					displayName, textureName);

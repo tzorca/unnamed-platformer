@@ -4,7 +4,6 @@ import javax.swing.Icon;
 
 public class ImageListEntry implements Comparable<ImageListEntry>
 {
-
 	private Icon image;
 	private String displayName;
 	private String internalName;
@@ -33,7 +32,11 @@ public class ImageListEntry implements Comparable<ImageListEntry>
 		return image;
 	}
 
-	
+	public ImageListEntry(String displayName) {
+		this.displayName = displayName;
+		this.internalName = displayName;
+	}
+
 	public ImageListEntry(Icon image, String displayName) {
 		this.image = image;
 		this.displayName = displayName;

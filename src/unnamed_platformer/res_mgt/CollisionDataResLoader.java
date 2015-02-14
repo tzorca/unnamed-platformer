@@ -13,8 +13,8 @@ public class CollisionDataResLoader extends ResLoader {
 
 	@Override
 	public CollisionData load(String name) throws Exception {
-		return new CollisionData(ImageHelper.resizeImageWithinCanvas(
-				ImageHelper.blurImage(ResManager.get(ObjectImage.class, name), Ref.MASK_BLUR_ITERATIONS),
+		return new CollisionData(ImageHelper.resizeWithinCanvas(
+				ImageHelper.blur(ResManager.get(ObjectImage.class, name), Ref.MASK_BLUR_ITERATIONS),
 				Ref.MASK_SIZE_PERCENT));
 	}
 }

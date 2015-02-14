@@ -9,39 +9,32 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 public class ListCellRenderer_ImageListEntry extends JLabel implements
-		ListCellRenderer<ImageListEntry> {
+		ListCellRenderer<ImageListEntry>
+{
 	private static final long serialVersionUID = 8631524682851129670L;
 
-	
 	public ListCellRenderer_ImageListEntry() {
 		setOpaque(true);
 		setHorizontalAlignment(SwingConstants.LEFT);
-		setHorizontalTextPosition(JLabel.CENTER);
+		setHorizontalTextPosition(JLabel.RIGHT);
 		setVerticalTextPosition(JLabel.BOTTOM);
 		setIconTextGap(4);
 		setBorder(new EmptyBorder(4, 4, 4, 4));
 	}
 
-//	private static final int DISPLAY_TEXT_LENGTH = 16;
+	private static final int LINE_WIDTH = 12;
 
 	@Override
 	public Component getListCellRendererComponent(
 			JList<? extends ImageListEntry> list, ImageListEntry value,
 			int index, boolean isSelected, boolean cellHasFocus) {
-		
-		StringBuilder displayTextBuilder = new StringBuilder(value.getDisplayName());
-		
-//		if (displayTextBuilder.length() > DISPLAY_TEXT_LENGTH) {
-//			displayTextBuilder.setLength(displayTextBuilder.length()-2);
-//			displayTextBuilder.append("..");
-//		} else {
-//			while (displayTextBuilder.length() < DISPLAY_TEXT_LENGTH) {
-//				displayTextBuilder.append(' ');
-//			}
-//		}
+
+		String displayText = String.format(
+				"<html><div style=\"width:%dpx;\">%s</div><html>", LINE_WIDTH,
+				value.getDisplayName());
 
 		setFont(list.getFont());
-		setText(displayTextBuilder.toString());
+		setText(displayText);
 		setIcon(value.getImage());
 
 		if (isSelected) {
