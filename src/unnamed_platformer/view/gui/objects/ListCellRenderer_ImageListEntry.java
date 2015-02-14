@@ -15,8 +15,8 @@ public class ListCellRenderer_ImageListEntry extends JLabel implements
 
 	public ListCellRenderer_ImageListEntry() {
 		setOpaque(true);
-		setHorizontalAlignment(SwingConstants.LEFT);
-		setHorizontalTextPosition(JLabel.RIGHT);
+		setHorizontalAlignment(SwingConstants.CENTER);
+		setHorizontalTextPosition(JLabel.CENTER);
 		setVerticalTextPosition(JLabel.BOTTOM);
 		setIconTextGap(4);
 		setBorder(new EmptyBorder(4, 4, 4, 4));
@@ -30,7 +30,7 @@ public class ListCellRenderer_ImageListEntry extends JLabel implements
 			int index, boolean isSelected, boolean cellHasFocus) {
 
 		String displayText = String.format(
-				"<html><div style=\"width:%dpx;\">%s</div><html>", LINE_WIDTH,
+				"<html><div style=\"width:%dem;\">%s</div><html>", LINE_WIDTH,
 				value.getDisplayName());
 
 		setFont(list.getFont());
