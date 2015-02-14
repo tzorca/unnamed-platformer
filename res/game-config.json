@@ -21,7 +21,8 @@
         },
         "default":
         {
-            "entityName":"none"
+            "entityName":"none",
+            "collisionShape":"rectangle"
         },
         "laser":
         {
