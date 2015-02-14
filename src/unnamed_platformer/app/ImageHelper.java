@@ -59,7 +59,7 @@ public final class ImageHelper
 		return new BufferedImage(cm, raster, isAlphaPremultiplied, null);
 	}
 
-	public static BufferedImage resizeWithinCanvas(BufferedImage img,
+	public static BufferedImage percentScaleWithinCanvas(BufferedImage img,
 			double percent) {
 		int scaleX = (int) (img.getWidth() * percent);
 		int scaleY = (int) (img.getHeight() * percent);
@@ -75,7 +75,16 @@ public final class ImageHelper
 		return buffered;
 	}
 
+	public static BufferedImage resizeCanvas(BufferedImage img, Dimension size) {
+		BufferedImage surface = new BufferedImage((int) size.getWidth(),
+				(int) size.getHeight(), img.getType());
 
+		int startX = (int) (size.getWidth() / 2 - img.getWidth() / 2);
+		int startY = (int) (size.getHeight() / 2 - img.getHeight() / 2);
+
+		surface.getGraphics().drawImage(img, startX, startY, null);
+		return surface;
+	}
 
 	public static ImageIcon toImageIcon(Image image) {
 		return new ImageIcon(image);
@@ -86,25 +95,25 @@ public final class ImageHelper
 			return (BufferedImage) image;
 		}
 
-		BufferedImage bufferedImage = new BufferedImage(image.getWidth(null),
+		BufferedImage surface = new BufferedImage(image.getWidth(null),
 				image.getHeight(null), BufferedImage.TYPE_INT_ARGB);
 
-		Graphics2D graphics2D = bufferedImage.createGraphics();
+		Graphics2D graphics2D = surface.createGraphics();
 		graphics2D.drawImage(image, 0, 0, null);
 		graphics2D.dispose();
 
-		return bufferedImage;
+		return surface;
 	}
-	
+
 	public static BufferedImage scaleWidth(BufferedImage img, int width,
 			Integer hints) {
+		float ratio = (float) img.getWidth() / img.getHeight();
+		int newHeight = (int) (width / ratio);
+
 		if (img.getWidth() < width) {
-			return img;
+			return resizeCanvas(img, new Dimension(width, newHeight));
 		}
 
-		float ratio = (float) img.getWidth() / img.getHeight();
-
-		return toBufferedImage(img.getScaledInstance(width,
-				(int) (width / ratio), hints));
+		return toBufferedImage(img.getScaledInstance(width, newHeight, hints));
 	}
 }
