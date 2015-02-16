@@ -12,8 +12,6 @@ import org.newdawn.slick.geom.Rectangle;
 
 import unnamed_platformer.app.Main;
 import unnamed_platformer.game.entities.Entity;
-import unnamed_platformer.game.lvl_gen.BaseLevelGenerator;
-import unnamed_platformer.game.lvl_gen.ProceduralGenerator;
 import unnamed_platformer.res_mgt.ResManager;
 import unnamed_platformer.view.gui.GUIManager;
 import unnamed_platformer.view.gui.GUIManager.ScreenType;
@@ -37,21 +35,7 @@ public final class World implements Serializable
 	public static void setPlaying(boolean value) {
 		playing = value;
 	}
-
-	public static void playRandomGame() {
-		localName = "Random Game";
-		reset(false);
-
-		BaseLevelGenerator generator = new ProceduralGenerator();
-		for (int i = 0; i < 10; i++) {
-			addPremadeLevel(generator.generate());
-		}
-
-		setLevelByIndex(0);
-		setPlaying(true);
-		GUIManager.changeScreen(ScreenType.Play);
-	}
-
+	
 	public static void reset(final boolean addBlank) {
 		current.levels.clear();
 		if (addBlank) {
