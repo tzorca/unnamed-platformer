@@ -31,7 +31,7 @@ public class Style
 		this.font = style.font;
 		this.backcolor = style.backcolor;
 		this.forecolor = style.forecolor;
-		this.selectionBackcolor = style.selectionForecolor;
+		this.selectionForecolor = style.selectionForecolor;
 		this.selectionBackcolor = style.selectionBackcolor;
 		this.paddingTop = style.paddingTop;
 		this.paddingLeft = style.paddingLeft;

@@ -80,7 +80,7 @@ public final class World implements Serializable
 			e.printStackTrace();
 		}
 		
-		if (data.length() >= MIN_WORLD_CHAR_LENGTH) {
+		if (data != null && data.length() >= MIN_WORLD_CHAR_LENGTH) {
 			try {
 				current = Main.getGson().fromJson(data, World.class);
 			} catch (Exception e) {
