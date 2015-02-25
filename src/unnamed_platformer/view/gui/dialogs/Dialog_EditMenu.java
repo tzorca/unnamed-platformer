@@ -40,20 +40,20 @@ public class Dialog_EditMenu extends Dialog
 
 	private static final long serialVersionUID = -846612117309570380L;
 
-	private static final ImageIcon /* */
-	/*    */IMG_EDIT_MODE = new ImageIcon(ResManager.get(GUI_Image.class,
-			"gui_modeEdit")), IMG_PLAY_MODE = new ImageIcon(ResManager.get(
-			GUI_Image.class, "gui_modePlay")), IMG_ADD = new ImageIcon(
-			ResManager.get(GUI_Image.class, "gui_add")),
-			IMG_NEXT = new ImageIcon(
-					ResManager.get(GUI_Image.class, "gui_next")),
-			IMG_PREV = new ImageIcon(
-					ResManager.get(GUI_Image.class, "gui_prev")),
-			IMG_REMOVE = new ImageIcon(ResManager.get(GUI_Image.class,
-					"gui_remove")), IMG_SAVE = new ImageIcon(ResManager.get(
-					GUI_Image.class, "gui_save")), IMG_EXIT = new ImageIcon(
-					ResManager.get(GUI_Image.class, "gui_exit")),
-			IMG_BG = new ImageIcon(ResManager.get(GUI_Image.class, "gui_bg"));
+	private static ImageIcon getImageIcon(String identifier) {
+		return new ImageIcon(ResManager.get(GUI_Image.class, identifier));
+	}
+
+	private static final ImageIcon
+	/*  */IMG_EDIT_MODE = getImageIcon("gui_modeEdit"),
+	/* */IMG_PLAY_MODE = getImageIcon("gui_modePlay"),
+	/* */IMG_ADD = getImageIcon("gui_add"),
+	/* */IMG_NEXT = getImageIcon("gui_next"),
+	/* */IMG_PREV = getImageIcon("gui_prev"),
+	/* */IMG_REMOVE = getImageIcon("gui_remove"),
+	/* */IMG_SAVE = getImageIcon("gui_save"),
+	/* */IMG_EXIT = getImageIcon("gui_exit"),
+	/* */IMG_BG = getImageIcon("gui_bg");
 
 	private final JButton btnModeSwitch = new JButton(IMG_PLAY_MODE);
 	private final JButton btnPrevLevel = new JButton(IMG_PREV);
@@ -164,7 +164,6 @@ public class Dialog_EditMenu extends Dialog
 				public void run() {
 					Dialog_EditMenu.this.setVisible(false);
 					showBackgroundSelect();
-
 				}
 			});
 		}
