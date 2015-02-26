@@ -14,8 +14,7 @@ import unnamed_platformer.game.behaviours.Interaction;
 import unnamed_platformer.game.entities.ActiveEntity;
 import unnamed_platformer.game.entities.Entity;
 import unnamed_platformer.game.other.DirectionalEnums.Axis;
-import unnamed_platformer.globals.EntityRef;
-import unnamed_platformer.globals.GameRef.Flag;
+import unnamed_platformer.globals.GameGlobals.Flag;
 
 public final class PhysicsProcessor
 {
@@ -40,7 +39,7 @@ public final class PhysicsProcessor
 			// TODO: This would involve moving up if a suitable slope exists.
 			// Also, save collided entities since they may have interactions.
 			List<Entity> collidedEntities = collisionResponse(actor,
-					EntityRef.select(nearbyEntities, Flag.SOLID));
+					EntityLookup.select(nearbyEntities, Flag.SOLID));
 
 			// Perform all interactions occurring the new position.
 			doInteractions(actor, nearbyEntities);

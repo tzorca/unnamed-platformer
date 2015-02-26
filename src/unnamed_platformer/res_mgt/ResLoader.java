@@ -3,7 +3,7 @@ package unnamed_platformer.res_mgt;
 import java.io.File;
 import java.util.HashMap;
 
-import unnamed_platformer.globals.Ref;
+import unnamed_platformer.globals.FileGlobals;
 
 public abstract class ResLoader
 {
@@ -19,11 +19,11 @@ public abstract class ResLoader
 	}
 
 	public String getFilename(String name) {
-		return Ref.RESOURCE_DIR + dir + File.separator + name + ext;
+		return FileGlobals.RESOURCE_DIR + dir + File.separator + name + ext;
 	}
 
 	public String getDir() {
-		return Ref.RESOURCE_DIR + dir;
+		return FileGlobals.RESOURCE_DIR + dir;
 	}
 
 	public Object get(String name) {

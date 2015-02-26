@@ -30,7 +30,7 @@ import unnamed_platformer.app.Main;
 import unnamed_platformer.app.Settings;
 import unnamed_platformer.app.Settings.SettingName;
 import unnamed_platformer.game.other.World;
-import unnamed_platformer.globals.StyleRef;
+import unnamed_platformer.globals.StyleGlobals;
 import unnamed_platformer.input.GameKey;
 import unnamed_platformer.input.InputManager;
 import unnamed_platformer.input.InputManager.PlrGameKey;
@@ -118,7 +118,7 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 
 		// SETUP TITLE
 		JLabel lblTitle = new JLabel("Select a World");
-		StyleRef.STYLE_SUB_HEADING.apply(lblTitle);
+		StyleGlobals.STYLE_SUB_HEADING.apply(lblTitle);
 
 		// SETUP WORLD LIST
 		Collection<String> worldNames = ResManager.list(World.class, true);
@@ -133,14 +133,14 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 		}
 		lstWorlds.setModel(mdlWorlds);
 		lstWorlds.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		StyleRef.STYLE_WORLD_LIST.apply(lstWorlds);
+		StyleGlobals.STYLE_WORLD_LIST.apply(lstWorlds);
 		lstWorlds.addListSelectionListener(new lstWorlds_SelectionListener());
 		lstWorlds.setCellRenderer(new ListCellRenderer_World());
 		lstWorlds.setSelectedIndex(0);
 
 		// SETUP WORLD LIST SCROLL PANE
 		JScrollPane scrlWorlds = new JScrollPane(lstWorlds);
-		StyleRef.STYLE_TYPICAL_SCROLLPANE.apply(scrlWorlds);
+		StyleGlobals.STYLE_TYPICAL_SCROLLPANE.apply(scrlWorlds);
 
 		// SETUP BUTTONS
 		btnNew.addActionListener(new btnNew_Click());
@@ -152,7 +152,7 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 		for (JButton btn : buttons) {
 			btn.addFocusListener(new btn_FocusListener());
 			// btn.setIconTextGap(0);
-			StyleRef.STYLE_NORMAL_BUTTON.apply(btn);
+			StyleGlobals.STYLE_NORMAL_BUTTON.apply(btn);
 		}
 		changeState(WorldSelectState.WORLD_SELECT);
 
@@ -173,13 +173,13 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 		pnlButtons.add(Box.createRigidArea(new Dimension(16, 0)));
 
 		// SETUP BUTTON PANEL
-		pnlButtons.setBackground(StyleRef.COLOR_MAIN_PLUS);
+		pnlButtons.setBackground(StyleGlobals.COLOR_MAIN_PLUS);
 
 		// ADD COMPONENTS TO MAIN PANEL
 		pnlSurface.add(lblTitle, "gapx 8px 8px, pushx, wrap");
 		pnlSurface
 				.add(scrlWorlds, "gapx 8px 8px, gapy 16px, grow, pushy, wrap");
-		pnlSurface.setBackground(StyleRef.COLOR_MAIN_PLUS);
+		pnlSurface.setBackground(StyleGlobals.COLOR_MAIN_PLUS);
 		pnlSurface.add(pnlButtons, "gapx 8px 8px, gapy 4px");
 	}
 

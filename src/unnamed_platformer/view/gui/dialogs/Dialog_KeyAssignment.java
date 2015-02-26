@@ -8,7 +8,7 @@ import java.util.List;
 import javax.swing.JLabel;
 
 import unnamed_platformer.app.Main;
-import unnamed_platformer.globals.StyleRef;
+import unnamed_platformer.globals.StyleGlobals;
 import unnamed_platformer.input.InputManager;
 import unnamed_platformer.input.RawKey;
 import unnamed_platformer.view.gui.GUIHelper.ParamRunnable;
@@ -24,7 +24,7 @@ public class Dialog_KeyAssignment extends Dialog
 		super(owner, "New Key");
 
 		final JLabel lblMessage = new JLabel("Press a key");
-		StyleRef.STYLE_PRESS_KEY_MESSAGE.apply(lblMessage);
+		StyleGlobals.STYLE_PRESS_KEY_MESSAGE.apply(lblMessage);
 
 		this.setUndecorated(true);
 		this.add(lblMessage);

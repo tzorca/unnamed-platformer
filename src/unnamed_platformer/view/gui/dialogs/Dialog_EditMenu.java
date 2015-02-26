@@ -19,7 +19,7 @@ import net.miginfocom.swing.MigLayout;
 import unnamed_platformer.app.ImageHelper;
 import unnamed_platformer.game.other.Editor;
 import unnamed_platformer.game.other.World;
-import unnamed_platformer.globals.StyleRef;
+import unnamed_platformer.globals.StyleGlobals;
 import unnamed_platformer.res_mgt.ResManager;
 import unnamed_platformer.res_mgt.types.BackgroundImage;
 import unnamed_platformer.res_mgt.types.GUI_Image;
@@ -89,13 +89,13 @@ public class Dialog_EditMenu extends Dialog
 		btnExit.addActionListener(new btnExit_Click());
 
 		for (JButton btn : buttonList) {
-			StyleRef.STYLE_ABSTRACT_BUTTON.apply(btn);
+			StyleGlobals.STYLE_ABSTRACT_BUTTON.apply(btn);
 		}
 
 		// SETUP CURRENT LEVEL LABEL
 		lblCurrentLevel.setText("Level "
 				+ String.valueOf(World.getCurrentLevelIndex() + 1));
-		StyleRef.STYLE_PADDED_MESSAGE.apply(lblCurrentLevel);
+		StyleGlobals.STYLE_PADDED_MESSAGE.apply(lblCurrentLevel);
 
 		// ADD COMPONENTS
 		final boolean currentlyEditing = !World.playing();

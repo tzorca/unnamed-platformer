@@ -22,7 +22,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import net.miginfocom.swing.MigLayout;
-import unnamed_platformer.globals.StyleRef;
+import unnamed_platformer.globals.StyleGlobals;
 import unnamed_platformer.input.InputManager;
 import unnamed_platformer.input.InputManager.PlrGameKey;
 import unnamed_platformer.view.ViewManager;
@@ -55,12 +55,12 @@ public class Dialog_OptionSelection<T> extends Dialog
 		this.setUndecorated(true);
 
 		pnlMain.setLayout(new MigLayout());
-		pnlMain.setBackground(StyleRef.COLOR_MAIN_PLUS);
+		pnlMain.setBackground(StyleGlobals.COLOR_MAIN_PLUS);
 		pnlMain.setBorder(BorderFactory
 				.createSoftBevelBorder(BevelBorder.RAISED));
 
 		final JLabel lblMessage = new JLabel(message);
-		StyleRef.STYLE_MESSAGE.apply(lblMessage);
+		StyleGlobals.STYLE_MESSAGE.apply(lblMessage);
 
 		pnlMain.add(lblMessage, "wrap, growx, pushx, span");
 
@@ -82,7 +82,7 @@ public class Dialog_OptionSelection<T> extends Dialog
 		lstChoices = new JList<T>();
 		lstChoices.setModel(listModel);
 		lstChoices.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		StyleRef.STYLE_CHOICE_LIST.apply(lstChoices);
+		StyleGlobals.STYLE_CHOICE_LIST.apply(lstChoices);
 		if (listCellRenderer == null) {
 		lstChoices.setCellRenderer(new ListCellRenderer_CustomBorder(
 				paddedBorderWithBottomLine));

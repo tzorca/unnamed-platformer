@@ -5,7 +5,7 @@ import java.util.EnumMap;
 
 import org.ini4j.Wini;
 
-import unnamed_platformer.globals.Ref;
+import unnamed_platformer.globals.FileGlobals;
 import unnamed_platformer.input.InputManager.PlrGameKey;
 import unnamed_platformer.input.RawKey;
 
@@ -116,7 +116,7 @@ public class Settings
 	public static void init() {
 		loadDefaultSettings();
 
-		boolean noSettingsFile = !Ref.SETTINGS_FILE.exists();
+		boolean noSettingsFile = !(FileGlobals.SETTINGS_FILE.exists());
 
 		if (noSettingsFile) {
 			createNewINI();
@@ -151,7 +151,7 @@ public class Settings
 
 	private static void connectINI() {
 		try {
-			ini = new Wini(Ref.SETTINGS_FILE);
+			ini = new Wini(FileGlobals.SETTINGS_FILE);
 		} catch (Exception e) {
 			System.err.println("Error connecting to settings file.");
 			e.printStackTrace();
@@ -161,7 +161,7 @@ public class Settings
 
 	private static void createNewINI() {
 		try {
-			Ref.SETTINGS_FILE.createNewFile();
+			FileGlobals.SETTINGS_FILE.createNewFile();
 		} catch (IOException e) {
 			System.err.println("Error creating new settings file.");
 			e.printStackTrace();

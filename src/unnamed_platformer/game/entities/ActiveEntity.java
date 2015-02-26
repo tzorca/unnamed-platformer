@@ -8,8 +8,8 @@ import org.newdawn.slick.geom.Vector2f;
 import unnamed_platformer.game.behaviours.Interaction;
 import unnamed_platformer.game.other.EntitySetup;
 import unnamed_platformer.game.other.PhysicsInstance;
-import unnamed_platformer.globals.EntityRef.EntityParam;
-import unnamed_platformer.globals.GameRef.Flag;
+import unnamed_platformer.globals.GameGlobals.EntityParam;
+import unnamed_platformer.globals.GameGlobals.Flag;
 import unnamed_platformer.view.ViewManager;
 
 public abstract class ActiveEntity extends Entity

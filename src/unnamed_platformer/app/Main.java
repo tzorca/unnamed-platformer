@@ -6,11 +6,12 @@ import org.newdawn.slick.opengl.Texture;
 import unnamed_platformer.game.config.GameConfig_Loader;
 import unnamed_platformer.game.other.EntityCreator;
 import unnamed_platformer.game.other.EntitySetup;
-import unnamed_platformer.game.other.EntitySetupDeserializer;
 import unnamed_platformer.game.other.Level;
-import unnamed_platformer.game.other.LevelSerializer;
 import unnamed_platformer.game.other.World;
-import unnamed_platformer.globals.Ref;
+import unnamed_platformer.game.serialization.EntitySetupDeserializer;
+import unnamed_platformer.game.serialization.LevelSerializer;
+import unnamed_platformer.globals.AppGlobals;
+import unnamed_platformer.globals.FileGlobals;
 import unnamed_platformer.input.GameKey;
 import unnamed_platformer.input.InputManager;
 import unnamed_platformer.res_mgt.ClassLookup;
@@ -45,9 +46,9 @@ public final class Main
 
 			accumulator += millisecDelta;
 
-			while (accumulator >= Ref.MILLISECS_IN_IDEAL_TIC) {
+			while (accumulator >= AppGlobals.IDEAL_TIC_MILLISECONDS) {
 				World.update();
-				accumulator -= Ref.MILLISECS_IN_IDEAL_TIC;
+				accumulator -= AppGlobals.IDEAL_TIC_MILLISECONDS;
 			}
 
 			ViewManager.update();
@@ -66,10 +67,10 @@ public final class Main
 		else if (InputManager.keyPressOccurred(GameKey.EXIT, 1)) {
 			doHalt();
 		}
-		
-//		else if (InputManager.keyPressOccurred(GameKey.TESTING, 1)) {
-//			World.saveGson("test-json");
-//		}
+
+		// else if (InputManager.keyPressOccurred(GameKey.TESTING, 1)) {
+		// World.saveGson("test-json");
+		// }
 
 		// else if (InputManager.keyPressOccurred(GameKey.back, 1)) {
 		// GUIManager.back();
@@ -88,9 +89,9 @@ public final class Main
 	private static void init() {
 		// used to load native libraries without relying on project
 		// configuration
-		System.setProperty("org.lwjgl.librarypath", Ref.NATIVE_LIB_DIR);
+		System.setProperty("org.lwjgl.librarypath", FileGlobals.NATIVE_LIB_DIR);
 		System.setProperty("net.java.games.input.librarypath",
-				Ref.NATIVE_LIB_DIR);
+				FileGlobals.NATIVE_LIB_DIR);
 
 		setupCloner();
 		setupGson();
@@ -115,14 +116,15 @@ public final class Main
 	private static void setupCloner() {
 		cloner.dontClone(Texture.class);
 	}
-	
+
 	private static void setupGson() {
 		GsonBuilder builder = new GsonBuilder();
 		builder.registerTypeAdapter(Level.class, new LevelSerializer());
-		builder.registerTypeAdapter(EntitySetup.class, new EntitySetupDeserializer());
+		builder.registerTypeAdapter(EntitySetup.class,
+				new EntitySetupDeserializer());
 		gson = builder.create();
 	}
-	
+
 	public static Gson getGson() {
 		return gson;
 	}

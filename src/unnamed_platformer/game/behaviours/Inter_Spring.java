@@ -5,7 +5,7 @@ import org.newdawn.slick.geom.Vector2f;
 import unnamed_platformer.app.MathHelper;
 import unnamed_platformer.game.entities.ActiveEntity;
 import unnamed_platformer.game.entities.Entity;
-import unnamed_platformer.globals.GameRef.Flag;
+import unnamed_platformer.globals.GameGlobals.Flag;
 import unnamed_platformer.res_mgt.SoundManager;
 
 public class Inter_Spring extends Interaction

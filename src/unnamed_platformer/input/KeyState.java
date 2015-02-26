@@ -1,7 +1,7 @@
 package unnamed_platformer.input;
 
 import unnamed_platformer.app.TimeManager;
-import unnamed_platformer.globals.Ref;
+import unnamed_platformer.globals.AppGlobals;
 import unnamed_platformer.input.InputManager.PlrGameKey;
 
 public class KeyState
@@ -59,10 +59,10 @@ public class KeyState
 			return true;
 		}
 
-		if (TimeManager.secondsSince(TimeManager.lastSample(pgk)) > Ref.INPUT_DELAY_TIME) {
+		if (TimeManager.secondsSince(TimeManager.lastSample(pgk)) > AppGlobals.INPUT_DELAY_SECONDS) {
 			// Check if repeating
 			if (TimeManager.periodElapsed(pgk, REPETITION,
-					Ref.INPUT_REPEAT_TIME)) {
+					AppGlobals.INPUT_REPEAT_SECONDS)) {
 				return current();
 			}
 		}

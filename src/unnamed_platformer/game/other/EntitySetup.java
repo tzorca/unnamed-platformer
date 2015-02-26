@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.EnumMap;
 import java.util.Map;
 
-import unnamed_platformer.globals.EntityRef.EntityParam;
+import unnamed_platformer.globals.GameGlobals.EntityParam;
 
 public class EntitySetup implements Serializable
 {

@@ -6,7 +6,7 @@ import java.awt.event.WindowFocusListener;
 
 import javax.swing.JDialog;
 
-import unnamed_platformer.globals.StyleRef;
+import unnamed_platformer.globals.StyleGlobals;
 import unnamed_platformer.input.InputManager;
 
 public class Dialog extends JDialog
@@ -30,7 +30,7 @@ public class Dialog extends JDialog
 
 	private void initStandardProperties() {
 
-		getContentPane().setBackground(StyleRef.COLOR_MAIN_PLUS);
+		getContentPane().setBackground(StyleGlobals.COLOR_MAIN_PLUS);
 
 		this.addWindowFocusListener(new WindowFocusListener() {
 			public void windowLostFocus(WindowEvent e) {

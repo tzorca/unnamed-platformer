@@ -1,11 +1,11 @@
 package unnamed_platformer.game.behaviours;
 
-import unnamed_platformer.globals.GameRef;
+import unnamed_platformer.globals.GameGlobals;
 
 public class Inter_SlowRegion extends Inter_VelocityMultiplier {
 
 	public Inter_SlowRegion() {
-		super(GameRef.DEFAULT_WATER_SPEED_FACTOR);
+		super(GameGlobals.WATER_SPEED_MODIFIER);
 	}
 
 }

@@ -1,4 +1,4 @@
-package unnamed_platformer.game.other;
+package unnamed_platformer.game.serialization;
 
 import java.lang.reflect.Type;
 import java.util.EnumMap;
@@ -6,7 +6,9 @@ import java.util.LinkedList;
 
 import org.newdawn.slick.geom.Rectangle;
 
-import unnamed_platformer.globals.Ref.BlueprintField;
+import unnamed_platformer.game.other.EntityCreator;
+import unnamed_platformer.game.other.EntitySetup;
+import unnamed_platformer.game.other.Level;
 import unnamed_platformer.view.Graphic;
 
 import com.google.common.collect.Maps;

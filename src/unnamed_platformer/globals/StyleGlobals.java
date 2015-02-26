@@ -10,14 +10,16 @@ import javax.swing.border.MatteBorder;
 import unnamed_platformer.view.FluidColor;
 import unnamed_platformer.view.gui.Style;
 
-public class StyleRef
+public class StyleGlobals
 {
+	
 	public static final FluidColor
 	/* */COLOR_LIGHT_GREY = new FluidColor(0xee, 0xee, 0xee),
 	/* */COLOR_ORANGE = new FluidColor(0xbb, 0x60, 0x40),
 	/* */COLOR_MAIN = new FluidColor(0x20, 0x20, 0x40).incrementHue(-0.1f),
 	/* */COLOR_MAIN_MINUS, COLOR_MAIN_PLUS, COLOR_MAIN_PLUS_PLUS,
 			COLOR_MAIN_HIGHLIGHT;
+
 
 	// Dynamically generate other colors from main color
 	static {
@@ -56,14 +58,14 @@ public class StyleRef
 
 	static {
 		STYLE_HEADING = new Style();
-		STYLE_HEADING.setFont(StyleRef.FONT_HEADING);
-		STYLE_HEADING.setForecolor(StyleRef.COLOR_LIGHT_GREY);
+		STYLE_HEADING.setFont(StyleGlobals.FONT_HEADING);
+		STYLE_HEADING.setForecolor(StyleGlobals.COLOR_LIGHT_GREY);
 
 		STYLE_SUB_HEADING = new Style(STYLE_HEADING);
-		STYLE_SUB_HEADING.setFont(StyleRef.FONT_SUB_HEADING);
+		STYLE_SUB_HEADING.setFont(StyleGlobals.FONT_SUB_HEADING);
 
 		STYLE_MESSAGE = new Style(STYLE_HEADING);
-		STYLE_MESSAGE.setFont(StyleRef.FONT_NORMAL);
+		STYLE_MESSAGE.setFont(StyleGlobals.FONT_NORMAL);
 
 		STYLE_PADDED_MESSAGE = new Style(STYLE_MESSAGE);
 		STYLE_PADDED_MESSAGE.setPadding(8, 8, 8, 8);
@@ -83,13 +85,13 @@ public class StyleRef
 
 		STYLE_NORMAL_BUTTON = new Style(STYLE_ABSTRACT_BUTTON);
 		STYLE_NORMAL_BUTTON.setPadding(10, 20, 10, 20);
-		STYLE_NORMAL_BUTTON.setFont(StyleRef.FONT_NORMAL);
+		STYLE_NORMAL_BUTTON.setFont(StyleGlobals.FONT_NORMAL);
 
 		STYLE_TYPICAL_LIST = new Style();
-		STYLE_TYPICAL_LIST.setFont(StyleRef.FONT_NORMAL);
-		STYLE_TYPICAL_LIST.setBackcolor(StyleRef.COLOR_MAIN);
+		STYLE_TYPICAL_LIST.setFont(StyleGlobals.FONT_NORMAL);
+		STYLE_TYPICAL_LIST.setBackcolor(StyleGlobals.COLOR_MAIN);
 		STYLE_TYPICAL_LIST.setForecolor(Color.WHITE);
-		STYLE_TYPICAL_LIST.setSelectionBackcolor(StyleRef.COLOR_MAIN_HIGHLIGHT);
+		STYLE_TYPICAL_LIST.setSelectionBackcolor(StyleGlobals.COLOR_MAIN_HIGHLIGHT);
 		STYLE_TYPICAL_LIST.setSelectionForecolor(Color.WHITE);
 
 		STYLE_WORLD_LIST = new Style(STYLE_TYPICAL_LIST);
@@ -97,22 +99,22 @@ public class StyleRef
 		STYLE_WORLD_LIST.setVisibleRowCount(-1);
 
 		STYLE_TYPICAL_SCROLLPANE = new Style();
-		STYLE_TYPICAL_SCROLLPANE.setFont(StyleRef.FONT_NORMAL);
-		STYLE_TYPICAL_SCROLLPANE.setBackcolor(StyleRef.COLOR_MAIN_MINUS);
+		STYLE_TYPICAL_SCROLLPANE.setFont(StyleGlobals.FONT_NORMAL);
+		STYLE_TYPICAL_SCROLLPANE.setBackcolor(StyleGlobals.COLOR_MAIN_MINUS);
 		STYLE_TYPICAL_SCROLLPANE.setBorder(BorderFactory
 				.createLoweredBevelBorder());
 
 		STYLE_ENTITY_LIST = new Style();
-		STYLE_ENTITY_LIST.setSelectionBackcolor(StyleRef.COLOR_MAIN_HIGHLIGHT);
-		STYLE_ENTITY_LIST.setBackcolor(StyleRef.COLOR_MAIN_PLUS);
-		STYLE_ENTITY_LIST.setFont(StyleRef.FONT_SMALL);
+		STYLE_ENTITY_LIST.setSelectionBackcolor(StyleGlobals.COLOR_MAIN_HIGHLIGHT);
+		STYLE_ENTITY_LIST.setBackcolor(StyleGlobals.COLOR_MAIN_PLUS);
+		STYLE_ENTITY_LIST.setFont(StyleGlobals.FONT_SMALL);
 		STYLE_ENTITY_LIST.setForecolor(java.awt.Color.white);
 
 		STYLE_CHOICE_LIST = new Style();
-		STYLE_CHOICE_LIST.setSelectionBackcolor(StyleRef.COLOR_MAIN_HIGHLIGHT);
+		STYLE_CHOICE_LIST.setSelectionBackcolor(StyleGlobals.COLOR_MAIN_HIGHLIGHT);
 		STYLE_CHOICE_LIST.setForecolor(java.awt.Color.white);
-		STYLE_CHOICE_LIST.setBackcolor(StyleRef.COLOR_MAIN);
-		STYLE_CHOICE_LIST.setFont(StyleRef.FONT_SMALL);
+		STYLE_CHOICE_LIST.setBackcolor(StyleGlobals.COLOR_MAIN);
+		STYLE_CHOICE_LIST.setFont(StyleGlobals.FONT_SMALL);
 		STYLE_CHOICE_LIST.setBorder(new MatteBorder(1, 0, 0, 0,
 				Color.LIGHT_GRAY));
 	}

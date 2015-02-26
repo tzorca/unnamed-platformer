@@ -6,8 +6,8 @@ import java.io.Serializable;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.opengl.Texture;
 
+import unnamed_platformer.game.other.TextureLookup;
 import unnamed_platformer.game.other.TextureSetup;
-import unnamed_platformer.globals.TextureRef;
 import unnamed_platformer.res_mgt.ResManager;
 import unnamed_platformer.res_mgt.types.ObjectImage;
 
@@ -31,7 +31,7 @@ public class Graphic implements Serializable
 
 	public void setTexture(final String textureName) {
 		this.textureName = textureName;
-		this.cachedTextureSetup = TextureRef.getSetup(textureName);
+		this.cachedTextureSetup = TextureLookup.getSetup(textureName);
 	}
 
 	public Graphic(final String textureName) {

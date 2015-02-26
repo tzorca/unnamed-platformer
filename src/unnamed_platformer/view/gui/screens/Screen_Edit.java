@@ -35,8 +35,7 @@ import unnamed_platformer.game.other.Editor;
 import unnamed_platformer.game.other.EntityCreator;
 import unnamed_platformer.game.other.Level;
 import unnamed_platformer.game.other.World;
-import unnamed_platformer.globals.Ref;
-import unnamed_platformer.globals.StyleRef;
+import unnamed_platformer.globals.StyleGlobals;
 import unnamed_platformer.input.GameKey;
 import unnamed_platformer.input.InputManager;
 import unnamed_platformer.input.MouseInputManager;
@@ -94,20 +93,20 @@ public class Screen_Edit extends BaseScreen_Hybrid
 		lstEntities.setCellRenderer(new ListCellRenderer_ImageListEntry(ENTITY_ICON_SIZE));
 		lstEntities.setLayoutOrientation(JList.VERTICAL_WRAP);
 		lstEntities.setVisibleRowCount(-1);
-		StyleRef.STYLE_ENTITY_LIST.apply(lstEntities);
+		StyleGlobals.STYLE_ENTITY_LIST.apply(lstEntities);
 
 		DefaultListModel<ImageListEntry> lstEntitiesModel = new DefaultListModel<ImageListEntry>();
 		for (final ImageListEntry entry : imageListEntries) {
 			lstEntitiesModel.addElement(entry);
 		}
 		lstEntities.setModel(lstEntitiesModel);
-		final JScrollPane listScroller = new JScrollPane(lstEntities,
+		JScrollPane listScroller = new JScrollPane(lstEntities,
 				JScrollPane.VERTICAL_SCROLLBAR_NEVER,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		lstEntities.addListSelectionListener(new EntityList_SelectionChanged());
 
 		// SETUP LEFT TOOLBAR
-		final Panel leftToolbar = toolbars.get(Side.left);
+		Panel leftToolbar = toolbars.get(Side.left);
 		leftToolbar.setLayout(new BorderLayout());
 		leftToolbar.add(listScroller, BorderLayout.CENTER);
 
@@ -118,8 +117,8 @@ public class Screen_Edit extends BaseScreen_Hybrid
 				new RenderCanvas_RightClick());
 
 		// SETUP TOP TOOLBAR
-		final Panel topToolbar = toolbars.get(Side.top);
-		final FlowLayout flowLayout = new FlowLayout(FlowLayout.RIGHT);
+		Panel topToolbar = toolbars.get(Side.top);
+		FlowLayout flowLayout = new FlowLayout(FlowLayout.RIGHT);
 		flowLayout.setVgap(0);
 		flowLayout.setHgap(0);
 		topToolbar.setLayout(flowLayout);
@@ -132,10 +131,10 @@ public class Screen_Edit extends BaseScreen_Hybrid
 	}
 
 	public Graphic getCurrentGraphic() {
-
 		if (getSelectedEntry() == null) {
 			return null;
 		}
+		
 		String textureName = getSelectedEntry().getInternalName();
 		if (textureName == null) {
 			return null;
@@ -161,7 +160,7 @@ public class Screen_Edit extends BaseScreen_Hybrid
 					displayName, textureName);
 			imageListEntries.add(entry);
 			entityGraphics.put(entry.getInternalName(), new Graphic(
-					textureName, Ref.COLOR_75_PERCENT_TRANS));
+					textureName, new Color(1, 1, 1, 0.75f)));
 		}
 
 		Collections.sort(imageListEntries);
@@ -317,7 +316,7 @@ public class Screen_Edit extends BaseScreen_Hybrid
 								.getY(), (float) drawRect.getWidth(),
 								(float) drawRect.getHeight()));
 			} else {
-				ViewManager.setColor(Ref.COLOR_75_PERCENT_TRANS);
+				ViewManager.setColor(new Color(1, 1, 1, 0.75f));
 			}
 		}
 	}

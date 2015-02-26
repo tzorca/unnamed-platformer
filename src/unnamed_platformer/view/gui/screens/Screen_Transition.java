@@ -9,7 +9,7 @@ import javax.swing.SwingUtilities;
 
 import unnamed_platformer.app.TimeManager;
 import unnamed_platformer.game.other.World;
-import unnamed_platformer.globals.StyleRef;
+import unnamed_platformer.globals.StyleGlobals;
 import unnamed_platformer.input.InputManager;
 import unnamed_platformer.input.InputManager.PlrGameKey;
 import unnamed_platformer.res_mgt.SoundManager;
@@ -45,11 +45,11 @@ public class Screen_Transition extends BaseScreen_GUI
 			nextScreen = ScreenType.SelectWorld;
 		}
 
-		StyleRef.STYLE_HEADING.apply(lblInfo);
-		StyleRef.STYLE_HEADING.apply(lblTimer);
+		StyleGlobals.STYLE_HEADING.apply(lblInfo);
+		StyleGlobals.STYLE_HEADING.apply(lblTimer);
 
-		pnlSurface.add(lblInfo, StyleRef.CENTER_LAYOUT + ", gaptop 10%, ");
-		pnlSurface.add(lblTimer, StyleRef.CENTER_LAYOUT + ", gaptop 10%, ");
+		pnlSurface.add(lblInfo, StyleGlobals.CENTER_LAYOUT + ", gaptop 10%, ");
+		pnlSurface.add(lblTimer, StyleGlobals.CENTER_LAYOUT + ", gaptop 10%, ");
 
 		pnlSurface.addKeyListener(new KeyAdapter() {
 			public void keyPressed(KeyEvent e) {

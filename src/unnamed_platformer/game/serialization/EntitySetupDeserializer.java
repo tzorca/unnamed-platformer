@@ -1,4 +1,4 @@
-package unnamed_platformer.game.other;
+package unnamed_platformer.game.serialization;
 
 import java.lang.reflect.Type;
 import java.util.Map.Entry;
@@ -7,7 +7,9 @@ import java.util.Set;
 import org.newdawn.slick.geom.Vector2f;
 
 import unnamed_platformer.game.other.DirectionalEnums.Orientation;
-import unnamed_platformer.globals.EntityRef.EntityParam;
+import unnamed_platformer.game.other.EntitySetup;
+import unnamed_platformer.game.other.SizeStrategy;
+import unnamed_platformer.globals.GameGlobals.EntityParam;
 import unnamed_platformer.view.Graphic;
 
 import com.google.gson.JsonDeserializationContext;

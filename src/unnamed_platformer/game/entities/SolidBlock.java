@@ -1,7 +1,7 @@
 package unnamed_platformer.game.entities;
 
 import unnamed_platformer.game.other.EntitySetup;
-import unnamed_platformer.globals.GameRef.Flag;
+import unnamed_platformer.globals.GameGlobals.Flag;
 
 public class SolidBlock extends Entity {
 	public SolidBlock(EntitySetup entitySetup) {

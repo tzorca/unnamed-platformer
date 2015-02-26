@@ -1,12 +1,10 @@
-package unnamed_platformer.globals;
+package unnamed_platformer.game.other;
 
 import java.util.Map;
 
-import unnamed_platformer.game.other.TextureSetup;
-
 import com.google.common.collect.Maps;
 
-public final class TextureRef {
+public final class TextureLookup {
 
 	private static Map<String, TextureSetup> textureSetups = Maps.newHashMap();
 

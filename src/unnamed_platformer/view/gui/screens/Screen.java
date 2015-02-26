@@ -4,7 +4,7 @@ import java.awt.Panel;
 
 import net.miginfocom.swing.MigLayout;
 import unnamed_platformer.app.Main;
-import unnamed_platformer.globals.StyleRef;
+import unnamed_platformer.globals.StyleGlobals;
 import unnamed_platformer.input.InputManager;
 import unnamed_platformer.view.gui.GUIManager.ScreenType;
 
@@ -24,7 +24,7 @@ public abstract class Screen
 		super();
 		InputManager.resetEvents();
 		Main.setHotKeysAllowed(true);
-		pnlSurface.setBackground(StyleRef.COLOR_MAIN_PLUS);
+		pnlSurface.setBackground(StyleGlobals.COLOR_MAIN_PLUS);
 	}
 
 	final public boolean canExit() {

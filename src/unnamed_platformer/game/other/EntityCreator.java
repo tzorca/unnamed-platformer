@@ -10,8 +10,7 @@ import org.newdawn.slick.geom.Vector2f;
 
 import unnamed_platformer.app.MathHelper;
 import unnamed_platformer.game.entities.Entity;
-import unnamed_platformer.globals.EntityRef;
-import unnamed_platformer.globals.EntityRef.EntityParam;
+import unnamed_platformer.globals.GameGlobals.EntityParam;
 import unnamed_platformer.res_mgt.ClassLookup;
 import unnamed_platformer.view.Graphic;
 
@@ -29,7 +28,7 @@ public final class EntityCreator {
 
 	private static void cacheEntityConstructors() {
 		Collection<Class<?>> classes = ClassLookup
-				.getClassesInPackage(EntityRef.PACKAGE_NAME);
+				.getClassesInPackage(EntityLookup.PACKAGE_NAME);
 
 		for (Class<?> clazz : classes) {
 			try {
@@ -49,7 +48,7 @@ public final class EntityCreator {
 					.println("Can't create an entity with an empty entityClass.");
 			return null;
 		}
-		String textureName = (String) MathHelper.randInList(EntityRef
+		String textureName = (String) MathHelper.randInList(EntityLookup
 				.getTexturesFromEntityClass(entityClass));
 
 		return create(textureName, entityClass, vector2f, sizeInput,
@@ -58,7 +57,7 @@ public final class EntityCreator {
 
 	public static Entity create(String textureName, Vector2f location,
 			float sizeInput, boolean relativeSize) {
-		Class<?> entityClass = EntityRef
+		Class<?> entityClass = EntityLookup
 				.getEntityClassFromTextureName(textureName);
 		if (entityClass == null) {
 
@@ -88,7 +87,7 @@ public final class EntityCreator {
 
 	public static Entity buildFromSetup(EntitySetup setup) {
 		Entity newEntity = null;
-		Class<?> entityClass = ClassLookup.getClass(EntityRef.PACKAGE_NAME,
+		Class<?> entityClass = ClassLookup.getClass(EntityLookup.PACKAGE_NAME,
 				setup.getEntityClassName());
 		try {
 			newEntity = (Entity) getConstructor(entityClass).newInstance(setup);
@@ -112,11 +111,11 @@ public final class EntityCreator {
 	}
 
 	public static boolean hasMapping(String texName) {
-		return EntityRef.textureMapped(texName);
+		return EntityLookup.textureMapped(texName);
 	}
 
 	public static Set<String> listTextureNames() {
-		return EntityRef.getTextureNamesFromMap();
+		return EntityLookup.getTextureNamesFromMap();
 	}
 
 	public static Entity create(String textureName, Vector2f location, int width) {
@@ -124,11 +123,11 @@ public final class EntityCreator {
 	}
 
 	public static String chooseTextureFromType(Class<?> entityClass) {
-		if (!EntityRef.entityClassHasMapping(entityClass)) {
+		if (!EntityLookup.entityClassHasMapping(entityClass)) {
 			return null;
 		}
 
-		return (String) MathHelper.randInList(EntityRef
+		return (String) MathHelper.randInList(EntityLookup
 				.getTexturesFromEntityClass(entityClass));
 	}
 

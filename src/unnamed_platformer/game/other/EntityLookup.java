@@ -1,4 +1,4 @@
-package unnamed_platformer.globals;
+package unnamed_platformer.game.other;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -9,18 +9,16 @@ import java.util.Set;
 import org.newdawn.slick.opengl.Texture;
 
 import unnamed_platformer.game.entities.Entity;
-import unnamed_platformer.globals.GameRef.Flag;
+import unnamed_platformer.globals.AppGlobals;
+import unnamed_platformer.globals.GameGlobals.Flag;
 import unnamed_platformer.res_mgt.ResManager;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Maps;
 
-public final class EntityRef {
-
-	public enum EntityParam {
-		GRAPHIC, LOCATION, ORIENTATION, UNUSED_A, UNUSED_B, SIZE_STRATEGY
-	}
+public final class EntityLookup
+{
 
 	private static Map<String, Class<?>> textureNameToEntityClass = Maps
 			.newHashMap();
@@ -28,7 +26,7 @@ public final class EntityRef {
 	private static ListMultimap<Class<?>, String> entityClassToTextureName = ArrayListMultimap
 			.create();
 
-	public static final String PACKAGE_NAME = Ref.BASE_PACKAGE_NAME
+	public static final String PACKAGE_NAME = AppGlobals.PACKAGE_NAME
 			+ ".game.entities";
 
 	public static List<String> getTexturesFromEntityClass(Class<?> entityClass) {
@@ -41,8 +39,8 @@ public final class EntityRef {
 		if (!ResManager.contentExists(Texture.class, textureName)) {
 			return;
 		}
-		EntityRef.textureNameToEntityClass.put(textureName, entityClass);
-		EntityRef.entityClassToTextureName.put(entityClass, textureName);
+		EntityLookup.textureNameToEntityClass.put(textureName, entityClass);
+		EntityLookup.entityClassToTextureName.put(entityClass, textureName);
 
 	}
 
@@ -64,12 +62,12 @@ public final class EntityRef {
 
 	/**
 	 * Get a list of entities with a given flag turned on.
+	 * 
 	 * @param entities
 	 * @param flag
 	 * @return
 	 */
-	public static List<Entity> select(Collection<Entity> entities,
-			Flag flag) {
+	public static List<Entity> select(Collection<Entity> entities, Flag flag) {
 		List<Entity> selectedEntities = new ArrayList<Entity>();
 		for (Entity entity : entities) {
 			if (entity.isFlagSet(flag)) {

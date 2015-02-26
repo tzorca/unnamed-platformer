@@ -9,9 +9,9 @@ import unnamed_platformer.game.behaviours.Ctrl_Jump;
 import unnamed_platformer.game.behaviours.Ctrl_Shoot;
 import unnamed_platformer.game.other.EntitySetup;
 import unnamed_platformer.game.other.World;
-import unnamed_platformer.globals.EntityRef.EntityParam;
-import unnamed_platformer.globals.GameRef;
-import unnamed_platformer.globals.GameRef.Flag;
+import unnamed_platformer.globals.GameGlobals;
+import unnamed_platformer.globals.GameGlobals.EntityParam;
+import unnamed_platformer.globals.GameGlobals.Flag;
 import unnamed_platformer.res_mgt.SoundManager;
 import unnamed_platformer.view.Graphic;
 
@@ -21,7 +21,7 @@ public class PlatformPlayer extends ActiveEntity
 	Ctrl_Jump jumpBehaviour;
 	Ctrl_Shoot shootBehaviour;
 
-	int health = GameRef.DEFAULT_MAX_HEALTH;
+	int health = GameGlobals.PLAYER_INITIAL_HEALTH;
 	private boolean invulnerable;
 	private boolean flashStatus;
 
@@ -29,18 +29,18 @@ public class PlatformPlayer extends ActiveEntity
 		super(entitySetup);
 
 		hzMoveBehaviour = new Ctrl_HorizontalMove(this,
-				GameRef.DEFAULT_PLR_ACCELERATION,
-				GameRef.DEFAULT_PLR_DECELERATION, GameRef.DEFAULT_PLR_MAX_SPEED);
+				GameGlobals.PLAYER_ACCELERATION,
+				GameGlobals.PLAYER_DECELERATION, GameGlobals.PLAYER_MAX_SPEED);
 
-		jumpBehaviour = new Ctrl_Jump(this, GameRef.DEFAULT_PLR_JUMP_STRENGTH);
+		jumpBehaviour = new Ctrl_Jump(this, GameGlobals.PLAYER_JUMP_STRENGTH);
 
 		EntitySetup projectileSetup = new EntitySetup();
 		projectileSetup.set(EntityParam.GRAPHIC, new Graphic("laser"));
 		projectileSetup.set(EntityParam.LOCATION, new Vector2f(0, 0));
 
 		shootBehaviour = new Ctrl_Shoot(this, new Beam(projectileSetup),
-				GameRef.DEFAULT_SHOOT_SPEED, GameRef.DEFAULT_SHOOT_DELAY,
-				GameRef.DEFAULT_SHOOT_VARIABILITY);
+				GameGlobals.PLAYER_PROJECTILE_SPEED, GameGlobals.PLAYER_PROJECTILE_DELAY,
+				GameGlobals.PLAYER_SHOOT_VARIABILITY);
 
 		getPhysics();
 		physics.addControlMechanism(hzMoveBehaviour);
@@ -70,7 +70,7 @@ public class PlatformPlayer extends ActiveEntity
 	}
 
 	public void addHealth(int healthDelta) {
-		if (health + healthDelta > GameRef.MAX_PLR_HEALTH) {
+		if (health + healthDelta > GameGlobals.PLAYER_MAX_HEALTH) {
 			return;
 		}
 
@@ -88,7 +88,7 @@ public class PlatformPlayer extends ActiveEntity
 	public void death() {
 		SoundManager.playSample("death");
 		returnToStart();
-		health = GameRef.DEFAULT_MAX_HEALTH;
+		health = GameGlobals.PLAYER_INITIAL_HEALTH;
 		flashStatus = false;
 		invulnerable = false;
 		World.getCurrentLevel().signalPlayerDeath();
@@ -103,13 +103,13 @@ public class PlatformPlayer extends ActiveEntity
 
 		if (invulnerable) {
 			if (TimeManager.periodElapsed(this, STR_TEMP_INVULNERABILITY,
-					GameRef.TEMP_INVULNERABILITY_SECONDS)) {
+					GameGlobals.TEMPORARY_INVULNERABILITY_SECONDS)) {
 				invulnerable = false;
 				flashStatus = false;
 			} else {
 				// flash
 				if (TimeManager.periodElapsed(this, STR_FLASHING,
-						GameRef.FLASH_INTERVAL)) {
+						GameGlobals.INVULNERABILITY_FLASH_INTERVAL)) {
 					flashStatus = !flashStatus;
 				}
 			}
@@ -133,7 +133,7 @@ public class PlatformPlayer extends ActiveEntity
 			graphic.color = Color.red;
 			invulnerable = true;
 			TimeManager.periodElapsed(this, STR_TEMP_INVULNERABILITY,
-					GameRef.TEMP_INVULNERABILITY_SECONDS);
+					GameGlobals.TEMPORARY_INVULNERABILITY_SECONDS);
 		}
 	}
 

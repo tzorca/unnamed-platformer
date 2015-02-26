@@ -9,8 +9,8 @@ import org.newdawn.slick.geom.Vector2f;
 
 import unnamed_platformer.app.MathHelper;
 import unnamed_platformer.game.entities.Entity;
-import unnamed_platformer.globals.GameRef.Flag;
-import unnamed_platformer.globals.Ref;
+import unnamed_platformer.globals.EditorGlobals;
+import unnamed_platformer.globals.GameGlobals.Flag;
 import unnamed_platformer.view.ViewManager;
 import unnamed_platformer.view.gui.objects.ImageListEntry;
 
@@ -25,12 +25,12 @@ public class Editor
 
 	private Multiselect multiselect;
 
-	private Vector2f cameraPos = new Vector2f(Ref.DEFAULT_LEVEL_GRIDSIZE * 4,
-			Ref.DEFAULT_LEVEL_GRIDSIZE * 4);
+	private Vector2f cameraPos = new Vector2f(EditorGlobals.LEVEL_GRID_SIZE * 4,
+			EditorGlobals.LEVEL_GRID_SIZE * 4);
 
 	public Editor(final int levelIndex) {
 		changeLevel(levelIndex);
-		World.getCurrentLevel().setSize(Ref.DEFAULT_LEVEL_RECTANGLE);
+		World.getCurrentLevel().setSize(EditorGlobals.LEVEL_RECTANGLE);
 	}
 
 	public boolean changeLevel(final int index) {

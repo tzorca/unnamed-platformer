@@ -2,10 +2,11 @@ package unnamed_platformer.res_mgt;
 
 import unnamed_platformer.app.ImageHelper;
 import unnamed_platformer.game.other.CollisionData;
-import unnamed_platformer.globals.Ref;
+import unnamed_platformer.globals.GameGlobals;
 import unnamed_platformer.res_mgt.types.ObjectImage;
 
-public class CollisionDataResLoader extends ResLoader {
+public class CollisionDataResLoader extends ResLoader
+{
 
 	protected CollisionDataResLoader() {
 		super("img", ".png");
@@ -14,7 +15,8 @@ public class CollisionDataResLoader extends ResLoader {
 	@Override
 	public CollisionData load(String name) throws Exception {
 		return new CollisionData(ImageHelper.percentScaleWithinCanvas(
-				ImageHelper.blur(ResManager.get(ObjectImage.class, name), Ref.MASK_BLUR_ITERATIONS),
-				Ref.MASK_SIZE_PERCENT));
+				ImageHelper.blur(ResManager.get(ObjectImage.class, name),
+						GameGlobals.TEXTURE_COLLISION_BLUR_ITERATIONS),
+				GameGlobals.TEXTURE_COLLISION_SIZE_MODIFIER));
 	}
 }

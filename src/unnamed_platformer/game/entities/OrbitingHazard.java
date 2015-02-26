@@ -3,7 +3,7 @@ package unnamed_platformer.game.entities;
 import unnamed_platformer.app.MathHelper;
 import unnamed_platformer.game.behaviours.Ctrl_PathMovement;
 import unnamed_platformer.game.other.EntitySetup;
-import unnamed_platformer.globals.GameRef;
+import unnamed_platformer.globals.GameGlobals;
 public class OrbitingHazard extends Hazard {
 	private Ctrl_PathMovement pathMovement;
 
@@ -14,7 +14,7 @@ public class OrbitingHazard extends Hazard {
 
 	private void addPathMovement() {
 		pathMovement = new Ctrl_PathMovement(this, this.startPos,
-				MathHelper.createCirclePath(64), GameRef.DEFAULT_ORBIT_HAZARD_SPEED);
+				MathHelper.createCirclePath(64), GameGlobals.ORBITING_HAZARD_SPEED);
 		pathMovement.setLoop(true);
 		this.getPhysics().addControlMechanism(pathMovement);
 	}

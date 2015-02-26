@@ -17,11 +17,13 @@ import java.util.regex.Pattern;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 
-import unnamed_platformer.globals.Ref;
+import unnamed_platformer.globals.FileGlobals;
 
-public final class FileHelper {
+public final class FileHelper
+{
 
-	public static class RenameFailedException extends Exception {
+	public static class RenameFailedException extends Exception
+	{
 		private static final long serialVersionUID = 2628470090472936861L;
 	}
 
@@ -158,8 +160,8 @@ public final class FileHelper {
 		if (matcher.find()) {
 			return matcher.group();
 		} else {
-			throw new Exception("No match found for "
-					+ pattern.toString() + " in " + text);
+			throw new Exception("No match found for " + pattern.toString()
+					+ " in " + text);
 		}
 	}
 
@@ -167,10 +169,10 @@ public final class FileHelper {
 			.compile("\\d+$");
 
 	public static String getScreenshotFilename(Pattern screenshotNamePattern) {
-		mkDir(Ref.SCREENSHOT_DIR);
+		mkDir(FileGlobals.SCREENSHOT_DIR);
 
 		Integer number = 0;
-		File lastFile = getLastMatchingFileInDir(Ref.SCREENSHOT_DIR,
+		File lastFile = getLastMatchingFileInDir(FileGlobals.SCREENSHOT_DIR,
 				screenshotNamePattern);
 		if (lastFile != null) {
 			String lastFilename = FilenameUtils.removeExtension(lastFile
@@ -190,8 +192,8 @@ public final class FileHelper {
 				return null;
 			}
 		}
-		return Ref.SCREENSHOT_DIR + "scr" + String.format("%04d", number)
-				+ ".png";
+		return FileGlobals.SCREENSHOT_DIR + "scr"
+				+ String.format("%04d", number) + ".png";
 
 	}
 }

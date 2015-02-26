@@ -22,7 +22,7 @@ import javax.swing.event.ListSelectionListener;
 
 import unnamed_platformer.app.Main;
 import unnamed_platformer.app.Settings;
-import unnamed_platformer.globals.StyleRef;
+import unnamed_platformer.globals.StyleGlobals;
 import unnamed_platformer.input.GameKey;
 import unnamed_platformer.input.InputManager;
 import unnamed_platformer.input.InputManager.PlrGameKey;
@@ -53,7 +53,7 @@ public class Screen_Options extends BaseScreen_GUI
 		super();
 
 		// SETUP TITLE
-		StyleRef.STYLE_SUB_HEADING.apply(lblTitle);
+		StyleGlobals.STYLE_SUB_HEADING.apply(lblTitle);
 
 		// SETUP KEY LIST
 		for (GameKey gk : GameKey.values()) {
@@ -65,11 +65,11 @@ public class Screen_Options extends BaseScreen_GUI
 		lstKeys.setCellRenderer(new ListCellRenderer_PlrGameKey());
 		lstKeys.addListSelectionListener(new lstKeys_SelectionListener());
 		lstKeys.setSelectedIndex(0);
-		StyleRef.STYLE_TYPICAL_LIST.apply(lstKeys);
+		StyleGlobals.STYLE_TYPICAL_LIST.apply(lstKeys);
 
 		// SETUP LIST SCROLL PANE
 		JScrollPane scrlList = new JScrollPane(lstKeys);
-		StyleRef.STYLE_TYPICAL_SCROLLPANE.apply(scrlList);
+		StyleGlobals.STYLE_TYPICAL_SCROLLPANE.apply(scrlList);
 
 		// ADD GLOBAL LISTENERS FOR ARROW NAVIGATION
 		for (JComponent c : components) {
@@ -80,7 +80,7 @@ public class Screen_Options extends BaseScreen_GUI
 		// ADD COMPONENTS TO MAIN PANEL
 		pnlSurface.add(lblTitle, "gapx 8px 8px, pushx, wrap");
 		pnlSurface.add(scrlList, "gapx 8px 8px, gapy 16px, grow, pushy, wrap");
-		pnlSurface.setBackground(StyleRef.COLOR_MAIN_PLUS);
+		pnlSurface.setBackground(StyleGlobals.COLOR_MAIN_PLUS);
 	}
 
 	private int componentIndex = 0;

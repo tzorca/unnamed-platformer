@@ -3,8 +3,8 @@ package unnamed_platformer.game.entities;
 import unnamed_platformer.app.MathHelper;
 import unnamed_platformer.game.behaviours.Ctrl_PathMovement;
 import unnamed_platformer.game.other.EntitySetup;
-import unnamed_platformer.globals.GameRef;
-import unnamed_platformer.globals.GameRef.Flag;
+import unnamed_platformer.globals.GameGlobals;
+import unnamed_platformer.globals.GameGlobals.Flag;
 
 public class MotionBoxRightLeft extends ActiveEntity
 {
@@ -19,8 +19,8 @@ public class MotionBoxRightLeft extends ActiveEntity
 
 	private void addPathMovement() {
 		pathMovement = new Ctrl_PathMovement(this, this.startPos,
-				MathHelper.createRightLeftPath(GameRef.DEFAULT_MOTION_BOX_DIST),
-				GameRef.DEFAULT_MOTION_BOX_SPEED);
+				MathHelper.createRightLeftPath(GameGlobals.MOTION_BOX_DISTANCE),
+				GameGlobals.MOTION_BOX_SPEED);
 		pathMovement.setLoop(true);
 		this.getPhysics().addControlMechanism(pathMovement);
 	}

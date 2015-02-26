@@ -6,12 +6,12 @@ import org.newdawn.slick.geom.Vector2f;
 
 import unnamed_platformer.game.other.Level;
 import unnamed_platformer.game.other.World;
-import unnamed_platformer.globals.StyleRef;
+import unnamed_platformer.globals.StyleGlobals;
 
 public class HUD_Time extends HUD_Component
 {
 	public HUD_Time() {
-		super(new Vector2f(8, 8), StyleRef.FONT_HUD, StyleRef.COLOR_LIGHT_GREY, Color.BLACK);
+		super(new Vector2f(8, 8), StyleGlobals.FONT_HUD, StyleGlobals.COLOR_LIGHT_GREY, Color.BLACK);
 	}
 
 	@Override

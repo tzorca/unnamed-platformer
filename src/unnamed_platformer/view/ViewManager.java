@@ -47,7 +47,7 @@ import unnamed_platformer.app.Main;
 import unnamed_platformer.app.Settings;
 import unnamed_platformer.app.Settings.SettingName;
 import unnamed_platformer.game.other.World;
-import unnamed_platformer.globals.Ref;
+import unnamed_platformer.globals.AppGlobals;
 import unnamed_platformer.res_mgt.ResManager;
 import unnamed_platformer.res_mgt.types.GUI_Texture;
 import unnamed_platformer.view.gui.GUIManager;
@@ -537,7 +537,7 @@ public final class ViewManager
 			parentFrame.dispose();
 		}
 
-		parentFrame = new JFrame(Ref.APP_TITLE);
+		parentFrame = new JFrame(AppGlobals.TITLE);
 		parentFrame.setBackground(java.awt.Color.black);
 		parentFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 

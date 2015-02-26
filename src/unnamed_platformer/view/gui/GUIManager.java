@@ -3,7 +3,7 @@ package unnamed_platformer.view.gui;
 import java.util.LinkedList;
 
 import unnamed_platformer.app.Main;
-import unnamed_platformer.globals.Ref;
+import unnamed_platformer.globals.AppGlobals;
 import unnamed_platformer.res_mgt.ClassLookup;
 import unnamed_platformer.view.ViewManager;
 import unnamed_platformer.view.gui.dialogs.Dialog;
@@ -16,7 +16,7 @@ public final class GUIManager
 		Title, Edit, Play, SelectWorld, Transition, Options
 	}
 
-	public static final String SCREEN_PACKAGE_NAME = Ref.BASE_PACKAGE_NAME
+	public static final String SCREEN_PACKAGE_NAME = AppGlobals.PACKAGE_NAME
 			+ ".view.gui.screens";
 
 	private static Screen screen;

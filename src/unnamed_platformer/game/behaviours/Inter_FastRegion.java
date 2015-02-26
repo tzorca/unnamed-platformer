@@ -1,11 +1,11 @@
 package unnamed_platformer.game.behaviours;
 
-import unnamed_platformer.globals.GameRef;
+import unnamed_platformer.globals.GameGlobals;
 
 public class Inter_FastRegion extends Inter_VelocityMultiplier {
 
 	public Inter_FastRegion() {
-		super(GameRef.DEFAULT_FAST_REGION_SPEED_FACTOR);
+		super(GameGlobals.FAST_REGION_SPEED_MODIFIER);
 	}
 
 }

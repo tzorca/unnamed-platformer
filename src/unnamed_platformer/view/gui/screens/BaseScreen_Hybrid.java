@@ -7,7 +7,7 @@ import java.util.EnumMap;
 import javax.swing.SwingUtilities;
 
 import net.miginfocom.swing.MigLayout;
-import unnamed_platformer.globals.StyleRef;
+import unnamed_platformer.globals.StyleGlobals;
 import unnamed_platformer.view.ViewManager;
 
 public class BaseScreen_Hybrid extends Screen
@@ -26,7 +26,7 @@ public class BaseScreen_Hybrid extends Screen
 
 		for (Side side : Side.values()) {
 			Panel panel = new Panel(new MigLayout());
-			panel.setBackground(StyleRef.COLOR_MAIN);
+			panel.setBackground(StyleGlobals.COLOR_MAIN);
 			panel.setForeground(Color.WHITE);
 			toolbars.put(side, panel);
 

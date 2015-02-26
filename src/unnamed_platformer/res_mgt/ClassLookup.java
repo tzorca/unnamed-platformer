@@ -3,7 +3,7 @@ package unnamed_platformer.res_mgt;
 import java.io.IOException;
 import java.util.Collection;
 
-import unnamed_platformer.globals.Ref;
+import unnamed_platformer.globals.AppGlobals;
 
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.HashMultimap;
@@ -32,7 +32,7 @@ public final class ClassLookup
 				try {
 					String packageName = classInfo.getPackageName();
 
-					if (!packageName.startsWith(Ref.BASE_PACKAGE_NAME)) {
+					if (!packageName.startsWith(AppGlobals.PACKAGE_NAME)) {
 						continue;
 					}
 					Class<?> clazz = classInfo.load();

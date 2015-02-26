@@ -8,10 +8,10 @@ import org.apache.commons.io.FileUtils;
 import org.newdawn.slick.opengl.Texture;
 
 import unnamed_platformer.app.Main;
+import unnamed_platformer.game.other.EntityLookup;
+import unnamed_platformer.game.other.TextureLookup;
 import unnamed_platformer.game.other.TextureSetup;
-import unnamed_platformer.globals.EntityRef;
-import unnamed_platformer.globals.Ref;
-import unnamed_platformer.globals.TextureRef;
+import unnamed_platformer.globals.FileGlobals;
 import unnamed_platformer.res_mgt.ClassLookup;
 import unnamed_platformer.res_mgt.ResManager;
 import unnamed_platformer.view.ViewManager;
@@ -29,7 +29,7 @@ public class GameConfig_Loader
 	public static void readConfig() {
 		String data = null;
 		try {
-			data = FileUtils.readFileToString(Ref.GAME_CONFIG_FILE);
+			data = FileUtils.readFileToString(FileGlobals.GAME_CONFIG_FILE);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -48,16 +48,16 @@ public class GameConfig_Loader
 			}
 			
 			final Class<?> entityClass = ClassLookup.getClass(
-					EntityRef.PACKAGE_NAME, entityClassName);
+					EntityLookup.PACKAGE_NAME, entityClassName);
 
 			ViewManager.doWhenActive(new Runnable() {
 				public void run() {
-					EntityRef.addTextureNameToEntityClassMapping(textureName,
+					EntityLookup.addTextureNameToEntityClassMapping(textureName,
 							entityClass);
 				}
 			});
 			String collisionShape = links.collisionShape;
-			TextureRef.addSetup(textureName, new TextureSetup(collisionShape));
+			TextureLookup.addSetup(textureName, new TextureSetup(collisionShape));
 
 		}
 	}

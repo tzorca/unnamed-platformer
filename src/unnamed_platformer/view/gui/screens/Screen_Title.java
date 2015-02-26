@@ -11,8 +11,8 @@ import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 
 import unnamed_platformer.app.Main;
-import unnamed_platformer.globals.Ref;
-import unnamed_platformer.globals.StyleRef;
+import unnamed_platformer.globals.AppGlobals;
+import unnamed_platformer.globals.StyleGlobals;
 import unnamed_platformer.input.GameKey;
 import unnamed_platformer.input.InputManager;
 import unnamed_platformer.view.gui.GUIHelper;
@@ -30,10 +30,10 @@ public class Screen_Title extends BaseScreen_GUI
 	public Screen_Title() {
 		super();
 
-		pnlSurface.setBackground(StyleRef.COLOR_MAIN_PLUS);
+		pnlSurface.setBackground(StyleGlobals.COLOR_MAIN_PLUS);
 
-		JLabel lblGameTitle = new JLabel(Ref.APP_TITLE);
-		StyleRef.STYLE_HEADING.apply(lblGameTitle);
+		JLabel lblGameTitle = new JLabel(AppGlobals.TITLE);
+		StyleGlobals.STYLE_HEADING.apply(lblGameTitle);
 
 		JButton btnPlay = new JButton("Play");
 		btnPlay.addActionListener(new ActionListener() {
@@ -58,18 +58,18 @@ public class Screen_Title extends BaseScreen_GUI
 
 		buttons = Lists.newArrayList(btnPlay, btnOptions, btnExit);
 		for (JButton btn : buttons) {
-			StyleRef.STYLE_NORMAL_BUTTON.apply(btn);
+			StyleGlobals.STYLE_NORMAL_BUTTON.apply(btn);
 			btn.addFocusListener(new btn_FocusListener());
 		}
 
 		GUIHelper.addDirectionalNavigation(buttons, null, true);
 
 		// ADD COMPONENTS TO MAIN PANEL
-		pnlSurface.add(lblGameTitle, StyleRef.CENTER_LAYOUT
+		pnlSurface.add(lblGameTitle, StyleGlobals.CENTER_LAYOUT
 				+ ", gapbottom 40%, ");
-		pnlSurface.add(btnPlay, StyleRef.CENTER_LAYOUT);
-		pnlSurface.add(btnOptions, StyleRef.CENTER_LAYOUT);
-		pnlSurface.add(btnExit, StyleRef.CENTER_LAYOUT);
+		pnlSurface.add(btnPlay, StyleGlobals.CENTER_LAYOUT);
+		pnlSurface.add(btnOptions, StyleGlobals.CENTER_LAYOUT);
+		pnlSurface.add(btnExit, StyleGlobals.CENTER_LAYOUT);
 
 		GUIHelper.toWidest(buttons);
 	}

@@ -13,8 +13,8 @@ import org.newdawn.slick.geom.Vector2f;
 import unnamed_platformer.app.TimeManager;
 import unnamed_platformer.game.entities.ActiveEntity;
 import unnamed_platformer.game.entities.Entity;
-import unnamed_platformer.globals.GameRef.Flag;
-import unnamed_platformer.globals.Ref;
+import unnamed_platformer.globals.EditorGlobals;
+import unnamed_platformer.globals.GameGlobals.Flag;
 import unnamed_platformer.res_mgt.types.BackgroundTexture;
 import unnamed_platformer.view.Graphic;
 import unnamed_platformer.view.ViewManager;
@@ -28,10 +28,10 @@ public class Level
 	private transient LinkedList<Entity> newEntities = new LinkedList<Entity>();
 	private LinkedList<EntitySetup> entitySetups = new LinkedList<EntitySetup>();
 
-	private transient Rectangle rect = Ref.DEFAULT_LEVEL_RECTANGLE;
+	private transient Rectangle rect = EditorGlobals.LEVEL_RECTANGLE;
 	private transient ActiveEntity playerEntity;
 
-	void setRect(final Rectangle rect) {
+	public void setRect(final Rectangle rect) {
 		this.rect = rect;
 	}
 
@@ -49,7 +49,7 @@ public class Level
 	}
 
 	public Level(LinkedList<Entity> origEntities) {
-		init(origEntities, Ref.DEFAULT_LEVEL_RECTANGLE);
+		init(origEntities, EditorGlobals.LEVEL_RECTANGLE);
 	}
 
 	private void init(LinkedList<Entity> origEntities, Rectangle levelRect) {

@@ -1,7 +1,7 @@
 package unnamed_platformer.game.behaviours;
 
 import unnamed_platformer.game.entities.Entity;
-import unnamed_platformer.globals.GameRef.Flag;
+import unnamed_platformer.globals.GameGlobals.Flag;
 
 public class Inter_Breakable extends Interaction
 {

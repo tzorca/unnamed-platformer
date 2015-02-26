@@ -7,12 +7,12 @@ import org.newdawn.slick.geom.Vector2f;
 import unnamed_platformer.game.entities.PlatformPlayer;
 import unnamed_platformer.game.other.Level;
 import unnamed_platformer.game.other.World;
-import unnamed_platformer.globals.StyleRef;
+import unnamed_platformer.globals.StyleGlobals;
 
 public class HUD_PlayerHealth extends HUD_Component
 {
 	public HUD_PlayerHealth() {
-		super(new Vector2f(8, 32), StyleRef.FONT_HUD, StyleRef.COLOR_LIGHT_GREY, Color.BLACK);
+		super(new Vector2f(8, 32), StyleGlobals.FONT_HUD, StyleGlobals.COLOR_LIGHT_GREY, Color.BLACK);
 	}
 
 	@Override

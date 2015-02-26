@@ -9,7 +9,7 @@ import unnamed_platformer.app.MathHelper;
 import unnamed_platformer.game.behaviours.ControlMechanism;
 import unnamed_platformer.game.entities.ActiveEntity;
 import unnamed_platformer.game.other.DirectionalEnums.Axis;
-import unnamed_platformer.globals.GameRef.Flag;
+import unnamed_platformer.globals.GameGlobals.Flag;
 
 public class PhysicsInstance
 {
