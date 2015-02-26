@@ -16,13 +16,13 @@ import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 
 import net.miginfocom.swing.MigLayout;
+import unnamed_platformer.app.FileHelper;
 import unnamed_platformer.app.ImageHelper;
+import unnamed_platformer.content_management.ContentManager;
 import unnamed_platformer.game.other.Editor;
 import unnamed_platformer.game.other.World;
+import unnamed_platformer.globals.FileGlobals;
 import unnamed_platformer.globals.StyleGlobals;
-import unnamed_platformer.res_mgt.ResManager;
-import unnamed_platformer.res_mgt.types.BackgroundImage;
-import unnamed_platformer.res_mgt.types.GUI_Image;
 import unnamed_platformer.view.Graphic;
 import unnamed_platformer.view.ViewManager;
 import unnamed_platformer.view.gui.GUIHelper;
@@ -41,7 +41,8 @@ public class Dialog_EditMenu extends Dialog
 	private static final long serialVersionUID = -846612117309570380L;
 
 	private static ImageIcon getImageIcon(String identifier) {
-		return new ImageIcon(ResManager.get(GUI_Image.class, identifier));
+		return new ImageIcon(ContentManager.get(BufferedImage.class,
+				FileGlobals.IMG_GUI_DIR, identifier));
 	}
 
 	private static final ImageIcon
@@ -174,11 +175,11 @@ public class Dialog_EditMenu extends Dialog
 
 		// Get background images
 		List<ImageListEntry> backgrounds = new ArrayList<ImageListEntry>();
-		Collection<String> backgroundNames = ResManager.list(
-				BackgroundImage.class, true);
+		Collection<String> backgroundNames = FileHelper.listFilenames(
+				FileGlobals.IMG_BG_DIR, true);
 		for (String backgroundName : backgroundNames) {
-			BufferedImage background = ResManager.get(BackgroundImage.class,
-					backgroundName);
+			BufferedImage background = ContentManager.get(BufferedImage.class,
+					FileGlobals.IMG_BG_DIR, backgroundName);
 			backgrounds.add(new ImageListEntry(new ImageIcon(ImageHelper
 					.scaleWidth(background, 48, BufferedImage.SCALE_FAST)),
 					backgroundName));

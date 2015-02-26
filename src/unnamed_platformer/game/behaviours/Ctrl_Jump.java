@@ -2,12 +2,12 @@ package unnamed_platformer.game.behaviours;
 
 import org.newdawn.slick.geom.Vector2f;
 
+import unnamed_platformer.app.AudioManager;
 import unnamed_platformer.game.entities.ActiveEntity;
 import unnamed_platformer.game.other.PhysicsInstance;
 import unnamed_platformer.globals.GameGlobals.Flag;
 import unnamed_platformer.input.GameKey;
 import unnamed_platformer.input.InputManager;
-import unnamed_platformer.res_mgt.SoundManager;
 
 public class Ctrl_Jump extends ControlMechanism
 {
@@ -53,7 +53,7 @@ public class Ctrl_Jump extends ControlMechanism
 	}
 
 	private void jump(float multiplier) {
-		SoundManager.playSample("jump");
+		AudioManager.playSample("jump");
 		actor.getPhysics().setInAir(true);
 		jumping = true;
 

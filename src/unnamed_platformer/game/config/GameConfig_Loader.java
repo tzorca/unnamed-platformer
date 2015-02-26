@@ -1,19 +1,15 @@
 package unnamed_platformer.game.config;
 
 import java.io.IOException;
-import java.util.Collection;
-import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
-import org.newdawn.slick.opengl.Texture;
 
+import unnamed_platformer.app.ClassLookup;
 import unnamed_platformer.app.Main;
 import unnamed_platformer.game.other.EntityLookup;
 import unnamed_platformer.game.other.TextureLookup;
 import unnamed_platformer.game.other.TextureSetup;
 import unnamed_platformer.globals.FileGlobals;
-import unnamed_platformer.res_mgt.ClassLookup;
-import unnamed_platformer.res_mgt.ResManager;
 import unnamed_platformer.view.ViewManager;
 
 public class GameConfig_Loader
@@ -22,7 +18,6 @@ public class GameConfig_Loader
 
 	public static void init() {
 		readConfig();
-		addNewTextureNames();
 		loadTextureMappings();
 	}
 
@@ -59,20 +54,6 @@ public class GameConfig_Loader
 			String collisionShape = links.collisionShape;
 			TextureLookup.addSetup(textureName, new TextureSetup(collisionShape));
 
-		}
-	}
-
-	private static void addNewTextureNames() {
-		Collection<String> textureNames = ResManager.list(Texture.class, true);
-
-		Map<String, TextureLinks> gameDBTextureMappings = gameDB
-				.getTextureMappings();
-
-		for (String textureName : textureNames) {
-			if (!gameDBTextureMappings.containsKey(textureName)) {
-				gameDBTextureMappings.put(textureName, new TextureLinks("none",
-						"none"));
-			}
 		}
 	}
 

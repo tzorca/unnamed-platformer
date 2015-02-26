@@ -3,6 +3,7 @@ package unnamed_platformer.game.behaviours;
 import org.newdawn.slick.geom.Vector2f;
 
 import unnamed_platformer.app.MathHelper;
+import unnamed_platformer.app.AudioManager;
 import unnamed_platformer.app.TimeManager;
 import unnamed_platformer.game.entities.ActiveEntity;
 import unnamed_platformer.game.other.EntityCreator;
@@ -10,7 +11,6 @@ import unnamed_platformer.game.other.World;
 import unnamed_platformer.globals.GameGlobals.Flag;
 import unnamed_platformer.input.GameKey;
 import unnamed_platformer.input.InputManager;
-import unnamed_platformer.res_mgt.SoundManager;
 
 public class Ctrl_Shoot extends ControlMechanism
 {
@@ -39,7 +39,7 @@ public class Ctrl_Shoot extends ControlMechanism
 	}
 
 	private void fire() {
-		SoundManager.playSample("laser");
+		AudioManager.playSample("laser");
 		TimeManager.sample(hashCode());
 		ActiveEntity movingProjectile = (ActiveEntity) EntityCreator
 				.buildFromSetup(projectile.getOriginalSetup());

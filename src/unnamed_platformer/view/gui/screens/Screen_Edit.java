@@ -31,17 +31,17 @@ import unnamed_platformer.app.MathHelper;
 import unnamed_platformer.app.Settings;
 import unnamed_platformer.app.Settings.SettingName;
 import unnamed_platformer.app.TimeManager;
+import unnamed_platformer.content_management.ContentManager;
 import unnamed_platformer.game.other.Editor;
 import unnamed_platformer.game.other.EntityCreator;
 import unnamed_platformer.game.other.Level;
 import unnamed_platformer.game.other.World;
+import unnamed_platformer.globals.FileGlobals;
 import unnamed_platformer.globals.StyleGlobals;
 import unnamed_platformer.input.GameKey;
 import unnamed_platformer.input.InputManager;
 import unnamed_platformer.input.MouseInputManager;
 import unnamed_platformer.input.MouseInputManager.MouseEventType;
-import unnamed_platformer.res_mgt.ResManager;
-import unnamed_platformer.res_mgt.types.ObjectImage;
 import unnamed_platformer.view.Graphic;
 import unnamed_platformer.view.ViewManager;
 import unnamed_platformer.view.gui.GUIHelper.ParamRunnable;
@@ -147,9 +147,10 @@ public class Screen_Edit extends BaseScreen_Hybrid
 		final Set<String> textureNames = EntityCreator.listTextureNames();
 		for (final String textureName : textureNames) {
 
-			final String displayName = ResManager.humanizeName(textureName);
+			final String displayName = ContentManager.humanizeName(textureName);
 
-			BufferedImage originalImage = ResManager.get(ObjectImage.class,
+			BufferedImage originalImage = ContentManager.get(
+					BufferedImage.class, FileGlobals.IMG_OBJ_DIR,
 					textureName);
 
 			final ImageIcon imageIcon = new ImageIcon(

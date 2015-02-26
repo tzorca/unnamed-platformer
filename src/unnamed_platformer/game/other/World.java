@@ -11,8 +11,9 @@ import org.lwjgl.opengl.Display;
 import org.newdawn.slick.geom.Rectangle;
 
 import unnamed_platformer.app.Main;
+import unnamed_platformer.content_management.ContentManager;
 import unnamed_platformer.game.entities.Entity;
-import unnamed_platformer.res_mgt.ResManager;
+import unnamed_platformer.globals.FileGlobals;
 import unnamed_platformer.view.gui.GUIManager;
 import unnamed_platformer.view.gui.GUIManager.ScreenType;
 
@@ -35,7 +36,7 @@ public final class World implements Serializable
 	public static void setPlaying(boolean value) {
 		playing = value;
 	}
-	
+
 	public static void reset(final boolean addBlank) {
 		current.levels.clear();
 		if (addBlank) {
@@ -50,9 +51,9 @@ public final class World implements Serializable
 
 	public static boolean save(String name) {
 		localName = name;
-		
+
 		String data = Main.getGson().toJson(current);
-		String filename = ResManager.getFilename(World.class, name);
+		String filename = FileGlobals.GAME_DIR + name + FileGlobals.GAME_EXT;
 		File file = new File(filename);
 		try {
 			FileUtils.writeStringToFile(file, data);
@@ -69,8 +70,8 @@ public final class World implements Serializable
 	public static void load(String name) {
 		localName = name;
 		reset(false);
-		
-		String filename = ResManager.getFilename(World.class, name);
+
+		String filename = FileGlobals.GAME_DIR + name + FileGlobals.GAME_EXT;
 		File file = new File(filename);
 		String data = null;
 		try {
@@ -79,7 +80,7 @@ public final class World implements Serializable
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		if (data != null && data.length() >= MIN_WORLD_CHAR_LENGTH) {
 			try {
 				current = Main.getGson().fromJson(data, World.class);
@@ -92,7 +93,7 @@ public final class World implements Serializable
 		}
 
 		setLevelByIndex(0);
-		
+
 	}
 
 	public static boolean hasLevelIndex(int destination) {

@@ -29,10 +29,10 @@ public final class FileHelper
 
 	public static Collection<String> listFilenames(String dirName,
 			boolean excludeExtensions) {
-		return listFileNames(new File(dirName), excludeExtensions);
+		return listFilenames(new File(dirName), excludeExtensions);
 	}
 
-	public static Collection<String> listFileNames(File dir,
+	public static Collection<String> listFilenames(File dir,
 			boolean excludeExtensions) {
 		List<String> filenames = new ArrayList<String>();
 
@@ -45,7 +45,7 @@ public final class FileHelper
 		File[] files = dir.listFiles();
 		for (int i = 0; i < files.length; i++) {
 			if (files[i].isDirectory()) {
-				filenames.addAll(listFileNames(files[i], excludeExtensions));
+				filenames.addAll(listFilenames(files[i], excludeExtensions));
 			} else {
 				if (excludeExtensions) {
 					filenames.add(FilenameUtils.removeExtension(files[i]

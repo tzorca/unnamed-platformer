@@ -7,12 +7,12 @@ import java.util.Collection;
 import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 
+import unnamed_platformer.app.AudioManager;
 import unnamed_platformer.app.TimeManager;
 import unnamed_platformer.game.other.World;
 import unnamed_platformer.globals.StyleGlobals;
 import unnamed_platformer.input.InputManager;
 import unnamed_platformer.input.InputManager.PlrGameKey;
-import unnamed_platformer.res_mgt.SoundManager;
 import unnamed_platformer.view.gui.GUIManager;
 import unnamed_platformer.view.gui.GUIManager.ScreenType;
 
@@ -35,7 +35,7 @@ public class Screen_Transition extends BaseScreen_GUI
 
 		if (World.hasLevelIndex(nextLevelIndex)) {
 			// Play a sound for completing the level!
-			SoundManager.playSample("level-complete");
+			AudioManager.playSample("level-complete");
 
 			lblInfo = new JLabel("Next: Level "
 					+ String.valueOf(nextLevelIndex + 1));

@@ -8,10 +8,11 @@ import java.util.Set;
 
 import org.newdawn.slick.opengl.Texture;
 
+import unnamed_platformer.content_management.ContentManager;
 import unnamed_platformer.game.entities.Entity;
 import unnamed_platformer.globals.AppGlobals;
+import unnamed_platformer.globals.FileGlobals;
 import unnamed_platformer.globals.GameGlobals.Flag;
-import unnamed_platformer.res_mgt.ResManager;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
@@ -36,7 +37,8 @@ public final class EntityLookup
 	public static void addTextureNameToEntityClassMapping(String textureName,
 			Class<?> entityClass) {
 
-		if (!ResManager.contentExists(Texture.class, textureName)) {
+		if (!ContentManager.contentExists(Texture.class,
+				FileGlobals.IMG_OBJ_DIR, textureName)) {
 			return;
 		}
 		EntityLookup.textureNameToEntityClass.put(textureName, entityClass);

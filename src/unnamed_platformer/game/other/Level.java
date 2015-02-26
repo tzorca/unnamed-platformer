@@ -9,13 +9,15 @@ import java.util.TreeMap;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
+import org.newdawn.slick.opengl.Texture;
 
 import unnamed_platformer.app.TimeManager;
+import unnamed_platformer.content_management.ContentManager;
 import unnamed_platformer.game.entities.ActiveEntity;
 import unnamed_platformer.game.entities.Entity;
 import unnamed_platformer.globals.EditorGlobals;
+import unnamed_platformer.globals.FileGlobals;
 import unnamed_platformer.globals.GameGlobals.Flag;
-import unnamed_platformer.res_mgt.types.BackgroundTexture;
 import unnamed_platformer.view.Graphic;
 import unnamed_platformer.view.ViewManager;
 
@@ -223,7 +225,8 @@ public class Level
 
 	public void drawBackground() {
 		if (bgGraphic != null && bgGraphic.hasTextureName()) {
-			ViewManager.drawBG(bgGraphic.getCustom(BackgroundTexture.class));
+			ViewManager.drawBG(ContentManager.get(Texture.class,
+					FileGlobals.IMG_BG_DIR, bgGraphic.getTextureName()));
 		}
 	}
 

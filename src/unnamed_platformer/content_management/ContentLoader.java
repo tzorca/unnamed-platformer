@@ -1,43 +1,36 @@
-package unnamed_platformer.res_mgt;
+package unnamed_platformer.content_management;
 
 import java.io.File;
 import java.util.HashMap;
 
-import unnamed_platformer.globals.FileGlobals;
-
-public abstract class ResLoader
+public abstract class ContentLoader
 {
 	private HashMap<String, Object> cache = new HashMap<String, Object>();
 
-	private String dir, ext;
+	private String ext;
 
 	private static final String FALLBACK_RESOURCE = "default";
 
-	protected ResLoader(String dir, String ext) {
-		this.dir = dir;
+	protected ContentLoader(String ext) {
 		this.ext = ext;
 	}
 
-	public String getFilename(String name) {
-		return FileGlobals.RESOURCE_DIR + dir + File.separator + name + ext;
+	public String getFilename(String directory, String name) {
+		return directory + File.separator + name + ext;
 	}
 
-	public String getDir() {
-		return FileGlobals.RESOURCE_DIR + dir;
-	}
-
-	public Object get(String name) {
+	public Object get(String directory, String name) {
 		if (cache.containsKey(name)) {
 			return cache.get(name);
 		}
 		Object res = null;
 		try {
-			res = load(name);
+			res = load(directory, name);
 		} catch (Exception e) {
 			System.out.println("Resource '" + name
 					+ "' not found. Defaulting to fallback.");
 			try {
-				res = load(FALLBACK_RESOURCE);
+				res = load(directory, FALLBACK_RESOURCE);
 			} catch (Exception e1) {
 				System.err.println("Could not load fallback resource.");
 				e1.printStackTrace();
@@ -49,20 +42,21 @@ public abstract class ResLoader
 			return null;
 		}
 
-		cache(name, res);
+		cache(directory, name, res);
 		return res;
 	}
 
-	protected void cache(String name, Object res) {
+	protected void cache(String directory, String name, Object res) {
 		cache.put(name, res);
 	}
 
-	protected abstract Object load(String name) throws Exception;
+	protected abstract Object load(String directory, String name)
+			throws Exception;
 
-	public boolean contentExists(String name) {
+	public boolean contentExists(String directory, String name) {
 		Object data = null;
 		try {
-			data = get(name);
+			data = get(directory, name);
 		} catch (Exception e) {
 			return false;
 		}

@@ -1,6 +1,7 @@
 package unnamed_platformer.view.gui.objects;
 
 import java.awt.Component;
+import java.awt.image.BufferedImage;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -9,7 +10,8 @@ import javax.swing.ListCellRenderer;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-import unnamed_platformer.res_mgt.ResManager;
+import unnamed_platformer.content_management.ContentManager;
+import unnamed_platformer.globals.FileGlobals;
 
 public class ListCellRenderer_World extends JLabel implements
 		ListCellRenderer<String>
@@ -25,7 +27,7 @@ public class ListCellRenderer_World extends JLabel implements
 		setBorder(new EmptyBorder(8, 8, 8, 8));
 	}
 
-//	private static final Dimension SIZE = new Dimension(192, 192);
+	// private static final Dimension SIZE = new Dimension(192, 192);
 	private static final int MAX_TEXT_LENGTH = 32;
 	private static final int MIN_TEXT_LENGTH = 32;
 
@@ -48,8 +50,10 @@ public class ListCellRenderer_World extends JLabel implements
 		setText(humanReadableWorldName);
 
 		// include preview image if it exists
-		if (ResManager.contentExists(ImageIcon.class, value)) {
-			ImageIcon icon = ResManager.get(ImageIcon.class, value);
+		if (ContentManager.contentExists(BufferedImage.class,
+				FileGlobals.IMG_PREVIEW_DIR, value)) {
+			ImageIcon icon = new ImageIcon(ContentManager.get(
+					BufferedImage.class, FileGlobals.IMG_PREVIEW_DIR, value));
 			setIcon(icon);
 		}
 

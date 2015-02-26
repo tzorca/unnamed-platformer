@@ -7,14 +7,15 @@ import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Vector2f;
 
+import unnamed_platformer.content_management.ContentManager;
 import unnamed_platformer.game.other.CollisionData;
 import unnamed_platformer.game.other.EntitySetup;
 import unnamed_platformer.game.other.SizeStrategy;
 import unnamed_platformer.game.other.SizeStrategy.Strategy;
 import unnamed_platformer.game.other.TextureSetup.CollisionShapeOption;
+import unnamed_platformer.globals.FileGlobals;
 import unnamed_platformer.globals.GameGlobals.EntityParam;
 import unnamed_platformer.globals.GameGlobals.Flag;
-import unnamed_platformer.res_mgt.ResManager;
 import unnamed_platformer.view.Graphic;
 import unnamed_platformer.view.ViewManager;
 
@@ -50,7 +51,7 @@ public abstract class Entity
 		this.graphic = graphic;
 		setLocation(pos);
 
-		BufferedImage image = graphic.getObjectImage();
+		BufferedImage image = graphic.getImage();
 
 		if (sizeStrategy == null) {
 			sizeStrategy = new SizeStrategy(Strategy.texture, 1);
@@ -182,7 +183,8 @@ public abstract class Entity
 	}
 
 	private CollisionData getCollisionData() {
-		return ResManager.get(CollisionData.class, graphic.getTextureName());
+		return ContentManager.get(CollisionData.class, FileGlobals.IMG_OBJ_DIR,
+				graphic.getTextureName());
 	}
 
 	public Rectangle getCollisionRect() {

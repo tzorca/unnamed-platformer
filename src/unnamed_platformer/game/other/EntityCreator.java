@@ -8,10 +8,10 @@ import java.util.Set;
 
 import org.newdawn.slick.geom.Vector2f;
 
+import unnamed_platformer.app.ClassLookup;
 import unnamed_platformer.app.MathHelper;
 import unnamed_platformer.game.entities.Entity;
 import unnamed_platformer.globals.GameGlobals.EntityParam;
-import unnamed_platformer.res_mgt.ClassLookup;
 import unnamed_platformer.view.Graphic;
 
 import com.google.common.collect.Maps;

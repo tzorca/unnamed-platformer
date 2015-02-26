@@ -1,4 +1,4 @@
-package unnamed_platformer.res_mgt;
+package unnamed_platformer.app;
 
 import java.io.IOException;
 import java.util.Collection;

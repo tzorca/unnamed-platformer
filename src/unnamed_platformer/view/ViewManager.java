@@ -26,7 +26,6 @@ import java.util.Queue;
 import java.util.regex.Pattern;
 
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
 import org.lwjgl.BufferUtils;
@@ -46,10 +45,10 @@ import unnamed_platformer.app.ImageHelper;
 import unnamed_platformer.app.Main;
 import unnamed_platformer.app.Settings;
 import unnamed_platformer.app.Settings.SettingName;
+import unnamed_platformer.content_management.ContentManager;
 import unnamed_platformer.game.other.World;
 import unnamed_platformer.globals.AppGlobals;
-import unnamed_platformer.res_mgt.ResManager;
-import unnamed_platformer.res_mgt.types.GUI_Texture;
+import unnamed_platformer.globals.FileGlobals;
 import unnamed_platformer.view.gui.GUIManager;
 import unnamed_platformer.view.gui.hud.HUDController;
 
@@ -179,7 +178,8 @@ public final class ViewManager
 			}
 		}
 
-		final Texture texture = ResManager.get(GUI_Texture.class, "gui_dot");
+		final Texture texture = ContentManager.get(Texture.class,
+				FileGlobals.IMG_GUI_DIR, "gui_dot");
 		drawTexturesInBatch(texture, pointBuffer);
 		loadState();
 	}
@@ -324,8 +324,9 @@ public final class ViewManager
 			return;
 		}
 
-		final File previewImageFile = new File(ResManager.getFilename(
-				ImageIcon.class, World.getName()));
+		final File previewImageFile = new File(ContentManager.getFilename(
+				BufferedImage.class, FileGlobals.IMG_PREVIEW_DIR,
+				World.getName()));
 
 		// Preview image already exists
 		if (previewImageFile.exists()) {

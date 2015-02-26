@@ -3,6 +3,7 @@ package unnamed_platformer.game.entities;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.geom.Vector2f;
 
+import unnamed_platformer.app.AudioManager;
 import unnamed_platformer.app.TimeManager;
 import unnamed_platformer.game.behaviours.Ctrl_HorizontalMove;
 import unnamed_platformer.game.behaviours.Ctrl_Jump;
@@ -12,7 +13,6 @@ import unnamed_platformer.game.other.World;
 import unnamed_platformer.globals.GameGlobals;
 import unnamed_platformer.globals.GameGlobals.EntityParam;
 import unnamed_platformer.globals.GameGlobals.Flag;
-import unnamed_platformer.res_mgt.SoundManager;
 import unnamed_platformer.view.Graphic;
 
 public class PlatformPlayer extends ActiveEntity
@@ -79,14 +79,14 @@ public class PlatformPlayer extends ActiveEntity
 		if (health <= 0) {
 			death();
 		} else if (healthDelta < 0) {
-			SoundManager.playSample("hit");
+			AudioManager.playSample("hit");
 		} else if (healthDelta > 0) {
-			SoundManager.playSample("energy");
+			AudioManager.playSample("energy");
 		}
 	}
 
 	public void death() {
-		SoundManager.playSample("death");
+		AudioManager.playSample("death");
 		returnToStart();
 		health = GameGlobals.PLAYER_INITIAL_HEALTH;
 		flashStatus = false;

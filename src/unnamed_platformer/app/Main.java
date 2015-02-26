@@ -3,6 +3,7 @@ package unnamed_platformer.app;
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.opengl.Texture;
 
+import unnamed_platformer.content_management.ContentManager;
 import unnamed_platformer.game.config.GameConfig_Loader;
 import unnamed_platformer.game.other.EntityCreator;
 import unnamed_platformer.game.other.EntitySetup;
@@ -14,9 +15,6 @@ import unnamed_platformer.globals.AppGlobals;
 import unnamed_platformer.globals.FileGlobals;
 import unnamed_platformer.input.GameKey;
 import unnamed_platformer.input.InputManager;
-import unnamed_platformer.res_mgt.ClassLookup;
-import unnamed_platformer.res_mgt.ResManager;
-import unnamed_platformer.res_mgt.SoundManager;
 import unnamed_platformer.view.ViewManager;
 import unnamed_platformer.view.gui.GUIManager;
 import unnamed_platformer.view.gui.GUIManager.ScreenType;
@@ -100,8 +98,8 @@ public final class Main
 		Settings.init();
 		TimeManager.init();
 		EntityCreator.init();
-		ResManager.init();
-		SoundManager.preload();
+		ContentManager.init();
+		AudioManager.preload();
 		InputManager.init();
 		GUIManager.init();
 		GameConfig_Loader.init();
@@ -145,7 +143,7 @@ public final class Main
 
 	public static void deinit() {
 		InputManager.finish();
-		SoundManager.finish();
+		AudioManager.finish();
 	}
 
 	public static void setHotKeysAllowed(boolean value) {

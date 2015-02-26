@@ -6,10 +6,10 @@ import java.io.Serializable;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.opengl.Texture;
 
+import unnamed_platformer.content_management.ContentManager;
 import unnamed_platformer.game.other.TextureLookup;
 import unnamed_platformer.game.other.TextureSetup;
-import unnamed_platformer.res_mgt.ResManager;
-import unnamed_platformer.res_mgt.types.ObjectImage;
+import unnamed_platformer.globals.FileGlobals;
 
 public class Graphic implements Serializable
 {
@@ -44,20 +44,13 @@ public class Graphic implements Serializable
 					.println("Warning: Unable to return texture from a null textureName");
 			return null;
 		}
-		return ResManager.get(Texture.class, textureName);
+		return ContentManager.get(Texture.class, FileGlobals.IMG_OBJ_DIR,
+				textureName);
 	}
 
-	public <T> T getCustom(Class<T> clazz) {
-		if (textureName == null) {
-			System.out
-					.println("Warning: Unable to return custom from a null textureName");
-			return null;
-		}
-		return ResManager.get(clazz, textureName);
-	}
-
-	public BufferedImage getObjectImage() {
-		return ResManager.get(ObjectImage.class, textureName);
+	public BufferedImage getImage() {
+		return ContentManager.get(BufferedImage.class, FileGlobals.IMG_OBJ_DIR,
+				textureName);
 	}
 
 	public boolean hasTextureName() {
@@ -74,4 +67,5 @@ public class Graphic implements Serializable
 	public String getTextureName() {
 		return textureName;
 	}
+
 }

@@ -30,11 +30,11 @@ import unnamed_platformer.app.Main;
 import unnamed_platformer.app.Settings;
 import unnamed_platformer.app.Settings.SettingName;
 import unnamed_platformer.game.other.World;
+import unnamed_platformer.globals.FileGlobals;
 import unnamed_platformer.globals.StyleGlobals;
 import unnamed_platformer.input.GameKey;
 import unnamed_platformer.input.InputManager;
 import unnamed_platformer.input.InputManager.PlrGameKey;
-import unnamed_platformer.res_mgt.ResManager;
 import unnamed_platformer.view.ViewManager;
 import unnamed_platformer.view.gui.GUIHelper;
 import unnamed_platformer.view.gui.GUIHelper.ParamRunnable;
@@ -121,7 +121,8 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 		StyleGlobals.STYLE_SUB_HEADING.apply(lblTitle);
 
 		// SETUP WORLD LIST
-		Collection<String> worldNames = ResManager.list(World.class, true);
+		Collection<String> worldNames = FileHelper.listFilenames(
+				FileGlobals.GAME_DIR, true);
 
 		for (String worldName : worldNames) {
 			if (worldName.equals(Settings
@@ -453,7 +454,8 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 
 		if (!worldName.trim().isEmpty()) {
 
-			String filename = ResManager.getFilename(World.class, worldName);
+			String filename = FileGlobals.GAME_DIR + worldName
+					+ FileGlobals.GAME_EXT;
 			File worldFile = new File(filename);
 
 			try {
@@ -532,9 +534,10 @@ public class Screen_SelectWorld extends BaseScreen_GUI
 			gameName = "Unknown";
 		}
 
-		String filename = ResManager.getFilename(World.class, gameName);
+		String filename = FileGlobals.GAME_DIR + gameName
+				+ FileGlobals.GAME_EXT;
 		return new File(filename);
-	}
+	}	
 
 }
 //
