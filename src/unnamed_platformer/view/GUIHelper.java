@@ -1,4 +1,4 @@
-package unnamed_platformer.view.gui;
+package unnamed_platformer.view;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -25,7 +25,6 @@ import javax.swing.border.EmptyBorder;
 import unnamed_platformer.app.Main;
 import unnamed_platformer.input.InputManager;
 import unnamed_platformer.input.InputManager.PlrGameKey;
-import unnamed_platformer.view.FluidColor;
 
 public final class GUIHelper
 {

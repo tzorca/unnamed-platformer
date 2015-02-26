@@ -49,8 +49,7 @@ import unnamed_platformer.content_management.ContentManager;
 import unnamed_platformer.game.zones.World;
 import unnamed_platformer.globals.AppGlobals;
 import unnamed_platformer.globals.FileGlobals;
-import unnamed_platformer.view.gui.GUIManager;
-import unnamed_platformer.view.gui.hud.HUDController;
+import unnamed_platformer.view.hud.HUDController;
 
 public final class ViewManager
 {

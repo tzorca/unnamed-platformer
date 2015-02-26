@@ -1,4 +1,4 @@
-package unnamed_platformer.view.gui.dialogs;
+package unnamed_platformer.view.dialogs;
 
 import java.awt.Color;
 import java.awt.Frame;
@@ -26,8 +26,8 @@ import unnamed_platformer.globals.StyleGlobals;
 import unnamed_platformer.input.InputManager;
 import unnamed_platformer.input.InputManager.PlrGameKey;
 import unnamed_platformer.view.ViewManager;
-import unnamed_platformer.view.gui.GUIHelper.ParamRunnable;
-import unnamed_platformer.view.gui.objects.ListCellRenderer_CustomBorder;
+import unnamed_platformer.view.GUIHelper.ParamRunnable;
+import unnamed_platformer.view.objects.ListCellRenderer_CustomBorder;
 
 /**
  * Saves the string of the selected choice in the callback parameter

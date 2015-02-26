@@ -1,4 +1,4 @@
-package unnamed_platformer.view.gui.dialogs;
+package unnamed_platformer.view.dialogs;
 
 import java.awt.Frame;
 import java.awt.event.WindowEvent;

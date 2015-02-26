@@ -13,8 +13,8 @@ import org.newdawn.slick.geom.Rectangle;
 import unnamed_platformer.app.Main;
 import unnamed_platformer.game.entities.Entity;
 import unnamed_platformer.globals.FileGlobals;
-import unnamed_platformer.view.gui.GUIManager;
-import unnamed_platformer.view.gui.GUIManager.ScreenType;
+import unnamed_platformer.view.GUIManager;
+import unnamed_platformer.view.GUIManager.ScreenType;
 
 public final class World implements Serializable
 {

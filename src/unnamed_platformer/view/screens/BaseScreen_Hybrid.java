@@ -1,4 +1,4 @@
-package unnamed_platformer.view.gui.screens;
+package unnamed_platformer.view.screens;
 
 import java.awt.Color;
 import java.awt.Panel;

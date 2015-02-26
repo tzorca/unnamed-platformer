@@ -1,4 +1,4 @@
-package unnamed_platformer.view.gui;
+package unnamed_platformer.view;
 
 import java.awt.Color;
 import java.awt.Font;

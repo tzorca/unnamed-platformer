@@ -1,4 +1,4 @@
-package unnamed_platformer.view.gui.hud;
+package unnamed_platformer.view.hud;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package unnamed_platformer.view.gui.dialogs;
+package unnamed_platformer.view.dialogs;
 
 import java.awt.Dimension;
 import java.awt.Frame;
@@ -23,15 +23,15 @@ import unnamed_platformer.game.editor.Editor;
 import unnamed_platformer.game.zones.World;
 import unnamed_platformer.globals.FileGlobals;
 import unnamed_platformer.globals.StyleGlobals;
+import unnamed_platformer.view.GUIHelper;
+import unnamed_platformer.view.GUIManager;
 import unnamed_platformer.view.Graphic;
 import unnamed_platformer.view.ViewManager;
-import unnamed_platformer.view.gui.GUIHelper;
-import unnamed_platformer.view.gui.GUIHelper.ParamRunnable;
-import unnamed_platformer.view.gui.GUIManager;
-import unnamed_platformer.view.gui.GUIManager.ScreenType;
-import unnamed_platformer.view.gui.objects.ImageListEntry;
-import unnamed_platformer.view.gui.objects.ListCellRenderer_ImageListEntry;
-import unnamed_platformer.view.gui.screens.Screen_Edit;
+import unnamed_platformer.view.GUIHelper.ParamRunnable;
+import unnamed_platformer.view.GUIManager.ScreenType;
+import unnamed_platformer.view.objects.ImageListEntry;
+import unnamed_platformer.view.objects.ListCellRenderer_ImageListEntry;
+import unnamed_platformer.view.screens.Screen_Edit;
 
 import com.google.common.collect.Lists;
 

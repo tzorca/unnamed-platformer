@@ -1,4 +1,4 @@
-package unnamed_platformer.view.gui.screens;
+package unnamed_platformer.view.screens;
 
 import java.awt.Panel;
 
@@ -6,7 +6,7 @@ import net.miginfocom.swing.MigLayout;
 import unnamed_platformer.app.Main;
 import unnamed_platformer.globals.StyleGlobals;
 import unnamed_platformer.input.InputManager;
-import unnamed_platformer.view.gui.GUIManager.ScreenType;
+import unnamed_platformer.view.GUIManager.ScreenType;
 
 public abstract class Screen
 {

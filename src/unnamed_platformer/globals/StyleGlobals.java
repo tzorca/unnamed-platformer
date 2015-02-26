@@ -8,7 +8,7 @@ import javax.swing.JList;
 import javax.swing.border.MatteBorder;
 
 import unnamed_platformer.view.FluidColor;
-import unnamed_platformer.view.gui.Style;
+import unnamed_platformer.view.Style;
 
 public class StyleGlobals
 {

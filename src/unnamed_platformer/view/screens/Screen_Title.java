@@ -1,4 +1,4 @@
-package unnamed_platformer.view.gui.screens;
+package unnamed_platformer.view.screens;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,9 +15,9 @@ import unnamed_platformer.globals.AppGlobals;
 import unnamed_platformer.globals.StyleGlobals;
 import unnamed_platformer.input.GameKey;
 import unnamed_platformer.input.InputManager;
-import unnamed_platformer.view.gui.GUIHelper;
-import unnamed_platformer.view.gui.GUIManager;
-import unnamed_platformer.view.gui.GUIManager.ScreenType;
+import unnamed_platformer.view.GUIHelper;
+import unnamed_platformer.view.GUIManager;
+import unnamed_platformer.view.GUIManager.ScreenType;
 
 import com.google.common.collect.Lists;
 

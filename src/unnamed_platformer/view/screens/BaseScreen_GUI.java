@@ -1,4 +1,4 @@
-package unnamed_platformer.view.gui.screens;
+package unnamed_platformer.view.screens;
 
 import unnamed_platformer.game.zones.World;
 import unnamed_platformer.view.ViewManager;

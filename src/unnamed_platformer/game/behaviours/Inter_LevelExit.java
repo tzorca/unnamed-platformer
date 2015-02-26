@@ -3,9 +3,9 @@ package unnamed_platformer.game.behaviours;
 import unnamed_platformer.game.entities.Entity;
 import unnamed_platformer.game.zones.World;
 import unnamed_platformer.globals.GameGlobals.Flag;
-import unnamed_platformer.view.gui.GUIManager;
-import unnamed_platformer.view.gui.GUIManager.ScreenType;
-import unnamed_platformer.view.gui.screens.Screen_Edit;
+import unnamed_platformer.view.GUIManager;
+import unnamed_platformer.view.GUIManager.ScreenType;
+import unnamed_platformer.view.screens.Screen_Edit;
 
 public class Inter_LevelExit extends Interaction
 {

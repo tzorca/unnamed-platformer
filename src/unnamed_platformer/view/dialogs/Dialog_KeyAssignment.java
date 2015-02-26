@@ -1,4 +1,4 @@
-package unnamed_platformer.view.gui.dialogs;
+package unnamed_platformer.view.dialogs;
 
 import java.awt.Frame;
 import java.awt.event.KeyAdapter;
@@ -11,7 +11,7 @@ import unnamed_platformer.app.Main;
 import unnamed_platformer.globals.StyleGlobals;
 import unnamed_platformer.input.InputManager;
 import unnamed_platformer.input.RawKey;
-import unnamed_platformer.view.gui.GUIHelper.ParamRunnable;
+import unnamed_platformer.view.GUIHelper.ParamRunnable;
 
 public class Dialog_KeyAssignment extends Dialog
 {

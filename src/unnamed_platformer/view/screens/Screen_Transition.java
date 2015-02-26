@@ -1,4 +1,4 @@
-package unnamed_platformer.view.gui.screens;
+package unnamed_platformer.view.screens;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -13,8 +13,8 @@ import unnamed_platformer.game.zones.World;
 import unnamed_platformer.globals.StyleGlobals;
 import unnamed_platformer.input.InputManager;
 import unnamed_platformer.input.InputManager.PlrGameKey;
-import unnamed_platformer.view.gui.GUIManager;
-import unnamed_platformer.view.gui.GUIManager.ScreenType;
+import unnamed_platformer.view.GUIManager;
+import unnamed_platformer.view.GUIManager.ScreenType;
 
 public class Screen_Transition extends BaseScreen_GUI
 {

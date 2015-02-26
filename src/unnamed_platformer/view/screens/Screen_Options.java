@@ -1,4 +1,4 @@
-package unnamed_platformer.view.gui.screens;
+package unnamed_platformer.view.screens;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -27,12 +27,12 @@ import unnamed_platformer.input.GameKey;
 import unnamed_platformer.input.InputManager;
 import unnamed_platformer.input.InputManager.PlrGameKey;
 import unnamed_platformer.input.RawKey;
+import unnamed_platformer.view.GUIManager;
 import unnamed_platformer.view.ViewManager;
-import unnamed_platformer.view.gui.GUIHelper.ParamRunnable;
-import unnamed_platformer.view.gui.GUIManager;
-import unnamed_platformer.view.gui.GUIManager.ScreenType;
-import unnamed_platformer.view.gui.dialogs.Dialog_KeyAssignment;
-import unnamed_platformer.view.gui.objects.ListCellRenderer_PlrGameKey;
+import unnamed_platformer.view.GUIHelper.ParamRunnable;
+import unnamed_platformer.view.GUIManager.ScreenType;
+import unnamed_platformer.view.dialogs.Dialog_KeyAssignment;
+import unnamed_platformer.view.objects.ListCellRenderer_PlrGameKey;
 
 import com.google.common.collect.Lists;
 

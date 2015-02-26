@@ -1,4 +1,4 @@
-package unnamed_platformer.view.gui.objects;
+package unnamed_platformer.view.objects;
 
 import java.awt.Component;
 

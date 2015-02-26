@@ -13,7 +13,7 @@ import unnamed_platformer.game.zones.World;
 import unnamed_platformer.globals.EditorGlobals;
 import unnamed_platformer.globals.GameGlobals.Flag;
 import unnamed_platformer.view.ViewManager;
-import unnamed_platformer.view.gui.objects.ImageListEntry;
+import unnamed_platformer.view.objects.ImageListEntry;
 
 import com.google.common.collect.Lists;
 

@@ -1,13 +1,12 @@
-package unnamed_platformer.view.gui;
+package unnamed_platformer.view;
 
 import java.util.LinkedList;
 
 import unnamed_platformer.app.ClassLookup;
 import unnamed_platformer.app.Main;
 import unnamed_platformer.globals.AppGlobals;
-import unnamed_platformer.view.ViewManager;
-import unnamed_platformer.view.gui.dialogs.Dialog;
-import unnamed_platformer.view.gui.screens.Screen;
+import unnamed_platformer.view.dialogs.Dialog;
+import unnamed_platformer.view.screens.Screen;
 
 // TODO: Implement pause key functionality (return to ...)
 public final class GUIManager
@@ -17,7 +16,7 @@ public final class GUIManager
 	}
 
 	public static final String SCREEN_PACKAGE_NAME = AppGlobals.PACKAGE_NAME
-			+ ".view.gui.screens";
+			+ ".view.screens";
 
 	private static Screen screen;
 	private static Dialog dialog;

@@ -15,9 +15,9 @@ import unnamed_platformer.globals.AppGlobals;
 import unnamed_platformer.globals.FileGlobals;
 import unnamed_platformer.input.GameKey;
 import unnamed_platformer.input.InputManager;
+import unnamed_platformer.view.GUIManager;
 import unnamed_platformer.view.ViewManager;
-import unnamed_platformer.view.gui.GUIManager;
-import unnamed_platformer.view.gui.GUIManager.ScreenType;
+import unnamed_platformer.view.GUIManager.ScreenType;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
