@@ -6,7 +6,7 @@ import java.util.HashMap;
 import org.newdawn.slick.openal.Audio;
 import org.newdawn.slick.opengl.Texture;
 
-import unnamed_platformer.game.other.CollisionData;
+import unnamed_platformer.game.physics.CollisionData;
 
 @SuppressWarnings("unchecked")
 public final class ContentManager

@@ -1,7 +1,7 @@
 package unnamed_platformer.game.behaviours;
 
 import unnamed_platformer.game.entities.Entity;
-import unnamed_platformer.game.other.World;
+import unnamed_platformer.game.zones.World;
 import unnamed_platformer.globals.GameGlobals.Flag;
 import unnamed_platformer.view.gui.GUIManager;
 import unnamed_platformer.view.gui.GUIManager.ScreenType;

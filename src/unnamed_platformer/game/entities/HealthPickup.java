@@ -1,7 +1,7 @@
 package unnamed_platformer.game.entities;
 
 import unnamed_platformer.game.behaviours.Inter_HealthModifier;
-import unnamed_platformer.game.other.EntitySetup;
+import unnamed_platformer.game.editor.EntitySetup;
 
 public class HealthPickup extends ActiveEntity {
 

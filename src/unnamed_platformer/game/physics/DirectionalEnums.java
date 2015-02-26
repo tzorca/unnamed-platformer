@@ -1,4 +1,4 @@
-package unnamed_platformer.game.other;
+package unnamed_platformer.game.physics;
 
 
 public class DirectionalEnums

@@ -5,12 +5,12 @@ import org.newdawn.slick.opengl.Texture;
 
 import unnamed_platformer.content_management.ContentManager;
 import unnamed_platformer.game.config.GameConfig_Loader;
-import unnamed_platformer.game.other.EntityCreator;
-import unnamed_platformer.game.other.EntitySetup;
-import unnamed_platformer.game.other.Level;
-import unnamed_platformer.game.other.World;
+import unnamed_platformer.game.editor.EntityCreator;
+import unnamed_platformer.game.editor.EntitySetup;
 import unnamed_platformer.game.serialization.EntitySetupDeserializer;
 import unnamed_platformer.game.serialization.LevelSerializer;
+import unnamed_platformer.game.zones.Level;
+import unnamed_platformer.game.zones.World;
 import unnamed_platformer.globals.AppGlobals;
 import unnamed_platformer.globals.FileGlobals;
 import unnamed_platformer.input.GameKey;

@@ -3,7 +3,7 @@ package unnamed_platformer.content_management;
 import java.awt.image.BufferedImage;
 
 import unnamed_platformer.app.ImageHelper;
-import unnamed_platformer.game.other.CollisionData;
+import unnamed_platformer.game.physics.CollisionData;
 import unnamed_platformer.globals.GameGlobals;
 
 public class CollisionDataLoader extends ContentLoader

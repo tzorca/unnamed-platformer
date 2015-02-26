@@ -1,4 +1,4 @@
-package unnamed_platformer.game.other;
+package unnamed_platformer.game.zones;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -13,8 +13,12 @@ import org.newdawn.slick.opengl.Texture;
 
 import unnamed_platformer.app.TimeManager;
 import unnamed_platformer.content_management.ContentManager;
+import unnamed_platformer.game.editor.EntityCreator;
+import unnamed_platformer.game.editor.EntitySetup;
 import unnamed_platformer.game.entities.ActiveEntity;
 import unnamed_platformer.game.entities.Entity;
+import unnamed_platformer.game.physics.PhysicsProcessor;
+import unnamed_platformer.game.physics.SpatialHash;
 import unnamed_platformer.globals.EditorGlobals;
 import unnamed_platformer.globals.FileGlobals;
 import unnamed_platformer.globals.GameGlobals.Flag;

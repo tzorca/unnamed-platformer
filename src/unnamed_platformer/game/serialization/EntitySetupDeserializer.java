@@ -6,9 +6,9 @@ import java.util.Set;
 
 import org.newdawn.slick.geom.Vector2f;
 
-import unnamed_platformer.game.other.DirectionalEnums.Orientation;
-import unnamed_platformer.game.other.EntitySetup;
-import unnamed_platformer.game.other.SizeStrategy;
+import unnamed_platformer.game.editor.EntitySetup;
+import unnamed_platformer.game.editor.SizeStrategy;
+import unnamed_platformer.game.physics.DirectionalEnums.Orientation;
 import unnamed_platformer.globals.GameGlobals.EntityParam;
 import unnamed_platformer.view.Graphic;
 

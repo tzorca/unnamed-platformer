@@ -1,4 +1,4 @@
-package unnamed_platformer.game.other;
+package unnamed_platformer.game.editor;
 
 import java.io.Serializable;
 

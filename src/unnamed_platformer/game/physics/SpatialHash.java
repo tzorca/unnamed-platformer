@@ -1,4 +1,4 @@
-package unnamed_platformer.game.other;
+package unnamed_platformer.game.physics;
 
 import java.util.Collection;
 import java.util.HashMap;

@@ -1,4 +1,4 @@
-package unnamed_platformer.game.other;
+package unnamed_platformer.game.editor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +9,7 @@ import org.newdawn.slick.geom.Vector2f;
 
 import unnamed_platformer.app.MathHelper;
 import unnamed_platformer.game.entities.Entity;
+import unnamed_platformer.game.zones.World;
 import unnamed_platformer.globals.EditorGlobals;
 import unnamed_platformer.globals.GameGlobals.Flag;
 import unnamed_platformer.view.ViewManager;

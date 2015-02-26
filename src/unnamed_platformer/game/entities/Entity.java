@@ -8,11 +8,11 @@ import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Vector2f;
 
 import unnamed_platformer.content_management.ContentManager;
-import unnamed_platformer.game.other.CollisionData;
-import unnamed_platformer.game.other.EntitySetup;
-import unnamed_platformer.game.other.SizeStrategy;
-import unnamed_platformer.game.other.SizeStrategy.Strategy;
-import unnamed_platformer.game.other.TextureSetup.CollisionShapeOption;
+import unnamed_platformer.game.config.TextureSetup.CollisionShapeOption;
+import unnamed_platformer.game.editor.EntitySetup;
+import unnamed_platformer.game.editor.SizeStrategy;
+import unnamed_platformer.game.editor.SizeStrategy.Strategy;
+import unnamed_platformer.game.physics.CollisionData;
 import unnamed_platformer.globals.FileGlobals;
 import unnamed_platformer.globals.GameGlobals.EntityParam;
 import unnamed_platformer.globals.GameGlobals.Flag;

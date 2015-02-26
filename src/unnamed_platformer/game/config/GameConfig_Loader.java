@@ -6,9 +6,7 @@ import org.apache.commons.io.FileUtils;
 
 import unnamed_platformer.app.ClassLookup;
 import unnamed_platformer.app.Main;
-import unnamed_platformer.game.other.EntityLookup;
-import unnamed_platformer.game.other.TextureLookup;
-import unnamed_platformer.game.other.TextureSetup;
+import unnamed_platformer.game.editor.EntityLookup;
 import unnamed_platformer.globals.FileGlobals;
 import unnamed_platformer.view.ViewManager;
 

@@ -1,7 +1,7 @@
 package unnamed_platformer.game.entities;
 
 import unnamed_platformer.game.behaviours.Inter_LevelExit;
-import unnamed_platformer.game.other.EntitySetup;
+import unnamed_platformer.game.editor.EntitySetup;
 
 public class Goal extends ActiveEntity {
 

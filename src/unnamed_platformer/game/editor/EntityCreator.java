@@ -1,4 +1,4 @@
-package unnamed_platformer.game.other;
+package unnamed_platformer.game.editor;
 
 import java.lang.reflect.Constructor;
 import java.util.Collection;
@@ -10,6 +10,7 @@ import org.newdawn.slick.geom.Vector2f;
 
 import unnamed_platformer.app.ClassLookup;
 import unnamed_platformer.app.MathHelper;
+import unnamed_platformer.game.editor.SizeStrategy.Strategy;
 import unnamed_platformer.game.entities.Entity;
 import unnamed_platformer.globals.GameGlobals.EntityParam;
 import unnamed_platformer.view.Graphic;

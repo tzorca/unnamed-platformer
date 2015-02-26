@@ -46,7 +46,7 @@ import unnamed_platformer.app.Main;
 import unnamed_platformer.app.Settings;
 import unnamed_platformer.app.Settings.SettingName;
 import unnamed_platformer.content_management.ContentManager;
-import unnamed_platformer.game.other.World;
+import unnamed_platformer.game.zones.World;
 import unnamed_platformer.globals.AppGlobals;
 import unnamed_platformer.globals.FileGlobals;
 import unnamed_platformer.view.gui.GUIManager;

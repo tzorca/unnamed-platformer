@@ -9,7 +9,7 @@ import javax.swing.SwingUtilities;
 
 import unnamed_platformer.app.AudioManager;
 import unnamed_platformer.app.TimeManager;
-import unnamed_platformer.game.other.World;
+import unnamed_platformer.game.zones.World;
 import unnamed_platformer.globals.StyleGlobals;
 import unnamed_platformer.input.InputManager;
 import unnamed_platformer.input.InputManager.PlrGameKey;

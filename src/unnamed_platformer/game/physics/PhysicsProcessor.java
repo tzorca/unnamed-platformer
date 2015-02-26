@@ -1,4 +1,4 @@
-package unnamed_platformer.game.other;
+package unnamed_platformer.game.physics;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -11,9 +11,10 @@ import org.newdawn.slick.geom.Vector2f;
 
 import unnamed_platformer.app.Main;
 import unnamed_platformer.game.behaviours.Interaction;
+import unnamed_platformer.game.editor.EntityLookup;
 import unnamed_platformer.game.entities.ActiveEntity;
 import unnamed_platformer.game.entities.Entity;
-import unnamed_platformer.game.other.DirectionalEnums.Axis;
+import unnamed_platformer.game.physics.DirectionalEnums.Axis;
 import unnamed_platformer.globals.GameGlobals.Flag;
 
 public final class PhysicsProcessor

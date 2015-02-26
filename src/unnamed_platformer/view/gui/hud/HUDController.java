@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.newdawn.slick.geom.Vector2f;
 
-import unnamed_platformer.game.other.World;
+import unnamed_platformer.game.zones.World;
 import unnamed_platformer.view.ViewManager;
 
 public class HUDController

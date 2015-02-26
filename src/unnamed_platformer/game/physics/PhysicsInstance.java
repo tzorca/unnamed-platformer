@@ -1,4 +1,4 @@
-package unnamed_platformer.game.other;
+package unnamed_platformer.game.physics;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -8,7 +8,7 @@ import org.newdawn.slick.geom.Vector2f;
 import unnamed_platformer.app.MathHelper;
 import unnamed_platformer.game.behaviours.ControlMechanism;
 import unnamed_platformer.game.entities.ActiveEntity;
-import unnamed_platformer.game.other.DirectionalEnums.Axis;
+import unnamed_platformer.game.physics.DirectionalEnums.Axis;
 import unnamed_platformer.globals.GameGlobals.Flag;
 
 public class PhysicsInstance

@@ -2,7 +2,7 @@ package unnamed_platformer.game.behaviours;
 
 import unnamed_platformer.game.entities.ActiveEntity;
 import unnamed_platformer.game.entities.Entity;
-import unnamed_platformer.game.other.PhysicsInstance;
+import unnamed_platformer.game.physics.PhysicsInstance;
 import unnamed_platformer.globals.GameGlobals.Flag;
 
 public class Inter_VelocityMultiplier extends Interaction {

@@ -4,7 +4,7 @@ import java.util.EnumMap;
 
 import unnamed_platformer.app.MathHelper;
 import unnamed_platformer.game.entities.Entity;
-import unnamed_platformer.game.other.DirectionalEnums.Side;
+import unnamed_platformer.game.physics.DirectionalEnums.Side;
 
 public abstract class Interaction
 {

@@ -7,8 +7,8 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.opengl.Texture;
 
 import unnamed_platformer.content_management.ContentManager;
-import unnamed_platformer.game.other.TextureLookup;
-import unnamed_platformer.game.other.TextureSetup;
+import unnamed_platformer.game.config.TextureLookup;
+import unnamed_platformer.game.config.TextureSetup;
 import unnamed_platformer.globals.FileGlobals;
 
 public class Graphic implements Serializable

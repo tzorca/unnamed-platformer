@@ -6,9 +6,9 @@ import java.util.LinkedList;
 
 import org.newdawn.slick.geom.Rectangle;
 
-import unnamed_platformer.game.other.EntityCreator;
-import unnamed_platformer.game.other.EntitySetup;
-import unnamed_platformer.game.other.Level;
+import unnamed_platformer.game.editor.EntityCreator;
+import unnamed_platformer.game.editor.EntitySetup;
+import unnamed_platformer.game.zones.Level;
 import unnamed_platformer.view.Graphic;
 
 import com.google.common.collect.Maps;

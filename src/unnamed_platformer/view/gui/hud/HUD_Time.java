@@ -4,8 +4,8 @@ import java.awt.Color;
 
 import org.newdawn.slick.geom.Vector2f;
 
-import unnamed_platformer.game.other.Level;
-import unnamed_platformer.game.other.World;
+import unnamed_platformer.game.zones.Level;
+import unnamed_platformer.game.zones.World;
 import unnamed_platformer.globals.StyleGlobals;
 
 public class HUD_Time extends HUD_Component

@@ -1,4 +1,4 @@
-package unnamed_platformer.game.other;
+package unnamed_platformer.game.zones;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,7 +11,6 @@ import org.lwjgl.opengl.Display;
 import org.newdawn.slick.geom.Rectangle;
 
 import unnamed_platformer.app.Main;
-import unnamed_platformer.content_management.ContentManager;
 import unnamed_platformer.game.entities.Entity;
 import unnamed_platformer.globals.FileGlobals;
 import unnamed_platformer.view.gui.GUIManager;
