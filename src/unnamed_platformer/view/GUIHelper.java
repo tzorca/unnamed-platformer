@@ -77,6 +77,7 @@ public final class GUIHelper
 					component.setBackground(((FluidColor) backgroundColor)
 							.brighter().highlight());
 				}
+
 				public void focusLost(FocusEvent e) {
 					component.setBackground(backgroundColor);
 				}

@@ -4,7 +4,7 @@ import java.util.LinkedList;
 
 import unnamed_platformer.app.ClassLookup;
 import unnamed_platformer.app.Main;
-import unnamed_platformer.globals.AppGlobals;
+import unnamed_platformer.globals.ViewGlobals;
 import unnamed_platformer.view.dialogs.Dialog;
 import unnamed_platformer.view.screens.Screen;
 
@@ -14,9 +14,6 @@ public final class GUIManager
 	public static enum ScreenType {
 		Title, Edit, Play, SelectWorld, Transition, Options
 	}
-
-	public static final String SCREEN_PACKAGE_NAME = AppGlobals.PACKAGE_NAME
-			+ ".view.screens";
 
 	private static Screen screen;
 	private static Dialog dialog;
@@ -54,13 +51,13 @@ public final class GUIManager
 			screenStateStack.add(newState);
 			String className = "Screen_" + stateAsString();
 
-			if (ClassLookup.classExists(GUIManager.SCREEN_PACKAGE_NAME,
+			if (ClassLookup.classExists(ViewGlobals.SCREEN_PACKAGE_NAME,
 					className)) {
 				screen = (Screen) ClassLookup.instantiate(
-						GUIManager.SCREEN_PACKAGE_NAME, className);
+						ViewGlobals.SCREEN_PACKAGE_NAME, className);
 			} else {
 				screen = (Screen) ClassLookup.instantiate(
-						GUIManager.SCREEN_PACKAGE_NAME, "BaseScreen_Render");
+						ViewGlobals.SCREEN_PACKAGE_NAME, "BaseScreen_Render");
 			}
 			ViewManager.changeGUIPanel(screen.getPanel());
 		}

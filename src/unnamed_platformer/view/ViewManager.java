@@ -49,27 +49,26 @@ import unnamed_platformer.content_management.ContentManager;
 import unnamed_platformer.game.zones.World;
 import unnamed_platformer.globals.AppGlobals;
 import unnamed_platformer.globals.FileGlobals;
+import unnamed_platformer.globals.ViewGlobals;
 import unnamed_platformer.view.hud.HUDController;
 
 public final class ViewManager
 {
 	// constants
 	private static final int BITS_PER_PIXEL = 4;
-	public static final float SCALE = 1f;
-	public static final int FPS = 60;
-	public static final Dimension DEFAULT_RESOLUTION = new Dimension(900, 500);
 
 	// GUI-related
 	private static Panel guiPanel;
 	private static JFrame parentFrame;
 	private static Canvas renderCanvas;
 
-	public static Dimension currentResolution = DEFAULT_RESOLUTION;
+	public static Dimension currentResolution = ViewGlobals.WINDOWED_RESOLUTION;
 
 	private static boolean fullscreenValue;
 
 	private static Rectangle viewport = new Rectangle(0, 0,
-			DEFAULT_RESOLUTION.width, DEFAULT_RESOLUTION.height);
+			ViewGlobals.WINDOWED_RESOLUTION.width,
+			ViewGlobals.WINDOWED_RESOLUTION.height);
 
 	public static class WindowEventHandler extends WindowAdapter
 	{
@@ -86,8 +85,8 @@ public final class ViewManager
 		final float x = location.x;
 		final float y = location.y;
 
-		float scaledHalfWidth = currentResolution.width / SCALE / 2;
-		float scaledHalfHeight = currentResolution.height / SCALE / 2;
+		float scaledHalfWidth = currentResolution.width / ViewGlobals.SCALE / 2;
+		float scaledHalfHeight = currentResolution.height / ViewGlobals.SCALE / 2;
 
 		int left = (int) (x - scaledHalfWidth);
 		int top = (int) (y - scaledHalfHeight);
@@ -557,7 +556,7 @@ public final class ViewManager
 		fullscreenValue = newFullscreenValue;
 		reinitFrame();
 		changeResolution(fullscreenValue ? getScreenResolution()
-				: DEFAULT_RESOLUTION);
+				: ViewGlobals.WINDOWED_RESOLUTION);
 		parentFrame.setLocationRelativeTo(null);
 
 		parentFrame.toFront();
@@ -640,7 +639,7 @@ public final class ViewManager
 		GUIManager.drawForeground();
 		HUDController.updateAndDraw();
 
-		Display.sync(FPS);
+		Display.sync(ViewGlobals.FPS);
 		Display.update();
 
 		if (Display.isActive()) {
