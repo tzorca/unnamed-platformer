@@ -139,8 +139,8 @@ public class Screen_Edit extends BaseScreen_Hybrid
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
 		lstEntities.addListSelectionListener(new EntityList_SelectionChanged());
-		// lstCategories.addListSelectionListener(new
-		// EntityList_SelectionChanged());
+		lstCategories
+				.addListSelectionListener(new CategoryList_SelectionChanged());
 	}
 
 	private void loadCategoryTextures(DefaultListModel<String> categories) {
@@ -520,6 +520,16 @@ public class Screen_Edit extends BaseScreen_Hybrid
 	{
 		public void valueChanged(ListSelectionEvent e) {
 			ViewManager.focusRenderCanvas();
+		}
+	}
+
+	public class CategoryList_SelectionChanged implements ListSelectionListener
+	{
+		public void valueChanged(ListSelectionEvent e) {
+			ViewManager.focusRenderCanvas();
+
+			lstEntities.setModel(categoryMap.get(lstCategories
+					.getSelectedValue()));
 		}
 	}
 
