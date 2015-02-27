@@ -7,11 +7,11 @@ import java.awt.Panel;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
@@ -42,11 +42,11 @@ import unnamed_platformer.input.GameKey;
 import unnamed_platformer.input.InputManager;
 import unnamed_platformer.input.MouseInputManager;
 import unnamed_platformer.input.MouseInputManager.MouseEventType;
+import unnamed_platformer.view.GUIHelper.ParamRunnable;
 import unnamed_platformer.view.GUIManager;
+import unnamed_platformer.view.GUIManager.ScreenType;
 import unnamed_platformer.view.Graphic;
 import unnamed_platformer.view.ViewManager;
-import unnamed_platformer.view.GUIHelper.ParamRunnable;
-import unnamed_platformer.view.GUIManager.ScreenType;
 import unnamed_platformer.view.dialogs.Dialog_EditMenu;
 import unnamed_platformer.view.dialogs.Dialog_OptionSelection;
 import unnamed_platformer.view.objects.ImageListEntry;
@@ -71,9 +71,14 @@ public class Screen_Edit extends BaseScreen_Hybrid
 	private final Editor editor = new Editor(0);
 
 	private final Map<String, Graphic> entityGraphics = new HashMap<String, Graphic>();
-	private final List<ImageListEntry> imageListEntries = new ArrayList<ImageListEntry>();
 
-	private final JList<ImageListEntry> lstEntities = new JList<ImageListEntry>();
+	private final DefaultListModel<ImageListEntry>
+	/* */lstCategoriesModel = new DefaultListModel<ImageListEntry>(),
+	/* */lstEntitiesModel = new DefaultListModel<ImageListEntry>();
+
+	private JList<ImageListEntry> lstCategories = new JList<ImageListEntry>();
+	private JList<ImageListEntry> lstEntities = new JList<ImageListEntry>();
+	JScrollPane scrlLstCategories, scrlLstEntities;
 	private final List<Component> editModeComponents = new ArrayList<Component>();
 
 	private transient boolean lastMultiselectState;
@@ -83,32 +88,13 @@ public class Screen_Edit extends BaseScreen_Hybrid
 	public Screen_Edit() {
 		super();
 
-		editModeComponents.addAll(Lists.newArrayList(lstEntities));
-
-		loadEntityPlaceholderGraphics();
-
-		setToolbarSizes(LEFT_TOOLBAR_SIZE, 0, 0, 0);
-
-		// SETUP ENTITY LIST
-		lstEntities.setCellRenderer(new ListCellRenderer_ImageListEntry(ENTITY_ICON_SIZE));
-		lstEntities.setLayoutOrientation(JList.VERTICAL_WRAP);
-		lstEntities.setVisibleRowCount(-1);
-		StyleGlobals.STYLE_ENTITY_LIST.apply(lstEntities);
-
-		DefaultListModel<ImageListEntry> lstEntitiesModel = new DefaultListModel<ImageListEntry>();
-		for (final ImageListEntry entry : imageListEntries) {
-			lstEntitiesModel.addElement(entry);
-		}
-		lstEntities.setModel(lstEntitiesModel);
-		JScrollPane listScroller = new JScrollPane(lstEntities,
-				JScrollPane.VERTICAL_SCROLLBAR_NEVER,
-				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		lstEntities.addListSelectionListener(new EntityList_SelectionChanged());
-
 		// SETUP LEFT TOOLBAR
+		setToolbarSizes(LEFT_TOOLBAR_SIZE, 0, 0, 0);
+		setupLeftToolbarComponents();
 		Panel leftToolbar = toolbars.get(Side.left);
-		leftToolbar.setLayout(new BorderLayout());
-		leftToolbar.add(listScroller, BorderLayout.CENTER);
+		leftToolbar.setLayout(new BorderLayout()); // TODO: Correct layout?
+//		leftToolbar.add(scrlLstCategories, BorderLayout.WEST);
+		leftToolbar.add(scrlLstEntities, BorderLayout.EAST);
 
 		// ADD CANVAS LISTENERS
 		MouseInputManager.setEventHandler(MouseEventType.leftClick,
@@ -128,13 +114,46 @@ public class Screen_Edit extends BaseScreen_Hybrid
 
 		// FOCUS ON PLAYER INITIALLY
 		editor.focusOnPlayer();
+
+		// ADD EDIT MODE COMPONENTS
+		editModeComponents.addAll(Lists
+				.newArrayList(lstCategories, lstEntities));
+	}
+
+	private void setupLeftToolbarComponents() {
+		// SETUP LIST APPEARANCE
+		lstEntities.setCellRenderer(new ListCellRenderer_ImageListEntry(
+				ENTITY_ICON_SIZE));
+		lstCategories.setCellRenderer(new ListCellRenderer_ImageListEntry(
+				ENTITY_ICON_SIZE));
+		StyleGlobals.STYLE_ENTITY_LIST.apply(lstEntities);
+		StyleGlobals.STYLE_ENTITY_LIST.apply(lstCategories);
+
+		// SETUP LIST MODELS
+		loadImageListEntries(EntityCreator.listTextureNames(), lstEntitiesModel);
+		lstEntities.setModel(lstEntitiesModel);
+//		loadImageListEntries(EntityCreator.listCategoryNames(),
+//				lstCategoriesModel);
+//		lstCategories.setModel(lstCategoriesModel);
+
+		// SETUP SCROLLBARS
+		scrlLstCategories = new JScrollPane(lstCategories,
+				JScrollPane.VERTICAL_SCROLLBAR_NEVER,
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		scrlLstEntities = new JScrollPane(lstEntities,
+				JScrollPane.VERTICAL_SCROLLBAR_NEVER,
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+
+		lstEntities.addListSelectionListener(new EntityList_SelectionChanged());
+		// lstCategories.addListSelectionListener(new
+		// EntityList_SelectionChanged());
 	}
 
 	public Graphic getCurrentGraphic() {
 		if (getSelectedEntry() == null) {
 			return null;
 		}
-		
+
 		String textureName = getSelectedEntry().getInternalName();
 		if (textureName == null) {
 			return null;
@@ -142,29 +161,32 @@ public class Screen_Edit extends BaseScreen_Hybrid
 		return entityGraphics.get(textureName);
 	}
 
-	private void loadEntityPlaceholderGraphics() {
+	private void loadImageListEntries(Collection<String> textureNames,
+			DefaultListModel<ImageListEntry> container) {
 
-		final Set<String> textureNames = EntityCreator.listTextureNames();
+		List<ImageListEntry> tempImageListEntryList = new ArrayList<ImageListEntry>();
 		for (final String textureName : textureNames) {
-
-			final String displayName = ContentManager.humanizeName(textureName);
-
-			BufferedImage originalImage = ContentManager.get(
-					BufferedImage.class, FileGlobals.IMG_OBJ_DIR,
-					textureName);
-
-			final ImageIcon imageIcon = new ImageIcon(
-					ImageHelper.scaleWidth(originalImage, ENTITY_ICON_SIZE,
-							BufferedImage.SCALE_SMOOTH));
-
-			final ImageListEntry entry = new ImageListEntry(imageIcon,
-					displayName, textureName);
-			imageListEntries.add(entry);
-			entityGraphics.put(entry.getInternalName(), new Graphic(
-					textureName, new Color(1, 1, 1, 0.75f)));
+			tempImageListEntryList.add(getImageListEntry(textureName));
+			entityGraphics.put(textureName, new Graphic(textureName, new Color(
+					1, 1, 1, 0.75f)));
 		}
 
-		Collections.sort(imageListEntries);
+		Collections.sort(tempImageListEntryList);
+
+		for (ImageListEntry imageListEntry : tempImageListEntryList) {
+			container.addElement(imageListEntry);
+		}
+	}
+
+	private ImageListEntry getImageListEntry(String textureName) {
+		String displayName = ContentManager.humanizeName(textureName);
+		BufferedImage originalImage = ContentManager.get(BufferedImage.class,
+				FileGlobals.IMG_OBJ_DIR, textureName);
+
+		ImageIcon imageIcon = new ImageIcon(ImageHelper.scaleWidth(
+				originalImage, ENTITY_ICON_SIZE, BufferedImage.SCALE_SMOOTH));
+
+		return new ImageListEntry(imageIcon, displayName, textureName);
 	}
 
 	public void update() {
@@ -216,8 +238,8 @@ public class Screen_Edit extends BaseScreen_Hybrid
 
 		if (nextIndex != currentIndex) {
 			if (nextIndex < 0) {
-				nextIndex = imageListEntries.size() - 1;
-			} else if (nextIndex >= imageListEntries.size()) {
+				nextIndex = lstEntitiesModel.size() - 1;
+			} else if (nextIndex >= lstEntitiesModel.size()) {
 				nextIndex = 0;
 			}
 
