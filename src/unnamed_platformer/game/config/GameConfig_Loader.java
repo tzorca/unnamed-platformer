@@ -6,6 +6,7 @@ import org.apache.commons.io.FileUtils;
 
 import unnamed_platformer.app.ClassLookup;
 import unnamed_platformer.app.Main;
+import unnamed_platformer.game.editor.CategoryLookup;
 import unnamed_platformer.game.editor.EntityLookup;
 import unnamed_platformer.globals.FileGlobals;
 import unnamed_platformer.view.ViewManager;
@@ -16,7 +17,7 @@ public class GameConfig_Loader
 
 	public static void init() {
 		readConfig();
-		loadTextureMappings();
+		extractConfig();
 	}
 
 	public static void readConfig() {
@@ -31,7 +32,7 @@ public class GameConfig_Loader
 		gameDB = Main.getGson().fromJson(data, GameConfig.class);
 	}
 
-	public static void loadTextureMappings() {
+	public static void extractConfig() {
 		for (final String textureName : gameDB.getTextureMappings().keySet()) {
 			TextureLinks links = gameDB.getTextureMappings().get(textureName);
 			final String entityClassName = links.entityName;
@@ -51,7 +52,7 @@ public class GameConfig_Loader
 			});
 			String collisionShape = links.collisionShape;
 			TextureLookup.addSetup(textureName, new TextureSetup(collisionShape));
-
+			CategoryLookup.map(links.category, textureName);
 		}
 	}
 

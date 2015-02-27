@@ -104,7 +104,7 @@ public final class Main
 		GUIManager.init();
 		GameConfig_Loader.init();
 		ViewManager.init();
-		GameConfig_Loader.loadTextureMappings();
+		GameConfig_Loader.extractConfig();
 		GUIManager.changeScreen(ScreenType.Title);
 	}
 
