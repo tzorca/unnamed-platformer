@@ -72,7 +72,8 @@ public class Screen_Edit extends BaseScreen_Hybrid
 
 	private final Map<String, Graphic> entityGraphics = new HashMap<String, Graphic>();
 
-	private final Map<String, DefaultListModel<ImageListEntry>> categoryMap = Maps.newHashMap();
+	private final Map<String, DefaultListModel<ImageListEntry>> categoryMap = Maps
+			.newHashMap();
 
 	private final DefaultListModel<String>
 	/* */lstCategoriesModel = new DefaultListModel<String>();
@@ -158,11 +159,12 @@ public class Screen_Edit extends BaseScreen_Hybrid
 					.getInternalName());
 
 			if (!categoryMap.containsKey(category)) {
-				categoryMap.put(category, new DefaultListModel<ImageListEntry>());
+				categoryMap.put(category,
+						new DefaultListModel<ImageListEntry>());
 			}
 			categoryMap.get(category).addElement(imageListEntry);
 		}
-	}	
+	}
 
 	private ImageListEntry getImageListEntry(String textureName) {
 		String displayName = ContentManager.humanizeName(textureName);
@@ -223,23 +225,23 @@ public class Screen_Edit extends BaseScreen_Hybrid
 		handlePaintControls();
 	}
 
+	private boolean categoryListIsCurrent = false;
+
 	private void handleEntitySelectionControls() {
-		// Check which of category list and entity list is in focus
+		// Check which of category list and entity list is current
 		// to determine which list to operate on
-		boolean categoryListInFocus = lstCategories.hasFocus();
-		JList<?> currentList = categoryListInFocus ? lstCategories
+		JList<?> currentList = categoryListIsCurrent ? lstCategories
 				: lstEntities;
+		JList<?> otherList = categoryListIsCurrent ? lstEntities
+				: lstCategories;
 
 		int currentIndex = currentList.getSelectedIndex();
-		int nextIndex = currentIndex;
+		int nextIndex = Math.max(currentIndex, 0);
 
 		if (InputManager.keyPressOccurredOrRepeating(GameKey.SECONDARY_LEFT, 1)
-				|| InputManager.keyPressOccurredOrRepeating(GameKey.SECONDARY_RIGHT, 1)) {
-			if (categoryListInFocus) {
-				lstEntities.requestFocusInWindow();
-			} else {
-				lstCategories.requestFocusInWindow();
-			}
+				|| InputManager.keyPressOccurredOrRepeating(
+						GameKey.SECONDARY_RIGHT, 1)) {
+			categoryListIsCurrent = !categoryListIsCurrent;
 		} else if (InputManager.keyPressOccurredOrRepeating(
 				GameKey.SECONDARY_UP, 1)) {
 			nextIndex = currentIndex - 1;
@@ -248,16 +250,17 @@ public class Screen_Edit extends BaseScreen_Hybrid
 			nextIndex = currentIndex + 1;
 		}
 
-		if (nextIndex != currentIndex) {
-			if (nextIndex < 0) {
-				nextIndex = currentList.getModel().getSize() - 1;
-			} else if (nextIndex >= currentList.getModel().getSize()) {
-				nextIndex = 0;
-			}
-
-			currentList.ensureIndexIsVisible(nextIndex);
-			currentList.setSelectedIndex(nextIndex);
+		// Wrap around
+		if (nextIndex >= currentList.getModel().getSize()) {
+			nextIndex = 0;
+		} else if (nextIndex < 0) {
+			nextIndex = currentList.getModel().getSize() - 1;
 		}
+
+		currentList.setBackground(StyleGlobals.COLOR_MAIN);
+		otherList.setBackground(StyleGlobals.COLOR_MAIN_HIGHLIGHT.darker());
+		currentList.ensureIndexIsVisible(nextIndex);
+		currentList.setSelectedIndex(nextIndex);
 	}
 
 	private void handlePaintControls() {
