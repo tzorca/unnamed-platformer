@@ -65,7 +65,7 @@ public class Screen_Edit extends BaseScreen_Hybrid
 	public static final int CURSOR_SIZE = 48;
 	private static final String NAV_TIME_PERIOD_STRING = "EditorLevelNavigation";
 	private static final float NAV_RATE = 0.01f;
-	private static final int NAV_SPEED = 6;
+	private static final int NAV_SPEED = 8;
 	private static final float NAV_EDGE_SPEED_MULTIPLIER = 2f;
 
 	private final Editor editor = new Editor(0);
@@ -225,7 +225,7 @@ public class Screen_Edit extends BaseScreen_Hybrid
 		handlePaintControls();
 	}
 
-	private boolean categoryListIsCurrent = false;
+	private boolean categoryListIsCurrent = true;
 
 	private void handleEntitySelectionControls() {
 		// Check which of category list and entity list is current
