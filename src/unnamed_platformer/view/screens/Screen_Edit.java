@@ -250,15 +250,20 @@ public class Screen_Edit extends BaseScreen_Hybrid
 			nextIndex = currentIndex + 1;
 		}
 
-		// Wrap around
+		// Wrap selection vertically
 		if (nextIndex >= currentList.getModel().getSize()) {
 			nextIndex = 0;
 		} else if (nextIndex < 0) {
 			nextIndex = currentList.getModel().getSize() - 1;
 		}
 
-		currentList.setBackground(StyleGlobals.COLOR_MAIN);
-		otherList.setBackground(StyleGlobals.COLOR_MAIN_HIGHLIGHT.darker());
+		// Colorize lists based on which list is current
+		currentList.setBackground(StyleGlobals.COLOR_MAIN_PLUS);
+		currentList.setSelectionBackground(StyleGlobals.COLOR_MAIN_HIGHLIGHT);
+		otherList.setBackground(StyleGlobals.COLOR_LIGHT_GREY.darker(4f));
+		otherList.setSelectionBackground(StyleGlobals.COLOR_LIGHT_GREY.darker(2f));
+		
+		// Ensure there is a selection for the current list
 		currentList.ensureIndexIsVisible(nextIndex);
 		currentList.setSelectedIndex(nextIndex);
 	}
