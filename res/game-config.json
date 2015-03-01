@@ -102,6 +102,12 @@
             "entityName":"springLike",
             "collisionShape":"rectangle"
         },
+        "redBumper":
+        {
+            "category":"Physics",
+            "entityName":"bumper",
+            "collisionShape":"rectangle"
+        },
         "crosshair":
         {
             "entityName":"none"

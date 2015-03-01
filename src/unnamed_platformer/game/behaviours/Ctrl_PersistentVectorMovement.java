@@ -36,7 +36,7 @@ public class Ctrl_PersistentVectorMovement extends ControlMechanism {
 	@Override
 	public void doUpdate(float multiplier) {
 		Vector2f vectorMul = new Vector2f(vector.x * multiplier, vector.y * multiplier);
-		actor.getPhysics().setCurrentForce(vectorMul);
+		actor.getPhysics().setForce(vectorMul);
 
 		if (endTime > 0 && TimeManager.time() > endTime) {
 			finish();

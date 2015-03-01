@@ -43,11 +43,6 @@ public class PhysicsInstance
 		currentForces = currentForces.add(v);
 	}
 
-	public void setVerticalForce(Vector2f v) {
-		velocity.y = 0;
-		currentForces.y = v.y;
-	}
-
 	public void clearControlMechanisms() {
 		mechanisms.clear();
 	}
@@ -59,7 +54,7 @@ public class PhysicsInstance
 	public Vector2f getDirection() {
 		return lastHorizontalDirection;
 	}
-	
+
 	public boolean movingLeft() {
 		return lastHorizontalDirection.x < 0;
 	}
@@ -133,8 +128,7 @@ public class PhysicsInstance
 	}
 
 	public void update() {
-		
-		
+
 		isZero = false;
 
 		runControlMechanisms();
@@ -156,7 +150,7 @@ public class PhysicsInstance
 
 		PhysicsProcessor.registerForInteractionChecking(associatedActor);
 		forceMultiplier = PhysicsProcessor.FORCE_MULTIPLIER;
-		
+
 		// Saves the velocity before the speed limit is applied
 		lastMoveResult = new MoveResult(velocity.x, velocity.y);
 
@@ -184,10 +178,22 @@ public class PhysicsInstance
 		}
 	}
 
-	public void setCurrentForce(Vector2f force) {
+	public void setForce(Vector2f force) {
 		velocity.x = 0;
 		velocity.y = 0;
-		currentForces = force;
+
+		currentForces.x = force.x;
+		currentForces.y = force.y;
+	}
+
+	public void setXForce(float xForce) {
+		velocity.x = 0;
+		currentForces.x = xForce;
+	}
+
+	public void setYForce(float yForce) {
+		velocity.y = 0;
+		currentForces.y = yForce;
 	}
 
 }
