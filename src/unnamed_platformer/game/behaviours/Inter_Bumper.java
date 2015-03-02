@@ -1,7 +1,5 @@
 package unnamed_platformer.game.behaviours;
 
-import unnamed_platformer.app.AudioManager;
-import unnamed_platformer.app.MathHelper;
 import unnamed_platformer.game.entities.ActiveEntity;
 import unnamed_platformer.game.entities.Entity;
 import unnamed_platformer.globals.GameGlobals.Flag;
@@ -20,10 +18,11 @@ public class Inter_Bumper extends Interaction
 		if (!plr.hasPhysics()) {
 			return false;
 		}
-
 		
-		plr.getPhysics().setXForce(plr.getPhysics().getLastMove().x * -1.0f);
-		plr.getPhysics().setYForce(plr.getPhysics().getLastMove().y * -1.0f);
+		Double angle = getIntersectionAngle();
+		
+		plr.getPhysics().setXForce((float)(7 * Math.cos(angle)));
+		plr.getPhysics().setYForce((float)(7 * -Math.sin(angle)));
 
 		plr.getPhysics().setInAir(true);
 
