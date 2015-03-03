@@ -6,6 +6,7 @@ import java.util.List;
 import org.newdawn.slick.geom.Vector2f;
 
 import unnamed_platformer.app.MathHelper;
+import unnamed_platformer.app.TimeManager;
 import unnamed_platformer.game.behaviours.ControlMechanism;
 import unnamed_platformer.game.entities.ActiveEntity;
 import unnamed_platformer.game.physics.DirectionalEnums.Axis;
@@ -131,7 +132,11 @@ public class PhysicsInstance
 
 		isZero = false;
 
-		runControlMechanisms();
+		if (!associatedActor.isFlagSet(Flag.LOCK_CONTROLS)) {
+			runControlMechanisms();
+		} else {
+			System.out.println("locked.");
+		}
 
 		if (associatedActor.isFlagSet(Flag.OBEYS_GRAVITY)) {
 			PhysicsProcessor.applyGravity(associatedActor, forceMultiplier);
@@ -196,4 +201,28 @@ public class PhysicsInstance
 		currentForces.y = yForce;
 	}
 
+	/**
+	 * Prevent movement controls for a certain amount of seconds
+	 * 
+	 * @param controlLockTime
+	 */
+	public void lockFor(final float controlLockTime) {
+		if (controlLockTime <= 0) {
+			return;
+		}
+		
+		final ActiveEntity actor = PhysicsInstance.this.associatedActor;
+
+		if (!actor.isFlagSet(Flag.LOCK_CONTROLS)) {
+			actor.setFlag(Flag.LOCK_CONTROLS, true);
+
+			TimeManager.runAfterWaitSeconds(controlLockTime, new Runnable() {
+				@Override
+				public void run() {
+					actor.setFlag(Flag.LOCK_CONTROLS, false);
+				}
+			});
+		}
+
+	}
 }

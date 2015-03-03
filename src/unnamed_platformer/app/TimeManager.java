@@ -77,4 +77,21 @@ public final class TimeManager
 	public static long millisecondsSince(long comparisonTime) {
 		return (time() - comparisonTime);
 	}
+
+	public static void runAfterWaitSeconds(final float waitSeconds,
+			final Runnable runnable) {
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				try {
+					Thread.sleep((long) (waitSeconds * 1000f));
+					runnable.run();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}).start();
+	}
 }

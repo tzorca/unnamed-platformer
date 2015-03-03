@@ -14,7 +14,6 @@ public abstract class Interaction
 
 	private Side[] activeSides;
 	private double maxSideMatchDistance = 0;
-	private Double intersectionAngle = null;
 
 	public Interaction() {
 		activeSides = Side.values();
@@ -44,23 +43,16 @@ public abstract class Interaction
 		return performInteraction(source, target);
 	}
 
-	protected double getIntersectionAngle() {
-		return intersectionAngle;
-	}
-	
 	private boolean onActiveside(Entity source, Entity target) {
-		// Need to calculate this up front for some interactions that make use
-		// of it
-		this.intersectionAngle = MathHelper.getIntersectionAngle(
-				source.getOriginalBox(), target.getOriginalBox());
-
 		// All sides are active.
 		if (activeSides.length == Side.values().length) {
 			return true;
 		}
+		double intersectionAngle = MathHelper.getIntersectionAngle(
+				source.getOriginalBox(), target.getOriginalBox());
 
 		EnumMap<Side, Double> sideDistances = MathHelper.getSideDistances(
-				this.intersectionAngle, activeSides);
+				intersectionAngle, activeSides);
 
 		for (Side side : activeSides) {
 			if (sideDistances.get(side) <= maxSideMatchDistance) {

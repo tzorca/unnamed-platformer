@@ -57,6 +57,13 @@ public final class MathHelper
 	public static double getArea(final Rectangle rect) {
 		return rect.getWidth() * rect.getHeight();
 	}
+	
+	public static Vector2f rectACenterMinusRectBCenter(final Rectangle rectA, final Rectangle rectB) {
+		Vector2f pointA = new Vector2f(rectA.getCenterX(), rectA.getCenterY());
+		Vector2f pointB = new Vector2f(rectB.getCenterX(), rectB.getCenterY());
+		
+		return new Vector2f(pointA).sub(pointB);
+	}
 
 	public static Double getIntersectionAngle(final Rectangle rectA,
 			final Rectangle rectB) {
