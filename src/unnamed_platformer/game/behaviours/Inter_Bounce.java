@@ -74,12 +74,12 @@ public class Inter_Bounce extends Interaction
 		
 		// If possible, use collision location as the target.
 		Shape targetShape;
-		Shape[] union = sourceShape.union(target.getCollisionShape());
-		if (union.length == 1) {
-			targetShape = union[0];
-		} else {
+//		Shape[] union = sourceShape.union(target.getCollisionShape());
+//		if (union.length == 1) {
+//			targetShape = union[0];
+//		} else {
 			targetShape = target.getCollisionShape();
-		}
+//		}
 		
 		Vector2f sourceToTarget = MathHelper.centerToCenter(
 				sourceShape, targetShape);
@@ -89,7 +89,7 @@ public class Inter_Bounce extends Interaction
 			float speed = MathHelper.getSpeed(((ActiveEntity) target)
 					.getPhysics().getLastMove());
 			speed = Math.max(speed, MINIMUM_SPEED);
-			reactionVector = reactionVector.scale(speed * 0.9f);
+			reactionVector = reactionVector.scale(speed * 1.01f);
 		} else {
 			reactionVector = reactionVector.scale(bounceStrength);
 		}

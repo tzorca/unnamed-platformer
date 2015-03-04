@@ -106,6 +106,12 @@
         {
             "category":"Physics",
             "entityName":"bumper",
+            "collisionShape":"circle"
+        },
+        "bounceBox":
+        {
+            "category":"Physics",
+            "entityName":"bumper",
             "collisionShape":"rectangle"
         },
         "crosshair":
