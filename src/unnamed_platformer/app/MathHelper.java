@@ -226,4 +226,8 @@ public final class MathHelper
 		return false;
 	}
 
+	public static float getSpeed(Vector2f vector) {
+		return vector.distance(new Vector2f(0, 0));
+	}
+
 }

@@ -134,10 +134,8 @@ public class PhysicsInstance
 
 		if (!associatedActor.isFlagSet(Flag.LOCK_CONTROLS)) {
 			runControlMechanisms();
-		} else {
-			System.out.println("locked.");
-		}
-
+		} 
+		
 		if (associatedActor.isFlagSet(Flag.OBEYS_GRAVITY)) {
 			PhysicsProcessor.applyGravity(associatedActor, forceMultiplier);
 		}
