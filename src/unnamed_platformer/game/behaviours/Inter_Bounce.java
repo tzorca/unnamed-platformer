@@ -1,5 +1,6 @@
 package unnamed_platformer.game.behaviours;
 
+import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Vector2f;
 
 import unnamed_platformer.app.AudioManager;
@@ -69,8 +70,19 @@ public class Inter_Bounce extends Interaction
 	}
 
 	private Vector2f calculateReactionVector(Entity source, Entity target) {
-		Vector2f sourceToTarget = MathHelper.rectACenterMinusRectBCenter(
-				source.getOriginalBox(), target.getOriginalBox());
+		Shape sourceShape = source.getCollisionShape();
+		
+		// If possible, use collision location as the target.
+		Shape targetShape;
+		Shape[] union = sourceShape.union(target.getCollisionShape());
+		if (union.length == 1) {
+			targetShape = union[0];
+		} else {
+			targetShape = target.getCollisionShape();
+		}
+		
+		Vector2f sourceToTarget = MathHelper.centerToCenter(
+				sourceShape, targetShape);
 		Vector2f reactionVector = sourceToTarget.getNormal().negate();
 
 		if (dynamic) {
