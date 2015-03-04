@@ -17,13 +17,14 @@ public class Inter_Bounce extends Interaction
 
 	private float bounceStrength;
 	private float controlLockTime = 0;
-	private boolean dynamic = true;
+	private boolean dynamic;
 
 	/**
 	 * Creates a dynamic Inter_Bounce
 	 */
 	public Inter_Bounce() {
 		super();
+		this.dynamic = true;
 	}
 
 	/**
