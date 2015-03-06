@@ -197,11 +197,10 @@ public final class ViewManager
 			return;
 		}
 
-		// quantize floats before drawing
-		final float xPos = (float) (int) rectangle.getX();
-		final float yPos = (float) (int) rectangle.getY();
-		final float width = (float) (int) rectangle.getWidth();
-		final float height = (float) (int) rectangle.getHeight();
+		final float xPos = rectangle.getX();
+		final float yPos = rectangle.getY();
+		final float width = rectangle.getWidth();
+		final float height = rectangle.getHeight();
 
 		final Color color = graphic.color;
 		final Texture texture = graphic.getTexture();
@@ -639,7 +638,7 @@ public final class ViewManager
 		GUIManager.drawForeground();
 		HUDController.updateAndDraw();
 
-		Display.sync(ViewGlobals.FPS);
+		Display.sync(AppGlobals.FPS);
 		Display.update();
 
 		if (Display.isActive()) {
