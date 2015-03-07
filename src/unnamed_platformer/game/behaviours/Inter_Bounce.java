@@ -63,7 +63,7 @@ public class Inter_Bounce extends Interaction
 		}
 
 		// Play sound effect
-		AudioManager.playSample("spring");
+		AudioManager.playSample("bumper");
 
 		return true;
 	}
