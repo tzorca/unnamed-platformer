@@ -85,8 +85,8 @@ public final class ViewManager
 		final float x = location.x;
 		final float y = location.y;
 
-		float scaledHalfWidth = currentResolution.width / ViewGlobals.SCALE / 2;
-		float scaledHalfHeight = currentResolution.height / ViewGlobals.SCALE / 2;
+		float scaledHalfWidth = currentResolution.width / ViewGlobals.SCALE / 2f;
+		float scaledHalfHeight = currentResolution.height / ViewGlobals.SCALE / 2f;
 
 		int left = (int) (x - scaledHalfWidth);
 		int top = (int) (y - scaledHalfHeight);
@@ -197,10 +197,10 @@ public final class ViewManager
 			return;
 		}
 
-		final float xPos = rectangle.getX();
-		final float yPos = rectangle.getY();
-		final float width = rectangle.getWidth();
-		final float height = rectangle.getHeight();
+		final float xPos = Math.round(rectangle.getX());
+		final float yPos =  Math.round(rectangle.getY());
+		final float width =  Math.round(rectangle.getWidth());
+		final float height =  Math.round(rectangle.getHeight());
 
 		final Color color = graphic.color;
 		final Texture texture = graphic.getTexture();
