@@ -25,8 +25,7 @@ public class Inter_Spring extends Interaction
 			return false;
 		}
 
-		int springSampleNo = MathHelper.randRange(0, 9);
-		AudioManager.playSample("spring" + springSampleNo);
+		AudioManager.playSample("spring");
 
 		if (v.x != 0) {
 			plr.getPhysics().setXForce(v.x);
@@ -34,7 +33,7 @@ public class Inter_Spring extends Interaction
 		if (v.y != 0) {
 			plr.getPhysics().setYForce(v.y);
 		}
-		
+
 		plr.getPhysics().setInAir(true);
 
 		// TODO: Revisit this and think about how to deal with
