@@ -49,6 +49,9 @@ public class PlatformPlayer extends ActiveEntity
 		setFlag(Flag.OBEYS_GRAVITY, true);
 		setFlag(Flag.TANGIBLE, true);
 		setFlag(Flag.PLAYER, true);
+		
+		// Fix for grid-based platform sticking bug
+		getPhysics().setYVelocity(-1);
 
 		zIndex = 2;
 	}
@@ -85,6 +88,13 @@ public class PlatformPlayer extends ActiveEntity
 		}
 	}
 
+	public void returnToStart() {
+		super.returnToStart();
+		
+		// Fix for grid-based platform sticking bug
+		getPhysics().setYVelocity(-1);
+	}
+	
 	public void death() {
 		AudioManager.playSample("death");
 		returnToStart();
