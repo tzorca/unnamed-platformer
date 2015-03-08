@@ -16,10 +16,12 @@ public class AudioManager
 				.playAsSoundEffect(1.0f, 1.0f, false);
 	}
 
-	public static void playSample(String name, float pitch, float gain,
-			boolean loop) {
-		ContentManager.get(Audio.class, FileGlobals.SND_DIR, name)
-				.playAsSoundEffect(pitch, gain, loop);
+	public static void playSampleIfNotPlaying(String name) {
+		Audio sample = ContentManager.get(Audio.class, FileGlobals.SND_DIR,
+				name);
+		if (!sample.isPlaying()) {
+			sample.playAsSoundEffect(1.0f, 1.0f, false);
+		}
 	}
 
 	public static void playMusic(String name, float pitch, float gain,

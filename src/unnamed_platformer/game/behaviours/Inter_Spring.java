@@ -2,7 +2,6 @@ package unnamed_platformer.game.behaviours;
 
 import org.newdawn.slick.geom.Vector2f;
 
-import unnamed_platformer.app.MathHelper;
 import unnamed_platformer.app.AudioManager;
 import unnamed_platformer.game.entities.ActiveEntity;
 import unnamed_platformer.game.entities.Entity;
@@ -25,7 +24,7 @@ public class Inter_Spring extends Interaction
 			return false;
 		}
 
-		AudioManager.playSample("spring");
+		AudioManager.playSampleIfNotPlaying("spring");
 
 		if (v.x != 0) {
 			plr.getPhysics().setXForce(v.x);
