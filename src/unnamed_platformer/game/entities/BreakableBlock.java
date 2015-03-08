@@ -10,6 +10,6 @@ public class BreakableBlock extends ActiveEntity {
 		super(entitySetup);
 
 		setFlag(Flag.SOLID, true);
-		this.interactions.add(new Inter_Breakable());
+		this.interactions.add(new Inter_Breakable("box-break"));
 	}
 }
