@@ -85,21 +85,23 @@ public final class ViewManager
 		final float x = location.x;
 		final float y = location.y;
 
-		float scaledHalfWidth = currentResolution.width / ViewGlobals.SCALE / 2f;
-		float scaledHalfHeight = currentResolution.height / ViewGlobals.SCALE / 2f;
+		float scaledHalfWidth = currentResolution.width / ViewGlobals.SCALE
+				/ 2f;
+		float scaledHalfHeight = currentResolution.height / ViewGlobals.SCALE
+				/ 2f;
 
-		int left = (int) (x - scaledHalfWidth);
-		int top = (int) (y - scaledHalfHeight);
+		float left = x - scaledHalfWidth;
+		float top = y - scaledHalfHeight;
 
 		if (levelBounds != null) {
-			left = (int) Math.max(left, levelBounds.getMinX());
-			top = (int) Math.max(top, levelBounds.getMinY());
+			left = Math.max(left, levelBounds.getMinX());
+			top = Math.max(top, levelBounds.getMinY());
 		}
 
 		viewport.setBounds(left, top, scaledHalfWidth * 2, scaledHalfHeight * 2);
 
-		int right = (int) viewport.getMaxX();
-		int bottom = (int) viewport.getMaxY();
+		float right = viewport.getMaxX();
+		float bottom = viewport.getMaxY();
 
 		if (Display.isActive()) {
 			GL11.glMatrixMode(GL11.GL_PROJECTION);
@@ -113,8 +115,8 @@ public final class ViewManager
 			return;
 		}
 
-		final float xPos = (int) viewport.getX();
-		final float yPos = (int) viewport.getY()
+		final float xPos = viewport.getX();
+		final float yPos = viewport.getY()
 				- (bgTexture.getTextureHeight() - viewport.getHeight());
 		final float width = bgTexture.getTextureWidth();
 		final float height = bgTexture.getTextureHeight();
@@ -197,10 +199,10 @@ public final class ViewManager
 			return;
 		}
 
-		final float xPos = Math.round(rectangle.getX());
-		final float yPos =  Math.round(rectangle.getY());
-		final float width =  Math.round(rectangle.getWidth());
-		final float height =  Math.round(rectangle.getHeight());
+		final float xPos = rectangle.getX();
+		final float yPos = rectangle.getY();
+		final float width = rectangle.getWidth();
+		final float height = rectangle.getHeight();
 
 		final Color color = graphic.color;
 		final Texture texture = graphic.getTexture();
