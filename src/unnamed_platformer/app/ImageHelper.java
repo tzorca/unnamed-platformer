@@ -10,18 +10,9 @@ import java.awt.image.ColorModel;
 import java.awt.image.ConvolveOp;
 import java.awt.image.Kernel;
 import java.awt.image.WritableRaster;
-import java.io.IOException;
-import java.io.InputStream;
-
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 
 public final class ImageHelper
 {
-	public static BufferedImage load(InputStream input) throws IOException {
-		return ImageIO.read(input);
-	}
-
 	public static BufferedImage blur(BufferedImage originalImage,
 			int repetitions) {
 		BufferedImage modImage = clone(originalImage);
@@ -84,10 +75,6 @@ public final class ImageHelper
 
 		surface.getGraphics().drawImage(img, startX, startY, null);
 		return surface;
-	}
-
-	public static ImageIcon toImageIcon(Image image) {
-		return new ImageIcon(image);
 	}
 
 	public static BufferedImage toBufferedImage(Image image) {
