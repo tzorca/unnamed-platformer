@@ -192,13 +192,17 @@ public class Dialog_EditMenu extends Dialog
 		}
 
 		backgroundSelect = new Dialog_OptionSelection<ImageListEntry>(null,
-				"Select BG", backgrounds, backgrounds.get(0),
+				"Select BG", backgrounds, null,
 				new ListCellRenderer_ImageListEntry(), runnable_SetBackground);
 		backgroundSelect.setVisible(true);
 	}
 
 	ParamRunnable runnable_SetBackground = new ParamRunnable() {
 		public void run(Object param) {
+			// No background selected
+			if (param == null) {
+				return;
+			}
 			ImageListEntry imageListEntry = (ImageListEntry) param;
 			World.getCurrentLevel().setBackgroundGraphic(
 					new Graphic(imageListEntry.getInternalName()));
