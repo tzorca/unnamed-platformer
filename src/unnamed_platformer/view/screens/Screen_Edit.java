@@ -2,6 +2,7 @@ package unnamed_platformer.view.screens;
 
 import java.awt.Component;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.Panel;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -20,12 +21,12 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import org.imgscalr.Scalr;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.opengl.Texture;
 
-import unnamed_platformer.app.ImageHelper;
 import unnamed_platformer.app.MathHelper;
 import unnamed_platformer.app.Settings;
 import unnamed_platformer.app.Settings.SettingName;
@@ -171,8 +172,8 @@ public class Screen_Edit extends BaseScreen_Hybrid
 		BufferedImage originalImage = ContentManager.get(BufferedImage.class,
 				FileGlobals.IMG_OBJ_DIR, textureName);
 
-		ImageIcon imageIcon = new ImageIcon(ImageHelper.scaleWidth(
-				originalImage, ENTITY_ICON_SIZE, BufferedImage.SCALE_SMOOTH));
+		Image transformedImage = Scalr.resize(originalImage,  ENTITY_ICON_SIZE); 
+		ImageIcon imageIcon = new ImageIcon(transformedImage);
 
 		return new ImageListEntry(imageIcon, displayName, textureName);
 	}
