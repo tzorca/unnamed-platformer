@@ -183,6 +183,42 @@
             "category":"Blocks",
             "entityName":"solidBlock",
             "collisionShape":"rectangle"
+        },
+
+        "castleBackground":
+        {
+            "category":"Backgrounds",
+            "entityName":"backgroundBlock",
+            "collisionShape":"rectangle"
+        },
+
+        "earthBackground":
+        {
+            "category":"Backgrounds",
+            "entityName":"backgroundBlock",
+            "collisionShape":"rectangle"
+        },
+
+
+        "metalBackground":
+        {
+            "category":"Backgrounds",
+            "entityName":"backgroundBlock",
+            "collisionShape":"rectangle"
+        },
+
+        "sandBackground":
+        {
+            "category":"Backgrounds",
+            "entityName":"backgroundBlock",
+            "collisionShape":"rectangle"
+        },
+
+        "woodBackground":
+        {
+            "category":"Backgrounds",
+            "entityName":"backgroundBlock",
+            "collisionShape":"rectangle"
         }
     }
 }
