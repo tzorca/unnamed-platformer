@@ -2,13 +2,14 @@
 A 2D platform game with a built-in level editor.  
 Programmed in Java with LWJGL and Swing.
 
-![Screenshot](scr/scr0019.png "Screenshot")
+![Screenshot](scr/scr0048.png "Screenshot")
 
 ### Features
 - Ability to create, edit, and save levels
 - Variable jump height
 - Breakable boxes
 - Springs
+- Bounce blocks
 - Hazards (spikes, magma)
 - Water (slow region)
 - Electric field (fast region)
