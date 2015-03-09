@@ -16,19 +16,21 @@ import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 
 import net.miginfocom.swing.MigLayout;
+
+import org.imgscalr.Scalr;
+
 import unnamed_platformer.app.FileHelper;
-import unnamed_platformer.app.ImageHelper;
 import unnamed_platformer.content_management.ContentManager;
 import unnamed_platformer.game.editor.Editor;
 import unnamed_platformer.game.zones.World;
 import unnamed_platformer.globals.FileGlobals;
 import unnamed_platformer.globals.StyleGlobals;
 import unnamed_platformer.view.GUIHelper;
+import unnamed_platformer.view.GUIHelper.ParamRunnable;
 import unnamed_platformer.view.GUIManager;
+import unnamed_platformer.view.GUIManager.ScreenType;
 import unnamed_platformer.view.Graphic;
 import unnamed_platformer.view.ViewManager;
-import unnamed_platformer.view.GUIHelper.ParamRunnable;
-import unnamed_platformer.view.GUIManager.ScreenType;
 import unnamed_platformer.view.objects.ImageListEntry;
 import unnamed_platformer.view.objects.ListCellRenderer_ImageListEntry;
 import unnamed_platformer.view.screens.Screen_Edit;
@@ -187,9 +189,9 @@ public class Dialog_EditMenu extends Dialog
 			BufferedImage background = ContentManager.get(BufferedImage.class,
 					FileGlobals.IMG_BG_DIR, backgroundName,
 					FileGlobals.IMG_BG_EXT);
-			backgrounds.add(new ImageListEntry(new ImageIcon(ImageHelper
-					.scaleWidth(background, 48, BufferedImage.SCALE_FAST)),
-					backgroundName));
+
+			backgrounds.add(new ImageListEntry(new ImageIcon(Scalr.resize(
+					background, 48)), backgroundName));
 		}
 
 		backgroundSelect = new Dialog_OptionSelection<ImageListEntry>(null,
