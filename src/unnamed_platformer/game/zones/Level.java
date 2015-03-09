@@ -27,7 +27,7 @@ import unnamed_platformer.view.ViewManager;
 
 public class Level
 {
-	private transient Graphic bgGraphic = new Graphic("bg", new Color(0x27,
+	private transient Graphic bgGraphic = new Graphic("default", new Color(0x27,
 			0x27, 0x41, 1));
 
 	private transient LinkedList<Entity> entities = new LinkedList<Entity>();
