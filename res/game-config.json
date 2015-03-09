@@ -219,6 +219,14 @@
             "category":"Backgrounds",
             "entityName":"backgroundBlock",
             "collisionShape":"rectangle"
+        },
+
+        "snowBackground":
+        {
+            "category":"Backgrounds",
+            "entityName":"backgroundBlock",
+            "collisionShape":"rectangle"
         }
+
     }
 }
