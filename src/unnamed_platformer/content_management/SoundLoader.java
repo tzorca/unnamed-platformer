@@ -10,8 +10,9 @@ public class SoundLoader extends ContentLoader {
 	}
 
 	@Override
-	protected Object load(String directory, String name) throws Exception {
+	protected Object load(String directory, String name, String ext)
+			throws Exception {
 		return AudioLoader.getAudio("OGG",
-				ResourceLoader.getResourceAsStream(getFilename(directory, name)));
+				ResourceLoader.getResourceAsStream(getFilename(directory, name, ext)));
 	}
 }

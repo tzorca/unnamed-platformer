@@ -27,8 +27,8 @@ import unnamed_platformer.view.ViewManager;
 
 public class Level
 {
-	private transient Graphic bgGraphic = new Graphic("default", new Color(0x27,
-			0x27, 0x41, 1));
+	private transient Graphic bgGraphic = new Graphic("default", new Color(
+			0x27, 0x27, 0x41, 1));
 
 	private transient LinkedList<Entity> entities = new LinkedList<Entity>();
 	private transient LinkedList<Entity> newEntities = new LinkedList<Entity>();
@@ -230,7 +230,8 @@ public class Level
 	public void drawBackground() {
 		if (bgGraphic != null && bgGraphic.hasTextureName()) {
 			ViewManager.drawBG(ContentManager.get(Texture.class,
-					FileGlobals.IMG_BG_DIR, bgGraphic.getTextureName()));
+					FileGlobals.IMG_BG_DIR, bgGraphic.getTextureName(),
+					FileGlobals.IMG_BG_EXT));
 		}
 	}
 

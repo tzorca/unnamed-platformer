@@ -177,7 +177,7 @@ public class Dialog_EditMenu extends Dialog
 		List<ImageListEntry> backgrounds = new ArrayList<ImageListEntry>();
 		Collection<String> backgroundNames = FileHelper.listFilenames(
 				FileGlobals.IMG_BG_DIR, true);
-		
+
 		for (String backgroundName : backgroundNames) {
 
 			// Don't include the fallback background in the list
@@ -185,7 +185,8 @@ public class Dialog_EditMenu extends Dialog
 				continue;
 			}
 			BufferedImage background = ContentManager.get(BufferedImage.class,
-					FileGlobals.IMG_BG_DIR, backgroundName);
+					FileGlobals.IMG_BG_DIR, backgroundName,
+					FileGlobals.IMG_BG_EXT);
 			backgrounds.add(new ImageListEntry(new ImageIcon(ImageHelper
 					.scaleWidth(background, 48, BufferedImage.SCALE_FAST)),
 					backgroundName));

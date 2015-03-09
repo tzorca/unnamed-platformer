@@ -10,12 +10,11 @@ public class ImageLoader extends ContentLoader {
 	protected ImageLoader() {
 		super(".png");
 	}
-
+	
 	@Override
-	public Object load(String directory, String name) throws Exception {
-		File file = new File(getFilename(directory, name));
+	protected Object load(String directory, String name, String ext) throws Exception {
+		File file = new File(getFilename(directory, name, ext));
 		BufferedImage image = ImageIO.read(file);
 		return image;
 	}
-
 }

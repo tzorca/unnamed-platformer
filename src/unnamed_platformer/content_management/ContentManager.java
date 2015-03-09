@@ -24,7 +24,7 @@ public final class ContentManager
 	}
 
 	public static String getExtension(Class<?> clazz) {
-		return selectContentLoader(clazz).getExt();
+		return selectContentLoader(clazz).getDefaultExtension();
 	}
 
 	private static HashMap<Class<?>, ContentLoader> contentLoaders = new HashMap<Class<?>, ContentLoader>();
@@ -40,6 +40,10 @@ public final class ContentManager
 
 	public static <T> T get(Class<T> clazz, String directory, String contentName) {
 		return (T) selectContentLoader(clazz).get(directory, contentName);
+	}
+
+	public static <T> T get(Class<T> clazz, String directory, String contentName, String ext) {
+		return (T) selectContentLoader(clazz).get(directory, contentName, ext);
 	}
 
 	public static boolean contentExists(Class<?> clazz, String directory,
@@ -66,5 +70,6 @@ public final class ContentManager
 
 		return sb.toString();
 	}
+
 
 }

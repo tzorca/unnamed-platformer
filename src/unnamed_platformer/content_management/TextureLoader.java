@@ -16,9 +16,9 @@ public class TextureLoader extends ContentLoader
 	}
 
 	@Override
-	public Object load(String directory, String name) throws Exception {
+	public Object load(String directory, String name, String ext) throws Exception {
 		Texture tex = null;
-		File file = new File(getFilename(directory, name));
+		File file = new File(getFilename(directory, name, ext));
 		BufferedImage image = ImageIO.read(file);
 
 		tex = BufferedImageUtil.getTexture(name, image);

@@ -13,10 +13,11 @@ public class CollisionDataLoader extends ContentLoader
 	}
 
 	@Override
-	public CollisionData load(String directory, String name) throws Exception {
+	protected Object load(String directory, String name, String ext)
+			throws Exception {
 		return new CollisionData(ImageHelper.percentScaleWithinCanvas(
 				ImageHelper.blur(ContentManager.get(BufferedImage.class,
-						directory, name),
+						directory, name, ext),
 						GameGlobals.TEXTURE_COLLISION_BLUR_ITERATIONS),
 				GameGlobals.TEXTURE_COLLISION_SIZE_MODIFIER));
 	}

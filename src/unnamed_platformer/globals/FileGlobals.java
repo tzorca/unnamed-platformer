@@ -18,7 +18,8 @@ public class FileGlobals
 	/* */IMG_PREVIEW_DIR = RESOURCE_DIR + "img-preview" + File.separator,
 	/* */SND_DIR = RESOURCE_DIR + "snd" + File.separator,
  
-	/* */GAME_EXT = ".json";
+	/* */GAME_EXT = ".json",
+	/* */IMG_BG_EXT = ".jpg";
 
 	public static final File
 	/* */SETTINGS_FILE = new File(APP_PATH, "settings.ini"),
