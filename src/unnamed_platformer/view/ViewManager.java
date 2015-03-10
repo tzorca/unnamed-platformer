@@ -117,32 +117,33 @@ public final class ViewManager
 
 		float originX = viewport.getX();
 		float originY = viewport.getY();
-		float drawWidth = bgTexture.getTextureWidth();
-		float drawHeight = bgTexture.getTextureHeight();
+		float drawWidth = bgTexture.getImageWidth();
+		float drawHeight = bgTexture.getImageHeight();
 
 		resetColor();
 		bgTexture.bind();
 		GL11.glBegin(GL11.GL_QUADS);
 
-		// Downscale if the texture height is bigger than viewport height
+		// Downscale if the background image is bigger than viewport height
 		if (drawHeight > viewport.getHeight()) {
-			float imageRatio = bgTexture.getTextureWidth()
-					/ bgTexture.getTextureHeight();
+			float imageRatio = bgTexture.getImageWidth()
+					/ (bgTexture.getImageHeight() + 0f);
 			drawHeight = viewport.getHeight();
-			drawWidth = drawHeight / imageRatio;
+			drawWidth = drawHeight * imageRatio;
 		}
 
-		// Tile if the viewport is bigger than the texture
+		// Tile if the viewport is bigger than the background image
 		int wTiles = (int) Math.ceil(viewport.getWidth() / drawWidth);
 		int hTiles = (int) Math.ceil(viewport.getHeight() / drawHeight);
 		wTiles = Math.max(wTiles, 1);
 		hTiles = Math.max(hTiles, 1);
+		
 
 		for (int x = 0; x < wTiles; x++) {
 			for (int y = 0; y < hTiles; y++) {
 				drawQuad(originX + x * drawWidth, originY + y * drawHeight,
-						drawWidth, drawHeight, bgTexture.getHeight(),
-						bgTexture.getWidth());
+						drawWidth, drawHeight, bgTexture.getWidth(),
+						bgTexture.getHeight());
 			}
 		}
 		GL11.glEnd();
