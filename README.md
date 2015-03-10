@@ -2,7 +2,7 @@
 A 2D platform game with a built-in level editor.  
 Programmed in Java with LWJGL and Swing.
 
-![Screenshot](scr/scr0048.png "Screenshot")
+![Screenshot](scr/scr0051.png "Screenshot")
 
 ### Features
 - Ability to create, edit, and save levels
