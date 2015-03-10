@@ -8,6 +8,6 @@ public class ViewGlobals
 			+ ".view.screens";
 
 	public static final float SCALE = 1f;
-	public static final Dimension WINDOWED_RESOLUTION = new Dimension(900, 500);
+	public static final Dimension WINDOWED_RESOLUTION = new Dimension(1024, 600);
 
 }
