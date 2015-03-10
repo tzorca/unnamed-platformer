@@ -115,35 +115,36 @@ public final class ViewManager
 			return;
 		}
 
-		final float xPos = viewport.getX();
-		final float yPos = viewport.getY()
-				- (bgTexture.getTextureHeight() - viewport.getHeight());
-		final float width = bgTexture.getTextureWidth();
-		final float height = bgTexture.getTextureHeight();
-
-		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S,
-				GL11.GL_REPEAT);
-		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T,
-				GL11.GL_REPEAT);
+		float originX = viewport.getX();
+		float originY = viewport.getY();
+		float drawWidth = bgTexture.getTextureWidth();
+		float drawHeight = bgTexture.getTextureHeight();
 
 		resetColor();
 		bgTexture.bind();
 		GL11.glBegin(GL11.GL_QUADS);
 
-		// Calculate how many times bigger the viewport is than the texture
-		float wTileAmount = viewport.getWidth() / width;
-		float hTileAmount = viewport.getHeight() / height;
-
-		if (wTileAmount < 1) {
-			wTileAmount = 1;
-		}
-		if (hTileAmount < 1) {
-			hTileAmount = 1;
+		// Downscale if the texture height is bigger than viewport height
+		if (drawHeight > viewport.getHeight()) {
+			float imageRatio = bgTexture.getTextureWidth()
+					/ bgTexture.getTextureHeight();
+			drawHeight = viewport.getHeight();
+			drawWidth = drawHeight / imageRatio;
 		}
 
-		drawQuad(xPos, yPos, width * wTileAmount, height * hTileAmount,
-				bgTexture.getWidth() * wTileAmount, bgTexture.getHeight()
-						* hTileAmount);
+		// Tile if the viewport is bigger than the texture
+		int wTiles = (int) Math.ceil(viewport.getWidth() / drawWidth);
+		int hTiles = (int) Math.ceil(viewport.getHeight() / drawHeight);
+		wTiles = Math.max(wTiles, 1);
+		hTiles = Math.max(hTiles, 1);
+
+		for (int x = 0; x < wTiles; x++) {
+			for (int y = 0; y < hTiles; y++) {
+				drawQuad(originX + x * drawWidth, originY + y * drawHeight,
+						drawWidth, drawHeight, bgTexture.getHeight(),
+						bgTexture.getWidth());
+			}
+		}
 		GL11.glEnd();
 	}
 
@@ -174,7 +175,9 @@ public final class ViewManager
 				if (y < minY || y > maxY) {
 					continue;
 				}
-				pointBuffer.add(new int[] { x - 2, y - 2 });
+				pointBuffer.add(new int[] {
+						x - 2, y - 2
+				});
 			}
 		}
 
