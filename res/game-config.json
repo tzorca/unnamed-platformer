@@ -26,13 +26,12 @@
         },
         "laser":
         {
-            "category":"Control",
             "entityName":"Beam",
             "collisionShape":"rectangle"
         },
         "levelExit":
         {
-            "category":"Control",
+            "category":"Start/Finish",
             "entityName":"goal",
             "collisionShape":"rectangle"
         },
@@ -56,7 +55,7 @@
         },
         "player":
         {
-            "category":"Control",
+            "category":"Start/Finish",
             "entityName":"platformPlayer",
             "collisionShape":"rectangle"
         },

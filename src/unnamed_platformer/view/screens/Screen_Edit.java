@@ -125,6 +125,10 @@ public class Screen_Edit extends BaseScreen_Hybrid
 
 		// SETUP LIST MODELS
 		for (String category : CategoryLookup.listCategories()) {
+			// Ignore textures with unspecified category
+			if (category == null) {
+				continue;
+			}
 			lstCategoriesModel.addElement(category);
 		}
 		lstCategories.setModel(lstCategoriesModel);
