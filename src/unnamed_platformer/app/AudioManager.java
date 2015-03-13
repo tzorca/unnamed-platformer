@@ -38,12 +38,14 @@ public class AudioManager
 		AL.destroy();
 	}
 
-	public static void preload() {
-		Collection<String> audioNames = FileHelper.listFilenames(
-				FileGlobals.SND_DIR, true);
+	public static Runnable preloader = new Runnable() {
+		public void run() {
+			Collection<String> audioNames = FileHelper.listFilenames(
+					FileGlobals.SND_DIR, true);
 
-		for (String audioName : audioNames) {
-			ContentManager.get(Audio.class, FileGlobals.SND_DIR, audioName);
+			for (String audioName : audioNames) {
+				ContentManager.get(Audio.class, FileGlobals.SND_DIR, audioName);
+			}
 		}
-	}
+	};
 }

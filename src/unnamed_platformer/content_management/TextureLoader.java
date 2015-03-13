@@ -11,7 +11,7 @@ import org.newdawn.slick.util.BufferedImageUtil;
 public class TextureLoader extends ContentLoader
 {
 
-	protected TextureLoader() {
+	public TextureLoader() {
 		super(".png");
 	}
 

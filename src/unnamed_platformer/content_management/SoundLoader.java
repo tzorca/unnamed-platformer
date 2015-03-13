@@ -5,7 +5,7 @@ import org.newdawn.slick.util.ResourceLoader;
 
 public class SoundLoader extends ContentLoader {
 
-	protected SoundLoader() {
+	public SoundLoader() {
 		super(".ogg");
 	}
 

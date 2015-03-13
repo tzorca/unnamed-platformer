@@ -1,23 +1,10 @@
 package unnamed_platformer.content_management;
 
-import java.awt.image.BufferedImage;
-import java.util.HashMap;
-
-import org.newdawn.slick.openal.Audio;
-import org.newdawn.slick.opengl.Texture;
-
-import unnamed_platformer.game.physics.CollisionData;
+import java.util.concurrent.ConcurrentHashMap;
 
 @SuppressWarnings("unchecked")
 public final class ContentManager
 {
-	public static void init() {
-		addContentLoader(BufferedImage.class, new ImageLoader());
-		addContentLoader(Texture.class, new TextureLoader());
-		addContentLoader(Audio.class, new SoundLoader());
-		addContentLoader(CollisionData.class, new CollisionDataLoader());
-	}
-
 	public static String getFilename(Class<?> clazz, String directory,
 			String name) {
 		return selectContentLoader(clazz).getFilename(directory, name);
@@ -27,9 +14,9 @@ public final class ContentManager
 		return selectContentLoader(clazz).getDefaultExtension();
 	}
 
-	private static HashMap<Class<?>, ContentLoader> contentLoaders = new HashMap<Class<?>, ContentLoader>();
+	private static ConcurrentHashMap<Class<?>, ContentLoader> contentLoaders = new ConcurrentHashMap<Class<?>, ContentLoader>();
 
-	private static <T> void addContentLoader(Class<T> clazz,
+	public static <T> void registerContentLoader(Class<T> clazz,
 			ContentLoader resLoader) {
 		contentLoaders.put(clazz, resLoader);
 	}
@@ -42,7 +29,8 @@ public final class ContentManager
 		return (T) selectContentLoader(clazz).get(directory, contentName);
 	}
 
-	public static <T> T get(Class<T> clazz, String directory, String contentName, String ext) {
+	public static <T> T get(Class<T> clazz, String directory,
+			String contentName, String ext) {
 		return (T) selectContentLoader(clazz).get(directory, contentName, ext);
 	}
 
@@ -70,6 +58,5 @@ public final class ContentManager
 
 		return sb.toString();
 	}
-
 
 }

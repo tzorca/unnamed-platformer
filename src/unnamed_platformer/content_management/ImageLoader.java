@@ -7,7 +7,7 @@ import javax.imageio.ImageIO;
 
 public class ImageLoader extends ContentLoader {
 
-	protected ImageLoader() {
+	public ImageLoader() {
 		super(".png");
 	}
 	

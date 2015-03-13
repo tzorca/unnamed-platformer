@@ -8,7 +8,7 @@ import unnamed_platformer.globals.GameGlobals;
 
 public class CollisionDataLoader extends ContentLoader
 {
-	protected CollisionDataLoader() {
+	public CollisionDataLoader() {
 		super(".png");
 	}
 
